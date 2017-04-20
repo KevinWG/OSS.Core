@@ -4,4 +4,8 @@
     <TargetFramework>netstandard1.5</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Members\RepInterfaces\" />
+  </ItemGroup>
+
 </Project>

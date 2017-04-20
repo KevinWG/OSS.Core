@@ -12,9 +12,10 @@ namespace OSS.CachePlug.StackRedis
     {
         //redis数据库连接字符串
         private readonly string ConnectionStr = null;
+        // "mycache.redis.cache.windows.net,abortConnect=false, ssl=true,password=..."
 
 
-        private int _db = 0;
+        private readonly int _db = 0;
         //  静态变量  保证  sns_center模块  和 其他模块使用的是不同实例的相同链接
         private static ConnectionMultiplexer connection;
 
@@ -22,6 +23,7 @@ namespace OSS.CachePlug.StackRedis
         /// 构造函数
         /// </summary>
         /// <param name="db"></param>
+        /// <param name="connectStr"></param>
         public RedisCache(int db, string connectStr)
         {
             ConnectionStr = connectStr;
@@ -37,7 +39,7 @@ namespace OSS.CachePlug.StackRedis
             {
                 if (connection == null || !connection.IsConnected)
                 {
-                    connection = ConnectionMultiplexer.Connect(ConnectionStr);
+                    connection = new Lazy<ConnectionMultiplexer>(()=>ConnectionMultiplexer.Connect(ConnectionStr)).Value; 
                 }
                 return connection;
             }
@@ -46,10 +48,7 @@ namespace OSS.CachePlug.StackRedis
         /// <summary>
         /// 缓存数据库
         /// </summary>
-        public IDatabase CacheRedis
-        {
-            get { return CacheConnection.GetDatabase(_db); }
-        }
+        public IDatabase CacheRedis => CacheConnection.GetDatabase(_db);
 
         /// <summary>
         /// 添加缓存，已存在不更新
