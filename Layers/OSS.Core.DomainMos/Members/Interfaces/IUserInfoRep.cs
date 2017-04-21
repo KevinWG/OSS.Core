@@ -11,7 +11,7 @@
 
 #endregion
 
-namespace OSS.Core.DomainMos.Members.RepInterfaces
+namespace OSS.Core.DomainMos.Members.Interfaces
 {
     public interface IUserInfoRep: IBaseRep
     {

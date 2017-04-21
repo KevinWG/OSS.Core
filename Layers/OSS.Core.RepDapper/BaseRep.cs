@@ -10,9 +10,43 @@
 *****************************************************************************/
 
 #endregion
+
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
 namespace OSS.Core.RepDapper
 {
     public class BaseRep
     {
+        /// <summary>
+        /// 根据传入要更新的表达式获取更新的列名 
+        /// </summary>
+        /// <param name="funExpression"></param>
+        /// <returns></returns>
+        private IList<string> GetColumnNames<TMoType>(Expression<Func<TMoType, object>> funExpression)
+        {
+            if (funExpression.Body.NodeType != ExpressionType.New)
+                throw new ArgumentException("请传入正确表达式！", nameof(funExpression));
+
+            var newE = funExpression.Body as NewExpression;
+
+            IList<string> listColumns = new List<string>(newE.Arguments.Count);
+            foreach (var arg in newE.Arguments)
+            {
+                if (arg.NodeType == ExpressionType.MemberAccess)
+                {
+                    var memExp = arg as MemberExpression;
+                    if (memExp != null)
+                    {
+                        listColumns.Add(memExp.Member.Name);
+                    }
+                }
+            }
+            return listColumns;
+        }
     }
+
+
+
 }
