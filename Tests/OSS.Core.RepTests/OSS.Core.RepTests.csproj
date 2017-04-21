@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Layers\OSS.Core.DapperRep\OSS.Core.DapperRep.csproj" />
-    <ProjectReference Include="..\..\Layers\OSS.Core.DomainEnts\OSS.Core.DomainEnts.csproj" />
+    <ProjectReference Include="..\..\Layers\OSS.Core.DomainMos\OSS.Core.DomainMos.csproj" />
+    <ProjectReference Include="..\..\Layers\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
-﻿namespace OSS.Core.DomainEnts.Members.Ents
+﻿namespace OSS.Core.DomainMos.Members.Mos
 {
-    public class UserInfoEnt
+    public class UserInfoMo
     {
         /// <summary>
         /// 

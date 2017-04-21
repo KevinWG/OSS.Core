@@ -1,6 +1,6 @@
 ﻿using Xunit;
 using OSS.Core.DapperRep.Members;
-using OSS.Core.DomainEnts.Members.Ents;
+using OSS.Core.DomainMos.Members.Mos;
 
 namespace OSS.Core.RepTests
 {
@@ -10,7 +10,7 @@ namespace OSS.Core.RepTests
         public void TestMethod1()
         {
             var rep = new UserInfoRep();
-            rep.Test(new UserInfoEnt());
+            rep.Test(new UserInfoMo());
         }
     }
 }
