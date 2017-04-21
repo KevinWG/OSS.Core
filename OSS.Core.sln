@@ -34,6 +34,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.RepDapper", "Layer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.WebApi", "Layers\OSS.Core.WebApi\OSS.Core.WebApi.csproj", "{E3E0C7D9-2E3D-4634-8A68-FBF464F52DA3}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{3E4A8F6E-308C-47E9-B865-A83AB49573FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Infrastructure", "Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj", "{5998774F-61FB-45A5-B796-B602FA3E7C61}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +76,10 @@ Global
 		{E3E0C7D9-2E3D-4634-8A68-FBF464F52DA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3E0C7D9-2E3D-4634-8A68-FBF464F52DA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3E0C7D9-2E3D-4634-8A68-FBF464F52DA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5998774F-61FB-45A5-B796-B602FA3E7C61}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5998774F-61FB-45A5-B796-B602FA3E7C61}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5998774F-61FB-45A5-B796-B602FA3E7C61}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5998774F-61FB-45A5-B796-B602FA3E7C61}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -86,5 +94,6 @@ Global
 		{C10DE1EB-2065-4D13-9401-78DC0CDD691E} = {A13B8E92-E476-47FC-9DB2-39A43F82453D}
 		{0C5A988D-8773-4D06-B88E-70C20FC9F6FB} = {A13B8E92-E476-47FC-9DB2-39A43F82453D}
 		{E3E0C7D9-2E3D-4634-8A68-FBF464F52DA3} = {A13B8E92-E476-47FC-9DB2-39A43F82453D}
+		{5998774F-61FB-45A5-B796-B602FA3E7C61} = {3E4A8F6E-308C-47E9-B865-A83AB49573FA}
 	EndGlobalSection
 EndGlobal
