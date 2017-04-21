@@ -1,10 +1,11 @@
 ﻿using Dapper;
 using MySql.Data.MySqlClient;
 using OSS.Core.DomainMos.Members.Mos;
+using OSS.Core.DomainMos.Members.RepInterfaces;
 
-namespace OSS.Core.DapperRep.Members
+namespace OSS.Core.RepDapper.Members
 {
-    public class UserInfoRep
+    public class UserInfoRep:IUserInfoRep
     {
 
         public void Test(UserInfoMo ent)

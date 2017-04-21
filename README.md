@@ -8,10 +8,11 @@
 
 **Layers**  --  核心业务结构层，提供外部访问接口
 
-	OSS.Core.RepDapper -- 项目的数据仓储层（当前是Dapper+Mysql形式），主要实现OSS.Core.DomainMos层访问接口，为上层数据读写等提供支撑，可以替换 其他ORM+数据库 实现方式
+	OSS.Core.RepDapper -- 项目的数据仓储层（当前是Dapper+Mysql形式），主要实现OSS.Core.DomainMos层访问接口。
+		为上层数据读写等提供支撑，可以替换 其他ORM+数据库 实现方式
 	OSS.Core.DomainMos -- 包含项目核心领域模型和数据仓储层接口定义
 	OSS.Core.Services -- 核心业务逻辑层，主要实现业务逻辑
-	OSS.Core.WebApi -- 提供对外接口实现，完成应用授权验证
+	OSS.Core.WebApi -- 提供对外接口实现，参数验证，应用授权验证等
 
 **Plugs** -- 系统插件层，实现缓存，日志等具体实现
 
