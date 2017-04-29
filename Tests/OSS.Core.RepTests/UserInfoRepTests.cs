@@ -1,6 +1,6 @@
 ﻿using Xunit;
-using OSS.Core.DapperRep.Members;
 using OSS.Core.DomainMos.Members.Mos;
+using OSS.Core.RepDapper.Members;
 
 namespace OSS.Core.RepTests
 {
