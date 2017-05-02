@@ -10,7 +10,7 @@ namespace OSS.Core.RepTests
         public void TestMethod1()
         {
             var rep = new UserInfoRep();
-            rep.Test(new UserInfoMo());
+            rep.Insert(new UserInfoMo(){nick_name = "再次测试"});
         }
     }
 }

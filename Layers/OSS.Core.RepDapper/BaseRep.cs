@@ -16,25 +16,110 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
+using Dapper;
+using MySql.Data.MySqlClient;
+using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
+using OSS.Core.DomainMos;
 
 namespace OSS.Core.RepDapper
 {
 
     //  1. 把表达式生成的字符串缓存起来
     //  2. 反射扩展添加指定类型到匿名对象的生成
-    public class BaseRep
+    public class BaseRep<TType, IdType>
+        where TType: BaseMo<IdType>,new() 
     {
-        protected readonly string m_TableName = string.Empty;
+        protected  string m_TableName;
+
+        //  插入，判断是否返回id,   todo type全称，是否自增长，连接串 缓存
+        //  todo  如果是枚举值和布尔值，需要替换成数字
+        /// <summary>
+        ///   插入新记录
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="isAuto">Id主键是否是自增长，如果是同步返回，不是则需要外部传值</param>
+        /// <returns></returns>
+        public ResultIdMo Insert(TType mo, bool isAuto=true)
+        {
+            //  1.  生成语句
+            StringBuilder sqlCols = new StringBuilder("INSERT INTO ");
+            sqlCols.Append(m_TableName).Append(" (");
+
+            StringBuilder sqlValues = new StringBuilder(" VALUES (");
+            var properties = typeof(TType).GetProperties();
+
+            int count = 0;
+
+            foreach (var propertyInfo in properties)
+            {
+                if (isAuto && propertyInfo.Name == "Id")
+                    continue;
+
+                if (count > 0)
+                {
+                    sqlCols.Append(",");
+                    sqlValues.Append(",");
+                }
+                sqlCols.Append(propertyInfo.Name);
+                sqlValues.Append("@").Append(propertyInfo.Name);
+                count++;
+            }
+            sqlCols.Append(")");
+            sqlValues.Append(")");
 
 
+            var sql = new StringBuilder();
+            sql.Append(sqlCols).Append(sqlValues);
+            if (isAuto)
+                sql.Append(";SELECT LAST_INSERT_ID();");
 
+
+            // 2. 处理参数
+            var para = new DynamicParameters(mo);
+
+            using (MySqlConnection con =
+                new MySqlConnection("server=127.0.0.1;database=oss_core;uid=root;pwd=123456;charset=utf8mb4"))
+            {
+                var id= isAuto? con.ExecuteScalar<long>(sql.ToString(), para):con.Execute(sql.ToString(),para);
+
+                return id > 0 ? new ResultIdMo(isAuto ? id : 0) : new ResultIdMo(ResultTypes.AddFail, "添加操作失败！");
+            }
+        }
+
+        // 更新
+        public virtual int UpdateOnly(Expression<Func<TType,object>> updateCols,Expression<Func<TType,bool>> whereCondition,Func<string,Dictionary<string,object>> additonnalFunc )
+        {
+            return 0;
+        }
+
+        public int UpdateAllById(TType mo)
+        {
+            return 0;
+        }
+
+        //  根据指定列删除
+        public int Delete()
+        {
+            //  软删除，底层不提供物理删除方法
+            return 0;
+        }
+
+        //// 根据指定列查询
+        public TType Get()
+        {
+            return new TType();
+        }
+
+        public virtual PageListMo<TType> GetPageList(SearchMo mo)
+        {
+            return new PageListMo<TType>();
+        }
     }
 
     public static class SqlMapper
     {
-
-
-    
 
         /// <summary>
         /// 根据传入要更新的表达式获取更新的列名 
@@ -47,7 +132,7 @@ namespace OSS.Core.RepDapper
                 throw new ArgumentException("请传入正确表达式！", nameof(funExpression));
 
             var newE = funExpression.Body as NewExpression;
-
+  
             IList<string> listColumns = new List<string>(newE.Arguments.Count);
             foreach (var arg in newE.Arguments)
             {
@@ -74,8 +159,7 @@ namespace OSS.Core.RepDapper
         private static Func<MType, Dictionary<string, object>> CreateDicDeleMothed<MType>(string key,IReadOnlyCollection<PropertyInfo> proList)
         {
             var moType = typeof(MType);
-
-
+            
             var dicType = typeof(Dictionary<string, object>);
             var dirAddMethod = dicType.GetMethod("Add");
             var dicCtor = dicType.GetConstructor(new[] {typeof(int)});
@@ -201,19 +285,6 @@ namespace OSS.Core.RepDapper
         #endregion
     }
 
-    public class OperateCacheInfo<MType>
-    {
-        /// <summary>
-        /// 当前操作要执行的语句
-        /// </summary>
-        public string Sql { get; set; }
-        /// <summary>
-        ///  转化生成参数的委托
-        /// </summary>
-        public Func<MType, Dictionary<string, object>> ParateFunc { get; set; }
-
-        //public 
-    }
 
 }
 
