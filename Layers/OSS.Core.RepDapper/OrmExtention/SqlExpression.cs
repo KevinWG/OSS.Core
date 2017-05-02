@@ -18,7 +18,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             properties = new Dictionary<string, PropertyInfo>();
         }
 
-        public virtual void  Visit(Expression exp, SqlVistorFlag flag)
+        public virtual void Visit(Expression exp, SqlVistorFlag flag)
         {
             switch (exp.NodeType)
             {
@@ -26,7 +26,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                     VisitLambda(exp as LambdaExpression, flag);
                     break;
                 case ExpressionType.MemberAccess:
-                     VisitMember(exp as MemberExpression,flag);
+                    VisitMember(exp as MemberExpression, flag);
                     break;
                 case ExpressionType.Add:
                 case ExpressionType.AddChecked:
@@ -51,7 +51,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 case ExpressionType.RightShift:
                 case ExpressionType.LeftShift:
                 case ExpressionType.ExclusiveOr:
-                     VisitBinary(exp as BinaryExpression);
+                    VisitBinary(exp as BinaryExpression, flag);
                     break;
                 case ExpressionType.Negate:
                 case ExpressionType.NegateChecked:
@@ -62,6 +62,9 @@ namespace OSS.Core.RepDapper.OrmExtention
                 case ExpressionType.Quote:
                 case ExpressionType.TypeAs:
                     VisitUnary(exp as UnaryExpression, flag);
+                    break;
+                case ExpressionType.Constant:
+                    VisitConstant(exp as ConstantExpression, flag);
                     break;
                 //case ExpressionType.Parameter:
                 //    return VisitParameter(exp as ParameterExpression);
@@ -81,9 +84,38 @@ namespace OSS.Core.RepDapper.OrmExtention
             }
         }
 
-        private void VisitBinary(BinaryExpression binaryExpression)
+
+        /// <summary>
+        ///   递归解析时，保留上层的IsRight状态
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <param name="flag"></param>
+        private void VisitRight(Expression exp, SqlVistorFlag flag)
         {
-            //  todo 
+            var isRight = flag.IsRight;
+            flag.IsRight = true;
+            Visit(exp, flag);
+            flag.IsRight = isRight; //  回归
+        }
+
+        private void VisitBinary(BinaryExpression exp,SqlVistorFlag flag)
+        {
+            var operand = GetBinaryOperant(exp.NodeType);
+            if (exp.NodeType==ExpressionType.AndAlso||
+                exp.NodeType==ExpressionType.OrElse)
+            {
+                flag.Append(" (");
+                Visit(exp.Left,flag);
+                flag.Append(") ").Append(operand).Append(" (");
+                Visit(exp.Right,flag);
+                flag.Append(")");
+            }
+            else
+            {
+                Visit(exp.Left,flag);
+                flag.Append(operand);
+                VisitRight(exp.Right,flag);
+            }
         }
 
         protected void VisitNewArray(NewArrayExpression na, SqlVistorFlag flag)
@@ -106,9 +138,21 @@ namespace OSS.Core.RepDapper.OrmExtention
             }
         }
         
-        protected virtual object VisitConstant(ConstantExpression c)
+        protected virtual void VisitConstant(ConstantExpression c,SqlVistorFlag flag)
         {
-            return c.Value ?? "null";
+            var value = c.Value ?? "null";
+            if (flag.IsRight)
+            {
+                const string parameterPre = "ConstPara";
+                var paraName = GetParaName(parameterPre, true);
+                flag.Append(paraName);
+                AddParameter(paraName, value);
+            }
+            else
+            {
+                flag.Append(value.ToString());
+            }
+
         }
 
         protected virtual void VisitUnary(UnaryExpression u, SqlVistorFlag flag)
@@ -127,23 +171,9 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 var arg = nex.Arguments[i];
                 var member = nex.Members[i];
-                if (arg.NodeType== ExpressionType.Constant)
-                {
-                    var constExp = arg as ConstantExpression;
+                flag.Append(string.Concat(member.Name, "="), true);
 
-                    var paraName = GetParaName(member.Name, true);
-                    flag.Append(string.Concat(member.Name, "=", paraName), true);
-
-                    AddParameter(paraName, VisitConstant(constExp));
-                }
-                else
-                {
-                    flag.IsRight = true;
-                    flag.Append(string.Concat(member.Name, "="), true);
-
-                    Visit(arg, flag);
-                    flag.IsRight = false;   //  回归
-                }
+                VisitRight(arg, flag);
             }
         }
 
@@ -160,6 +190,8 @@ namespace OSS.Core.RepDapper.OrmExtention
                 flag.Append(exp.Member.Name);
             }
         }
+
+
 
 
         #region 辅助方法
@@ -196,7 +228,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             return  string.Concat(name, constantParaIndex++);
         }
 
-        protected virtual string BindOperant(ExpressionType e)
+        protected virtual string GetBinaryOperant(ExpressionType e)
         {
             switch (e)
             {
@@ -264,16 +296,20 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         private readonly StringBuilder sqlBuilder;
 
-        public void Append(string content,bool needCheckSep=false)
+        public SqlVistorFlag Append(string content,bool needCheckSep=false)
         {
             if (!isStarted)
                 isStarted = true;
-            else if (needCheckSep)
+            else
             {
-                sqlBuilder.Append(GetSeparate());
+                if (needCheckSep)
+                {
+                    sqlBuilder.Append(GetSeparate());
+                }
             }
-          
+
             sqlBuilder.Append(content);
+            return this;
         }
 
         public string GetSeparate()
