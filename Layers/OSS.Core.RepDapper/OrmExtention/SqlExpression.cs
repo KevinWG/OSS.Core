@@ -2,7 +2,7 @@
 #region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 
 /***************************************************************************
-*　　	文件功能描述：OSSCore仓储层 —— 仓储基类
+*　　	文件功能描述：OSSCore仓储层 —— 表达式解析扩展类
 *
 *　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
@@ -23,6 +23,15 @@ namespace OSS.Core.RepDapper.OrmExtention
 {
     public class SqlExpression
     {
+        /// <summary>
+        ///   表达式中的常量参数列表
+        /// </summary>
+        public Dictionary<string, object> Parameters => parameters;
+        /// <summary>
+        ///  表达式中的属性参数列表
+        /// </summary>
+        public Dictionary<string, PropertyInfo> Properties => properties;
+
         private readonly Dictionary<string, object> parameters;
         private readonly Dictionary<string, PropertyInfo> properties;
 
@@ -31,7 +40,11 @@ namespace OSS.Core.RepDapper.OrmExtention
             parameters = new Dictionary<string, object>();
             properties = new Dictionary<string, PropertyInfo>();
         }
-
+        /// <summary>
+        ///  递归解析方法入口
+        /// </summary>
+        /// <param name="exp"></param>
+        /// <param name="flag"></param>
         public virtual void Visit(Expression exp, SqlVistorFlag flag)
         {
             switch (exp.NodeType)
@@ -115,6 +128,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             flag.IsRight = isRight; //  回归
         }
 
+        #region   不同表达式解析方法
 
         #region VisitMethodCall
 
@@ -128,7 +142,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                     break;
 
 
-                //  todo 补充其他方法
+                    //  todo 补充其他方法
             }
         }
 
@@ -140,8 +154,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             VisitRight(exp.Arguments[0], flag);
             flag.Append(",'%')");
         }
-
-
+        
         #endregion
 
         protected virtual void VisitBinary(BinaryExpression exp, SqlVistorFlag flag)
@@ -193,7 +206,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 var paraName = GetParaName(parameterPre, true);
                 flag.Append(paraName);
 
-                AddParameter(paraName, c.Type == typeof(bool) ? ((bool) value ? 1 : 0) : value);
+                AddParameter(paraName, c.Type == typeof(bool) ? ((bool)value ? 1 : 0) : value);
             }
             else
             {
@@ -257,6 +270,8 @@ namespace OSS.Core.RepDapper.OrmExtention
             // todo
         }
 
+        #endregion
+        
         #region 辅助方法
 
         /// <summary>
@@ -411,8 +426,7 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         #endregion
     }
-
-
+    
     public enum SqlVistorType
     {
         /// <summary>
