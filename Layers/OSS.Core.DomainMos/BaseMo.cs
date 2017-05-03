@@ -18,7 +18,7 @@ namespace OSS.Core.DomainMos
         /// <summary>
         /// 主键Id
         /// </summary>
-        private IdType Id { get; set; }
+        public IdType Id { get; set; }
         
         /// <summary>
         /// 状态信息

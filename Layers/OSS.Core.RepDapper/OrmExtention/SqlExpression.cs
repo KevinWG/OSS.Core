@@ -1,17 +1,31 @@
-﻿using System;
+﻿
+#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+
+/***************************************************************************
+*　　	文件功能描述：OSSCore仓储层 —— 仓储基类
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-4-21
+*       
+*****************************************************************************/
+
+#endregion
+
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
-    public class SqlExpression 
+    public class SqlExpression
     {
         private readonly Dictionary<string, object> parameters;
-        private readonly Dictionary<string,PropertyInfo> properties;
-        
+        private readonly Dictionary<string, PropertyInfo> properties;
+
         public SqlExpression()
         {
             parameters = new Dictionary<string, object>();
@@ -66,10 +80,12 @@ namespace OSS.Core.RepDapper.OrmExtention
                 case ExpressionType.Constant:
                     VisitConstant(exp as ConstantExpression, flag);
                     break;
-                //case ExpressionType.Parameter:
-                //    return VisitParameter(exp as ParameterExpression);
-                //case ExpressionType.Call:
-                //    return VisitMethodCall(exp as MethodCallExpression);
+                case ExpressionType.Parameter:
+                    VisitParameter(exp as ParameterExpression, flag);
+                    break;
+                case ExpressionType.Call:
+                    VisitMethodCall(exp as MethodCallExpression, flag);
+                    break;
                 case ExpressionType.New:
                     VisitNew(exp as NewExpression, flag);
                     break;
@@ -77,20 +93,21 @@ namespace OSS.Core.RepDapper.OrmExtention
                 case ExpressionType.NewArrayBounds:
                     VisitNewArray(exp as NewArrayExpression, flag);
                     break;
-                //case ExpressionType.MemberInit:
-                //    return VisitMemberInit(exp as MemberInitExpression);
-                //case ExpressionType.Conditional:
-                //    return VisitConditional(exp as ConditionalExpression);
+                case ExpressionType.MemberInit:
+                    VisitMemberInit(exp as MemberInitExpression, flag);
+                    break;
+                case ExpressionType.Conditional:
+                    VisitConditional(exp as ConditionalExpression);
+                    break;
             }
         }
-
 
         /// <summary>
         ///   递归解析时，保留上层的IsRight状态
         /// </summary>
         /// <param name="exp"></param>
         /// <param name="flag"></param>
-        private void VisitRight(Expression exp, SqlVistorFlag flag)
+        protected virtual void VisitRight(Expression exp, SqlVistorFlag flag)
         {
             var isRight = flag.IsRight;
             flag.IsRight = true;
@@ -98,23 +115,52 @@ namespace OSS.Core.RepDapper.OrmExtention
             flag.IsRight = isRight; //  回归
         }
 
-        private void VisitBinary(BinaryExpression exp,SqlVistorFlag flag)
+
+        #region VisitMethodCall
+
+        protected virtual void VisitMethodCall(MethodCallExpression exp, SqlVistorFlag flag)
         {
-            var operand = GetBinaryOperant(exp.NodeType);
-            if (exp.NodeType==ExpressionType.AndAlso||
-                exp.NodeType==ExpressionType.OrElse)
+            var MethodName = exp.Method.Name;
+            switch (MethodName) //这里其实还可以改成反射调用，不用写switch
             {
-                flag.Append(" (");
-                Visit(exp.Left,flag);
+                case "Contains":
+                    MethodCallLike(exp, flag);
+                    break;
+
+
+                //  todo 补充其他方法
+            }
+        }
+
+        private void MethodCallLike(MethodCallExpression exp, SqlVistorFlag flag)
+        {
+            Visit(exp.Object, flag);
+            flag.Append(GetUnaryOperater(flag.UnaryType), true);
+            flag.Append(" LIKE CONCAT('%',");
+            VisitRight(exp.Arguments[0], flag);
+            flag.Append(",'%')");
+        }
+
+
+        #endregion
+
+        protected virtual void VisitBinary(BinaryExpression exp, SqlVistorFlag flag)
+        {
+            var operand = GetBinaryOperater(exp.NodeType);
+            if (exp.NodeType == ExpressionType.AndAlso ||
+                exp.NodeType == ExpressionType.OrElse)
+            {
+                flag.Append("(");
+                Visit(exp.Left, flag);
                 flag.Append(") ").Append(operand).Append(" (");
-                Visit(exp.Right,flag);
+                Visit(exp.Right, flag);
                 flag.Append(")");
             }
             else
             {
-                Visit(exp.Left,flag);
+                Visit(exp.Left, flag);
                 flag.Append(operand);
-                VisitRight(exp.Right,flag);
+                VisitRight(exp.Right, flag);
             }
         }
 
@@ -129,16 +175,16 @@ namespace OSS.Core.RepDapper.OrmExtention
                 {
                     var newArrayExpression = e as NewArrayExpression;
                     if (newArrayExpression != null)
-                       VisitNewArray(newArrayExpression,flag);
+                        VisitNewArray(newArrayExpression, flag);
                 }
                 else
                 {
-                    Visit(e,flag);
+                    Visit(e, flag);
                 }
             }
         }
-        
-        protected virtual void VisitConstant(ConstantExpression c,SqlVistorFlag flag)
+
+        protected virtual void VisitConstant(ConstantExpression c, SqlVistorFlag flag)
         {
             var value = c.Value ?? "null";
             if (flag.IsRight)
@@ -146,23 +192,27 @@ namespace OSS.Core.RepDapper.OrmExtention
                 const string parameterPre = "ConstPara";
                 var paraName = GetParaName(parameterPre, true);
                 flag.Append(paraName);
-                AddParameter(paraName, value);
+
+                AddParameter(paraName, c.Type == typeof(bool) ? ((bool) value ? 1 : 0) : value);
             }
             else
             {
                 flag.Append(value.ToString());
             }
-
         }
 
         protected virtual void VisitUnary(UnaryExpression u, SqlVistorFlag flag)
         {
-             Visit(u.Operand, flag);
+            var nodeType = flag.UnaryType;
+            flag.UnaryType = u.NodeType;
+            Visit(u.Operand, flag);
+            flag.UnaryType = nodeType;
+
         }
-        
-        protected virtual void VisitLambda(LambdaExpression lambda,SqlVistorFlag flag)
+
+        protected virtual void VisitLambda(LambdaExpression lambda, SqlVistorFlag flag)
         {
-             Visit(lambda.Body, flag);
+            Visit(lambda.Body, flag);
         }
 
         protected virtual void VisitNew(NewExpression nex, SqlVistorFlag flag)
@@ -187,24 +237,38 @@ namespace OSS.Core.RepDapper.OrmExtention
             }
             else
             {
-                flag.Append(exp.Member.Name);
+                flag.Append(exp.Member.Name, true);
             }
         }
 
 
+        protected virtual void VisitConditional(ConditionalExpression conditionalExpression)
+        {
+            // todo
+        }
 
+        protected virtual void VisitMemberInit(MemberInitExpression memberInitExpression, SqlVistorFlag flag)
+        {
+            //  todo
+        }
+
+        protected virtual void VisitParameter(ParameterExpression parameterExpression, SqlVistorFlag flag)
+        {
+            // todo
+        }
 
         #region 辅助方法
+
         /// <summary>
         ///  添加成员属性信息
         /// </summary>
         /// <param name="name"></param>
         /// <param name="pro"></param>
-        private void AddMemberProperty(string name,PropertyInfo pro)
+        private void AddMemberProperty(string name, PropertyInfo pro)
         {
             if (!properties.ContainsKey(name))
             {
-                properties.Add(name,pro);
+                properties.Add(name, pro);
             }
         }
 
@@ -220,22 +284,23 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         private const string prefixToken = "@";
         private int constantParaIndex = 0;
-        private string GetParaName(string nameWithNoPre,bool isConstant=false)
+
+        private string GetParaName(string nameWithNoPre, bool isConstant = false)
         {
             var name = string.Concat(prefixToken, nameWithNoPre);
             if (!isConstant)
                 return name;
-            return  string.Concat(name, constantParaIndex++);
+            return string.Concat(name, constantParaIndex++);
         }
 
-        protected virtual string GetBinaryOperant(ExpressionType e)
+        protected virtual string GetBinaryOperater(ExpressionType e)
         {
             switch (e)
             {
                 case ExpressionType.Add:
                     return "+";
                 case ExpressionType.And:
-                    return "|";
+                    return "&";
                 case ExpressionType.AndAlso:
                     return "AND";
                 case ExpressionType.Equal:
@@ -265,9 +330,22 @@ namespace OSS.Core.RepDapper.OrmExtention
                 case ExpressionType.Coalesce:
                     return "COALESCE";
                 default:
-                    return e.ToString();
+                    return string.Empty;
             }
         }
+
+
+        protected virtual string GetUnaryOperater(ExpressionType e)
+        {
+            switch (e)
+            {
+                case ExpressionType.Not:
+                    return "NOT";
+                default:
+                    return string.Empty;
+            }
+        }
+
         #endregion
     }
 
@@ -280,14 +358,20 @@ namespace OSS.Core.RepDapper.OrmExtention
         {
             VistorType = vistorType;
             sqlBuilder = new StringBuilder();
+            UnaryType = (ExpressionType) (-1);
         }
 
         public SqlVistorType VistorType { get; set; }
 
         /// <summary>
-        ///   是否是表达式右侧项，决定Member是否做参数化处理
+        ///   是否是表达式右侧项，决定右侧树是否做参数化处理
         /// </summary>
         public bool IsRight { get; set; }
+
+        /// <summary>
+        /// 主要是MethodCall方法中解析时需要知晓上层一元运算
+        /// </summary>
+        public ExpressionType UnaryType { get; set; }
 
         #region 语句拼接
 
@@ -296,7 +380,7 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         private readonly StringBuilder sqlBuilder;
 
-        public SqlVistorFlag Append(string content,bool needCheckSep=false)
+        public SqlVistorFlag Append(string content, bool needCheckSep = false)
         {
             if (!isStarted)
                 isStarted = true;
