@@ -36,8 +36,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.CachePlug.StackRedis", "Plugs\OSS.CachePlug.StackRedis\OSS.CachePlug.StackRedis.csproj", "{AC617DDE-EC2F-4714-8222-0AAE9AF89801}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dapper", "..\..\testcode\Dapper-vs2017\Dapper\Dapper.csproj", "{8142DA32-C66F-4637-BDB4-7A611F77941C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -80,10 +78,6 @@ Global
 		{AC617DDE-EC2F-4714-8222-0AAE9AF89801}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC617DDE-EC2F-4714-8222-0AAE9AF89801}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AC617DDE-EC2F-4714-8222-0AAE9AF89801}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8142DA32-C66F-4637-BDB4-7A611F77941C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8142DA32-C66F-4637-BDB4-7A611F77941C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8142DA32-C66F-4637-BDB4-7A611F77941C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8142DA32-C66F-4637-BDB4-7A611F77941C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -98,6 +92,5 @@ Global
 		{E3E0C7D9-2E3D-4634-8A68-FBF464F52DA3} = {A13B8E92-E476-47FC-9DB2-39A43F82453D}
 		{5998774F-61FB-45A5-B796-B602FA3E7C61} = {3E4A8F6E-308C-47E9-B865-A83AB49573FA}
 		{AC617DDE-EC2F-4714-8222-0AAE9AF89801} = {72740AB8-4577-4939-B291-C3CC535EE97A}
-		{8142DA32-C66F-4637-BDB4-7A611F77941C} = {A13B8E92-E476-47FC-9DB2-39A43F82453D}
 	EndGlobalSection
 EndGlobal

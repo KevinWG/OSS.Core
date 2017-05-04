@@ -242,17 +242,40 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         protected virtual void VisitMember(MemberExpression exp, SqlVistorFlag flag)
         {
-            if (flag.IsRight)
+            if (exp.Expression != null
+                && exp.Expression.NodeType == ExpressionType.Parameter)
             {
-                var proParaName = GetParaName(exp.Member.Name);
-                flag.Append(proParaName);
-                AddMemberProperty(proParaName, exp.Member.DeclaringType.GetProperty(exp.Member.Name));
+                if (flag.IsRight)
+                {
+                    var proParaName = GetParaName(exp.Member.Name);
+                    flag.Append(proParaName);
+                    AddMemberProperty(proParaName, exp.Member.DeclaringType.GetProperty(exp.Member.Name));
+                }
+                else
+                {
+                    if (exp.Member.DeclaringType.GetTypeInfo().IsGenericType
+                        && exp.Member.DeclaringType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    {
+                        if (exp.Member.Name == "Value") //Can't use C# 6 yet: nameof(Nullable<bool>.Value)
+                            Visit(exp.Expression, flag);
+                        if (exp.Member.Name == "HasValue") //nameof(Nullable<bool>.HasValue)
+                        {
+                            var doesNotEqualNull = Expression.MakeBinary(ExpressionType.NotEqual, exp.Expression,
+                                Expression.Constant(null));
+                            Visit(doesNotEqualNull, flag); // Nullable<T>.HasValue is equivalent to "!= null"
+                        }
+                    }
+                    else
+                        flag.Append(exp.Member.Name, true);
+                }
             }
-            else
+            else if (exp.Expression != null && flag.IsRight)
             {
-                flag.Append(exp.Member.Name, true);
+                var value = Expression.Lambda(exp).Compile().DynamicInvoke();
+                Visit(Expression.Constant(value), flag);
             }
         }
+
 
 
         protected virtual void VisitConditional(ConditionalExpression conditionalExpression)
@@ -415,7 +438,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         {
             switch (VistorType)
             {
-                case SqlVistorType.InsertOrUpdate:
+                case SqlVistorType.Update:
                     return ",";
 
                 case SqlVistorType.Where:
@@ -430,9 +453,9 @@ namespace OSS.Core.RepDapper.OrmExtention
     public enum SqlVistorType
     {
         /// <summary>
-        ///   Insert和Update 表达式解析类型
+        ///   Update 表达式解析类型
         /// </summary>
-        InsertOrUpdate,
+        Update,
 
         Where
     }
