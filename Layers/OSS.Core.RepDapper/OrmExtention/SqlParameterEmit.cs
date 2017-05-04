@@ -1,11 +1,26 @@
-﻿using System;
+﻿
+#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+
+/***************************************************************************
+*　　	文件功能描述：OSSCore仓储层 —— 参数化处理委托Emit生成辅助类
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-5-4
+*       
+*****************************************************************************/
+
+#endregion
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
-    public class SqlParameterEmit
+    internal class SqlParameterEmit
     {
         /// <summary>
         /// 获取类型下指定部分字段的委托方法
@@ -14,7 +29,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="key"></param>
         /// <param name="proList"></param>
         /// <returns></returns>
-        private static Func<MType, Dictionary<string, object>> CreateDicDeleMothed<MType>(string key, IReadOnlyCollection<PropertyInfo> proList)
+        public static Func<object, Dictionary<string, object>> CreateDicDeleMothed<MType>( IEnumerable<PropertyInfo> proList)
         {
             var moType = typeof(MType);
 
@@ -22,16 +37,15 @@ namespace OSS.Core.RepDapper.OrmExtention
             var dirAddMethod = dicType.GetMethod("Add");
             var dicCtor = dicType.GetConstructor(new[] { typeof(int) });
 
-            var conFunM = new DynamicMethod(string.Concat("ConverTofunc_", key),
+            var conFunM = new DynamicMethod(string.Concat("ConverTofunc_", Guid.NewGuid().GetHashCode()),
                 MethodAttributes.Public | MethodAttributes.Static,
-                CallingConventions.Standard, dicType, new[] { moType }, moType, false);
+                CallingConventions.Standard, dicType, new[] { typeof(object) }, moType, false);
 
             var ilT = conFunM.GetILGenerator();
             ilT.DeclareLocal(dicType);
 
-            // 申明局部变量
             ilT.Emit(OpCodes.Nop);
-            ilT.Emit(OpCodes.Ldc_I4, proList.Count);
+            ilT.Emit(OpCodes.Ldc_I4, proList.Count());
             ilT.Emit(OpCodes.Newobj, dicCtor);
 
             ilT.Emit(OpCodes.Stloc_0);
@@ -74,8 +88,8 @@ namespace OSS.Core.RepDapper.OrmExtention
             ilT.Emit(OpCodes.Ret);
 
             return
-                conFunM.CreateDelegate(typeof(Func<MType, Dictionary<string, object>>)) as
-                    Func<MType, Dictionary<string, object>>;
+                conFunM.CreateDelegate(typeof(Func<object, Dictionary<string, object>>)) as
+                    Func<object, Dictionary<string, object>>;
         }
 
         #region  通过自定义type实现，但.net standard 暂时不支持AppDomain，无法动态创建程序集,仅供参考
