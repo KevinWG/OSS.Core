@@ -12,7 +12,7 @@ namespace OSS.Core.RepTests
         public void Test()
         {
 
-            var vistor = new SqlExpression();
+            var vistor = new SqlExpressionVisitor();
 
             //var sqlUpdateFlag = new SqlVistorFlag(SqlVistorType.Update);
             //Expression<Func<UserInfoMo, object>> funExpression =

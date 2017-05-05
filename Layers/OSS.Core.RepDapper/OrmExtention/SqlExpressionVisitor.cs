@@ -21,7 +21,7 @@ using System.Text;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
-    public class SqlExpression
+    public class SqlExpressionVisitor
     {
         /// <summary>
         ///   表达式中的常量参数列表
@@ -35,7 +35,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         private readonly Dictionary<string, object> parameters;
         private readonly Dictionary<string, PropertyInfo> properties;
 
-        public SqlExpression()
+        public SqlExpressionVisitor()
         {
             parameters = new Dictionary<string, object>();
             properties = new Dictionary<string, PropertyInfo>();
@@ -266,7 +266,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                         }
                     }
                     else
-                        flag.Append(exp.Member.Name, true);
+                        flag.Append(string.Concat("`", exp.Member.Name,"`"), true);
                 }
             }
             else if (exp.Expression != null && flag.IsRight)
