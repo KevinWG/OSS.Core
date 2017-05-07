@@ -1,4 +1,17 @@
-﻿using System;
+﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+
+/***************************************************************************
+*　　	文件功能描述：OSSCore仓储层 ——  Connection 方法扩展类
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-5-7
+*       
+*****************************************************************************/
+
+#endregion
+
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
@@ -10,11 +23,13 @@ using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention.DTO;
+using OSS.Core.DomainMos;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
     public static class ConnoctionExtention
     {
+        #region    插入扩展
         /// <summary>
         ///   插入新记录
         /// </summary>
@@ -31,7 +46,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 tableName = mo.GetType().Name;
 
             var key = string.Concat(tableName, "|", isIdAuto, "|", con.ConnectionString, "|", typeof(TType).FullName);
-            var ormInfo = GetInsertCacheInfo<TType>(tableName, key);
+            var ormInfo = GetInsertOrmCacheInfo<TType>(tableName, key);
 
             var para = new DynamicParameters(ormInfo.ParaFunc?.Invoke(mo));
 
@@ -39,6 +54,59 @@ namespace OSS.Core.RepDapper.OrmExtention
             return id > 0 ? new ResultIdMo(isIdAuto ? id : 0) : new ResultIdMo(ResultTypes.AddFail, "添加操作失败！");
         }
 
+        private static OrmOperateInfo GetInsertOrmCacheInfo<TType>(string tableName, string key) where TType : new()
+        {
+            var cache = OrmCacheUtil.GetCacheInfo(key);
+            if (cache != null) return cache;
+
+            cache = new OrmOperateInfo
+            {
+                Sql = GetInserSql<TType>(tableName, out List<PropertyInfo> prolist),
+                ParaFunc = SqlParameterEmit.CreateDicDeleMothed<TType>(prolist)
+            };
+            OrmCacheUtil.AddCacheInfo(key, cache);
+            return cache;
+        }
+
+        private static string GetInserSql<TType>(string tableName, out List<PropertyInfo> proList)
+        {
+            //  1.  生成语句
+            var sqlCols = new StringBuilder("INSERT INTO ");
+            sqlCols.Append(tableName).Append(" (");
+
+            var sqlValues = new StringBuilder(" VALUES (");
+            var properties = typeof(TType).GetProperties();
+            proList = new List<PropertyInfo>(properties.Length);
+
+            bool isStart = false, haveAuto = false;
+            foreach (var propertyInfo in properties)
+            {
+                var isAuto = propertyInfo.GetCustomAttribute<AutoColumnAttribute>() != null;
+                if (isAuto)
+                {
+                    haveAuto = true;
+                    continue;
+                }
+                if (isStart)
+                {
+                    sqlCols.Append(",");
+                    sqlValues.Append(",");
+                }
+                else
+                    isStart = true;
+                sqlCols.Append(propertyInfo.Name);
+                sqlValues.Append("@").Append(propertyInfo.Name);
+                proList.Add(propertyInfo);
+            }
+            sqlCols.Append(")");
+            sqlValues.Append(")");
+            sqlCols.Append(sqlValues);
+
+            if (haveAuto) sqlCols.Append(";SELECT LAST_INSERT_ID();");
+            return sqlCols.ToString();
+        }
+        #endregion
+        
         #region  全量更新
 
         /// <summary>
@@ -106,7 +174,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             StringBuilder sqlBuilder,
             SqlExpressionVisitor visitor)
         {
-            var opeInfo = GetUpdateCache<TType>(con.ConnectionString, sqlBuilder.ToString(), tableName,
+            var opeInfo = GetOrmOperateCache<TType>(con.ConnectionString, sqlBuilder.ToString(), tableName,
                 visitor.Properties.Select(e => e.Value));
             var paraDics = opeInfo.ParaFunc?.Invoke(mo) ?? new Dictionary<string, object>();
 
@@ -117,7 +185,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             return row > 0 ? new ResultMo() : new ResultMo(ResultTypes.UpdateFail, "更新失败");
         }
 
-        private static OrmOperateInfo GetUpdateCache<TType>(string conStr, string sql, string tableName,
+        private static OrmOperateInfo GetOrmOperateCache<TType>(string conStr, string sql, string tableName,
             IEnumerable<PropertyInfo> prolist)
         {
             string key = $"{tableName}|{sql}|{conStr}";
@@ -133,7 +201,6 @@ namespace OSS.Core.RepDapper.OrmExtention
             OrmCacheUtil.AddCacheInfo(key, cacheInfo);
 
             return cacheInfo;
-
         }
 
         private static void GetUpdateExpressionSql<TType>(Expression<Func<TType, object>> update,
@@ -175,18 +242,30 @@ namespace OSS.Core.RepDapper.OrmExtention
             return sql;
         }
 
-        ////  根据指定列删除
-        //public int Delete()
-        //{
-        //    //  软删除，底层不提供物理删除方法
-        //    return 0;
-        //}
+        /// <summary>
+        ///  获取单项扩展
+        /// </summary>
+        /// <typeparam name="TType"></typeparam>
+        /// <param name="con"></param>
+        /// <param name="mo"></param>
+        /// <param name="whereExp"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        public static TType Get<TType>(this IDbConnection con,TType mo, Expression<Func<TType,bool>> whereExp=null,string tableName=null)
+        {
+            var sqlVisitor=new SqlExpressionVisitor();
+            var whereSql = VisitWhereExpress(sqlVisitor, whereExp);
 
-        ////// 根据指定列查询
-        //public TType Get()
-        //{
-        //    return new TType();
-        //}
+            var sqlStr = string.Concat("SELECT * FROM ", tableName, " WHERE ", whereSql);
+
+            var opeInfo = GetOrmOperateCache<TType>(con.ConnectionString, sqlStr, tableName,sqlVisitor.Properties.Select(e => e.Value));
+            var paraDics = opeInfo.ParaFunc?.Invoke(mo) ?? new Dictionary<string, object>();
+
+            foreach (var p in sqlVisitor.Parameters)
+                paraDics.Add(p.Key, p.Value);
+
+            return con.ExecuteScalar<TType>(opeInfo.Sql, paraDics);
+        }
 
         //public virtual PageListMo<TType> GetPageList(SearchMo mo)
         //{
@@ -195,57 +274,6 @@ namespace OSS.Core.RepDapper.OrmExtention
 
 
 
-        private static OrmOperateInfo GetInsertCacheInfo<TType>(string tableName, string key) where TType : new()
-        {
-            var cache = OrmCacheUtil.GetCacheInfo(key);
-            if (cache != null) return cache;
-
-            cache = new OrmOperateInfo
-            {
-                Sql = GetInserSql<TType>(tableName, out List<PropertyInfo> prolist),
-                ParaFunc = SqlParameterEmit.CreateDicDeleMothed<TType>(prolist)
-            };
-            OrmCacheUtil.AddCacheInfo(key, cache);
-            return cache;
-        }
-
-        private static string GetInserSql<TType>(string tableName, out List<PropertyInfo> proList)
-        {
-            //  1.  生成语句
-            var sqlCols = new StringBuilder("INSERT INTO ");
-            sqlCols.Append(tableName).Append(" (");
-
-            var sqlValues = new StringBuilder(" VALUES (");
-            var properties = typeof(TType).GetProperties();
-            proList = new List<PropertyInfo>(properties.Length);
-
-            bool isStart = false, haveAuto = false;
-            foreach (var propertyInfo in properties)
-            {
-                var isAuto = propertyInfo.GetCustomAttribute<AutoColumnAttribute>() != null;
-                if (isAuto)
-                {
-                    haveAuto = true;
-                    continue;
-                }
-                if (isStart)
-                {
-                    sqlCols.Append(",");
-                    sqlValues.Append(",");
-                }
-                else
-                    isStart = true;
-                sqlCols.Append(propertyInfo.Name);
-                sqlValues.Append("@").Append(propertyInfo.Name);
-                proList.Add(propertyInfo);
-            }
-            sqlCols.Append(")");
-            sqlValues.Append(")");
-            sqlCols.Append(sqlValues);
-
-            if (haveAuto) sqlCols.Append(";SELECT LAST_INSERT_ID();");
-            return sqlCols.ToString();
-        }
     }
 
 

@@ -26,7 +26,6 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// 获取类型下指定部分字段的委托方法
         /// </summary>
         /// <typeparam name="MType"></typeparam>
-        /// <param name="key"></param>
         /// <param name="proList"></param>
         /// <returns></returns>
         public static Func<object, Dictionary<string, object>> CreateDicDeleMothed<MType>( IEnumerable<PropertyInfo> proList)
