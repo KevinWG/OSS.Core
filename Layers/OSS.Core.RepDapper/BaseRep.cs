@@ -54,8 +54,7 @@ namespace OSS.Core.RepDapper
         }
 
         #endregion
-
-
+        
         public BaseRep(string writeConnectionStr = null, string readeConnectionStr = null)
         {
             writeConnectionString = writeConnectionStr ?? m_Config.GetConnectionString("WriteConnection");
@@ -137,10 +136,10 @@ namespace OSS.Core.RepDapper
         ///   插入数据（默认Id自增长
         /// </summary>
         /// <param name="mo"></param>
+        /// <param name="isAuto">Id主键是否自增长</param>
         /// <returns></returns>
-        public virtual ResultIdMo Insert<T>(T mo)
-            where T : BaseAutoMo, new()
-            => ExcuteWrite(con => con.Insert(mo, true, m_TableName));
+        public virtual ResultIdMo Insert<T>(T mo,bool isAuto=true)
+            => ExcuteWrite(con => con.Insert(mo, isAuto, m_TableName));
 
         /// <summary>
         /// 全量更新
@@ -148,7 +147,7 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        protected virtual ResultMo UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+        public virtual ResultMo UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
             => ExcuteWrite(con => con.UpdateAll(mo, whereExp, m_TableName));
 
 

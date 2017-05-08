@@ -40,7 +40,6 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <returns></returns>
         public static ResultIdMo Insert<TType>(this IDbConnection con, TType mo, bool isIdAuto = true,
             string tableName = null)
-            where TType : new()
         {
             if (string.IsNullOrEmpty(tableName))
                 tableName = mo.GetType().Name;
@@ -54,7 +53,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             return id > 0 ? new ResultIdMo(isIdAuto ? id : 0) : new ResultIdMo(ResultTypes.AddFail, "添加操作失败！");
         }
 
-        private static OrmOperateInfo GetInsertOrmCacheInfo<TType>(string tableName, string key) where TType : new()
+        private static OrmOperateInfo GetInsertOrmCacheInfo<TType>(string tableName, string key) 
         {
             var cache = OrmCacheUtil.GetCacheInfo(key);
             if (cache != null) return cache;
