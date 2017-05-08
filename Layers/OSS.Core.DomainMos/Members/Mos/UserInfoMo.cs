@@ -10,9 +10,10 @@
 *****************************************************************************/
 
 #endregion
+
 namespace OSS.Core.DomainMos.Members.Mos
 {
-    public class UserInfoMo:BaseMo<long>
+    public class UserInfoMo: BaseAutoMo
     {
        /// <summary>
        ///  昵称

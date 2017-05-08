@@ -28,9 +28,9 @@ using OSS.Core.RepDapper.OrmExtention;
 
 namespace OSS.Core.RepDapper
 {
-
-    //  1. 把表达式生成的字符串缓存起来
-    //  2. 反射扩展添加指定类型到匿名对象的生成
+    /// <summary>
+    /// 仓储层基类
+    /// </summary>
     public class BaseRep
     {
         protected string m_TableName;
@@ -54,18 +54,12 @@ namespace OSS.Core.RepDapper
         }
 
         #endregion
-        
+
         public BaseRep(string writeConnectionStr = null, string readeConnectionStr = null)
         {
             writeConnectionString = writeConnectionStr ?? m_Config.GetConnectionString("WriteConnection");
             readeConnectionString = readeConnectionStr ?? m_Config.GetConnectionString("ReadeConnection");
         }
-
-        //public virtual ResultIdMo Insert(TType mo)
-        //{
-
-        //}
-
 
         #region 底层基础读写分离封装
 
@@ -138,7 +132,7 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="isAuto">Id主键是否自增长</param>
         /// <returns></returns>
-        public virtual ResultIdMo Insert<T>(T mo,bool isAuto=true)
+        public virtual ResultIdMo Insert<T>(T mo, bool isAuto = true)
             => ExcuteWrite(con => con.Insert(mo, isAuto, m_TableName));
 
         /// <summary>
@@ -169,7 +163,7 @@ namespace OSS.Core.RepDapper
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
         public virtual ResultMo DeleteSoft<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
-            where TType:BaseMo
+            where TType : BaseMo
         {
             mo.state = (int) CommonStatus.Delete;
             return ExcuteWrite(con => con.UpdatePartail(mo, m => new {m.state}, whereExp, m_TableName));
@@ -193,8 +187,9 @@ namespace OSS.Core.RepDapper
         /// <param name="totalSql">查询数量语句，不需要排序</param>
         /// <param name="paras"></param>
         /// <returns></returns>
-        protected internal PageListMo<TType> GetList<TType>(string selectSql, string totalSql, Dictionary<string, object> paras)
-         where TType : ResultMo, new()
+        protected internal PageListMo<TType> GetList<TType>(string selectSql, string totalSql,
+            Dictionary<string, object> paras)
+            where TType : ResultMo, new()
         {
             return ExcuteReadeRes(con =>
             {
@@ -204,7 +199,7 @@ namespace OSS.Core.RepDapper
                 return new PageListMo<TType>(total, list);
             });
         }
-        
+
         #endregion
 
     }

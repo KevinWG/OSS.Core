@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
-using Xunit;
+﻿using Xunit;
 using OSS.Core.DomainMos.Members.Mos;
 using OSS.Core.RepDapper.Members;
 
@@ -9,20 +7,26 @@ namespace OSS.Core.RepTests
     public class UserInfoRepTests
     {
         [Fact]
-        public void TestMethod1()
+        public void UserTest()
         {
+            var mo = new UserInfoMo
+            {
+                email = "11111@qq.com",
+                mobile = "1111111111"
+            };
 
-            var configBuilder =
-               new ConfigurationBuilder().Add(new JsonConfigurationSource()
-               {
-                   Path = "appsettings.json",
-                   ReloadOnChange = true
-               });
-            var m_Config = configBuilder.Build();
+            var rep = new UserInfoRep();
 
-            var str = m_Config.GetConnectionString("WriteConnection");
-            //var rep = new UserInfoRep();
-            //rep.Insert(new UserInfoMo(){nick_name = "再次测试"});
+            var res = rep.Insert(mo);
+            mo.Id = res.Id;
+            mo.email = "222222@qq.com";
+            mo.mobile = "222222222222";
+
+            rep.UpdateAll(mo);   //  全量更新测试
+
+            rep.Update(mo, m => new {m.email}, m => m.Id == 1);   //  部分更新
+            rep.DeleteSoft(mo);  //  软删除
+            rep.Get(mo, m => m.Id == 16);   //  查询
         }
     }
 }

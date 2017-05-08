@@ -234,7 +234,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 var arg = nex.Arguments[i];
                 var member = nex.Members[i];
-                flag.Append(string.Concat(member.Name, "="), true);
+                flag.Append(string.Concat("`",member.Name,"`", "="), true);
 
                 VisitRight(arg, flag);
             }
@@ -320,15 +320,12 @@ namespace OSS.Core.RepDapper.OrmExtention
             parameters.Add(paraName, value);
         }
 
-        private const string prefixToken = "@";
+
         private int constantParaIndex = 0;
 
         private string GetParaName(string nameWithNoPre, bool isConstant = false)
         {
-            var name = string.Concat(prefixToken, nameWithNoPre);
-            if (!isConstant)
-                return name;
-            return string.Concat(name, constantParaIndex++);
+            return String.Concat("@",!isConstant ? nameWithNoPre : string.Concat(nameWithNoPre, constantParaIndex++));
         }
 
         protected virtual string GetBinaryOperater(ExpressionType e)

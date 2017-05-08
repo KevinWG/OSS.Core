@@ -93,7 +93,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 }
                 else
                     isStart = true;
-                sqlCols.Append(propertyInfo.Name);
+                sqlCols.Append("`").Append(propertyInfo.Name).Append("`");
                 sqlValues.Append("@").Append(propertyInfo.Name);
                 proList.Add(propertyInfo);
             }
@@ -144,7 +144,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                     continue;
 
                 sqlStr.Append(isStart ? "," : string.Empty)
-                    .Append(pro.Name).Append("=").Append("@").Append(pro.Name);
+                    .Append("`").Append(pro.Name).Append("`").Append("=").Append("@").Append(pro.Name);
 
                 if (!isStart)
                     isStart = true;
@@ -210,7 +210,6 @@ namespace OSS.Core.RepDapper.OrmExtention
         {
             sql.Append("UPDATE ").Append(tableName).Append(" SET ");
 
-            visitor = new SqlExpressionVisitor();
             var updateFlag = new SqlVistorFlag(SqlVistorType.Update);
             visitor.Visit(update, updateFlag);
 
@@ -230,7 +229,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 var whereFlag = new SqlVistorFlag(SqlVistorType.Where);
                 visitor.Visit(@where, whereFlag);
-                return whereFlag.Sql;
+                return string.Concat(" WHERE ", whereFlag.Sql);
             }
 
             const string sql = " WHERE Id=@Id";
@@ -239,7 +238,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             var p = typeof(TType).GetProperty("Id");
             if (p == null)
                 throw new Exception("Update操作中where条件为空，且未发现Id属性");
-            visitor.Parameters.Add("Id", p);
+            visitor.Properties.Add("Id", p);
             return sql;
         }
 
@@ -257,7 +256,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             var sqlVisitor=new SqlExpressionVisitor();
             var whereSql = VisitWhereExpress(sqlVisitor, whereExp);
 
-            var sqlStr = string.Concat("SELECT * FROM ", tableName, " WHERE ", whereSql);
+            var sqlStr = string.Concat("SELECT * FROM ", tableName, whereSql);
 
             var opeInfo = GetOrmOperateCache<TType>(con.ConnectionString, sqlStr, tableName,sqlVisitor.Properties.Select(e => e.Value));
             var paraDics = opeInfo.ParaFunc?.Invoke(mo) ?? new Dictionary<string, object>();
@@ -265,7 +264,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             foreach (var p in sqlVisitor.Parameters)
                 paraDics.Add(p.Key, p.Value);
 
-            return con.ExecuteScalar<TType>(opeInfo.Sql, paraDics);
+            return con.QuerySingle<TType>(opeInfo.Sql, paraDics);
         }
 
     }
