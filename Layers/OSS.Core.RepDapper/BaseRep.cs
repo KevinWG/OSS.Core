@@ -12,31 +12,54 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Data;
+using System.Linq;
+using System.Linq.Expressions;
+using Dapper;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
 using MySql.Data.MySqlClient;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
-using OSS.Common.Modules.LogModule;
 using OSS.Core.DomainMos;
+using OSS.Core.Infrastructure.Enums;
+using OSS.Core.RepDapper.OrmExtention;
 
 namespace OSS.Core.RepDapper
 {
 
     //  1. 把表达式生成的字符串缓存起来
     //  2. 反射扩展添加指定类型到匿名对象的生成
-    public class BaseRep<TType, IdType>
-        where TType: BaseMo<IdType>,new() 
+    public class BaseRep
     {
-        protected  string m_TableName;
-
+        protected string m_TableName;
 
         protected readonly string writeConnectionString;
         protected readonly string readeConnectionString;
 
-        public BaseRep(string writeConnectionStr=null,string readeConnectionStr=null)
+        #region 处理配置文件
+
+        protected static readonly IConfiguration m_Config;
+
+        static BaseRep()
         {
-            writeConnectionString = writeConnectionStr;
-            readeConnectionString = readeConnectionStr;
+            var configBuilder =
+                new ConfigurationBuilder().Add(new JsonConfigurationSource()
+                {
+                    Path = "appsettings.json",
+                    ReloadOnChange = true
+                });
+            m_Config = configBuilder.Build();
+        }
+
+        #endregion
+
+
+        public BaseRep(string writeConnectionStr = null, string readeConnectionStr = null)
+        {
+            writeConnectionString = writeConnectionStr ?? m_Config.GetConnectionString("WriteConnection");
+            readeConnectionString = readeConnectionStr ?? m_Config.GetConnectionString("ReadeConnection");
         }
 
         //public virtual ResultIdMo Insert(TType mo)
@@ -46,6 +69,7 @@ namespace OSS.Core.RepDapper
 
 
         #region 底层基础读写分离封装
+
         /// <summary>
         /// 执行写数据库操作
         /// </summary>
@@ -54,9 +78,9 @@ namespace OSS.Core.RepDapper
         /// <returns></returns>
         protected internal RType ExcuteWrite<RType>(Func<IDbConnection, RType> func) where RType : ResultMo, new()
             => Execute(func, true);
-   
+
         /// <summary>
-        ///  执行读数据库操作
+        ///  执行读操作，返回具体类型，自动包装成ResultMo结果实体
         /// </summary>
         /// <typeparam name="RType"></typeparam>
         /// <param name="func"></param>
@@ -67,15 +91,24 @@ namespace OSS.Core.RepDapper
             return res != null ? new ResultMo<RType>(res) : new ResultMo<RType>(ResultTypes.ObjectNull, "未发现相关数据！");
         }, false);
 
-        private  RType Execute<RType>(Func<IDbConnection, RType> func,bool isWrite)
-            where RType : ResultMo,new ()
+        /// <summary>
+        /// 执行读操作，直接返回继承自ResultMo实体
+        /// </summary>
+        /// <typeparam name="RType"></typeparam>
+        /// <param name="func"></param>
+        /// <returns></returns>
+        protected internal RType ExcuteReadeRes<RType>(Func<IDbConnection, RType> func) where RType : ResultMo, new()
+            => Execute(func, false);
+
+        private RType Execute<RType>(Func<IDbConnection, RType> func, bool isWrite)
+            where RType : ResultMo, new()
         {
             var t = default(RType);
             try
             {
-                using (var con=new MySqlConnection(isWrite? writeConnectionString: readeConnectionString))
+                using (var con = new MySqlConnection(isWrite ? writeConnectionString : readeConnectionString))
                 {
-                    t= func(con);
+                    t = func(con);
                 }
             }
             catch (Exception e)
@@ -93,8 +126,86 @@ namespace OSS.Core.RepDapper
                 return t;
 #endif
             }
-            return t ?? new RType() {Ret =(int)ResultTypes.ObjectNull,Message = "未发现对应结果响应"};
+            return t ?? new RType() {Ret = (int) ResultTypes.ObjectNull, Message = "未发现对应结果响应"};
         }
+
+        #endregion
+
+        #region   基础CRUD操作方法
+
+        /// <summary>
+        ///   插入数据（默认Id自增长
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <returns></returns>
+        public virtual ResultIdMo Insert<T>(T mo)
+            where T : BaseAutoMo, new()
+            => ExcuteWrite(con => con.Insert(mo, true, m_TableName));
+
+        /// <summary>
+        /// 全量更新
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
+        /// <returns></returns>
+        protected virtual ResultMo UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+            => ExcuteWrite(con => con.UpdateAll(mo, whereExp, m_TableName));
+
+
+        /// <summary>
+        /// 部分字段的更新
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="updateExp">更新字段new{m.Name,....} Or new{m.Name="",....}</param>
+        /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
+        /// <returns></returns>
+        public virtual ResultMo Update<TType>(TType mo, Expression<Func<TType, object>> updateExp,
+            Expression<Func<TType, bool>> whereExp = null)
+            => ExcuteWrite(con => con.UpdatePartail(mo, updateExp, whereExp, m_TableName));
+
+        /// <summary>
+        /// 软删除，仅仅修改State状态
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
+        /// <returns></returns>
+        public virtual ResultMo DeleteSoft<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+            where TType:BaseMo
+        {
+            mo.state = (int) CommonStatus.Delete;
+            return ExcuteWrite(con => con.UpdatePartail(mo, m => new {m.state}, whereExp, m_TableName));
+        }
+
+        /// <summary>
+        ///  获取单个实体对象
+        /// </summary>
+        /// <param name="mo"></param>
+        /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
+        /// <returns></returns>
+        public virtual ResultMo<TType> Get<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+            => ExcuteReade(con => con.Get(mo, whereExp, m_TableName));
+
+
+
+        /// <summary>
+        ///   列表查询
+        /// </summary>
+        /// <param name="selectSql">查询语句，包含排序等</param>
+        /// <param name="totalSql">查询数量语句，不需要排序</param>
+        /// <param name="paras"></param>
+        /// <returns></returns>
+        protected internal PageListMo<TType> GetList<TType>(string selectSql, string totalSql, Dictionary<string, object> paras)
+         where TType : ResultMo, new()
+        {
+            return ExcuteReadeRes(con =>
+            {
+                var para = new DynamicParameters(paras);
+                var total = con.ExecuteScalar<long>(totalSql, para);
+                var list = con.Query<TType>(selectSql, para).ToList();
+                return new PageListMo<TType>(total, list);
+            });
+        }
+        
         #endregion
 
     }

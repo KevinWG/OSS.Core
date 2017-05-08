@@ -27,7 +27,7 @@ using OSS.Core.DomainMos;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
-    public static class ConnoctionExtention
+    internal static class ConnoctionExtention
     {
         #region    插入扩展
         /// <summary>
@@ -116,7 +116,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="mo">需要更新的实体</param>
         /// <param name="where">更新条件，为空则默认使用Id</param>
         /// <returns></returns>
-        public static ResultMo UpdateAll<TType>(this IDbConnection con, TType mo,
+        internal static ResultMo UpdateAll<TType>(this IDbConnection con, TType mo,
             Expression<Func<TType, bool>> where = null, string tableName = null)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -156,7 +156,7 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         #endregion
 
-        public static ResultMo UpdatePartail<TType>(this IDbConnection con, TType mo,
+        internal static ResultMo UpdatePartail<TType>(this IDbConnection con, TType mo,
             Expression<Func<TType, object>> update, Expression<Func<TType, bool>> where = null,
             string tableName = null)
         {
@@ -188,11 +188,13 @@ namespace OSS.Core.RepDapper.OrmExtention
         private static OrmOperateInfo GetOrmOperateCache<TType>(string conStr, string sql, string tableName,
             IEnumerable<PropertyInfo> prolist)
         {
+            if (!prolist.Any())
+                return new OrmOperateInfo() {Sql = sql, ParaFunc = null};
+
             string key = $"{tableName}|{sql}|{conStr}";
             var cacheInfo = OrmCacheUtil.GetCacheInfo(key);
             if (cacheInfo != null)
                 return cacheInfo;
-
             cacheInfo = new OrmOperateInfo
             {
                 Sql = sql,
@@ -266,13 +268,6 @@ namespace OSS.Core.RepDapper.OrmExtention
 
             return con.ExecuteScalar<TType>(opeInfo.Sql, paraDics);
         }
-
-        //public virtual PageListMo<TType> GetPageList(SearchMo mo)
-        //{
-        //    return new PageListMo<TType>();
-        //}
-
-
 
     }
 

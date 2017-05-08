@@ -28,8 +28,8 @@ namespace OSS.Core.DomainMos
         public long create_time { get; set; }
     }
 
-
-    public class BaseLongMo: BaseMo
+    
+    public class BaseAutoMo: BaseMo
     {
         /// <summary>
         /// 主键Id
