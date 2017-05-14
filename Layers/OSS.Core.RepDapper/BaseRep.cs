@@ -106,9 +106,9 @@ namespace OSS.Core.RepDapper
             }
             catch (Exception e)
             {
-#if DEBUG
+               #if DEBUG
                 throw e;
-#else
+               #else
                  LogUtil.Error(string.Concat("数据库操作错误，详情：", e.Message, "\r\n", e.StackTrace), "DataRepConnectionError",
                     "DapperRep");
                 t = new RType
@@ -117,7 +117,7 @@ namespace OSS.Core.RepDapper
                     Message = "数据更新出错！"
                 };
                 return t;
-#endif
+               #endif
             }
             return t ?? new RType() {Ret = (int) ResultTypes.ObjectNull, Message = "未发现对应结果响应"};
         }
