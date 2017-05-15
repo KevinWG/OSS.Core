@@ -4,4 +4,8 @@
     <TargetFramework>netstandard1.4</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="OSS.Common" Version="1.1.2.82" />
+  </ItemGroup>
+
 </Project>
