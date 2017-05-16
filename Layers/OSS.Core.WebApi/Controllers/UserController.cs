@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Core.WebApi.Filters;
 
@@ -15,7 +16,13 @@ namespace OSS.Core.WebApi.Controllers
         {
             return new string[] { "value1", "value2" };
         }
-
+        // GET: api/values
+        [HttpGet]
+        public async Task<IEnumerable<string>> GetAsync()
+        {
+            await Task.Delay(1000);
+            return new string[] { "value1", "value2" };
+        }
         // GET api/values/5
         [HttpGet("{id}")]
         public string Get(int id)

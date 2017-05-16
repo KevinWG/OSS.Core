@@ -23,7 +23,7 @@ namespace OSS.Core.Infrastructure.Utils
             {
                return new ResultMo<string>(_appSecretKeys[appSource]);
             }
-            return new ResultMo<string>(ResultTypes.NoRight, "未经授权的key");
+            return new ResultMo<string>(ResultTypes.NoRight, "未经授权的应用来源!");
         }
     }
 }

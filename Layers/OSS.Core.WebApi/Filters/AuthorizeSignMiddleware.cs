@@ -24,10 +24,10 @@ namespace OSS.Core.WebApi.Filters
             string auticketStr = context.Request.Headers[authorizeTicket];
             if (auticketStr == null)
             {
-                await ResponseEnd(context, new ResultMo(ResultTypes.UnAuthorize, "未知应用来源"));
+                await ResponseEnd(context, new ResultMo(ResultTypes.UnKnowSource, "未知应用来源"));
                 return;
             }
-            
+
             var sysInfo = new SysAuthorizeInfo();
             sysInfo.FromSignData(auticketStr);
 
