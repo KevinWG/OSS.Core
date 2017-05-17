@@ -162,7 +162,7 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        public virtual ResultMo DeleteSoft<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+        public virtual ResultMo DeleteSoft<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo=null)
             where TType : BaseMo
         {
             mo.state = (int) CommonStatus.Delete;
@@ -175,7 +175,7 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        public virtual ResultMo<TType> Get<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+        public virtual ResultMo<TType> Get<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : class
             => ExcuteReade(con => con.Get(mo, whereExp, m_TableName));
 
 

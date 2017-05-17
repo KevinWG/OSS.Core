@@ -11,6 +11,9 @@
 
 #endregion
 
+using OSS.Common.ComModels;
+using OSS.Core.DomainMos;
+using OSS.Core.DomainMos.Members.Interfaces;
 using OSS.Core.DomainMos.Members.Mos;
 
 namespace OSS.Core.Services.Members
@@ -25,6 +28,11 @@ namespace OSS.Core.Services.Members
         public  UserInfoMo GetUserInfo(long userId)
         {
             return MemberManager.GetUserInfo(userId);
+        }
+
+        public ResultMo<AdminInfoMo> GetAdminInfoByUserId(long userId)
+        {
+            return Rep<IAdminInfoRep>.Instance.Get<AdminInfoMo>(m => m.u_id == userId);
         }
     }
 }

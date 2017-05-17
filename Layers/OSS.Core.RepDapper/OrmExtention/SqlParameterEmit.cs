@@ -30,6 +30,8 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <returns></returns>
         public static Func<object, Dictionary<string, object>> CreateDicDeleMothed<MType>( IEnumerable<PropertyInfo> proList)
         {
+            if (proList == null)
+                return null;
             var moType = typeof(MType);
 
             var dicType = typeof(Dictionary<string, object>);

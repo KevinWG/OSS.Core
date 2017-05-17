@@ -15,43 +15,50 @@ namespace OSS.Core.WebApi.Filters
 {
     public class AuthorizeMemberAttribute : Attribute, IAuthorizationFilter
     {
-        private static readonly MemberService service=new MemberService();
+        private static readonly MemberService service = new MemberService();
         private readonly MemberInfoType infoType;
-        public AuthorizeMemberAttribute(MemberInfoType mInfoType=MemberInfoType.OnlyId)
+
+        public AuthorizeMemberAttribute(MemberInfoType mInfoType = MemberInfoType.OnlyId)
         {
             infoType = mInfoType;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            if (context.Filters.Any(filter=>filter is IAllowAnonymousFilter))
+            if (context.Filters.Any(filter => filter is IAllowAnonymousFilter))
                 return;
-            
-            var sysInfo = MemberShiper.AppAuthorize;
-            if (string.IsNullOrEmpty(sysInfo.Token))
+            //  防止cotroller层和action的或者成员信息需求不一致时 的去重验证
+            if (infoType == MemberInfoType.OnlyId && MemberShiper.IsAuthenticated
+                || infoType == MemberInfoType.Info && MemberShiper.Identity.MemberInfo != null)
+                return;
+            var identity = MemberShiper.Identity;
+            if (identity!=null)
             {
-                context.Result = new JsonResult(new ResultMo(ResultTypes.UnAuthorize,"用户未登录！"));
-                return;
-            }
-            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-            if (!secreateKeyRes.IsSuccess)
-            {
-                context.Result = new JsonResult(secreateKeyRes);
-                return;
-            }
-            
-            var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
-            var tokenSplit = tokenStr.Split('|');
+                var sysInfo = MemberShiper.AppAuthorize;
+                if (string.IsNullOrEmpty(sysInfo.Token))
+                {
+                    context.Result = new JsonResult(new ResultMo(ResultTypes.UnAuthorize, "用户未登录！"));
+                    return;
+                }
+                var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
+                if (!secreateKeyRes.IsSuccess)
+                {
+                    context.Result = new JsonResult(secreateKeyRes);
+                    return;
+                }
 
-            var identity = new MemberIdentity
-            {
-                AuthenticationType = tokenSplit[1].ToInt32(),
-                Id = tokenSplit[0].ToInt64()
-            };
+                var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
+                var tokenSplit = tokenStr.Split('|');
 
-            if (infoType != MemberInfoType.Info) return;
-            
-            if ((MemberAuthorizeType)identity.AuthenticationType == MemberAuthorizeType.Admin)
+                identity = new MemberIdentity
+                {
+                    AuthenticationType = tokenSplit[1].ToInt32(),
+                    Id = tokenSplit[0].ToInt64()
+                };
+            }
+
+
+            if ((MemberAuthorizeType) identity.AuthenticationType == MemberAuthorizeType.Admin)
             {
                 // todo 获取后台账号信息
             }
@@ -59,8 +66,9 @@ namespace OSS.Core.WebApi.Filters
             {
                 identity.MemberInfo = service.GetUserInfo(identity.Id);
             }
+            MemberShiper.SetIdentity(identity);
         }
     }
 
- 
+
 }
