@@ -1,4 +1,6 @@
-﻿using OSS.Core.DomainMos.Members.Interfaces;
+﻿
+
+using OSS.Core.DomainMos.Members.Interfaces;
 
 namespace OSS.Core.RepDapper.Members
 {

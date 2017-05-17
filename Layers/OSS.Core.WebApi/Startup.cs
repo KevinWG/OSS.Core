@@ -26,27 +26,14 @@ namespace OSS.Core.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Add framework services.
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         { 
-            // 判断错误页处理
-            if (env.IsDevelopment())
-                app.UseDeveloperExceptionPage();
-            else
-                app.UseExceptionHandler("/Home/Error");
+            ConfigStaticFiles(app);
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles(new StaticFileOptions
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory())),
-                DefaultContentType = "image/x-icon"
-            });
-            app.UseStaticFiles();
-            
             app.UseAuthorizeSignMiddleware();
             
             app.UseMvc(routes =>
@@ -55,6 +42,20 @@ namespace OSS.Core.WebApi
                     name: "default",
                     template: "api/{controller=Home}/{action=Index}/{id?}");
             });
+        }
+        /// <summary>
+        ///   处理默认和静态文件
+        /// </summary>
+        /// <param name="app"></param>
+        private static void ConfigStaticFiles(IApplicationBuilder app)
+        {
+            app.UseDefaultFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory())),
+                DefaultContentType = "image/x-icon"
+            });
+            app.UseStaticFiles();
         }
     }
 

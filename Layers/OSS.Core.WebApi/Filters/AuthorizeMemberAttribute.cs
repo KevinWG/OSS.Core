@@ -43,25 +43,22 @@ namespace OSS.Core.WebApi.Filters
             var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
             var tokenSplit = tokenStr.Split('|');
 
-            var identity=new MemberIdentity();
-
-            identity.AuthorizedType = tokenSplit[1].ToInt32();
-            identity.Id = tokenSplit[0].ToInt64();
-            if (infoType==MemberInfoType.Info)
+            var identity = new MemberIdentity
             {
-                //todo 设置MemberInfo
-                if ((MemberAuthorizeType)identity.AuthorizedType==MemberAuthorizeType.Admin)
-                {
-                    // todo 获取后台账号信息
-                }
-                else
-                {
-                    identity.MemberInfo = service.GetUserInfo(identity.Id);
-                }
-            }
+                AuthenticationType = tokenSplit[1].ToInt32(),
+                Id = tokenSplit[0].ToInt64()
+            };
 
+            if (infoType != MemberInfoType.Info) return;
             
-
+            if ((MemberAuthorizeType)identity.AuthenticationType == MemberAuthorizeType.Admin)
+            {
+                // todo 获取后台账号信息
+            }
+            else
+            {
+                identity.MemberInfo = service.GetUserInfo(identity.Id);
+            }
         }
     }
 

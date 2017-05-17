@@ -45,4 +45,6 @@ namespace OSS.Core.DomainMos
         /// </summary>
         public MoType Id { get; set; }
     }
+
+  
 }
