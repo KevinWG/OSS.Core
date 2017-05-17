@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using OSS.Core.WebApi.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,6 +20,7 @@ namespace OSS.Core.WebApi.Controllers
         }
         // GET: api/values
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<string>> GetAsync()
         {
             await Task.Delay(1000);

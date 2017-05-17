@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
@@ -22,6 +24,9 @@ namespace OSS.Core.WebApi.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
+            if (context.Filters.Any(filter=>filter is IAllowAnonymousFilter))
+                return;
+            
             var sysInfo = MemberShiper.AppAuthorize;
             if (string.IsNullOrEmpty(sysInfo.Token))
             {
@@ -34,7 +39,7 @@ namespace OSS.Core.WebApi.Filters
                 context.Result = new JsonResult(secreateKeyRes);
                 return;
             }
-
+            
             var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
             var tokenSplit = tokenStr.Split('|');
 
