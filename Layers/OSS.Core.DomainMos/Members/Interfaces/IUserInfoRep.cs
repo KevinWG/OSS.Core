@@ -11,9 +11,19 @@
 
 #endregion
 
+using OSS.Common.ComModels;
+using OSS.Core.Infrastructure.Enums;
+
 namespace OSS.Core.DomainMos.Members.Interfaces
 {
     public interface IUserInfoRep: IBaseRep
     {
+        /// <summary>
+        /// 判断是否账号是否可以注册
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        ResultMo CheckIfCanRegiste(RegLoginType type, string value);
     }
 }

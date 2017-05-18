@@ -5,6 +5,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using OSS.Core.DomainMos;
+using OSS.Core.DomainMos.Members.Interfaces;
+using OSS.Core.RepDapper.Members;
 using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi
@@ -26,6 +29,7 @@ namespace OSS.Core.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            RegisterRep();
             services.AddMvc();
         }
 
@@ -56,6 +60,16 @@ namespace OSS.Core.WebApi
                 DefaultContentType = "image/x-icon"
             });
             app.UseStaticFiles();
+        }
+
+
+        /// <summary>
+        /// 注册仓储接口的具体实现
+        /// </summary>
+        private static void RegisterRep()
+        {
+            Rep<IUserInfoRep>.Set<UserInfoRep>();
+            Rep<IAdminInfoRep>.Set<AdminInfoRep>();
         }
     }
 

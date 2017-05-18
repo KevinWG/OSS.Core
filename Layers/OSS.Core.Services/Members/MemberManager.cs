@@ -10,15 +10,27 @@
 *****************************************************************************/
 
 #endregion
+
+using OSS.Common.ComModels;
+using OSS.Core.DomainMos;
+using OSS.Core.DomainMos.Members.Interfaces;
 using OSS.Core.DomainMos.Members.Mos;
 
 namespace OSS.Core.Services.Members
 {
+    /// <summary>
+    ///  不同模块之间成员信息的共享类
+    /// </summary>
     internal class MemberManager
     {
-        public static UserInfoMo GetUserInfo(long userId)
+        /// <summary>
+        /// 获取用户信息
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public static ResultMo<UserInfoMo> GetUserInfo(long userId)
         {
-            return new UserInfoMo();// todo  暂时先返回
+            return Rep<IUserInfoRep>.Instance.Get<UserInfoMo>();
         }
     }
 }

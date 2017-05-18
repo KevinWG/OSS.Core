@@ -13,6 +13,14 @@
 
 namespace OSS.Core.DomainMos.Members.Mos
 {
+    public class UserInfoBigMo : UserInfoMo
+    {
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string pass_word { get; set; }
+    }
+
     public class UserInfoMo: BaseAutoMo
     {
        /// <summary>

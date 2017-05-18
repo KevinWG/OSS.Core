@@ -20,7 +20,7 @@ namespace OSS.Core.DomainMos
         /// <summary>
         /// 状态信息
         /// </summary>
-        public int state { get; set; }
+        public int status { get; set; }
 
         /// <summary>
         ///  创建时间

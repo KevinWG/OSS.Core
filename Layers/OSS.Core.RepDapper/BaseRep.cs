@@ -165,8 +165,8 @@ namespace OSS.Core.RepDapper
         public virtual ResultMo DeleteSoft<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo=null)
             where TType : BaseMo
         {
-            mo.state = (int) CommonStatus.Delete;
-            return ExcuteWrite(con => con.UpdatePartail(mo, m => new {m.state}, whereExp, m_TableName));
+            mo.status = (int) CommonStatus.Delete;
+            return ExcuteWrite(con => con.UpdatePartail(mo, m => new {m.status }, whereExp, m_TableName));
         }
 
         /// <summary>

@@ -5,7 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\OSS.Core.DomainMos\OSS.Core.DomainMos.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="SysTools\" />
   </ItemGroup>
 
 </Project>

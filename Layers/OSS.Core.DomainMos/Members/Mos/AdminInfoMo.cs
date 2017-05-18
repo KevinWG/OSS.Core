@@ -14,12 +14,15 @@
 
 namespace OSS.Core.DomainMos.Members.Mos
 {
+    /// <summary>
+    ///  后台管理员实体
+    /// </summary>
     public class AdminInfoMo:BaseAutoMo
     {
         /// <summary>
         /// 用户id
         /// </summary>
-        public long u_id { get; set; }
+        public long uid { get; set; }
 
         /// <summary>
         /// 管理员名称

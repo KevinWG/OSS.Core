@@ -31,44 +31,91 @@ namespace OSS.Core.WebApi.Filters
             if (infoType == MemberInfoType.OnlyId && MemberShiper.IsAuthenticated
                 || infoType == MemberInfoType.Info && MemberShiper.Identity.MemberInfo != null)
                 return;
+
             var identity = MemberShiper.Identity;
-            if (identity!=null)
+            if (identity == null)
             {
-                var sysInfo = MemberShiper.AppAuthorize;
-                if (string.IsNullOrEmpty(sysInfo.Token))
+                var identityRes = GetIndentityId();
+                if (!identityRes.IsSuccess)
                 {
-                    context.Result = new JsonResult(new ResultMo(ResultTypes.UnAuthorize, "用户未登录！"));
+                    context.Result = new JsonResult(identityRes);
                     return;
                 }
-                var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-                if (!secreateKeyRes.IsSuccess)
+                identity = identityRes.Data;
+            }
+            if (infoType == MemberInfoType.Info)
+            {
+                if (!GetIdentityMemberInfo(identity).IsSuccess)
                 {
-                    context.Result = new JsonResult(secreateKeyRes);
+                    context.Result = new JsonResult(new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息"));
                     return;
                 }
-
-                var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
-                var tokenSplit = tokenStr.Split('|');
-
-                identity = new MemberIdentity
-                {
-                    AuthenticationType = tokenSplit[1].ToInt32(),
-                    Id = tokenSplit[0].ToInt64()
-                };
-            }
-
-
-            if ((MemberAuthorizeType) identity.AuthenticationType == MemberAuthorizeType.Admin)
-            {
-                // todo 获取后台账号信息
-            }
-            else
-            {
-                identity.MemberInfo = service.GetUserInfo(identity.Id);
             }
             MemberShiper.SetIdentity(identity);
         }
+
+        /// <summary>
+        ///   获取identity id对应的成员信息
+        /// </summary>
+        /// <param name="identity"></param>
+        /// <returns></returns>
+        private static ResultMo GetIdentityMemberInfo(MemberIdentity identity)
+        {
+            if (identity.AuthenticationType == (int) MemberAuthorizeType.Admin)
+            {
+                var memRes = service.GetAdminInfo(identity.Id);
+                if (!memRes.IsSuccess)
+                    return memRes;
+                identity.MemberInfo = memRes.Data;
+            }
+            else
+            {
+                var memRes = service.GetUserInfo(identity.Id);
+                if (!memRes.IsSuccess)
+                    return memRes;
+                identity.MemberInfo = memRes.Data;
+            }
+            return new ResultMo();
+        }
+
+        /// <summary>
+        ///  通过授权token获取对应的成员Id等信息
+        /// </summary>
+        /// <returns></returns>
+        private static ResultMo<MemberIdentity> GetIndentityId()
+        {
+            var sysInfo = MemberShiper.AppAuthorize;
+            if (string.IsNullOrEmpty(sysInfo.Token))
+                return new ResultMo<MemberIdentity>(ResultTypes.UnAuthorize, "用户未登录！");
+
+
+            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
+            if (!secreateKeyRes.IsSuccess)
+                return secreateKeyRes.ConvertToResultOnly<MemberIdentity>();
+
+
+            var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
+            var tokenSplit = tokenStr.Split('|');
+
+            var identity = new MemberIdentity
+            {
+                AuthenticationType = tokenSplit[1].ToInt32(),
+                Id = tokenSplit[0].ToInt64()
+            };
+            return new ResultMo<MemberIdentity>(identity);
+        }
+
+
+
     }
 
+    public static class MemberTokenUtil
+    {
+        public static (long id,int authType,string name) SplitToken(string tokenDetail)
+        {
+            var tokenSplit = tokenDetail.Split('|');
 
+            return (tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32(), tokenSplit[2]);
+        }
+    }
 }

@@ -51,7 +51,7 @@ namespace OSS.Core.DomainMos
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        ResultMo DeleteSoft<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : BaseMo;
+        ResultMo DeleteSoft<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null)where TType:BaseMo;
 
         /// <summary>
         ///  获取单个实体对象
@@ -59,6 +59,6 @@ namespace OSS.Core.DomainMos
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        ResultMo<TType> Get<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType:class ;
+        ResultMo<TType> Get<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : class;
     }
 }
