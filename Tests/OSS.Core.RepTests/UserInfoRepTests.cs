@@ -22,11 +22,11 @@ namespace OSS.Core.RepTests
             mo.email = "222222@qq.com";
             mo.mobile = "222222222222";
 
-            rep.UpdateAll(mo);   //  全量更新测试
+            rep.UpdateAll(mo); //  全量更新测试
 
-            rep.Update(mo, m => new {m.email}, m => m.Id == 1);   //  部分更新
-            rep.DeleteSoft(mo);  //  软删除
-            rep.Get(mo, m => m.Id == 16);   //  查询
+            rep.Update(mo, m => new {m.email}, m => m.Id == 1); //  部分更新
+            rep.DeleteSoft(m => m.Id == 16, mo); //  软删除
+            rep.Get(m => m.Id == 16, mo); //  查询
         }
     }
 }

@@ -47,11 +47,11 @@ namespace OSS.Core.Services.Members
         /// 注册用户信息
         /// </summary>
         /// <param name="value">注册的账号信息</param>
-        /// <param name="password">密码</param>
+        /// <param name="passCode">密码</param>
         /// <param name="type">注册类型</param>
         /// <param name="auInfo">注册的系统信息</param>
         /// <returns></returns>
-        public ResultMo<UserInfoMo> RegisteUser(string value,string password, RegLoginType type, SysAuthorizeInfo auInfo)
+        public ResultMo<UserInfoMo> RegisteUser(string value,string passCode, RegLoginType type, SysAuthorizeInfo auInfo)
         {
             var checkRes = CheckIfCanRegiste(type, value);
             if (!checkRes.IsSuccess) return checkRes.ConvertToResultOnly<UserInfoMo>();
@@ -63,7 +63,7 @@ namespace OSS.Core.Services.Members
             else userInfo.mobile = value;
 
             if (type != RegLoginType.MobileCode)
-                userInfo.pass_word = Md5.HalfEncryptHexString(password);
+                userInfo.pass_word = Md5.HalfEncryptHexString(passCode);
 
             var idRes = Rep<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess) return idRes.ConvertToResultOnly<UserInfoMo>();

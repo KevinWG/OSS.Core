@@ -1,4 +1,6 @@
-﻿
+﻿using System;
+using OSS.Common.ComModels;
+
 #region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 
 /***************************************************************************
@@ -12,6 +14,7 @@
 
 #endregion
 using OSS.Core.DomainMos.Members.Interfaces;
+using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.RepDapper.Members
 {
@@ -22,6 +25,9 @@ namespace OSS.Core.RepDapper.Members
             m_TableName = "user_info";
         }
 
-
+        public ResultMo CheckIfCanRegiste(RegLoginType type, string value)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Core.DomainMos.Members.Mos;
+using OSS.Common.ComModels.Enums;
+using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members;
 using OSS.Core.WebApi.Controllers.Member.Reqs;
 using OSS.Core.WebApi.Filters;
@@ -15,9 +14,13 @@ namespace OSS.Core.WebApi.Controllers.Member
     public class MemberController : Controller
     {
         private static readonly MemberService service=new MemberService();
-
-        // GET: api/values
+        /// <summary>
+        /// 用户注册
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         public UserRegisteResp Registe(UserRegisteReq req)
         {
             if (ModelState.IsValid)
@@ -26,18 +29,17 @@ namespace OSS.Core.WebApi.Controllers.Member
                 if (!regRes.IsSuccess)
                     return regRes.ConvertToResult<UserRegisteResp>();
 
-                var token=MemberShiper.GetToken()
+                var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, regRes.Data.Id,
+                    MemberAuthorizeType.User);
+
+                if (tokenRes.IsSuccess)
+                    return new UserRegisteResp() {token = tokenRes.Data, user = regRes.Data};
+
+                return tokenRes.ConvertToResult<UserRegisteResp>();
             }
-
+            return new UserRegisteResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "请检查参数填写是否正确！"};
         }
 
-        // GET: api/values
-        [HttpGet]
-        [AllowAnonymous]
-        public async Task<IEnumerable<string>> GetAsync()
-        {
-            await Task.Delay(1000);
-            return new string[] { "value1", "value2" };
-        }
+     
     }
 }

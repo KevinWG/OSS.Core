@@ -87,20 +87,15 @@ namespace OSS.Core.WebApi.Filters
             var sysInfo = MemberShiper.AppAuthorize;
             if (string.IsNullOrEmpty(sysInfo.Token))
                 return new ResultMo<MemberIdentity>(ResultTypes.UnAuthorize, "用户未登录！");
-
-
-            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-            if (!secreateKeyRes.IsSuccess)
-                return secreateKeyRes.ConvertToResultOnly<MemberIdentity>();
-
-
-            var tokenStr = MemberShiper.GetTokenDetail(secreateKeyRes.Data, sysInfo.Token);
-            var tokenSplit = tokenStr.Split('|');
+            
+            var tokenRes = MemberTokenUtil.GetTokenDetail(sysInfo.AppSource,sysInfo.Token);
+            if (!tokenRes.IsSuccess)
+                return tokenRes.ConvertToResultOnly<MemberIdentity>();
 
             var identity = new MemberIdentity
             {
-                AuthenticationType = tokenSplit[1].ToInt32(),
-                Id = tokenSplit[0].ToInt64()
+                AuthenticationType = tokenRes.Data.authType,
+                Id = tokenRes.Data.id
             };
             return new ResultMo<MemberIdentity>(identity);
         }
@@ -111,11 +106,26 @@ namespace OSS.Core.WebApi.Filters
 
     public static class MemberTokenUtil
     {
-        public static (long id,int authType,string name) SplitToken(string tokenDetail)
+        public static ResultMo<(long id,int authType)> GetTokenDetail(string appSource,string tokenStr)
         {
-            var tokenSplit = tokenDetail.Split('|');
+            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
+            if (!secreateKeyRes.IsSuccess)
+                return secreateKeyRes.ConvertToResultOnly<(long id, int authType)>();
 
-            return (tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32(), tokenSplit[2]);
+            var tokenDetail = MemberShiper.GetTokenDetail(secreateKeyRes.Data, tokenStr);
+
+            var tokenSplit = tokenDetail.Split('|');
+            return new ResultMo<ValueTuple<long, int>>((tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32()));
+        }
+
+        public static ResultMo<string> AppendToken(string appSource,long id, MemberAuthorizeType authType)
+        {
+            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
+            if (!secreateKeyRes.IsSuccess)
+                return secreateKeyRes.ConvertToResultOnly<string>();
+
+            var tokenCon=string.Concat(id, "|", (int)authType, "|", DateTime.Now.ToUtcSeconds());
+            return new ResultMo<string>(MemberShiper.GetToken(secreateKeyRes.Data, tokenCon));
         }
     }
 }
