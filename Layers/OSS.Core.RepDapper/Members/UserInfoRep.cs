@@ -1,5 +1,7 @@
 ﻿using System;
+using Dapper;
 using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
 
 #region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 
@@ -25,9 +27,22 @@ namespace OSS.Core.RepDapper.Members
             m_TableName = "user_info";
         }
 
+
+        /// <summary>
+        ///   判断账号是否可用于注册
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public ResultMo CheckIfCanRegiste(RegLoginType type, string value)
         {
-            throw new NotImplementedException();
+            var sql =
+                $"select count(1) from {m_TableName} where {(type == RegLoginType.Email ? "emial " : "mobile ")} =@val";
+            return ExcuteReadeRes(con =>
+            {
+                var count = con.ExecuteScalar<int>(sql, new {val = value});
+                return count > 0 ? new ResultMo() : new ResultMo(ResultTypes.ObjectExsit, "账号已存在，无法注册！");
+            });
         }
     }
 }

@@ -32,10 +32,9 @@ namespace OSS.Core.WebApi.Controllers.Member
                 var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, regRes.Data.Id,
                     MemberAuthorizeType.User);
 
-                if (tokenRes.IsSuccess)
-                    return new UserRegisteResp() {token = tokenRes.Data, user = regRes.Data};
-
-                return tokenRes.ConvertToResult<UserRegisteResp>();
+                return tokenRes.IsSuccess ?
+                    new UserRegisteResp() {token = tokenRes.Data, user = regRes.Data}
+                    : tokenRes.ConvertToResult<UserRegisteResp>();
             }
             return new UserRegisteResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "请检查参数填写是否正确！"};
         }
