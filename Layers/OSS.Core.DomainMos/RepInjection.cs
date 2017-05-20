@@ -11,6 +11,8 @@
 
 #endregion
 
+using System;
+
 namespace OSS.Core.DomainMos
 {
     /// <summary>
@@ -19,13 +21,21 @@ namespace OSS.Core.DomainMos
     /// <typeparam name="T"></typeparam>
     public static class Rep<T>
     {
-        public static T Instance { get; private set; }
+        public static T Instance => instanceCreater();
+
+        private static Func<T> instanceCreater;
+        private static T instance;
 
         public static void Set<TRep>()
             where TRep : T, new()
         {
-            if (Instance == null)
-                Instance = new TRep();
+            if (instanceCreater == null)
+                instanceCreater = () =>
+                {
+                    if (instance != null) return instance;
+
+                    return instance = new TRep(); 
+                };
         }
     }
 }
