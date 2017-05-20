@@ -30,7 +30,7 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public  ResultMo<UserInfoMo> GetUserInfo(long userId)
         {
-            return MemberManager.GetUserInfo(userId);
+            return MemberCommon.GetUserInfo(userId);
         }
 
         /// <summary>

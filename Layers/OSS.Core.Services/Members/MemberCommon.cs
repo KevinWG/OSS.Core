@@ -21,7 +21,7 @@ namespace OSS.Core.Services.Members
     /// <summary>
     ///  不同模块之间成员信息的共享类
     /// </summary>
-    internal class MemberManager
+    internal class MemberCommon
     {
         /// <summary>
         /// 获取用户信息
