@@ -36,9 +36,10 @@ namespace OSS.Core.WebApi
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
-        { 
-            ConfigStaticFiles(app);
+        {
+            app.UseExceptionMiddleware();// 注册全局错误
 
+            ConfigStaticFiles(app);
             app.UseAuthorizeSignMiddleware();
             
             app.UseMvc(routes =>

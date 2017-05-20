@@ -1,4 +1,16 @@
-﻿using System.Threading.Tasks;
+﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+
+/***************************************************************************
+*　　	文件功能描述：OSSCore —— 签名验证中间件
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-5-16
+*       
+*****************************************************************************/
+
+#endregion
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.Authrization;
@@ -8,7 +20,10 @@ using OSS.Core.Infrastructure.Utils;
 
 namespace OSS.Core.WebApi.Filters
 {
-    public class AuthorizeSignMiddleware
+    /// <summary>
+    ///  签名验证中间件
+    /// </summary>
+    internal class AuthorizeSignMiddleware: BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
 
@@ -50,18 +65,7 @@ namespace OSS.Core.WebApi.Filters
             await _next.Invoke(context);
         }
 
-        /// <summary>
-        ///   结束请求
-        /// </summary>
-        /// <param name="context"></param>
-        /// <param name="res"></param>
-        /// <returns></returns>
-        private static async Task ResponseEnd(HttpContext context,ResultMo res)
-        {
-            context.Response.ContentType = "application/json;charset=utf-8";
-            await context.Response.WriteAsync($"{{\"Ret\":{res.Ret},\"Message\":\"{res.Message}\"}}");
-        }
-
+ 
 
         /// <summary>
         ///   完善授权信息
@@ -93,6 +97,37 @@ namespace OSS.Core.WebApi.Filters
         internal static IApplicationBuilder UseAuthorizeSignMiddleware(this IApplicationBuilder app)
         {
             return app.UseMiddleware<AuthorizeSignMiddleware>();
+        }
+    }
+
+    /// <summary>
+    ///  中间件基类
+    /// </summary>
+    internal class BaseMiddlewaire
+    {
+        /// <summary>
+        ///   结束请求
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="res"></param>
+        /// <returns></returns>
+        protected static async Task ResponseEnd(HttpContext context, ResultMo res)
+        {
+            ClearCacheHeaders(context.Response);
+            context.Response.ContentType = "application/json;charset=utf-8";
+            await context.Response.WriteAsync($"{{\"Ret\":{res.Ret},\"Message\":\"{res.Message}\"}}");
+        }
+
+        /// <summary>
+        ///  清理Response缓存
+        /// </summary>
+        /// <param name="httpResponse"></param>
+        private static void ClearCacheHeaders(HttpResponse httpResponse)
+        {
+            httpResponse.Headers["Cache-Control"] = "no-cache";
+            httpResponse.Headers["Pragma"] = "no-cache";
+            httpResponse.Headers["Expires"] = "-1";
+            httpResponse.Headers.Remove("ETag");
         }
     }
 
