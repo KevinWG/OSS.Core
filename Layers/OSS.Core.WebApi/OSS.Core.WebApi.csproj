@@ -31,6 +31,6 @@
     <ProjectReference Include="..\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
     <ProjectReference Include="..\OSS.Core.Services\OSS.Core.Services.csproj" />
   </ItemGroup>
-  <ProjectExtensions><VisualStudio><UserProperties appsettings_1Development_1json__JSONSchema="http://json.schemastore.org/composer" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
