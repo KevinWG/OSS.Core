@@ -1,5 +1,4 @@
 ﻿
-
 using System.ComponentModel.DataAnnotations;
 using OSS.Common.ComModels;
 using OSS.Core.DomainMos.Members.Mos;

@@ -41,7 +41,7 @@ namespace OSS.Core.RepDapper.Members
             return ExcuteReadeRes(con =>
             {
                 var count = con.ExecuteScalar<int>(sql, new {val = value});
-                return count > 0 ? new ResultMo() : new ResultMo(ResultTypes.ObjectExsit, "账号已存在，无法注册！");
+                return count > 0 ? new ResultMo(ResultTypes.ObjectExsit, "账号已存在，无法注册！") : new ResultMo();
             });
         }
     }

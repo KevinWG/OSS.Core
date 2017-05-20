@@ -33,7 +33,6 @@ namespace OSS.Core.DomainMos
                 instanceCreater = () =>
                 {
                     if (instance != null) return instance;
-
                     return instance = new TRep(); 
                 };
         }
