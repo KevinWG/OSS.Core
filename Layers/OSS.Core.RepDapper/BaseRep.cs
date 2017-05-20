@@ -17,13 +17,12 @@ using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using Dapper;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.Json;
 using MySql.Data.MySqlClient;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.DomainMos;
 using OSS.Core.Infrastructure.Enums;
+using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.OrmExtention;
 
 namespace OSS.Core.RepDapper
@@ -38,27 +37,10 @@ namespace OSS.Core.RepDapper
         protected readonly string writeConnectionString;
         protected readonly string readeConnectionString;
 
-        #region 处理配置文件
-
-        protected static readonly IConfiguration m_Config;
-
-        static BaseRep()
-        {
-            var configBuilder =
-                new ConfigurationBuilder().Add(new JsonConfigurationSource()
-                {
-                    Path = "appsettings.json",
-                    ReloadOnChange = true
-                });
-            m_Config = configBuilder.Build();
-        }
-
-        #endregion
-
         public BaseRep(string writeConnectionStr = null, string readeConnectionStr = null)
         {
-            writeConnectionString = writeConnectionStr ?? m_Config.GetConnectionString("WriteConnection");
-            readeConnectionString = readeConnectionStr ?? m_Config.GetConnectionString("ReadeConnection");
+            writeConnectionString = writeConnectionStr ?? ConfigUtil.GetConnectionString("WriteConnection");
+            readeConnectionString = readeConnectionStr ?? ConfigUtil.GetConnectionString("ReadeConnection");
         }
 
         #region 底层基础读写分离封装

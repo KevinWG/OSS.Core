@@ -7,6 +7,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using OSS.Core.DomainMos;
 using OSS.Core.DomainMos.Members.Interfaces;
+using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.Members;
 using OSS.Core.WebApi.Filters;
 
@@ -21,7 +22,7 @@ namespace OSS.Core.WebApi
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            ConfigUtil.Configuration = Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }

@@ -19,15 +19,13 @@ namespace OSS.Core.DomainMos
     /// <typeparam name="T"></typeparam>
     public static class Rep<T>
     {
-        public static T t;
-
-        public static T Instance => t;
+        public static T Instance { get; private set; }
 
         public static void Set<TRep>()
             where TRep : T, new()
         {
-            if (t != null)
-                t = new TRep();
+            if (Instance == null)
+                Instance = new TRep();
         }
     }
 }

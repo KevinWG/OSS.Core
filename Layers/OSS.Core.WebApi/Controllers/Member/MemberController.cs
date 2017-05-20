@@ -11,7 +11,7 @@ using OSS.Core.WebApi.Filters;
 namespace OSS.Core.WebApi.Controllers.Member
 {
     [AuthorizeMember]
-    public class MemberController : Controller
+    public class MemberController : BaseApiController
     {
         private static readonly MemberService service=new MemberService();
         /// <summary>
@@ -21,22 +21,21 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public UserRegisteResp Registe(UserRegisteReq req)
+        public UserRegisteResp Registe([FromBody]UserRegisteReq req)
         {
-            if (ModelState.IsValid)
-            {
-                var regRes = service.RegisteUser(req.value, req.pass_code, req.reg_type, MemberShiper.AppAuthorize);
-                if (!regRes.IsSuccess)
-                    return regRes.ConvertToResult<UserRegisteResp>();
+            if (!ModelState.IsValid)
+                return new UserRegisteResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "请检查参数填写是否正确！"};
 
-                var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, regRes.Data.Id,
-                    MemberAuthorizeType.User);
+            var regRes = service.RegisteUser(req.value, req.pass_code, req.reg_type, MemberShiper.AppAuthorize);
+            if (!regRes.IsSuccess)
+                return regRes.ConvertToResult<UserRegisteResp>();
 
-                return tokenRes.IsSuccess ?
-                    new UserRegisteResp() {token = tokenRes.Data, user = regRes.Data}
-                    : tokenRes.ConvertToResult<UserRegisteResp>();
-            }
-            return new UserRegisteResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "请检查参数填写是否正确！"};
+            var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, regRes.Data.Id,
+                MemberAuthorizeType.User);
+
+            return tokenRes.IsSuccess ?
+                new UserRegisteResp() {token = tokenRes.Data, user = regRes.Data}
+                : tokenRes.ConvertToResult<UserRegisteResp>();
         }
 
      

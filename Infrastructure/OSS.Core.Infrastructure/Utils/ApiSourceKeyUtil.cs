@@ -10,7 +10,7 @@ namespace OSS.Core.Infrastructure.Utils
 
         static ApiSourceKeyUtil()
         {
-            _appSecretKeys.Add("10", "5c567449b8714a038c464059788d4fa6");
+            _appSecretKeys.Add("FrontWeb", "5c567449b8714a038c464059788d4fa6");
         }
 
         /// <summary>

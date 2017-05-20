@@ -1,11 +1,30 @@
-﻿using Xunit;
+﻿using OSS.Common.Authrization;
+using Xunit;
 using OSS.Core.DomainMos.Members.Mos;
 using OSS.Core.RepDapper.Members;
 
 namespace OSS.Core.RepTests
 {
+
     public class UserInfoRepTests
     {
+
+        [Fact]
+        public void TikectTest()
+        {
+            var info = new SysAuthorizeInfo();
+
+            info.AppSource = "FrontWeb";
+            info.AppClient = "PC";
+            info.AppVersion = "1.0";
+            info.DeviceId = "Test Device";
+
+            info.WebBrowser = "Chrome";
+
+            var ticket = info.ToSignData("5c567449b8714a038c464059788d4fa6");
+            //  appclient=PC;appsource=FrontWeb;appversion=1.0;deviceid=Test%20Device;timespan=1495277505;webbrowser=Chrome;sign=tBL1yvayljCTiBvO7u3As%2F3RLoc%3D
+        }
+
         [Fact]
         public void UserTest()
         {

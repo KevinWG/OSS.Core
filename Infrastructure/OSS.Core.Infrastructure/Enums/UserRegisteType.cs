@@ -8,16 +8,16 @@
         /// <summary>
         /// 手机+动态验证码
         /// </summary>
-        MobileCode,
+        MobileCode=10,
 
         /// <summary>
         /// 手机号
         /// </summary>
-        Mobile,
+        Mobile=20,
 
         /// <summary>
         /// 邮箱
         /// </summary>
-        Email
+        Email=30
     }
 }

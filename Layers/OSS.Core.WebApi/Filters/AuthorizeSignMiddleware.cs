@@ -44,15 +44,46 @@ namespace OSS.Core.WebApi.Filters
                 return;
             }
 
+            CompleteAuthInfo(sysInfo, context);
             MemberShiper.SetAppAuthrizeInfo(sysInfo);
+
             await _next.Invoke(context);
         }
 
-
+        /// <summary>
+        ///   结束请求
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="res"></param>
+        /// <returns></returns>
         private static async Task ResponseEnd(HttpContext context,ResultMo res)
         {
             context.Response.ContentType = "application/json;charset=utf-8";
             await context.Response.WriteAsync($"{{\"Ret\":{res.Ret},\"Message\":\"{res.Message}\"}}");
+        }
+
+
+        /// <summary>
+        ///   完善授权信息
+        /// </summary>
+        /// <param name="sysInfo"></param>
+        /// <param name="context"></param>
+        private static void CompleteAuthInfo(SysAuthorizeInfo sysInfo,HttpContext context)
+        {
+            if (string.IsNullOrEmpty(sysInfo.IpAddress))
+                sysInfo.IpAddress = GetIpAddress(context);
+            //  todo  applcient , webbrowser
+        }
+
+        /// <summary>
+        ///  获取IP地址
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        private static string GetIpAddress(HttpContext context)
+        {
+            string ipAddress = context.Request.Headers["X-Forwarded-For"];
+            return !string.IsNullOrEmpty(ipAddress) ? ipAddress : context.Connection.RemoteIpAddress.ToString();
         }
     }
 
