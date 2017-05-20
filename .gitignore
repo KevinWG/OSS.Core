@@ -22,6 +22,9 @@ bld/
 [Oo]bj/
 [Ll]og/
 
+#Connection Development File
+appsettings.[Dd]evelopment.json
+
 # Visual Studio 2015 cache/options directory
 .vs/
 # Uncomment if you have tasks that create the project's static files in wwwroot
@@ -251,5 +254,3 @@ paket-files/
 .idea/
 *.sln.iml
 
-#Connection File
-*/appsettings.Development.json
