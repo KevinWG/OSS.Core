@@ -12,6 +12,7 @@
 #endregion
 
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -36,6 +37,10 @@ namespace OSS.Core.WebApi.Filters
             try
             {
                 await _next.Invoke(context);
+                if (context.Response.StatusCode==(int)HttpStatusCode.NotFound)
+                {
+                    await ResponseEnd(context, new ResultMo(0, "当前接口不存在！"));
+                }
                 return;
             }
             catch (Exception ex)
