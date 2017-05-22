@@ -19,6 +19,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
@@ -38,7 +39,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="isIdAuto"> 【Id】主键是否是自增长，如果是同步返回，不是则需要外部传值（不通过Attribute处理是为了尽可能减少依赖 </param>
         /// <param name="tableName">如果为空则以TType.GetType().Name</param>
         /// <returns></returns>
-        public static ResultIdMo Insert<TType>(this IDbConnection con, TType mo, bool isIdAuto = true,
+        public static async Task<ResultIdMo> Insert<TType>(this IDbConnection con, TType mo, bool isIdAuto = true,
             string tableName = null)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -115,7 +116,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="mo">需要更新的实体</param>
         /// <param name="where">更新条件，为空则默认使用Id</param>
         /// <returns></returns>
-        internal static ResultMo UpdateAll<TType>(this IDbConnection con, TType mo,
+        internal static async Task<ResultMo> UpdateAll<TType>(this IDbConnection con, TType mo,
             Expression<Func<TType, bool>> where = null, string tableName = null)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -128,7 +129,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             GetUpdateAllSql<TType>(tableName, sqlStr, visitor);
             sqlStr.Append(whereSql); //  where语句追加在后边
 
-            return ExecuteUpdate(con, mo, tableName, sqlStr, visitor);
+            return await ExecuteUpdate(con, mo, tableName, sqlStr, visitor);
         }
 
         private static void GetUpdateAllSql<TType>(string tableName, StringBuilder sqlStr, SqlExpressionVisitor visitor)
@@ -155,7 +156,7 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         #endregion
 
-        internal static ResultMo UpdatePartail<TType>(this IDbConnection con, TType mo,
+        internal static async Task<ResultMo> UpdatePartail<TType>(this IDbConnection con, TType mo,
             Expression<Func<TType, object>> update, Expression<Func<TType, bool>> where = null,
             string tableName = null)
         {
@@ -166,10 +167,10 @@ namespace OSS.Core.RepDapper.OrmExtention
             var visitor = new SqlExpressionVisitor();
             GetUpdateExpressionSql(update, where, tableName, visitor, sqlBuilder);
 
-            return ExecuteUpdate(con, mo, tableName, sqlBuilder, visitor);
+            return await ExecuteUpdate(con, mo, tableName, sqlBuilder, visitor);
         }
 
-        private static ResultMo ExecuteUpdate<TType>(IDbConnection con, TType mo, string tableName,
+        private static async Task<ResultMo> ExecuteUpdate<TType>(IDbConnection con, TType mo, string tableName,
             StringBuilder sqlBuilder,
             SqlExpressionVisitor visitor)
         {
@@ -180,7 +181,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             foreach (var p in visitor.Parameters)
                 paraDics.Add(p.Key, p.Value);
 
-            var row = con.Execute(opeInfo.Sql, new DynamicParameters(paraDics));
+            var row =await con.ExecuteAsync(opeInfo.Sql, new DynamicParameters(paraDics));
             return row > 0 ? new ResultMo() : new ResultMo(ResultTypes.UpdateFail, "更新失败");
         }
 
@@ -251,7 +252,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="whereExp"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public static TType Get<TType>(this IDbConnection con,TType mo, Expression<Func<TType,bool>> whereExp=null,string tableName=null)
+        public static async Task<TType> Get<TType>(this IDbConnection con,TType mo, Expression<Func<TType,bool>> whereExp=null,string tableName=null)
         {
             var sqlVisitor=new SqlExpressionVisitor();
             var whereSql = VisitWhereExpress(sqlVisitor, whereExp);
@@ -264,7 +265,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             foreach (var p in sqlVisitor.Parameters)
                 paraDics.Add(p.Key, p.Value);
 
-            return con.QuerySingle<TType>(opeInfo.Sql, paraDics);
+            return await con.QuerySingleAsync<TType>(opeInfo.Sql, paraDics);
         }
 
     }

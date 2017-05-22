@@ -10,6 +10,8 @@
 *****************************************************************************/
 
 #endregion
+
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.Authrization;
@@ -33,12 +35,12 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
-        public UserRegisteResp Registe([FromBody]UserRegisteReq req)
+        public async Task<UserRegisteResp> Registe([FromBody]UserRegisteReq req)
         {
             if (!ModelState.IsValid)
                 return new UserRegisteResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "请检查参数填写是否正确！"};
 
-            var regRes = service.RegisteUser(req.value, req.pass_code, req.reg_type, MemberShiper.AppAuthorize);
+            var regRes =await service.RegisteUser(req.value, req.pass_code, req.reg_type, MemberShiper.AppAuthorize);
             if (!regRes.IsSuccess)
                 return regRes.ConvertToResult<UserRegisteResp>();
 

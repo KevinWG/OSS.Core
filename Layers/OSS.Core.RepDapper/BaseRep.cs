@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Dapper;
 using MySql.Data.MySqlClient;
 using OSS.Common.ComModels;
@@ -51,8 +52,8 @@ namespace OSS.Core.RepDapper
         /// <typeparam name="RType"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected internal RType ExcuteWrite<RType>(Func<IDbConnection, RType> func) where RType : ResultMo, new()
-            => Execute(func, true);
+        protected internal async Task<RType> ExcuteWriteAsync<RType>(Func<IDbConnection, Task<RType>> func) where RType : ResultMo, new()
+            =>await Execute(func, writeConnectionString);
 
         /// <summary>
         ///  执行读操作，返回具体类型，自动包装成ResultMo结果实体
@@ -60,11 +61,11 @@ namespace OSS.Core.RepDapper
         /// <typeparam name="RType"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected internal ResultMo<RType> ExcuteReade<RType>(Func<IDbConnection, RType> func) => Execute(con =>
+        protected internal async Task<ResultMo<RType>> ExcuteReadeAsync<RType>(Func<IDbConnection, Task<RType>> func) =>await Execute(async con =>
         {
-            var res = func(con);
+            var res =await func(con);
             return res != null ? new ResultMo<RType>(res) : new ResultMo<RType>(ResultTypes.ObjectNull, "未发现相关数据！");
-        }, false);
+        }, readeConnectionString);
 
         /// <summary>
         /// 执行读操作，直接返回继承自ResultMo实体
@@ -72,18 +73,18 @@ namespace OSS.Core.RepDapper
         /// <typeparam name="RType"></typeparam>
         /// <param name="func"></param>
         /// <returns></returns>
-        protected internal RType ExcuteReadeRes<RType>(Func<IDbConnection, RType> func) where RType : ResultMo, new()
-            => Execute(func, false);
+        protected internal async Task<RType> ExcuteReadeResAsync<RType>(Func<IDbConnection, Task<RType>> func) where RType : ResultMo, new()
+            =>await Execute(func, readeConnectionString);
 
-        private RType Execute<RType>(Func<IDbConnection, RType> func, bool isWrite)
+        private static async Task<RType> Execute<RType>(Func<IDbConnection,Task<RType>> func, string connecStr)
             where RType : ResultMo, new()
         {
             var t = default(RType);
             try
             {
-                using (var con = new MySqlConnection(isWrite ? writeConnectionString : readeConnectionString))
+                using (var con = new MySqlConnection(connecStr))
                 {
-                    t = func(con);
+                    t =await func(con);
                 }
             }
             catch (Exception e)
@@ -114,8 +115,8 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="isAuto">Id主键是否自增长</param>
         /// <returns></returns>
-        public virtual ResultIdMo Insert<T>(T mo, bool isAuto = true)
-            => ExcuteWrite(con => con.Insert(mo, isAuto, m_TableName));
+        public virtual async Task<ResultIdMo> Insert<T>(T mo, bool isAuto = true)
+            =>await ExcuteWriteAsync(con => con.Insert(mo, isAuto, m_TableName));
 
         /// <summary>
         /// 全量更新
@@ -123,8 +124,8 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        public virtual ResultMo UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
-            => ExcuteWrite(con => con.UpdateAll(mo, whereExp, m_TableName));
+        public virtual async Task<ResultMo> UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null)
+            => await ExcuteWriteAsync(con => con.UpdateAll(mo, whereExp, m_TableName));
 
 
         /// <summary>
@@ -134,9 +135,9 @@ namespace OSS.Core.RepDapper
         /// <param name="updateExp">更新字段new{m.Name,....} Or new{m.Name="",....}</param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        public virtual ResultMo Update<TType>(TType mo, Expression<Func<TType, object>> updateExp,
+        public virtual async Task<ResultMo> Update<TType>(TType mo, Expression<Func<TType, object>> updateExp,
             Expression<Func<TType, bool>> whereExp = null)
-            => ExcuteWrite(con => con.UpdatePartail(mo, updateExp, whereExp, m_TableName));
+            => await ExcuteWriteAsync(con => con.UpdatePartail(mo, updateExp, whereExp, m_TableName));
 
         /// <summary>
         /// 软删除，仅仅修改State状态
@@ -144,11 +145,11 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        public virtual ResultMo DeleteSoft<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo=null)
+        public virtual async Task<ResultMo> DeleteSoft<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo=null)
             where TType : BaseMo
         {
             mo.status = (int) CommonStatus.Delete;
-            return ExcuteWrite(con => con.UpdatePartail(mo, m => new {m.status }, whereExp, m_TableName));
+            return await ExcuteWriteAsync(con => con.UpdatePartail(mo, m => new {m.status }, whereExp, m_TableName));
         }
 
         /// <summary>
@@ -157,8 +158,8 @@ namespace OSS.Core.RepDapper
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        public virtual ResultMo<TType> Get<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : class
-            => ExcuteReade(con => con.Get(mo, whereExp, m_TableName));
+        public virtual async Task<ResultMo<TType>> Get<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : class
+            =>await ExcuteReadeAsync(con => con.Get(mo, whereExp, m_TableName));
 
 
 
@@ -169,16 +170,16 @@ namespace OSS.Core.RepDapper
         /// <param name="totalSql">查询数量语句，不需要排序</param>
         /// <param name="paras"></param>
         /// <returns></returns>
-        protected internal PageListMo<TType> GetList<TType>(string selectSql, string totalSql,
+        protected internal async Task<PageListMo<TType>> GetList<TType>(string selectSql, string totalSql,
             Dictionary<string, object> paras)
             where TType : ResultMo, new()
         {
-            return ExcuteReadeRes(con =>
+            return await ExcuteReadeResAsync(async con =>
             {
                 var para = new DynamicParameters(paras);
-                var total = con.ExecuteScalar<long>(totalSql, para);
-                var list = con.Query<TType>(selectSql, para).ToList();
-                return new PageListMo<TType>(total, list);
+                var total =await con.ExecuteScalarAsync<long>(totalSql, para);
+                var list = await con.QueryAsync<TType>(selectSql, para);
+                return  new PageListMo<TType>(total, list.ToList());
             });
         }
 

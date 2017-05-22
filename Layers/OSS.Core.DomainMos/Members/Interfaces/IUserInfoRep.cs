@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Core.Infrastructure.Enums;
 
@@ -24,6 +25,6 @@ namespace OSS.Core.DomainMos.Members.Interfaces
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        ResultMo CheckIfCanRegiste(RegLoginType type, string value);
+        Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value);
     }
 }

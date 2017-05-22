@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Core.DomainMos;
 using OSS.Core.DomainMos.Members.Interfaces;
@@ -28,9 +29,9 @@ namespace OSS.Core.Services.Members
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static ResultMo<UserInfoMo> GetUserInfo(long userId)
+        public static async Task<ResultMo<UserInfoMo>> GetUserInfo(long userId)
         {
-            return Rep<IUserInfoRep>.Instance.Get<UserInfoMo>();
+            return await Rep<IUserInfoRep>.Instance.Get<UserInfoMo>();
         }
     }
 }

@@ -75,14 +75,14 @@ namespace OSS.Core.WebApi.Filters
         {
             if (identity.AuthenticationType == (int) MemberAuthorizeType.Admin)
             {
-                var memRes = service.GetAdminInfo(identity.Id);
+                var memRes = service.GetAdminInfo(identity.Id).WaitResult();
                 if (!memRes.IsSuccess)
                     return memRes;
                 identity.MemberInfo = memRes.Data;
             }
             else
             {
-                var memRes = service.GetUserInfo(identity.Id);
+                var memRes = service.GetUserInfo(identity.Id).WaitResult();
                 if (!memRes.IsSuccess)
                     return memRes;
                 identity.MemberInfo = memRes.Data;

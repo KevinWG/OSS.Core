@@ -13,6 +13,7 @@
 
 using System;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using OSS.Common.ComModels;
 
 namespace OSS.Core.DomainMos
@@ -25,7 +26,7 @@ namespace OSS.Core.DomainMos
         /// <param name="mo"></param>
         /// <param name="isAuto">Id主键是否自增长</param>
         /// <returns></returns>
-        ResultIdMo Insert<T>(T mo,bool isAuto=true);
+        Task<ResultIdMo> Insert<T>(T mo, bool isAuto = true);
 
         /// <summary>
         /// 全量更新
@@ -33,7 +34,7 @@ namespace OSS.Core.DomainMos
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        ResultMo UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null);
+        Task<ResultMo> UpdateAll<TType>(TType mo, Expression<Func<TType, bool>> whereExp = null);
 
         /// <summary>
         /// 部分字段的更新
@@ -42,7 +43,7 @@ namespace OSS.Core.DomainMos
         /// <param name="updateExp">更新字段new{m.Name,....} Or new{m.Name="",....}</param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        ResultMo Update<TType>(TType mo, Expression<Func<TType, object>> updateExp,
+        Task<ResultMo> Update<TType>(TType mo, Expression<Func<TType, object>> updateExp,
             Expression<Func<TType, bool>> whereExp = null);
 
         /// <summary>
@@ -51,7 +52,8 @@ namespace OSS.Core.DomainMos
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        ResultMo DeleteSoft<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null)where TType:BaseMo;
+        Task<ResultMo> DeleteSoft<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null)
+            where TType : BaseMo;
 
         /// <summary>
         ///  获取单个实体对象
@@ -59,6 +61,7 @@ namespace OSS.Core.DomainMos
         /// <param name="mo"></param>
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
-        ResultMo<TType> Get<TType>( Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : class;
+        Task<ResultMo<TType>> Get<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null)
+            where TType : class;
     }
 }

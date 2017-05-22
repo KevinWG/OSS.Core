@@ -1,4 +1,5 @@
-﻿using Dapper;
+﻿using System.Threading.Tasks;
+using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 
@@ -33,13 +34,13 @@ namespace OSS.Core.RepDapper.Members
         /// <param name="type"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public ResultMo CheckIfCanRegiste(RegLoginType type, string value)
+        public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
         {
             var sql =
                 $"select count(1) from {m_TableName} where {(type == RegLoginType.Email ? "emial " : "mobile ")} =@val";
-            return ExcuteReadeRes(con =>
+            return await ExcuteReadeResAsync(async con =>
             {
-                var count = con.ExecuteScalar<int>(sql, new {val = value});
+                var count =await con.ExecuteScalarAsync<int>(sql, new {val = value});
                 return count > 0 ? new ResultMo(ResultTypes.ObjectExsit, "账号已存在，无法注册！") : new ResultMo();
             });
         }
