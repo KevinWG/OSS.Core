@@ -1,7 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Error";
+﻿@using Microsoft.AspNetCore.Http
+
+
+@{
+    ViewData["Title"] = "错误页";
 }
 
 <div class="container content">
-    
+    @(ViewBag.Message??"对不起,该请求出现错误！")
 </div>

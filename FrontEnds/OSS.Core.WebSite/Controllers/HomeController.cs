@@ -11,11 +11,7 @@ namespace OSS.PayCenter.Samples.Controllers
         }
 
 
-        public IActionResult Error()
-        {
-            var handler=new HttpClientHandler();
-            return View();
-        }
+
 
 
 
