@@ -13,6 +13,7 @@
 
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.ComModels;
@@ -44,8 +45,13 @@ namespace OSS.Core.WebSite.AppCodes
             {
                 HttpMothed = HttpMothed.POST,
                 AddressUrl = string.Concat(apiUrlPre, apiPath),
-                CustomBody = JsonConvert.SerializeObject(req)
+                CustomBody = JsonConvert.SerializeObject(req),
+
+                RequestSet = r =>
+                    r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" }
+                
             };
+
 
             return await httpReq.RestApiCommon<TRes>();
         }
