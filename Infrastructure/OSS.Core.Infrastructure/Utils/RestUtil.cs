@@ -10,6 +10,7 @@
 *****************************************************************************/
 
 #endregion
+
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -32,11 +33,11 @@ namespace OSS.Core.Infrastructure.Utils
         /// <param name="request">远程请求组件的request基本信息</param>
         /// <param name="funcFormat">获取实体格式化方法</param>
         /// <returns>实体类型</returns>
-        public static async Task<T> RestCommon<T>(this OsHttpRequest request,
+        public static async Task<T> RestApiCommon<T>(this OsHttpRequest request,
             Func<HttpResponseMessage, Task<T>> funcFormat = null)
             where T : ResultMo, new()
         {
-            T t = default(T);
+            var t = default(T);
             try
             {
                 var resp = await request.RestSend();
@@ -53,10 +54,10 @@ namespace OSS.Core.Infrastructure.Utils
             }
             catch (Exception ex)
             {
-                t = new T() { Ret = (int)ResultTypes.InnerError, Message = ex.Message };
+                t = new T() {Ret = (int) ResultTypes.InnerError, Message = ex.Message};
                 LogUtil.Error(string.Concat("基类请求出错，错误信息：", ex.Message), "RestCommon", ModuleNames.SocialCenter);
             }
-            return t ?? new T() { Ret = 0 };
+            return t ?? new T() {Ret = 0};
         }
 
     }

@@ -1,11 +1,24 @@
-﻿using System;
+﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+
+/***************************************************************************
+*　　	文件功能描述：OSSCore —— 全局的异常处理
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-5-23
+*       
+*****************************************************************************/
+
+#endregion
+
+using System;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.Plugs.LogPlug;
 
-namespace OSS.Core.WebSite.Filters
+namespace OSS.Core.WebSite.AppCodes.Filters
 {
     /// <summary>
     ///   全局的异常处理

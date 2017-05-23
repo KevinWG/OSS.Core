@@ -32,8 +32,8 @@ namespace OSS.Core.WebSite.Filters
 
         static SysAuthInfoMiddleware()
         {
-            _appSource = ConfigUtil.GetSection("SysAuth:AppSource").Value;
-            _appVersion = ConfigUtil.GetSection("SysAuth:AppVersion").Value;
+            _appSource = ConfigUtil.GetSection("ApiConfig:AppSource").Value;
+            _appVersion = ConfigUtil.GetSection("ApiConfig:AppVersion").Value;
         }
 
         public SysAuthInfoMiddleware(RequestDelegate next)
