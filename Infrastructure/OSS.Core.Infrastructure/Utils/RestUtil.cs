@@ -17,7 +17,7 @@ using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Modules;
-using OSS.Common.Modules.LogModule;
+using OSS.Common.Plugs.LogPlug;
 using OSS.Http;
 using OSS.Http.Mos;
 

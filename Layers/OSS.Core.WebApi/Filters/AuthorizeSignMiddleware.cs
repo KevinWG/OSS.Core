@@ -10,6 +10,7 @@
 *****************************************************************************/
 
 #endregion
+
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -32,12 +33,12 @@ namespace OSS.Core.WebApi.Filters
             _next = next;
         }
         
-        private const string authorizeTicket = "t_id";
+        private const string authorizeTicket = "at_id";
 
         public async Task Invoke(HttpContext context)
         {
             string auticketStr = context.Request.Headers[authorizeTicket];
-            if (auticketStr == null)
+            if (string.IsNullOrEmpty(auticketStr))
             {
                 await ResponseEnd(context, new ResultMo(ResultTypes.UnKnowSource, "未知应用来源"));
                 return;

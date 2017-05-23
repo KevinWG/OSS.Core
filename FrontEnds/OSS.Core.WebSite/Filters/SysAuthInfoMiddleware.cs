@@ -15,12 +15,14 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.Authrization;
+using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Utils;
 
 namespace OSS.Core.WebSite.Filters
 {
     /// <summary>
     ///   请求相关的系统信息
+    ///  如果是App内嵌，免登录
     /// </summary>
     internal class SysAuthInfoMiddleware
     {
@@ -33,7 +35,6 @@ namespace OSS.Core.WebSite.Filters
             _appSource = ConfigUtil.GetSection("SysAuth:AppSource").Value;
             _appVersion = ConfigUtil.GetSection("SysAuth:AppVersion").Value;
         }
-
 
         public SysAuthInfoMiddleware(RequestDelegate next)
         {
@@ -63,7 +64,7 @@ namespace OSS.Core.WebSite.Filters
                 var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
                 if (!secretKeyRes.IsSuccess||!sysInfo.CheckSign(secretKeyRes.Data))
                 {
-                    context.Response.Redirect(string.Concat("/un/error?msg=","不正确的应用来源！"));
+                    context.Response.Redirect(string.Concat("/un/error?err_ret=", (int) ResultTypes.UnKnowSource));
                     return;
                 }
                 sysInfo.OriginAppSource = sysInfo.AppSource;
@@ -115,7 +116,7 @@ namespace OSS.Core.WebSite.Filters
 
     internal static class SysAuthInfoMiddlewareExtention
     {
-        internal static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app)
+        internal static IApplicationBuilder UseSysAuthInfoMiddleware(this IApplicationBuilder app)
         {
             return app.UseMiddleware<SysAuthInfoMiddleware>();
         }

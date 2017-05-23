@@ -9,9 +9,9 @@ namespace OSS.Core.WebSite.Controllers
             return View();
         }
 
-        public IActionResult Error(string msg)
+        public IActionResult Error(int? err_ret)
         {
-            ViewBag.Message = msg;
+            ViewBag.ErrRet = err_ret;
             return View();
         }
     }

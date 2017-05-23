@@ -17,7 +17,7 @@ using OSS.Core.DomainMos;
 using OSS.Core.DomainMos.Members.Interfaces;
 using OSS.Core.DomainMos.Members.Mos;
 
-namespace OSS.Core.Services.Members
+namespace OSS.Core.Services.Members.Exchange
 {
     /// <summary>
     ///  不同模块之间成员信息的共享类

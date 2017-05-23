@@ -1,10 +1,24 @@
-﻿@using Microsoft.AspNetCore.Http
-
+﻿@using OSS.Common.ComModels.Enums
 
 @{
     ViewData["Title"] = "错误页";
 }
 
 <div class="container content">
-    @(ViewBag.Message??"对不起,该请求出现错误！")
+@{
+    var ret = (int?)ViewBag.ErrRet;
+    
+    if (ret.HasValue)
+    {
+        if (ret == (int)ResultTypes.UnKnowSource)
+        {
+            <div> 未知授权应用 </div>
+        }
+    }
+    else
+    {
+        <div> 对不起,该请求出现错误！</div>
+    }
+}
+
 </div>

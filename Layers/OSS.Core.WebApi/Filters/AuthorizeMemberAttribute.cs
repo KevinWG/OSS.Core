@@ -19,6 +19,7 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
+using OSS.Core.DomainMos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.Services.Members;
@@ -57,12 +58,14 @@ namespace OSS.Core.WebApi.Filters
             }
             if (infoType == MemberInfoType.Info)
             {
-                if (!GetIdentityMemberInfo(identity).IsSuccess)
+                var memRes = GetIdentityMemberInfo(identity);
+                if (!memRes.IsSuccess)
                 {
-                    context.Result = new JsonResult(new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息"));
+                    context.Result = new JsonResult(memRes);
                     return;
                 }
             }
+           
             MemberShiper.SetIdentity(identity);
         }
 
@@ -73,20 +76,25 @@ namespace OSS.Core.WebApi.Filters
         /// <returns></returns>
         private static ResultMo GetIdentityMemberInfo(MemberIdentity identity)
         {
+            BaseAutoMo memInfo = null;
             if (identity.AuthenticationType == (int) MemberAuthorizeType.Admin)
             {
                 var memRes = service.GetAdminInfo(identity.Id).WaitResult();
                 if (!memRes.IsSuccess)
-                    return memRes;
-                identity.MemberInfo = memRes.Data;
+                    return new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息");
+                memInfo = memRes.Data;
             }
             else
             {
                 var memRes = service.GetUserInfo(identity.Id).WaitResult();
                 if (!memRes.IsSuccess)
-                    return memRes;
-                identity.MemberInfo = memRes.Data;
+                    return new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息");
+                memInfo = memRes.Data;
             }
+            if(memInfo.status<0)
+                return new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！");
+
+            identity.MemberInfo = memInfo;
             return new ResultMo();
         }
 
@@ -99,8 +107,8 @@ namespace OSS.Core.WebApi.Filters
             var sysInfo = MemberShiper.AppAuthorize;
             if (string.IsNullOrEmpty(sysInfo.Token))
                 return new ResultMo<MemberIdentity>(ResultTypes.UnAuthorize, "用户未登录！");
-            
-            var tokenRes = MemberTokenUtil.GetTokenDetail(sysInfo.AppSource,sysInfo.Token);
+
+            var tokenRes = MemberTokenUtil.GetTokenDetail(sysInfo.AppSource, sysInfo.Token);
             if (!tokenRes.IsSuccess)
                 return tokenRes.ConvertToResultOnly<MemberIdentity>();
 
@@ -111,9 +119,6 @@ namespace OSS.Core.WebApi.Filters
             };
             return new ResultMo<MemberIdentity>(identity);
         }
-
-
-
     }
 
     public static class MemberTokenUtil

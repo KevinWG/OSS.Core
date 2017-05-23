@@ -1,7 +1,7 @@
 ﻿using System;
-using OSS.Common.Modules.CacheModule;
 using StackExchange.Redis;
 using Newtonsoft.Json;
+using OSS.Common.Plugs.CachePlug;
 
 namespace OSS.CachePlug.StackRedis
 {

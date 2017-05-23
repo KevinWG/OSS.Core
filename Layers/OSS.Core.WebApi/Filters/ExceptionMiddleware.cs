@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
-using OSS.Common.Modules.LogModule;
+using OSS.Common.Plugs.LogPlug;
 
 namespace OSS.Core.WebApi.Filters
 {
