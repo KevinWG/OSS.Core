@@ -7,6 +7,9 @@ using OSS.Common.Plugs.LogPlug;
 
 namespace OSS.Core.WebSite.Filters
 {
+    /// <summary>
+    ///   全局的异常处理
+    /// </summary>
     internal class ExceptionMiddleware 
     {
         private readonly RequestDelegate _next;
