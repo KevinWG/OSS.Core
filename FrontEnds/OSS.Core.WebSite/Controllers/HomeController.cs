@@ -1,7 +1,6 @@
-﻿using System.Net.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
-namespace OSS.PayCenter.Samples.Controllers
+namespace OSS.Core.WebSite.Controllers
 {
     public class HomeController : Controller
     {
@@ -9,10 +8,7 @@ namespace OSS.PayCenter.Samples.Controllers
         {
             return View();
         }
-
-
-
-
+        
 
 
     }

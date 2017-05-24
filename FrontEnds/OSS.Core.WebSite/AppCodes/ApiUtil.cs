@@ -16,12 +16,17 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Http.Mos;
 
 namespace OSS.Core.WebSite.AppCodes
 {
+
+    /// <summary>
+    ///  
+    /// </summary>
     public static class ApiUtil
     {
 
@@ -29,30 +34,39 @@ namespace OSS.Core.WebSite.AppCodes
 
         /// <summary>
         ///   post一个Api请求
+        /// todo  测试异步
         /// </summary>
         /// <typeparam name="TReq"></typeparam>
         /// <typeparam name="TRes"></typeparam>
-        /// <param name="apiPath"></param>
+        /// <param name="apiRoute"></param>
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        public static async Task<TRes> PostApi<TReq, TRes>(string apiPath, TReq req = null, Func<HttpResponseMessage, Task<TRes>> funcFormat = null)
+        public static async Task<TRes> PostApi<TReq, TRes>(string apiRoute, TReq req = null, Func<HttpResponseMessage, Task<TRes>> funcFormat = null)
             where TReq : class
             where TRes : ResultMo, new()
         {
+            var sysInfo = MemberShiper.AppAuthorize;
+
+            var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
+            if (!secretKeyRes.IsSuccess)
+                return secretKeyRes.ConvertToResult<TRes>();
 
             var httpReq = new OsHttpRequest
             {
                 HttpMothed = HttpMothed.POST,
-                AddressUrl = string.Concat(apiUrlPre, apiPath),
+                AddressUrl = string.Concat(apiUrlPre, apiRoute),
                 CustomBody = JsonConvert.SerializeObject(req),
 
                 RequestSet = r =>
-                    r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" }
-                
+                {
+                    r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "UTF-8"};
+                    var ticket = MemberShiper.AppAuthorize.ToSignData(secretKeyRes.Data);
+                    r.Content.Headers.Add("at_id", ticket);
+                }
             };
 
-
+            httpReq.FormParameters.Add(new FormParameter());
             return await httpReq.RestApiCommon<TRes>();
         }
     }
