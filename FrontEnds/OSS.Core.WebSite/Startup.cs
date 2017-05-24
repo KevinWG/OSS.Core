@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.IO;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
+using OSS.Core.Infrastructure.Utils;
 using OSS.Core.WebSite.AppCodes.Filters;
 using OSS.Core.WebSite.Filters;
 
@@ -17,7 +20,7 @@ namespace OSS.Core.WebSite
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
-            Configuration = builder.Build();
+            ConfigUtil.Configuration = Configuration = builder.Build();
         }
 
         public IConfigurationRoot Configuration { get; }
@@ -44,10 +47,17 @@ namespace OSS.Core.WebSite
             {
                 app.UseExceptionMiddleware();
             }
-
-
+            
+            app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory())),
+                DefaultContentType = "image/x-icon"
+            });
 
+            app.UseSysAuthInfoMiddleware();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

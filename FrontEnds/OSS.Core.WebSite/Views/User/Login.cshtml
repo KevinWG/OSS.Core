@@ -1,7 +1,42 @@
-
+﻿
 @{
     ViewData["Title"] = "Login";
 }
 
-<h2>Login</h2>
-
+<div class="container login">
+    
+    <div class="login-title ">
+        <strong>OSS.Core</strong>
+    </div>
+    
+    <div class="col-xs-12 col-md-6 login-body">
+        <div class="title">
+            <strong>
+                登 &nbsp;&nbsp; 录
+            </strong>
+        </div>
+        <form >
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="用户名称"/>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="用户密码"/>
+            </div>
+            <div class="col-md-8 login-btn">
+                <span >
+                    <a>忘记密码</a>
+                </span>
+                <span>|</span>
+                <span>
+                    <button type="button" class="btn  btn-success">登录</button>
+                </span>
+            </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-md-6 login-footer">
+        <div>第三方登录</div> 
+        <div class="thirds">
+            <span>微信</span>
+        </div>
+    </div>
+</div>
