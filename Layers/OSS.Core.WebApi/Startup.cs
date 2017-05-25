@@ -69,12 +69,12 @@ namespace OSS.Core.WebApi
         private static void ConfigStaticFiles(IApplicationBuilder app)
         {
             app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory())),
                 DefaultContentType = "image/x-icon"
             });
-            app.UseStaticFiles();
         }
 
 
