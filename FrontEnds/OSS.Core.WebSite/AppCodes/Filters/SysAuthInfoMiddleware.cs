@@ -18,7 +18,7 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Utils;
 
-namespace OSS.Core.WebSite.Filters
+namespace OSS.Core.WebSite.AppCodes.Filters
 {
     /// <summary>
     ///   请求相关的系统信息

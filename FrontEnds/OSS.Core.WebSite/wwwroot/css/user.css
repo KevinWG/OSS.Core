@@ -15,6 +15,15 @@
     border: darkgrey 1px solid;
 }
 
+    .login-body .text-danger {
+        font-size: 0.7rem;
+        margin: 5px 0 0;
+    }
+
+    .login-body .form-group {
+        margin-bottom: 10px;
+    }
+
     .login-body .title {
         margin-top: 10px;
         padding-bottom: 10px;
@@ -28,6 +37,63 @@
         font-size: 0.8rem;
         font-weight: 500;
     }
+  
+        .login-body .login-btn span {
+            padding-left: 8px;
+        }
+    .login-body .form-group input {
+        margin: 0 auto;
+    }
+.login-footer {
+    border: darkgrey 1px solid;
+    margin: -1px auto 0;
+    border-radius: 0 0 0.8rem 0.8rem;
+    float: unset;
+    font-size: 0.8rem;
+    padding: 10px;
+}
+    .login-footer .thirds {
+        margin-top: 10px;
+    }.login {
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 100px;
+} 
+.login-title {
+    font-size: 1.5rem;
+}
+.login-body {
+    margin: 20px auto 0;
+    padding: 10px 20px 20px;
+    background-color: white;
+    float: unset;
+    border-radius: 0.8rem 0.8rem 0 0;
+    border: darkgrey 1px solid;
+}
+
+    .login-body .text-danger {
+        font-size: 0.7rem;
+        margin: 5px 0 0;
+    }
+
+    .login-body .form-group {
+        margin-bottom: 10px;
+    }
+
+    .login-body .title {
+        margin-top: 10px;
+        padding-bottom: 10px;
+        color: #5cb88e;
+    }
+    .login-body .login-btn {
+        padding-right: 20px;
+        text-align: right;
+        margin: auto;
+        float: unset;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+  
         .login-body .login-btn span {
             padding-left: 8px;
         }
