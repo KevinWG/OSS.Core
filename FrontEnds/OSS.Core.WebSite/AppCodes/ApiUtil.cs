@@ -19,6 +19,7 @@ using Newtonsoft.Json;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Core.Infrastructure.Utils;
+using OSS.Http.Extention;
 using OSS.Http.Mos;
 
 namespace OSS.Core.WebSite.AppCodes
@@ -34,16 +35,14 @@ namespace OSS.Core.WebSite.AppCodes
 
         /// <summary>
         ///   post一个Api请求
-        /// todo  测试异步
         /// </summary>
-        /// <typeparam name="TReq"></typeparam>
         /// <typeparam name="TRes"></typeparam>
         /// <param name="apiRoute"></param>
         /// <param name="req"></param>
         /// <param name="funcFormat"></param>
         /// <returns></returns>
-        public static async Task<TRes> PostApi<TReq, TRes>(string apiRoute, TReq req = null, Func<HttpResponseMessage, Task<TRes>> funcFormat = null)
-            where TReq : class
+        public static async Task<TRes> PostApi<TRes>(string apiRoute, object req = null,
+            Func<HttpResponseMessage, Task<TRes>> funcFormat = null)
             where TRes : ResultMo, new()
         {
             var sysInfo = MemberShiper.AppAuthorize;
@@ -67,7 +66,7 @@ namespace OSS.Core.WebSite.AppCodes
             };
 
             httpReq.FormParameters.Add(new FormParameter());
-            return await httpReq.RestApiCommon<TRes>();
+            return await httpReq.RestCommon<TRes>();
         }
     }
 }

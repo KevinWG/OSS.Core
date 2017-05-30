@@ -8,7 +8,7 @@ namespace OSS.CachePlug.StackRedis
     /// <summary>
     /// redis缓存实现类
     /// </summary>
-    public class RedisCache : ICache
+    public class RedisCache : ICachePlug
     {
         //redis数据库连接字符串
         private readonly string ConnectionStr = null;
@@ -62,7 +62,7 @@ namespace OSS.CachePlug.StackRedis
         public bool Add<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration)
         {
             if (slidingExpiration == TimeSpan.Zero && absoluteExpiration == null)
-                throw new ArgumentNullException("slidingExpiration", "缓存过期时间不正确,需要设置固定过期时间或者相对过期时间");
+                throw new ArgumentNullException(nameof(slidingExpiration), "缓存过期时间不正确,需要设置固定过期时间或者相对过期时间");
 
             if (obj == null)
                 return false;

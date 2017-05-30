@@ -2,6 +2,7 @@
 using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Core.Domains.Members.Interfaces;
 
 #region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 
@@ -15,7 +16,7 @@ using OSS.Common.ComModels.Enums;
 *****************************************************************************/
 
 #endregion
-using OSS.Core.DomainMos.Members.Interfaces;
+
 using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.RepDapper.Members

@@ -13,7 +13,7 @@
 
 using OSS.Common.Extention.DTO;
 
-namespace OSS.Core.DomainMos
+namespace OSS.Core.Domains
 {
     public class BaseMo
     {

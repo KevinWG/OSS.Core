@@ -11,13 +11,14 @@
 
 #endregion
 
+using System;
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
+using OSS.Common.ComUtils;
 using OSS.Common.Encrypt;
-using OSS.Core.DomainMos;
-using OSS.Core.DomainMos.Members.Interfaces;
-using OSS.Core.DomainMos.Members.Mos;
+using OSS.Core.Domains.Members.Interfaces;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members.Exchange;
 
@@ -42,21 +43,24 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public async Task<ResultMo<AdminInfoMo>> GetAdminInfo(long adminId)
         {
-            return await Rep<IAdminInfoRep>.Instance.Get<AdminInfoMo>();
+            return await InsContainer<IAdminInfoRep>.Instance.Get<AdminInfoMo>();
         }
 
         /// <summary>
         /// 注册用户信息
         /// </summary>
         /// <param name="value">注册的账号信息</param>
-        /// <param name="passCode">密码</param>
+        /// <param name="password">密码</param>
+        /// <param name="passCode"> 验证码（手机号注册时需要 </param>
         /// <param name="type">注册类型</param>
         /// <param name="auInfo">注册的系统信息</param>
         /// <returns></returns>
-        public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string passCode, RegLoginType type, SysAuthorizeInfo auInfo)
+        public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string password,string passCode, RegLoginType type, SysAuthorizeInfo auInfo)
         {
             var checkRes =await CheckIfCanRegiste(type, value);
             if (!checkRes.IsSuccess()) return checkRes.ConvertToResultOnly<UserInfoMo>();
+
+            // todo 检查验证码
 
             var userInfo=new UserInfoBigMo();
 
@@ -67,13 +71,19 @@ namespace OSS.Core.Services.Members
             if (type != RegLoginType.MobileCode)
                 userInfo.pass_word = Md5.HalfEncryptHexString(passCode);
 
-            var idRes =await Rep<IUserInfoRep>.Instance.Insert(userInfo);
+            var idRes =await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResultOnly<UserInfoMo>();
 
             userInfo.Id = idRes.id;
             // todo 触发新用户注册事件
             return new ResultMo<UserInfoMo>(userInfo);
         }
+
+        //public async Task<ResultMo<UserInfoMo>> LoginUser(string name, string pass_code, RegLoginType type,
+        //    SysAuthorizeInfo appAuthorize)
+        //{
+        //    var userRes=InsContainer
+        //}
 
         /// <summary>
         ///  检查账号是否可以注册
@@ -83,7 +93,7 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
         {
-            return await Rep<IUserInfoRep>.Instance.CheckIfCanRegiste(type,value);
+            return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type,value);
         }
     }
 }

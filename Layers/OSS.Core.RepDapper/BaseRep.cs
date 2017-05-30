@@ -21,10 +21,10 @@ using Dapper;
 using MySql.Data.MySqlClient;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
-using OSS.Core.DomainMos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.OrmExtention;
+using OSS.Core.Domains;
 
 namespace OSS.Core.RepDapper
 {

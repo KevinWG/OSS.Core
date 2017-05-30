@@ -1,6 +1,6 @@
 ﻿using OSS.Common.Authrization;
+using OSS.Core.Domains.Members.Mos;
 using Xunit;
-using OSS.Core.DomainMos.Members.Mos;
 using OSS.Core.RepDapper.Members;
 
 namespace OSS.Core.RepTests

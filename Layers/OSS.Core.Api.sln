@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Infrastructure", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.CachePlug.StackRedis", "..\Plugs\OSS.CachePlug.StackRedis\OSS.CachePlug.StackRedis.csproj", "{012249E1-73F4-4477-9226-9D57B1D5628B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.DomainMos", "OSS.Core.DomainMos\OSS.Core.DomainMos.csproj", "{A0071BEB-3F01-4196-B8E5-8B318917714F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Domains", "OSS.Core.DomainMos\OSS.Core.Domains.csproj", "{A0071BEB-3F01-4196-B8E5-8B318917714F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.RepDapper", "OSS.Core.RepDapper\OSS.Core.RepDapper.csproj", "{4DDAC552-43F0-47FA-8B67-C1B210C25EA5}"
 EndProject

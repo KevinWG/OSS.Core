@@ -12,7 +12,7 @@
 
 #endregion
 
-namespace OSS.Core.DomainMos.Members.Mos
+namespace OSS.Core.Domains.Members.Mos
 {
     /// <summary>
     ///  后台管理员实体

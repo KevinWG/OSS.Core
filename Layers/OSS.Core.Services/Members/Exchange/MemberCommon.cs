@@ -13,9 +13,9 @@
 
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
-using OSS.Core.DomainMos;
-using OSS.Core.DomainMos.Members.Interfaces;
-using OSS.Core.DomainMos.Members.Mos;
+using OSS.Common.ComUtils;
+using OSS.Core.Domains.Members.Interfaces;
+using OSS.Core.Domains.Members.Mos;
 
 namespace OSS.Core.Services.Members.Exchange
 {
@@ -31,7 +31,7 @@ namespace OSS.Core.Services.Members.Exchange
         /// <returns></returns>
         public static async Task<ResultMo<UserInfoMo>> GetUserInfo(long userId)
         {
-            return await Rep<IUserInfoRep>.Instance.Get<UserInfoMo>();
+            return await InsContainer<IUserInfoRep>.Instance.Get<UserInfoMo>();
         }
     }
 }

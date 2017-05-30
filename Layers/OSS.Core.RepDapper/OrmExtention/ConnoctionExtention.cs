@@ -24,7 +24,6 @@ using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention.DTO;
-using OSS.Core.DomainMos;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {

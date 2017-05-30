@@ -16,7 +16,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 
-namespace OSS.Core.DomainMos
+namespace OSS.Core.Domains
 {
     public interface IBaseRep
     {

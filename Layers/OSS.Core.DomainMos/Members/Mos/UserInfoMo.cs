@@ -11,7 +11,7 @@
 
 #endregion
 
-namespace OSS.Core.DomainMos.Members.Mos
+namespace OSS.Core.Domains.Members.Mos
 {
     public class UserInfoBigMo : UserInfoMo
     {

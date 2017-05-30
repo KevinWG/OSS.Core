@@ -11,8 +11,8 @@
 
 #endregion
 
-using OSS.Core.DomainMos.Members.Interfaces;
-using OSS.Core.DomainMos.Members.Mos;
+
+using OSS.Core.Domains.Members.Interfaces;
 
 namespace OSS.Core.RepDapper.Members
 {

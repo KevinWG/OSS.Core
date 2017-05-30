@@ -21,6 +21,7 @@ using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
 using OSS.Core.DomainMos;
+using OSS.Core.Domains;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.Services.Members;

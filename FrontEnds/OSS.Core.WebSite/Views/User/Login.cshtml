@@ -82,33 +82,27 @@
 
                         var self = this;
                         var data = self.login;
-                        var isMobile = /^1\d{10}$/.test(data.name);
-
                         var url = "/user/email_login";
-                        if (isMobile) {
 
+                        var isMobile = /^1\d{10}$/.test(data.name);
+                        if (isMobile) {
                             data.mobile = data.name;
                             url = "/user/mobile_login";
-
                         } else {
                             data.email = data.name;
                         }
 
-                        var button = event.target;
-                        $(button).attr("disabled", "disabled");
-                        $.post(url,
+                        PostApi(event.target,
                             self.login,
+                            url,
                             function(res) {
-                                if (res.ret==200) {
-                                    alert("登录成功");
+                                if (res.ret == 200) {
+                                    ShowTips("登录成功");
+                                } else {
+                                    ShowTip_Error(res.message);
                                 }
-                            }).complete(function() {
-                            $(button).removeAttr("disabled");
-                        });
-
+                            });
                     });
-
-
                 }
             },
             created() {

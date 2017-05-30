@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using OSS.Core.DomainMos.Members.Mos;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.RepDapper.OrmExtention;
 using Xunit;
 
