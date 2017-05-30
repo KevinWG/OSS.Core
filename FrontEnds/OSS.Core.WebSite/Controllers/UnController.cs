@@ -10,8 +10,9 @@ namespace OSS.Core.WebSite.Controllers
             return View();
         }
 
-        public IActionResult Error(int? err_ret)
+        public IActionResult error(int? err_ret)
         {
+            //  todo 前台修改为通过Context获取
             ViewBag.ErrRet = err_ret;
             return View();
         }

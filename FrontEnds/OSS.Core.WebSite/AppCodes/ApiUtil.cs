@@ -49,7 +49,7 @@ namespace OSS.Core.WebSite.AppCodes
             var sysInfo = MemberShiper.AppAuthorize;
 
             var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-            if (!secretKeyRes.IsSuccess)
+            if (!secretKeyRes.IsSuccess())
                 return secretKeyRes.ConvertToResult<TRes>();
 
             var httpReq = new OsHttpRequest
@@ -61,7 +61,7 @@ namespace OSS.Core.WebSite.AppCodes
                 RequestSet = r =>
                 {
                     r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "UTF-8"};
-                    var ticket = MemberShiper.AppAuthorize.ToSignData(secretKeyRes.Data);
+                    var ticket = MemberShiper.AppAuthorize.ToSignData(secretKeyRes.data);
                     r.Content.Headers.Add("at_id", ticket);
                 }
             };

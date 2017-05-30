@@ -48,13 +48,13 @@ namespace OSS.Core.WebApi.Filters
             sysInfo.FromSignData(auticketStr);
 
             var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-            if (!secretKeyRes.IsSuccess)
+            if (!secretKeyRes.IsSuccess())
             {
                 await ResponseEnd(context, secretKeyRes);
                 return;
             }
 
-            if (!sysInfo.CheckSign(secretKeyRes.Data))
+            if (!sysInfo.CheckSign(secretKeyRes.data))
             {
                 await ResponseEnd(context, new ResultMo(ResultTypes.ParaNotMeet, "非法应用签名！"));
                 return;
@@ -116,7 +116,7 @@ namespace OSS.Core.WebApi.Filters
         {
             ClearCacheHeaders(context.Response);
             context.Response.ContentType = "application/json;charset=utf-8";
-            await context.Response.WriteAsync($"{{\"Ret\":{res.Ret},\"Message\":\"{res.Message}\"}}");
+            await context.Response.WriteAsync($"{{\"Ret\":{res.ret},\"Message\":\"{res.message}\"}}");
         }
 
         /// <summary>

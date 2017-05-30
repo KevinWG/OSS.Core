@@ -38,17 +38,17 @@ namespace OSS.Core.WebApi.Controllers.Member
         public async Task<UserRegisteResp> Registe([FromBody]UserRegisteReq req)
         {
             if (!ModelState.IsValid)
-                return new UserRegisteResp() {Ret = (int) ResultTypes.ParaNotMeet, Message = "请检查参数填写是否正确！"};
+                return new UserRegisteResp() {ret = (int) ResultTypes.ParaNotMeet, message = "请检查参数填写是否正确！"};
 
             var regRes =await service.RegisteUser(req.value, req.pass_code, req.reg_type, MemberShiper.AppAuthorize);
-            if (!regRes.IsSuccess)
+            if (!regRes.IsSuccess())
                 return regRes.ConvertToResult<UserRegisteResp>();
 
-            var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, regRes.Data.Id,
+            var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, regRes.data.Id,
                 MemberAuthorizeType.User);
 
-            return tokenRes.IsSuccess ?
-                new UserRegisteResp() {token = tokenRes.Data, user = regRes.Data}
+            return tokenRes.IsSuccess() ?
+                new UserRegisteResp() {token = tokenRes.data, user = regRes.data}
                 : tokenRes.ConvertToResult<UserRegisteResp>();
         }
 

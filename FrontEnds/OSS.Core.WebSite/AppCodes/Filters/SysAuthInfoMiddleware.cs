@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.Authrization;
+using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Utils;
 
@@ -27,8 +28,8 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     internal class SysAuthInfoMiddleware
     {
         private readonly RequestDelegate _next;
-        private static string _appSource;
-        private static string _appVersion;
+        private static readonly string _appSource;
+        private static readonly string _appVersion;
 
         static SysAuthInfoMiddleware()
         {
@@ -62,7 +63,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                 sysInfo.FromSignData(auticketStr);
 
                 var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-                if (!secretKeyRes.IsSuccess||!sysInfo.CheckSign(secretKeyRes.Data))
+                if (!secretKeyRes.IsSuccess()||!sysInfo.CheckSign(secretKeyRes.data))
                 {
                     context.Response.Redirect(string.Concat("/un/error?err_ret=", (int) ResultTypes.UnKnowSource));
                     return;

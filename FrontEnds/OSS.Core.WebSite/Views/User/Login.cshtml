@@ -19,8 +19,8 @@
             <div class="form-group">
                 
                 <input type="text" class="form-control" 
-                       v-model="name" name="name"
-                       data-vv-as="账号信息"  v-validate="'required|emailandphone'"
+                       v-model="login.name" name="name"
+                       data-vv-as="手机或邮箱"  v-validate="'required|emailandphone'"
                        placeholder="请输入手机/邮箱" />
 
                 <p class="text-danger" style="display: none" v-show="errors.has('name')">{{ errors.first('name') }}</p>
@@ -28,11 +28,11 @@
             <div class="form-group">
                 
                 <input type="text" class="form-control"
-                       v-model="pass_code" name="pass_code"
-                       data-vv-as="密码" v-validate="'truthy|required'"
+                       v-model="login.pass_word" name="pass_word"
+                       data-vv-as="密码" v-validate="'required|min:6'"
                        placeholder="请输入用户密码"/>
 
-                <p class="text-danger" style="display: none" v-show="errors.has('pass_code')">{{ errors.first('pass_code') }}</p>
+                <p class="text-danger" style="display: none" v-show="errors.has('pass_word')">{{ errors.first('pass_word') }}</p>
             </div>
             <div class="col-md-8 login-btn">
                 <span>
@@ -66,16 +66,48 @@
 
     <script>
 
-        Vue.use(VeeValidate);
+        Vue.use(VeeValidate, { events: 'blur' });
 
         var loginVue = new Vue({
             el: "#login-form",
             data: {
-                name: "",
-                pass_code: ""
+                login: {
+                    name: "",
+                    pass_word: ""
+                }
             },
             methods: {
-                submit: function() {
+                submit: function(event) {
+                    this.$validator.validateAll().then(result => {
+
+                        var self = this;
+                        var data = self.login;
+                        var isMobile = /^1\d{10}$/.test(data.name);
+
+                        var url = "/user/email_login";
+                        if (isMobile) {
+
+                            data.mobile = data.name;
+                            url = "/user/mobile_login";
+
+                        } else {
+                            data.email = data.name;
+                        }
+
+                        var button = event.target;
+                        $(button).attr("disabled", "disabled");
+                        $.post(url,
+                            self.login,
+                            function(res) {
+                                if (res.ret==200) {
+                                    alert("登录成功");
+                                }
+                            }).complete(function() {
+                            $(button).removeAttr("disabled");
+                        });
+
+                    });
+
 
                 }
             },
@@ -83,10 +115,10 @@
                 this.$validator.extend("emailandphone",
                 {
                     getMessage(field, params, data) {
-                        return (data && data.message) || 'Something went wrong';
+                        return "请填写正确的手机号或者邮箱";
                     },
                     validate(value) {
-                        
+                        return /^1\d{10}$/.test(value) || /^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/.test(value);
                     }
                 });
             }

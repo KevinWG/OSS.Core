@@ -56,7 +56,7 @@ namespace OSS.Core.Services.Members
         public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string passCode, RegLoginType type, SysAuthorizeInfo auInfo)
         {
             var checkRes =await CheckIfCanRegiste(type, value);
-            if (!checkRes.IsSuccess) return checkRes.ConvertToResultOnly<UserInfoMo>();
+            if (!checkRes.IsSuccess()) return checkRes.ConvertToResultOnly<UserInfoMo>();
 
             var userInfo=new UserInfoBigMo();
 
@@ -68,9 +68,9 @@ namespace OSS.Core.Services.Members
                 userInfo.pass_word = Md5.HalfEncryptHexString(passCode);
 
             var idRes =await Rep<IUserInfoRep>.Instance.Insert(userInfo);
-            if (!idRes.IsSuccess) return idRes.ConvertToResultOnly<UserInfoMo>();
+            if (!idRes.IsSuccess()) return idRes.ConvertToResultOnly<UserInfoMo>();
 
-            userInfo.Id = idRes.Id;
+            userInfo.Id = idRes.id;
             // todo 触发新用户注册事件
             return new ResultMo<UserInfoMo>(userInfo);
         }

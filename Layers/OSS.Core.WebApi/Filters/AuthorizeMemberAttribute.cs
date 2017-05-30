@@ -50,17 +50,17 @@ namespace OSS.Core.WebApi.Filters
             if (identity == null)
             {
                 var identityRes = GetIndentityId();
-                if (!identityRes.IsSuccess)
+                if (!identityRes.IsSuccess())
                 {
                     context.Result = new JsonResult(identityRes);
                     return;
                 }
-                identity = identityRes.Data;
+                identity = identityRes.data;
             }
             if (infoType == MemberInfoType.Info)
             {
                 var memRes = GetIdentityMemberInfo(identity);
-                if (!memRes.IsSuccess)
+                if (!memRes.IsSuccess())
                 {
                     context.Result = new JsonResult(memRes);
                     return;
@@ -81,16 +81,16 @@ namespace OSS.Core.WebApi.Filters
             if (identity.AuthenticationType == (int) MemberAuthorizeType.Admin)
             {
                 var memRes = service.GetAdminInfo(identity.Id).WaitResult();
-                if (!memRes.IsSuccess)
+                if (!memRes.IsSuccess())
                     return new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息");
-                memInfo = memRes.Data;
+                memInfo = memRes.data;
             }
             else
             {
                 var memRes = service.GetUserInfo(identity.Id).WaitResult();
-                if (!memRes.IsSuccess)
+                if (!memRes.IsSuccess())
                     return new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息");
-                memInfo = memRes.Data;
+                memInfo = memRes.data;
             }
             if(memInfo.status<0)
                 return new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！");
@@ -110,13 +110,13 @@ namespace OSS.Core.WebApi.Filters
                 return new ResultMo<MemberIdentity>(ResultTypes.UnAuthorize, "用户未登录！");
 
             var tokenRes = MemberTokenUtil.GetTokenDetail(sysInfo.AppSource, sysInfo.Token);
-            if (!tokenRes.IsSuccess)
+            if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResultOnly<MemberIdentity>();
 
             var identity = new MemberIdentity
             {
-                AuthenticationType = tokenRes.Data.authType,
-                Id = tokenRes.Data.id
+                AuthenticationType = tokenRes.data.authType,
+                Id = tokenRes.data.id
             };
             return new ResultMo<MemberIdentity>(identity);
         }
@@ -127,10 +127,10 @@ namespace OSS.Core.WebApi.Filters
         public static ResultMo<(long id,int authType)> GetTokenDetail(string appSource,string tokenStr)
         {
             var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
-            if (!secreateKeyRes.IsSuccess)
+            if (!secreateKeyRes.IsSuccess())
                 return secreateKeyRes.ConvertToResultOnly<(long id, int authType)>();
 
-            var tokenDetail = MemberShiper.GetTokenDetail(secreateKeyRes.Data, tokenStr);
+            var tokenDetail = MemberShiper.GetTokenDetail(secreateKeyRes.data, tokenStr);
 
             var tokenSplit = tokenDetail.Split('|');
             return new ResultMo<ValueTuple<long, int>>((tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32()));
@@ -139,11 +139,11 @@ namespace OSS.Core.WebApi.Filters
         public static ResultMo<string> AppendToken(string appSource,long id, MemberAuthorizeType authType)
         {
             var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
-            if (!secreateKeyRes.IsSuccess)
+            if (!secreateKeyRes.IsSuccess())
                 return secreateKeyRes.ConvertToResultOnly<string>();
 
             var tokenCon=string.Concat(id, "|", (int)authType, "|", DateTime.Now.ToUtcSeconds());
-            return new ResultMo<string>(MemberShiper.GetToken(secreateKeyRes.Data, tokenCon));
+            return new ResultMo<string>(MemberShiper.GetToken(secreateKeyRes.data, tokenCon));
         }
     }
 }
