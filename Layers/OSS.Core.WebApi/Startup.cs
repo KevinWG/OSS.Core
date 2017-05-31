@@ -18,8 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
-using OSS.Core.DomainMos;
-using OSS.Core.Domains;
+using OSS.Common.ComUtils;
 using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.Members;
@@ -84,8 +83,8 @@ namespace OSS.Core.WebApi
         /// </summary>
         private static void RegisterRep()
         {
-            Rep<IUserInfoRep>.Set<UserInfoRep>();
-            Rep<IAdminInfoRep>.Set<AdminInfoRep>();
+            InsContainer<IUserInfoRep>.Set<UserInfoRep>();
+            InsContainer<IAdminInfoRep>.Set<AdminInfoRep>();
         }
     }
 

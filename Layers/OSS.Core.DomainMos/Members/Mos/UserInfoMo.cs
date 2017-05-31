@@ -11,6 +11,8 @@
 
 #endregion
 
+using OSS.Core.Infrastructure.Enums;
+
 namespace OSS.Core.Domains.Members.Mos
 {
     public class UserInfoBigMo : UserInfoMo
@@ -19,13 +21,23 @@ namespace OSS.Core.Domains.Members.Mos
         /// 密码
         /// </summary>
         public string pass_word { get; set; }
+
+        /// <summary>
+        ///  应用来源
+        /// </summary>
+        public string app_source { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string app_version { get; set; }
     }
 
-    public class UserInfoMo: BaseAutoMo
+    public class UserInfoMo : BaseAutoMo
     {
-       /// <summary>
-       ///  昵称
-       /// </summary>
+        /// <summary>
+        ///  昵称
+        /// </summary>
         public string nick_name { get; set; }
 
         /// <summary>
@@ -37,5 +49,11 @@ namespace OSS.Core.Domains.Members.Mos
         ///  手机号
         /// </summary>
         public string mobile { get; set; }
+
+        /// <summary>
+        ///   用户状态
+        /// todo 待测试序列化和转化是否好使
+        /// </summary>
+        public new MemberStatus status { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     ///   请求相关的系统信息
     ///  如果是App内嵌，免登录
     /// </summary>
-    internal class SysAuthInfoMiddleware
+    internal class SysAuthInfoMiddleware:BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
         private static readonly string _appSource;
@@ -63,9 +63,15 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                 sysInfo.FromSignData(auticketStr);
 
                 var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-                if (!secretKeyRes.IsSuccess()||!sysInfo.CheckSign(secretKeyRes.data))
+            
+                if (!secretKeyRes.IsSuccess())
                 {
-                    context.Response.Redirect(string.Concat("/un/error?err_ret=", (int) ResultTypes.UnKnowSource));
+                    await ResponseEnd(context, secretKeyRes);
+                    return;
+                }
+                if (!sysInfo.CheckSign(secretKeyRes.data))
+                {
+                    await ResponseEnd(context, new ResultMo(ResultTypes.ParaError,"签名验证失败！"));
                     return;
                 }
                 sysInfo.OriginAppSource = sysInfo.AppSource;
@@ -122,4 +128,53 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             return app.UseMiddleware<SysAuthInfoMiddleware>();
         }
     }
+
+
+
+
+    /// <summary>
+    ///  中间件基类
+    /// </summary>
+    internal class BaseMiddlewaire
+    {
+        /// <summary>
+        ///   结束请求
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="res"></param>
+        /// <returns></returns>
+        protected static async Task ResponseEnd(HttpContext context, ResultMo res)
+        {
+            if (IsAjax(context))
+            {
+                ClearCacheHeaders(context.Response);
+                context.Response.ContentType = "application/json;charset=utf-8";
+                await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.message}\"}}");
+            }
+            else
+            {
+                context.Response.Redirect(res.IsResultType(ResultTypes.ObjectNull)
+                    ? "/unnormal/notfound"
+                    : string.Concat("/unnormal/err_ret?=", res.ret));
+            }
+        }
+
+        /// <summary>
+        ///  清理Response缓存
+        /// </summary>
+        /// <param name="httpResponse"></param>
+        private static void ClearCacheHeaders(HttpResponse httpResponse)
+        {
+            httpResponse.Headers["Cache-Control"] = "no-cache";
+            httpResponse.Headers["Pragma"] = "no-cache";
+            httpResponse.Headers["Expires"] = "-1";
+            httpResponse.Headers.Remove("ETag");
+        }
+
+        private static bool IsAjax( HttpContext context)
+        {
+            return context.Request.Headers["X-Requested-With"] == "XMLHttpRequest";
+        }
+    }
+
 }

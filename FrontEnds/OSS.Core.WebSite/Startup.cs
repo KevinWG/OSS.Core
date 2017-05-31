@@ -30,7 +30,8 @@ namespace OSS.Core.WebSite
         {
             // Add framework services.
             //  json 序列化格式问题
-            services.AddMvc().AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddMvc()
+                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,15 +40,7 @@ namespace OSS.Core.WebSite
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-            }
-            else
-            {
-                app.UseExceptionMiddleware();
-            }
+            app.UseExceptionMiddleware();
             
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -58,7 +51,7 @@ namespace OSS.Core.WebSite
             });
 
             app.UseSysAuthInfoMiddleware();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

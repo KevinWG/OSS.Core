@@ -48,27 +48,27 @@ namespace OSS.Core.WebApi.Controllers.Member
             if (stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserRegLoginResp>();
 
-            var userRes = await service.RegisteUser(req.name,req.pass_word, req.pass_code, req.type, MemberShiper.AppAuthorize);
+            var userRes = await service.RegisteUser(req.name,req.pass_word, req.pass_code, req.type);
             return GenerateUserToken(userRes);
         }
-        
 
-        ///// <summary>
-        ///// 用户登录
-        ///// </summary>
-        ///// <param name="req"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[AllowAnonymous]
-        //public async Task<UserRegLoginResp> UserLogin([FromBody] UserRegLoginReq req)
-        //{
-        //    var stateRes = CheckLoginModelState(req);
-        //    if (stateRes.IsSuccess())
-        //        return stateRes.ConvertToResult<UserRegLoginResp>();
 
-        //    var userRes = await service.LoginUser(req.name, req.pass_code, req.type, MemberShiper.AppAuthorize);
-        //    return GenerateUserToken(userRes);
-        //}
+        /// <summary>
+        /// 用户登录
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<UserRegLoginResp> UserLogin([FromBody] UserRegLoginReq req)
+        {
+            var stateRes = CheckLoginModelState(req);
+            if (stateRes.IsSuccess())
+                return stateRes.ConvertToResult<UserRegLoginResp>();
+
+            var userRes = await service.LoginUser(req.name, req.pass_word, req.type);
+            return GenerateUserToken(userRes);
+        }
 
         #endregion
 

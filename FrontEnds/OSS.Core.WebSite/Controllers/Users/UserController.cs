@@ -28,10 +28,10 @@ namespace OSS.Core.WebSite.Controllers.Users
         /// <returns></returns>
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> login(UserRegLoginReq req)
+        public async Task<IActionResult> Login(UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);
-            if (stateRes.IsSuccess())
+            if (!stateRes.IsSuccess())
                 return Json(stateRes);
           
             var loginRes =await ApiUtil.PostApi<UserRepLoginResp>("/user/login", req);

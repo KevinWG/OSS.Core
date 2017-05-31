@@ -56,7 +56,7 @@ namespace OSS.Core.WebApi.Filters
 
             if (!sysInfo.CheckSign(secretKeyRes.data))
             {
-                await ResponseEnd(context, new ResultMo(ResultTypes.ParaNotMeet, "非法应用签名！"));
+                await ResponseEnd(context, new ResultMo(ResultTypes.ParaError, "非法应用签名！"));
                 return;
             }
 
@@ -116,7 +116,7 @@ namespace OSS.Core.WebApi.Filters
         {
             ClearCacheHeaders(context.Response);
             context.Response.ContentType = "application/json;charset=utf-8";
-            await context.Response.WriteAsync($"{{\"Ret\":{res.ret},\"Message\":\"{res.message}\"}}");
+            await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.message}\"}}");
         }
 
         /// <summary>

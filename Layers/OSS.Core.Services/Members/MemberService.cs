@@ -12,9 +12,11 @@
 #endregion
 
 using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
 using OSS.Common.ComUtils;
 using OSS.Common.Encrypt;
 using OSS.Core.Domains.Members.Interfaces;
@@ -50,18 +52,16 @@ namespace OSS.Core.Services.Members
         /// 注册用户信息
         /// </summary>
         /// <param name="value">注册的账号信息</param>
-        /// <param name="password">密码</param>
+        /// <param name="passWord">密码</param>
         /// <param name="passCode"> 验证码（手机号注册时需要 </param>
         /// <param name="type">注册类型</param>
-        /// <param name="auInfo">注册的系统信息</param>
         /// <returns></returns>
-        public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string password,string passCode, RegLoginType type, SysAuthorizeInfo auInfo)
+        public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string passWord,string passCode, RegLoginType type)
         {
             var checkRes =await CheckIfCanRegiste(type, value);
             if (!checkRes.IsSuccess()) return checkRes.ConvertToResultOnly<UserInfoMo>();
 
             // todo 检查验证码
-
             var userInfo=new UserInfoBigMo();
 
             if (type == RegLoginType.Email)
@@ -69,21 +69,47 @@ namespace OSS.Core.Services.Members
             else userInfo.mobile = value;
 
             if (type != RegLoginType.MobileCode)
-                userInfo.pass_word = Md5.HalfEncryptHexString(passCode);
+                userInfo.pass_word = Md5.HalfEncryptHexString(passWord);
 
             var idRes =await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResultOnly<UserInfoMo>();
 
             userInfo.Id = idRes.id;
-            // todo 触发新用户注册事件
+            MemberEvents.TriggerUserRegiteEvent(userInfo, MemberShiper.AppAuthorize);
+
             return new ResultMo<UserInfoMo>(userInfo);
         }
 
-        //public async Task<ResultMo<UserInfoMo>> LoginUser(string name, string pass_code, RegLoginType type,
-        //    SysAuthorizeInfo appAuthorize)
-        //{
-        //    var userRes=InsContainer
-        //}
+        public async Task<ResultMo<UserInfoMo>> LoginUser(string name, string passWord, RegLoginType type)
+        {
+            var rep = InsContainer<IUserInfoRep>.Instance;
+            var userRes=await (type == RegLoginType.Mobile
+                ? rep.Get<UserInfoBigMo>(u => u.mobile == name)
+                : rep.Get<UserInfoBigMo>(u => u.email == name));
+
+         if (!userRes.IsSuccess())
+                return userRes.ConvertToResultOnly<UserInfoMo>();
+
+            if (Md5.HalfEncryptHexString(passWord)!=userRes.data.pass_word)
+            return new ResultMo<UserInfoMo>(ResultTypes.UnAuthorize,"账号密码不正确！");
+          
+            MemberEvents.TriggerUserLoginEvent(userRes.data,MemberShiper.AppAuthorize);
+
+            var checkRes = CheckMemberStatus(userRes.data.status);
+
+            return checkRes.IsSuccess() ? 
+                checkRes.ConvertToResultOnly<UserInfoMo>() 
+                : new ResultMo<UserInfoMo>(userRes.data.ConvertToMo());
+        }
+
+        /// <summary>
+        /// 查看当前成员状态是否正常
+        /// </summary>
+        /// <returns></returns>
+        public ResultMo CheckMemberStatus(MemberStatus state)
+        {
+            return (int)state < -10 ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！") : new ResultMo();
+        }
 
         /// <summary>
         ///  检查账号是否可以注册

@@ -31,11 +31,9 @@ namespace OSS.Core.Infrastructure.Utils
         /// <returns></returns>
         public static ResultMo<string> GetAppSecretKey(string appSource)
         {
-            if (_appSecretKeys.ContainsKey(appSource))
-            {
-               return new ResultMo<string>(_appSecretKeys[appSource]);
-            }
-            return new ResultMo<string>(ResultTypes.NoRight, "未经授权的应用来源!");
+            return _appSecretKeys.ContainsKey(appSource) 
+                ? new ResultMo<string>(_appSecretKeys[appSource]) 
+                : new ResultMo<string>(ResultTypes.UnKnowSource, "未知的应用来源!");
         }
     }
 }

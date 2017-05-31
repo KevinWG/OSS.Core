@@ -20,7 +20,6 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
-using OSS.Core.DomainMos;
 using OSS.Core.Domains;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Utils;
@@ -93,11 +92,10 @@ namespace OSS.Core.WebApi.Filters
                     return new ResultMo(ResultTypes.UnAuthorize, "未发现授权用户信息");
                 memInfo = memRes.data;
             }
-            if(memInfo.status<0)
-                return new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！");
-
             identity.MemberInfo = memInfo;
-            return new ResultMo();
+
+            var checkRes = service.CheckMemberStatus((MemberStatus) memInfo.status);
+            return !checkRes.IsSuccess() ? checkRes : new ResultMo();
         }
 
         /// <summary>

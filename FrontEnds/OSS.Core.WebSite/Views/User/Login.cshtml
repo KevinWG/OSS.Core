@@ -9,7 +9,7 @@
         <strong>OSS.Core</strong>
     </div>
 
-    <div class="col-xs-12 col-md-6 login-body">
+    <div class="col-xs-12 col-sm-6 login-body">
         <div class="title">
             <strong>
                 登 &nbsp;&nbsp; 录
@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
                 
-                <input type="text" class="form-control"
+                <input type="password" class="form-control"
                        v-model="login.pass_word" name="pass_word"
                        data-vv-as="密码" v-validate="'required|min:6'"
                        placeholder="请输入用户密码"/>
@@ -45,7 +45,7 @@
             </div>
         </form>      
     </div>
-    <div class="col-xs-12 col-md-6 login-footer">
+    <div class="col-xs-12 col-sm-6 login-footer">
         <div>第三方登录</div>
         <div class="thirds">
             <span>微信</span>
@@ -82,19 +82,13 @@
 
                         var self = this;
                         var data = self.login;
-                        var url = "/user/email_login";
+                        var url = "/user/login";
 
                         var isMobile = /^1\d{10}$/.test(data.name);
-                        if (isMobile) {
-                            data.mobile = data.name;
-                            url = "/user/mobile_login";
-                        } else {
-                            data.email = data.name;
-                        }
+                        data.type = isMobile ? 20 : 30;
 
                         PostApi(event.target,
-                            self.login,
-                            url,
+                            url, self.login,
                             function(res) {
                                 if (res.ret == 200) {
                                     ShowTips("登录成功");

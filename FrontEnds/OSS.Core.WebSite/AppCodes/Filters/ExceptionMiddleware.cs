@@ -16,6 +16,8 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
 using OSS.Common.Plugs.LogPlug;
 
 namespace OSS.Core.WebSite.AppCodes.Filters
@@ -23,7 +25,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     /// <summary>
     ///   全局的异常处理
     /// </summary>
-    internal class ExceptionMiddleware 
+    internal class ExceptionMiddleware : BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
 
@@ -39,18 +41,17 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             {
                 await _next.Invoke(context);
 
-                if (context.Response.StatusCode==(int)HttpStatusCode.NotFound)
-                {
-                    context.Response.Redirect("/unnormal/notfound");
-                }
+                if (context.Response.StatusCode == (int) HttpStatusCode.NotFound)
+                    await ResponseEnd(context, new ResultMo(ResultTypes.ObjectNull, "当前请求资源不存在！"));
+
                 return;
             }
             catch (Exception ex)
             {
                 error = ex;
             }
-            var code = LogUtil.Error(error.StackTrace, nameof(ExceptionMiddleware));
-            context.Response.Redirect(string.Concat("/unnormal/error?code=", code));
+            var code = LogUtil.Error(string.Concat("错误信息：",error.Message,"详细信息：", error.StackTrace), nameof(ExceptionMiddleware));
+            await ResponseEnd(context, new ResultMo(ResultTypes.InnerError, "服务暂时不可用！"));
         }
     }
 
@@ -60,5 +61,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
         {
             return app.UseMiddleware<ExceptionMiddleware>();
         }
+
+   
     }
 }

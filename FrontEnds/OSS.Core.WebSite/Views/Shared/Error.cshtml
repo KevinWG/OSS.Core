@@ -1,26 +1,21 @@
 ﻿@using OSS.Common.ComModels.Enums
+@using OSS.Common.Extention
 
 @{
     ViewData["Title"] = "错误页";
-    
+    var ret = Context.Request.Query["err_ret"].ToInt32();
 }
 
 <div class="container content">
     @{
-    
-    var ret = (int?)ViewBag.ErrRet;
-    
-    if (ret.HasValue)
-    {
-        if (ret == (int)ResultTypes.UnKnowSource)
+        if (ret == (int) ResultTypes.UnKnowSource)
         {
             <div> 未知授权应用 </div>
         }
+        else
+        {
+            <div> 对不起,该请求出现错误！</div>
+        }
     }
-    else
-    {
-        <div> 对不起,该请求出现错误！</div>
-    }
-}
 
 </div>
