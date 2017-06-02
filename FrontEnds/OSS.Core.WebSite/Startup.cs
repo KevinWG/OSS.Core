@@ -39,8 +39,6 @@ namespace OSS.Core.WebSite
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
-
-            app.UseExceptionMiddleware();
             
             app.UseDefaultFiles();
             app.UseStaticFiles();
@@ -50,6 +48,7 @@ namespace OSS.Core.WebSite
                 DefaultContentType = "image/x-icon"
             });
 
+            app.UseExceptionMiddleware();
             app.UseSysAuthInfoMiddleware();
 
             app.UseMvc(routes =>

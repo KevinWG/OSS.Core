@@ -64,9 +64,8 @@ namespace OSS.Core.WebSite.AppCodes
                     r.Content.Headers.Add("at_id", ticket);
                 }
             };
-
-            httpReq.FormParameters.Add(new FormParameter());
-            return await httpReq.RestCommon<TRes>();
+            
+            return await httpReq.RestCommonJson<TRes>();
         }
     }
 }

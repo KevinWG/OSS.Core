@@ -34,10 +34,10 @@ namespace OSS.Core.WebSite.Controllers.Users
             if (!stateRes.IsSuccess())
                 return Json(stateRes);
           
-            var loginRes =await ApiUtil.PostApi<UserRepLoginResp>("/user/login", req);
+            var loginRes =await ApiUtil.PostApi<UserRepLoginResp>("member/login", req);
             if (loginRes.IsSuccess())
             {
-                
+                // todo  登录成功后重定向
             }
             return Json(loginRes);
         }
