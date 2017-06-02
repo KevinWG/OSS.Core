@@ -11,6 +11,7 @@
 
 #endregion
 using System.ComponentModel.DataAnnotations;
+using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;

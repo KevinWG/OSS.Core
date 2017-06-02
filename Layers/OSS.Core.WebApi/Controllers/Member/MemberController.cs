@@ -45,7 +45,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         public async Task<UserRegLoginResp> UserRegiste([FromBody] UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);
-            if (stateRes.IsSuccess())
+            if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserRegLoginResp>();
 
             var userRes = await service.RegisteUser(req.name,req.pass_word, req.pass_code, req.type);
@@ -63,7 +63,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         public async Task<UserRegLoginResp> UserLogin([FromBody] UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);
-            if (stateRes.IsSuccess())
+            if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserRegLoginResp>();
 
             var userRes = await service.LoginUser(req.name, req.pass_word, req.type);

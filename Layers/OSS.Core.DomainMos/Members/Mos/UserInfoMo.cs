@@ -28,7 +28,7 @@ namespace OSS.Core.Domains.Members.Mos
         public string app_source { get; set; }
 
         /// <summary>
-        /// 
+        /// 应用版本号
         /// </summary>
         public string app_version { get; set; }
     }

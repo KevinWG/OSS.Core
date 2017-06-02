@@ -69,7 +69,7 @@ namespace OSS.Core.Services.Members
             else userInfo.mobile = value;
 
             if (type != RegLoginType.MobileCode)
-                userInfo.pass_word = Md5.HalfEncryptHexString(passWord);
+                userInfo.pass_word = Md5.EncryptHexString(passWord);
 
             var idRes =await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResultOnly<UserInfoMo>();
@@ -90,16 +90,16 @@ namespace OSS.Core.Services.Members
          if (!userRes.IsSuccess())
                 return userRes.ConvertToResultOnly<UserInfoMo>();
 
-            if (Md5.HalfEncryptHexString(passWord)!=userRes.data.pass_word)
+            if (Md5.EncryptHexString(passWord)!=userRes.data.pass_word)
             return new ResultMo<UserInfoMo>(ResultTypes.UnAuthorize,"账号密码不正确！");
           
             MemberEvents.TriggerUserLoginEvent(userRes.data,MemberShiper.AppAuthorize);
 
             var checkRes = CheckMemberStatus(userRes.data.status);
 
-            return checkRes.IsSuccess() ? 
-                checkRes.ConvertToResultOnly<UserInfoMo>() 
-                : new ResultMo<UserInfoMo>(userRes.data.ConvertToMo());
+            return checkRes.IsSuccess()
+                ? new ResultMo<UserInfoMo>(userRes.data.ConvertToMo())
+                : checkRes.ConvertToResultOnly<UserInfoMo>();
         }
 
         /// <summary>

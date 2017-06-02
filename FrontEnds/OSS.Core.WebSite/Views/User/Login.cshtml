@@ -90,7 +90,7 @@
                         PostApi(event.target,
                             url, self.login,
                             function(res) {
-                                if (res.ret == 200) {
+                                if (res.ret == 0) {
                                     ShowTips("登录成功");
                                 } else {
                                     ShowTip_Error(res.message);

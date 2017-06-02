@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using OSS.Common.ComModels;
 using OSS.Core.Infrastructure.Enums;
-using OSS.Core.WebSite.Controllers.Mos;
 
 namespace OSS.Core.WebSite.Controllers.Users.Mos
 {

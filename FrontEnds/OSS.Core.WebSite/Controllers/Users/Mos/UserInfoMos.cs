@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.WebSite.Controllers.Mos
+﻿namespace OSS.Core.WebSite.Controllers.Users.Mos
 {
 
     public class UserInfoMo : BaseAutoMo
