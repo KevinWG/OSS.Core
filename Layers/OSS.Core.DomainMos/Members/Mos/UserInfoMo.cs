@@ -50,10 +50,10 @@ namespace OSS.Core.Domains.Members.Mos
         /// </summary>
         public string mobile { get; set; }
 
-        /// <summary>
-        ///   用户状态
-        /// todo 待测试序列化和转化是否好使
-        /// </summary>
-        public new MemberStatus status { get; set; }
+        ///// <summary>
+        /////   用户状态
+        /////  测试序列化时，取得是父类的值
+        ///// </summary>
+        //public new MemberStatus status { get; set; }
     }
 }

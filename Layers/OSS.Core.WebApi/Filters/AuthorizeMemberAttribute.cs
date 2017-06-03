@@ -94,7 +94,7 @@ namespace OSS.Core.WebApi.Filters
             }
             identity.MemberInfo = memInfo;
 
-            var checkRes = service.CheckMemberStatus((MemberStatus) memInfo.status);
+            var checkRes = service.CheckMemberStatus(memInfo.status);
             return !checkRes.IsSuccess() ? checkRes : new ResultMo();
         }
 

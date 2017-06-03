@@ -56,18 +56,12 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string passWord,string passCode, RegLoginType type)
         {
+            // todo 如果是手机号注册，检查验证码
+
             var checkRes =await CheckIfCanRegiste(type, value);
             if (!checkRes.IsSuccess()) return checkRes.ConvertToResultOnly<UserInfoMo>();
-
-            // todo 检查验证码
-            var userInfo=new UserInfoBigMo();
-
-            if (type == RegLoginType.Email)
-                userInfo.email = value;
-            else userInfo.mobile = value;
-
-            if (type != RegLoginType.MobileCode)
-                userInfo.pass_word = Md5.EncryptHexString(passWord);
+            
+            var userInfo = GetRegisteUserInfo(value, passWord, type);
 
             var idRes =await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResultOnly<UserInfoMo>();
@@ -77,6 +71,34 @@ namespace OSS.Core.Services.Members
 
             return new ResultMo<UserInfoMo>(userInfo);
         }
+
+        private static UserInfoBigMo GetRegisteUserInfo(string value, string passWord, RegLoginType type)
+        {
+            var userInfo = new UserInfoBigMo();
+
+            if (type == RegLoginType.Email)
+            {
+                userInfo.email = value;
+                userInfo.status = (int) MemberStatus.WaitConfirm;
+            }
+            else userInfo.mobile = value;
+
+            if (type != RegLoginType.MobileCode)
+                userInfo.pass_word = Md5.EncryptHexString(passWord);
+            return userInfo;
+        }
+
+        /// <summary>
+        ///  检查账号是否可以注册
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
+        {
+            return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type, value);
+        }
+
 
         public async Task<ResultMo<UserInfoMo>> LoginUser(string name, string passWord, RegLoginType type)
         {
@@ -104,20 +126,11 @@ namespace OSS.Core.Services.Members
         /// 查看当前成员状态是否正常
         /// </summary>
         /// <returns></returns>
-        public ResultMo CheckMemberStatus(MemberStatus state)
+        public ResultMo CheckMemberStatus(int state)
         {
-            return (int)state < -10 ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！") : new ResultMo();
+            return state < (int)MemberStatus.WaitConfirm ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！") : new ResultMo();
         }
 
-        /// <summary>
-        ///  检查账号是否可以注册
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
-        {
-            return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type,value);
-        }
+
     }
 }
