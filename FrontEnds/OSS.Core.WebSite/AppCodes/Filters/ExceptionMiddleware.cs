@@ -40,7 +40,6 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             try
             {
                 await _next.Invoke(context);
-
                 if (context.Response.StatusCode == (int) HttpStatusCode.NotFound)
                     await ResponseEnd(context, new ResultMo(ResultTypes.ObjectNull, "当前请求资源不存在！"));
 

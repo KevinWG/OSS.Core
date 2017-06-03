@@ -11,8 +11,6 @@
 
 #endregion
 
-using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
@@ -26,7 +24,7 @@ using OSS.Core.Services.Members.Exchange;
 
 namespace OSS.Core.Services.Members
 {
-    public class MemberService
+    public class PortalService
     {
         /// <summary>
         /// 获取前台用户信息

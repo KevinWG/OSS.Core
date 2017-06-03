@@ -2,10 +2,12 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Enums;
+using OSS.Core.Infrastructure.Utils;
 using OSS.Core.WebSite.AppCodes;
 using OSS.Core.WebSite.Controllers.Users.Mos;
 
@@ -16,6 +18,8 @@ namespace OSS.Core.WebSite.Controllers.Users
     /// </summary>
     public class UserController : BaseController
     {
+        #region 用户登录
+
         [AllowAnonymous]
         public IActionResult Login()
         {
@@ -33,14 +37,21 @@ namespace OSS.Core.WebSite.Controllers.Users
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
                 return Json(stateRes);
-          
-            var loginRes =await ApiUtil.PostApi<UserRepLoginResp>("member/userlogin", req);
-            if (loginRes.IsSuccess())
+
+            var loginRes = await ApiUtil.PostApi<UserRepLoginResp>("portal/userlogin", req);
+            if (!loginRes.IsSuccess()) return Json(loginRes);
+
+            Response.Cookies.Append(GlobalKeysUtil.UserCookieName, loginRes.token,
+                new CookieOptions() {HttpOnly = true,Expires = DateTimeOffset.Now.AddDays(30)});
+
+            string rUrl;
+            if (!string.IsNullOrEmpty(rUrl= Request.Cookies[GlobalKeysUtil.UserCookieName]))
             {
-                // todo  登录成功后重定向
+                return Redirect(rUrl);
             }
             return Json(loginRes);
         }
+
         /// <summary>
         ///   正常登录时，验证实体参数
         /// </summary>
@@ -60,10 +71,12 @@ namespace OSS.Core.WebSite.Controllers.Users
                     ? DataType.PhoneNumber
                     : DataType.EmailAddress);
 
-            return !validator.IsValid(req.name) ? 
-                new ResultMo(ResultTypes.ParaError, "请输入正确的手机或邮箱！")
+            return !validator.IsValid(req.name)
+                ? new ResultMo(ResultTypes.ParaError, "请输入正确的手机或邮箱！")
                 : new ResultMo();
         }
+
+        #endregion
     }
 
 

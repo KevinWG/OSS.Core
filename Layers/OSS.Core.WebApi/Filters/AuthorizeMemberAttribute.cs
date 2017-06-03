@@ -29,7 +29,7 @@ namespace OSS.Core.WebApi.Filters
 {
     public class AuthorizeMemberAttribute : Attribute, IAuthorizationFilter
     {
-        private static readonly MemberService service = new MemberService();
+        private static readonly PortalService service = new PortalService();
         private readonly MemberInfoType infoType;
 
         public AuthorizeMemberAttribute(MemberInfoType mInfoType = MemberInfoType.OnlyId)

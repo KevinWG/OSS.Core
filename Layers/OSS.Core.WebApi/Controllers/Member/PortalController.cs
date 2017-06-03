@@ -27,10 +27,10 @@ using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi.Controllers.Member
 {
-    [AuthorizeMember]
-    public class MemberController : BaseApiController
+    [AllowAnonymous]
+    public class PortalController : BaseApiController
     {
-        private static readonly MemberService service = new MemberService();
+        private static readonly PortalService service = new PortalService();
 
         #region 用户登录注册
 
@@ -41,7 +41,6 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
         public async Task<UserRegLoginResp> UserRegiste([FromBody] UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);
@@ -59,7 +58,6 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [AllowAnonymous]
         public async Task<UserRegLoginResp> UserLogin([FromBody] UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);

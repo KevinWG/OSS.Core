@@ -43,9 +43,6 @@ namespace OSS.Core.WebSite.AppCodes.Filters
         }
 
 
-        private const string authorizeTicket = "at_id";
-        private const string tokenCookie = "ct_id";
-
         public async Task Invoke(HttpContext context)
         {
             if (MemberShiper.AppAuthorize != null)
@@ -56,7 +53,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
 
             SysAuthorizeInfo sysInfo = null;
             //  这里是为了兼容App嵌套h5页面，使用App的授权信息
-            string auticketStr = context.Request.Headers[authorizeTicket];
+            string auticketStr = context.Request.Headers[GlobalKeysUtil.AuthorizeTicketName];
             if (!string.IsNullOrEmpty(auticketStr))
             {
                 sysInfo=new SysAuthorizeInfo();
@@ -80,12 +77,14 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             //  如果不是App访问，添加Web相关系统信息
             if (sysInfo==null)
             {
-                sysInfo = new SysAuthorizeInfo();
-                sysInfo.Token = context.Request.Cookies["ct_id"];
-                
+                sysInfo = new SysAuthorizeInfo
+                {
+                    Token = context.Request.Cookies[GlobalKeysUtil.UserCookieName],
+                    DeviceId = "WEB"
+                };
+
                 // todo appclient  
-                sysInfo.DeviceId = "WEB";
-               
+
             }
 
             CompleteAuthInfo(sysInfo,context);
