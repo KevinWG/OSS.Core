@@ -55,7 +55,10 @@ namespace OSS.Core.WebSite.AppCodes
             {
                 HttpMothed = HttpMothed.POST,
                 AddressUrl = string.Concat(apiUrlPre, apiRoute),
-                CustomBody = JsonConvert.SerializeObject(req),
+                CustomBody = JsonConvert.SerializeObject(req,Formatting.None,new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                }),
 
                 RequestSet = r =>
                 {

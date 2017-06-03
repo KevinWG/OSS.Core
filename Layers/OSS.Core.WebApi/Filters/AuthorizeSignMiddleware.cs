@@ -33,11 +33,9 @@ namespace OSS.Core.WebApi.Filters
             _next = next;
         }
         
-        private const string authorizeTicket = "at_id";
-
         public async Task Invoke(HttpContext context)
         {
-            string auticketStr = context.Request.Headers[authorizeTicket];
+            string auticketStr = context.Request.Headers[GlobalKeysUtil.AuthorizeTicketName];
             if (string.IsNullOrEmpty(auticketStr))
             {
                 await ResponseEnd(context, new ResultMo(ResultTypes.UnKnowSource, "未知应用来源"));
