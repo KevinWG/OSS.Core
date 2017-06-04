@@ -34,37 +34,46 @@ namespace OSS.Core.WebSite.Controllers.Users
         [HttpPost]
         public async Task<IActionResult> Login(UserRegLoginReq req)
         {
-            var stateRes = CheckLoginModelState(req);
-            if (!stateRes.IsSuccess())
-                return Json(stateRes);
+            var loginRes =await RegOrLogin(req, false, "portal/userlogin");
 
-            var loginRes = await ApiUtil.PostApi<UserRepLoginResp>("portal/userlogin", req);
-            if (!loginRes.IsSuccess()) return Json(loginRes);
+            return Json(loginRes);
+        }
+
+        private async Task<UserRegLoginResp> RegOrLogin(UserRegLoginReq req, bool isReg,string apiUrl)
+        {
+            var stateRes = CheckLoginModelState(req, isReg);
+            if (!stateRes.IsSuccess())
+                return stateRes.ConvertToResult<UserRegLoginResp>();
+
+            var loginRes = await ApiUtil.PostApi<UserRegLoginResp>(apiUrl, req);
+            if (!loginRes.IsSuccess()) return loginRes;
 
             Response.Cookies.Append(GlobalKeysUtil.UserCookieName, loginRes.token,
-                new CookieOptions() {HttpOnly = true,Expires = DateTimeOffset.Now.AddDays(30)});
+                new CookieOptions() {HttpOnly = true, Expires = DateTimeOffset.Now.AddDays(30)});
 
-            string rUrl;
-            if (!string.IsNullOrEmpty(rUrl= Request.Cookies[GlobalKeysUtil.UserCookieName]))
-            {
-                return Redirect(rUrl);
-            }
-            return Json(loginRes);
+            loginRes.return_url = Request.Cookies[GlobalKeysUtil.UserCookieName];
+            return loginRes;
         }
 
         /// <summary>
         ///   正常登录时，验证实体参数
         /// </summary>
         /// <param name="req"></param>
+        /// <param name="isReg">是否是注册</param>
         /// <returns></returns>
-        private ResultMo CheckLoginModelState(UserRegLoginReq req)
+        private ResultMo CheckLoginModelState(UserRegLoginReq req,bool isReg)
         {
             if (!ModelState.IsValid)
                 return new ResultMo(ResultTypes.ParaError, GetVolidMessage());
 
             if (!Enum.IsDefined(typeof(RegLoginType), req.type))
                 return new ResultMo(ResultTypes.ParaError, "未知的账号类型！");
-
+            
+            if (req.type == RegLoginType.MobileCode || (req.type == RegLoginType.Mobile && isReg))
+            {
+                if (string.IsNullOrEmpty(req.pass_code))
+                    return new ResultMo(ResultTypes.ParaError, "验证码不能为空！");
+            }
 
             var validator = new DataTypeAttribute(
                 req.type == RegLoginType.Mobile
@@ -76,6 +85,23 @@ namespace OSS.Core.WebSite.Controllers.Users
                 : new ResultMo();
         }
 
+        #endregion
+
+
+        #region  用户注册
+
+        public IActionResult Registe()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Registe(UserRegLoginReq req)
+        {
+            var regRes = await RegOrLogin(req, false, "portal/userregiste");
+
+            return Json(regRes);
+        }
         #endregion
     }
 

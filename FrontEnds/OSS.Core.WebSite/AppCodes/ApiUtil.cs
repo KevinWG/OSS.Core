@@ -64,7 +64,7 @@ namespace OSS.Core.WebSite.AppCodes
                 {
                     r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "UTF-8"};
                     var ticket = MemberShiper.AppAuthorize.ToSignData(secretKeyRes.data);
-                    r.Content.Headers.Add("at_id", ticket);
+                    r.Content.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
                 }
             };
             

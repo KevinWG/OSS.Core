@@ -38,7 +38,7 @@ namespace OSS.Core.RepDapper.Members
         public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
         {
             var sql =
-                $"select count(1) from {m_TableName} where {(type == RegLoginType.Email ? "emial " : "mobile ")} =@val";
+                $"select count(1) from {m_TableName} where {(type == RegLoginType.Email ? "`email` " : "`mobile` ")} =@val";
             return await ExcuteReadeResAsync(async con =>
             {
                 var count =await con.ExecuteScalarAsync<int>(sql, new {val = value});

@@ -61,7 +61,7 @@ namespace OSS.Core.WebSite.Controllers.Users.Mos
     /// <summary>
     /// 用户注册登录后响应实体
     /// </summary>
-    public class UserRepLoginResp:ResultMo
+    public class UserRegLoginResp:ResultMo
     {
         /// <summary>
         /// 用户token，作为用户授权判断依据
@@ -72,6 +72,11 @@ namespace OSS.Core.WebSite.Controllers.Users.Mos
         /// 用户信息
         /// </summary>
         public UserInfoMo user { get; set; }
+
+        /// <summary>
+        ///  返回地址
+        /// </summary>
+        public string return_url { get; set; }
     }
 
 

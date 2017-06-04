@@ -11,12 +11,14 @@
 
 #endregion
 
+using System;
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.ComUtils;
 using OSS.Common.Encrypt;
+using OSS.Common.Extention;
 using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
@@ -69,22 +71,32 @@ namespace OSS.Core.Services.Members
             userInfo.Id = idRes.id;
             MemberEvents.TriggerUserRegiteEvent(userInfo, MemberShiper.AppAuthorize);
 
-            return new ResultMo<UserInfoMo>(userInfo);
+            return new ResultMo<UserInfoMo>(userInfo.ConvertToMo());
         }
 
         private static UserInfoBigMo GetRegisteUserInfo(string value, string passWord, RegLoginType type)
         {
-            var userInfo = new UserInfoBigMo();
+
+            var sysInfo = MemberShiper.AppAuthorize;
+
+            var userInfo = new UserInfoBigMo
+            {
+                create_time = DateTime.Now.ToUtcSeconds(),
+                app_source = sysInfo.AppSource,
+                app_version = sysInfo.AppVersion
+            };
 
             if (type == RegLoginType.Email)
             {
                 userInfo.email = value;
                 userInfo.status = (int) MemberStatus.WaitConfirm;
             }
-            else userInfo.mobile = value;
+            else
+                userInfo.mobile = value;
 
             if (type != RegLoginType.MobileCode)
                 userInfo.pass_word = Md5.EncryptHexString(passWord);
+
             return userInfo;
         }
 
