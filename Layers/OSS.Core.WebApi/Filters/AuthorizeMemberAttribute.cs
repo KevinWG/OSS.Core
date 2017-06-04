@@ -29,7 +29,7 @@ namespace OSS.Core.WebApi.Filters
 {
     public class AuthorizeMemberAttribute : Attribute, IAuthorizationFilter
     {
-        private static readonly PortalService service = new PortalService();
+        private static readonly MemberService service = new MemberService();
         private readonly MemberInfoType infoType;
 
         public AuthorizeMemberAttribute(MemberInfoType mInfoType = MemberInfoType.OnlyId)
@@ -94,7 +94,7 @@ namespace OSS.Core.WebApi.Filters
             }
             identity.MemberInfo = memInfo;
 
-            var checkRes = service.CheckMemberStatus(memInfo.status);
+            var checkRes = PortalService.CheckMemberStatus(memInfo.status);
             return !checkRes.IsSuccess() ? checkRes : new ResultMo();
         }
 

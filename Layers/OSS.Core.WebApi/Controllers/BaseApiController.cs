@@ -7,6 +7,7 @@ using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi.Controllers
 {
+
     [AuthorizeMember]
     public class BaseApiController : Controller
     {

@@ -1,7 +1,7 @@
 ﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 
 /***************************************************************************
-*　　	文件功能描述：OSSCore服务层 —— 成员信息领域Service （前后台用户信息
+*　　	文件功能描述：OSSCore服务层 —— 登录注册入口 service （前后台用户信息
 *
 *　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
@@ -28,26 +28,6 @@ namespace OSS.Core.Services.Members
 {
     public class PortalService
     {
-        /// <summary>
-        /// 获取前台用户信息
-        /// </summary>
-        /// <param name="userId">用户Id</param>
-        /// <returns></returns>
-        public async Task<ResultMo<UserInfoMo>> GetUserInfo(long userId)
-        {
-            return await MemberCommon.GetUserInfo(userId);
-        }
-
-        /// <summary>
-        ///  获取后台管理员信息
-        /// </summary>
-        /// <param name="adminId"></param>
-        /// <returns></returns>
-        public async Task<ResultMo<AdminInfoMo>> GetAdminInfo(long adminId)
-        {
-            return await InsContainer<IAdminInfoRep>.Instance.Get<AdminInfoMo>();
-        }
-
         /// <summary>
         /// 注册用户信息
         /// </summary>
@@ -138,7 +118,7 @@ namespace OSS.Core.Services.Members
         /// 查看当前成员状态是否正常
         /// </summary>
         /// <returns></returns>
-        public ResultMo CheckMemberStatus(int state)
+        public static ResultMo CheckMemberStatus(int state)
         {
             return state < (int)MemberStatus.WaitConfirm ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！") : new ResultMo();
         }
