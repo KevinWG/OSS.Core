@@ -120,6 +120,7 @@
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\User\" />
     <Folder Include="wwwroot\js\" />
   </ItemGroup>
 
