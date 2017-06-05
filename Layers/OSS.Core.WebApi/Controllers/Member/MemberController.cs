@@ -33,7 +33,16 @@ namespace OSS.Core.WebApi.Controllers.Member
             return await service.GetUserInfo(MemberShiper.Identity.Id);
         }
 
+        /// <summary>
+        ///  获取当前管理员账号信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<ResultMo<AdminInfoMo>> GetCurrentAdmin()
+        {
+            return await service.GetAdminInfo(MemberShiper.Identity.Id);
+        }
 
         
+
     }
 }

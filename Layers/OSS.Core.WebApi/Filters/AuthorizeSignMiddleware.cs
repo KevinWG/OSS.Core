@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -113,6 +114,7 @@ namespace OSS.Core.WebApi.Filters
         protected static async Task ResponseEnd(HttpContext context, ResultMo res)
         {
             ClearCacheHeaders(context.Response);
+            context.Response.StatusCode = (int) HttpStatusCode.OK;
             context.Response.ContentType = "application/json;charset=utf-8";
             await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.message}\"}}");
         }

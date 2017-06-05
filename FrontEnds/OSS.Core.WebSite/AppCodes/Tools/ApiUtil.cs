@@ -22,11 +22,11 @@ using OSS.Core.Infrastructure.Utils;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 
-namespace OSS.Core.WebSite.AppCodes
+namespace OSS.Core.WebSite.AppCodes.Tools
 {
 
     /// <summary>
-    ///  
+    ///  请求api辅助类
     /// </summary>
     public static class ApiUtil
     {

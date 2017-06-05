@@ -11,12 +11,14 @@
 
 #endregion
 
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Common.Extention;
 using OSS.Core.Infrastructure.Utils;
 
 namespace OSS.Core.WebSite.AppCodes.Filters
@@ -127,9 +129,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             return app.UseMiddleware<SysAuthInfoMiddleware>();
         }
     }
-
-
-
+    
 
     /// <summary>
     ///  中间件基类
@@ -152,9 +152,10 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             }
             else
             {
+                context.Response.StatusCode = (int)HttpStatusCode.Redirect;
                 context.Response.Redirect(res.IsResultType(ResultTypes.ObjectNull)
-                    ? "/unnormal/notfound"
-                    : string.Concat("/unnormal/err_ret?=", res.ret));
+                    ? "/un/notfound"
+                    : string.Concat("/un/error?ret=", res.ret,"&message=",res.message.UrlEncode()));
             }
         }
 

@@ -3,7 +3,8 @@
 
 @{
     ViewData["Title"] = "错误页";
-    var ret = Context.Request.Query["err_ret"].ToInt32();
+    var ret = Context.Request.Query["ret"].ToInt32();
+    var message = Context.Request.Query["message"].ToString();
 }
 
 <div class="container content">
@@ -14,7 +15,9 @@
         }
         else
         {
-            <div> 对不起,该请求出现错误！</div>
+            <div>
+                @(message ?? " 对不起,该请求出现错误！")
+            </div>
         }
     }
 

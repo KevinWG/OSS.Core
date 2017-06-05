@@ -49,8 +49,10 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             {
                 error = ex;
             }
-            LogUtil.Error(string.Concat("错误信息：", error.Message, "详细信息：", error.StackTrace), nameof(ExceptionMiddleware));
-            await ResponseEnd(context, new ResultMo(ResultTypes.InnerError, "服务暂时不可用！"));
+            var code = LogUtil.Error(string.Concat("错误信息：", error.Message, "详细信息：", error.StackTrace),
+                nameof(ExceptionMiddleware));
+            await ResponseEnd(context,
+                new ResultMo(ResultTypes.InnerError, string.Concat("服务暂时不可用！详情错误码：", code)));
         }
     }
 

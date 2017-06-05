@@ -10,10 +10,37 @@
 *****************************************************************************/
 
 #endregion
+
+using System;
+using System.Threading.Tasks;
+using OSS.Common.ComModels;
+using OSS.Common.Plugs.CachePlug;
+using OSS.Core.WebSite.AppCodes.Tools;
+using OSS.Core.WebSite.Controllers.Users.Mos;
+
 namespace OSS.Core.WebSite.AppCodes
 {
+    /// <summary>
+    ///   用户通用辅助类
+    /// </summary>
     public static class UserCommon
-    { 
-        //public static 
+    {
+        public static async Task<ResultMo<UserInfoMo>> GetCurrentUser()
+        {
+            var user = CacheUtil.Get<UserInfoMo>(CacheKeysUtil.CurrentUserInfo);
+            if (user != null)
+            {
+                return new ResultMo<UserInfoMo>(user);
+            }
+
+            var userRes = await ApiUtil.PostApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser");
+            if (!userRes.IsSuccess())
+                return userRes.ConvertToResultOnly<UserInfoMo>();
+
+            CacheUtil.AddOrUpdate(CacheKeysUtil.CurrentUserInfo, userRes.data, TimeSpan.Zero,
+                DateTime.Now.AddHours(CacheKeysUtil.CurrentUserInfoHours));
+
+            return userRes;
+        }
     }
 }

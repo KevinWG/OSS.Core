@@ -10,7 +10,7 @@ namespace OSS.Core.WebSite.Controllers
             return View();
         }
 
-        public IActionResult error(int? err_ret)
+        public IActionResult error()
         {
             return View();
         }
