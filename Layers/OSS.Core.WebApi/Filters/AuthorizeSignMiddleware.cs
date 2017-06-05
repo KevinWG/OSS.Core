@@ -113,9 +113,10 @@ namespace OSS.Core.WebApi.Filters
         /// <returns></returns>
         protected static async Task ResponseEnd(HttpContext context, ResultMo res)
         {
+            context.Response.Clear();
             ClearCacheHeaders(context.Response);
-            context.Response.StatusCode = (int) HttpStatusCode.OK;
             context.Response.ContentType = "application/json;charset=utf-8";
+            context.Response.StatusCode = (int) HttpStatusCode.OK;
             await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.message}\"}}");
         }
 

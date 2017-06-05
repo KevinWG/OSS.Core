@@ -136,6 +136,8 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     /// </summary>
     internal class BaseMiddlewaire
     {
+        private static readonly string notFoundPage = ConfigUtil.GetSection("Authorize:NotFoundUrl").Value;
+        
         /// <summary>
         ///   结束请求
         /// </summary>
@@ -154,7 +156,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Redirect;
                 context.Response.Redirect(res.IsResultType(ResultTypes.ObjectNull)
-                    ? "/un/notfound"
+                    ? notFoundPage
                     : string.Concat("/un/error?ret=", res.ret,"&message=",res.message.UrlEncode()));
             }
         }

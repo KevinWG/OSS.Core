@@ -74,7 +74,7 @@
                 login: {
                     name: "",
                     pass_word: "",
-                    type:20
+                    type: 20
                 }
             },
             methods: {
@@ -85,14 +85,15 @@
                         var data = self.login;
                         var url = "/portal/login";
 
-                        var isMobile = /^1\d{10}$/.test(data.name);
-                        data.type = isMobile ? 20 : 30;
+                        //var isMobile = /^1\d{10}$/.test(data.name);
+                        //data.type = isMobile ? 20 : 30;
 
                         PostApi(event.target,
-                            url, data,
+                            url,
+                            data,
                             function(res) {
                                 if (res.ret == 0) {
-                                    ShowTips("登录成功");
+                                    location.href = res.return_url;
                                 } else {
                                     ShowTip_Error(res.message);
                                 }
@@ -101,14 +102,21 @@
                 }
             },
             created() {
+                var data = this.login;
                 this.$validator.extend("emailandphone",
                 {
                     getMessage(field, params, data) {
                         return "请填写正确的手机号或者邮箱";
                     },
                     validate(value) {
-                        Console.info(value);
-                        return /^1\d{10}$/.test(value) || /^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/.test(value);
+                        if (/^1\d{10}$/.test(value)) {
+                            data.type = 20;
+                        } else if (/^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/.test(value)) {
+                            data.type = 30;
+                        } else {
+                            return false;
+                        }
+                        return true;
                     }
                 });
             }

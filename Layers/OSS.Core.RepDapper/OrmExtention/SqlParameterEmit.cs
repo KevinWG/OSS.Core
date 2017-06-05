@@ -17,11 +17,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
     internal class SqlParameterEmit
     {
+
+        public static string GetTest(object obj)
+        {
+            if (obj==null)
+            {
+                return null;
+            }
+            return "";
+        }
+
         /// <summary>
         /// 获取类型下指定部分字段的委托方法
         /// </summary>
@@ -32,7 +43,6 @@ namespace OSS.Core.RepDapper.OrmExtention
         {
             if (proList == null)
                 return null;
-            var moType = typeof(MType);
 
             var dicType = typeof(Dictionary<string, object>);
             var dirAddMethod = dicType.GetMethod("Add");
@@ -40,7 +50,7 @@ namespace OSS.Core.RepDapper.OrmExtention
 
             var conFunM = new DynamicMethod(string.Concat("ConverTofunc_", Guid.NewGuid().GetHashCode()),
                 MethodAttributes.Public | MethodAttributes.Static,
-                CallingConventions.Standard, dicType, new[] { typeof(object) }, moType, false);
+                CallingConventions.Standard, dicType, new[] { typeof(object) }, typeof(MType), false);
 
             var ilT = conFunM.GetILGenerator();
             ilT.DeclareLocal(dicType);

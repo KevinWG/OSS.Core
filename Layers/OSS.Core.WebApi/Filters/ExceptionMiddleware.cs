@@ -37,7 +37,7 @@ namespace OSS.Core.WebApi.Filters
             try
             {
                 await _next.Invoke(context);
-                if (context.Response.StatusCode==(int)HttpStatusCode.NotFound)
+               if (context.Response.StatusCode==(int)HttpStatusCode.NotFound)
                 {
                     await ResponseEnd(context, new ResultMo(-1, "当前接口不存在！"));
                 }

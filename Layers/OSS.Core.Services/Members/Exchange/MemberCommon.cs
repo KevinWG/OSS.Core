@@ -31,7 +31,7 @@ namespace OSS.Core.Services.Members.Exchange
         /// <returns></returns>
         public static async Task<ResultMo<UserInfoMo>> GetUserInfo(long userId)
         {
-            return await InsContainer<IUserInfoRep>.Instance.Get<UserInfoMo>();
+            return await InsContainer<IUserInfoRep>.Instance.Get<UserInfoMo>(u=>u.Id==userId);
         }
     }
 }

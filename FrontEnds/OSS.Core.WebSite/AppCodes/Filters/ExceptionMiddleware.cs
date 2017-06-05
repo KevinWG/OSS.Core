@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Http;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Plugs.LogPlug;
+using OSS.Core.Infrastructure.Utils;
 
 namespace OSS.Core.WebSite.AppCodes.Filters
 {
@@ -28,7 +29,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     internal class ExceptionMiddleware : BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
-
+       
         public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;

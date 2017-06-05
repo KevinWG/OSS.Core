@@ -51,7 +51,7 @@ namespace OSS.Core.WebSite.Controllers.Users
             Response.Cookies.Append(GlobalKeysUtil.UserCookieName, loginRes.token,
                 new CookieOptions() {HttpOnly = true, Expires = DateTimeOffset.Now.AddDays(30)});
 
-            loginRes.return_url = Request.Cookies[GlobalKeysUtil.UserCookieName];
+            loginRes.return_url = Request.Cookies[GlobalKeysUtil.UserReturnUrlCookieName]??"/";
             return loginRes;
         }
 
