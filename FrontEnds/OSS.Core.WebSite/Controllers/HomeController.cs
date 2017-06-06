@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OSS.Common.ComModels;
+using OSS.Core.WebSite.AppCodes.Tools;
 
 namespace OSS.Core.WebSite.Controllers
 {
@@ -6,6 +8,7 @@ namespace OSS.Core.WebSite.Controllers
     {
         public IActionResult Index()
         {
+            var res= ApiUtil.PostApi<ResultMo>("/member/test").Result;
             return View();
         }
 

@@ -115,7 +115,7 @@ namespace OSS.Core.WebApi.Filters
         {
             context.Response.Clear();
             ClearCacheHeaders(context.Response);
-            context.Response.ContentType = "application/json;charset=utf-8";
+            context.Response.ContentType = "application/json; charset=utf-8";
             context.Response.StatusCode = (int) HttpStatusCode.OK;
             await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.message}\"}}");
         }
