@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <Compile Remove="wwwroot\**" />
+    <Content Remove="wwwroot\**" />
+    <EmbeddedResource Remove="wwwroot\**" />
+    <None Remove="wwwroot\**" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
@@ -19,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
-    <PackageReference Include="OSS.Common" Version="1.1.5.52" />
+    <PackageReference Include="OSS.Common" Version="1.1.5.53" />
     <PackageReference Include="System.ValueTuple" Version="4.4.0-preview1-25305-02" />
   </ItemGroup>
   <ItemGroup>
@@ -27,7 +30,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
-    <ProjectReference Include="..\OSS.Core.DomainMos\OSS.Core.Domains.csproj" />
+    <ProjectReference Include="..\OSS.Core.Domains\OSS.Core.Domains.csproj" />
     <ProjectReference Include="..\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
     <ProjectReference Include="..\OSS.Core.Services\OSS.Core.Services.csproj" />
   </ItemGroup>

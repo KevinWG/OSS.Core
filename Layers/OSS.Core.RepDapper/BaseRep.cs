@@ -102,7 +102,7 @@ namespace OSS.Core.RepDapper
                 return t;
                #endif
             }
-            return t ?? new RType() {ret = (int) ResultTypes.ObjectNull, message = "未发现对应结果响应"};
+            return t ?? new RType() {ret = (int) ResultTypes.ObjectNull, msg = "未发现对应结果响应"};
         }
 
         #endregion

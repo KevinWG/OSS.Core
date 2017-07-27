@@ -5,16 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SysTools\**" />
+    <EmbeddedResource Remove="SysTools\**" />
+    <None Remove="SysTools\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OSS.Common" Version="1.1.5.53" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
-    <ProjectReference Include="..\OSS.Core.DomainMos\OSS.Core.Domains.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="SysTools\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="1.1.5.52" />
+    <ProjectReference Include="..\OSS.Core.Domains\OSS.Core.Domains.csproj" />
   </ItemGroup>
 
 </Project>
