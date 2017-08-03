@@ -73,7 +73,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                 else
                 {
                     context.Result =
-                        new RedirectResult(string.Concat("/un/error?ret=", res.ret, "&message=", res.message));
+                        new RedirectResult(string.Concat("/un/error?ret=", res.ret, "&message=", res.msg));
                 }
             }
         }

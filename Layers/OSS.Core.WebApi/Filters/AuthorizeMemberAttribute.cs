@@ -29,6 +29,7 @@ namespace OSS.Core.WebApi.Filters
 {
     public class AuthorizeMemberAttribute : Attribute, IAuthorizationFilter
     {
+        // ReSharper disable once InconsistentNaming
         private static readonly MemberService service = new MemberService();
         private readonly MemberInfoType infoType;
 

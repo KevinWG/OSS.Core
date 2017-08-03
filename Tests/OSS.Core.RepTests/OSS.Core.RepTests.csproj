@@ -16,13 +16,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.0.0" />
-    <PackageReference Include="OSS.Common" Version="1.1.5.52" />
+    <PackageReference Include="OSS.Common" Version="1.1.5.56" />
     <PackageReference Include="xunit" Version="2.2.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Layers\OSS.Core.DomainMos\OSS.Core.Domains.csproj" />
+    <ProjectReference Include="..\..\Layers\OSS.Core.Domains\OSS.Core.Domains.csproj" />
     <ProjectReference Include="..\..\Layers\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
   </ItemGroup>
 

@@ -22,6 +22,9 @@ using OSS.Common.Plugs.LogPlug;
 
 namespace OSS.Core.WebApi.Filters
 {
+    /// <summary>
+    ///  异常处理中间件
+    /// </summary>
     internal class ExceptionMiddleware : BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
@@ -37,7 +40,7 @@ namespace OSS.Core.WebApi.Filters
             try
             {
                 await _next.Invoke(context);
-               if (context.Response.StatusCode==(int)HttpStatusCode.NotFound)
+                if (context.Response.StatusCode == (int) HttpStatusCode.NotFound)
                 {
                     await ResponseEnd(context, new ResultMo(-1, "当前接口不存在！"));
                 }
@@ -53,6 +56,9 @@ namespace OSS.Core.WebApi.Filters
 
     }
 
+    /// <summary>
+    /// 异常处理中间件扩展类
+    /// </summary>
     internal static class ExceptionMiddlewareExtention
     {
         internal static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app)

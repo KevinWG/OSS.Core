@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="1.1.5.53" />
+    <PackageReference Include="OSS.Common" Version="1.1.5.56" />
   </ItemGroup>
 
   <ItemGroup>

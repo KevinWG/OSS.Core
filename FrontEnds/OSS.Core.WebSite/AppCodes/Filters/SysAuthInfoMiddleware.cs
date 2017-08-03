@@ -60,20 +60,6 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             {
                 sysInfo=new SysAuthorizeInfo();
                 sysInfo.FromSignData(auticketStr);
-
-                var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-            
-                if (!secretKeyRes.IsSuccess())
-                {
-                    await ResponseEnd(context, secretKeyRes);
-                    return;
-                }
-                if (!sysInfo.CheckSign(secretKeyRes.data))
-                {
-                    await ResponseEnd(context, new ResultMo(ResultTypes.ParaError,"签名验证失败！"));
-                    return;
-                }
-                sysInfo.OriginAppSource = sysInfo.AppSource;
             }
 
             //  如果不是App访问，添加Web相关系统信息
@@ -84,31 +70,21 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                     Token = context.Request.Cookies[GlobalKeysUtil.UserCookieName],
                     DeviceId = "WEB"
                 };
-
-                // todo appclient  
+                sysInfo.AppSource = _appSource;
+                sysInfo.AppVersion = _appVersion;
+                // todo 剩余部分  
 
             }
 
-            CompleteAuthInfo(sysInfo,context);
+            if (string.IsNullOrEmpty(sysInfo.IpAddress))
+                sysInfo.IpAddress = GetIpAddress(context);
+
             MemberShiper.SetAppAuthrizeInfo(sysInfo);
 
             await _next.Invoke(context);
         }
 
-        /// <summary>
-        ///   完善授权信息
-        /// </summary>
-        /// <param name="sysInfo"></param>
-        /// <param name="context"></param>
-        private static void CompleteAuthInfo(SysAuthorizeInfo sysInfo, HttpContext context)
-        {
-            if (string.IsNullOrEmpty(sysInfo.IpAddress))
-                sysInfo.IpAddress = GetIpAddress(context);
-
-            // todo webbrowser  
-            sysInfo.AppSource = _appSource;
-            sysInfo.AppVersion = _appVersion;
-        }
+   
 
         /// <summary>
         ///  获取IP地址
@@ -150,14 +126,14 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             {
                 ClearCacheHeaders(context.Response);
                 context.Response.ContentType = "application/json;charset=utf-8";
-                await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.message}\"}}");
+                await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.msg}\"}}");
             }
             else
             {
                 context.Response.StatusCode = (int)HttpStatusCode.Redirect;
                 context.Response.Redirect(res.IsResultType(ResultTypes.ObjectNull)
                     ? notFoundPage
-                    : string.Concat("/un/error?ret=", res.ret,"&message=",res.message.UrlEncode()));
+                    : string.Concat("/un/error?ret=", res.ret,"&message=",res.msg.UrlEncode()));
             }
         }
 

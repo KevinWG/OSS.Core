@@ -59,26 +59,15 @@ namespace OSS.Core.WebApi.Filters
                 return;
             }
 
-            CompleteAuthInfo(sysInfo, context);
+            if (string.IsNullOrEmpty(sysInfo.IpAddress))
+                sysInfo.IpAddress = GetIpAddress(context);
+
             MemberShiper.SetAppAuthrizeInfo(sysInfo);
 
             await _next.Invoke(context);
         }
-
- 
-
-        /// <summary>
-        ///   完善授权信息
-        /// </summary>
-        /// <param name="sysInfo"></param>
-        /// <param name="context"></param>
-        private static void CompleteAuthInfo(SysAuthorizeInfo sysInfo,HttpContext context)
-        {
-            if (string.IsNullOrEmpty(sysInfo.IpAddress))
-                sysInfo.IpAddress = GetIpAddress(context);
-            //  todo  applcient , webbrowser
-        }
-
+        
+    
         /// <summary>
         ///  获取IP地址
         /// </summary>
@@ -91,7 +80,9 @@ namespace OSS.Core.WebApi.Filters
         }
     }
 
-
+    /// <summary>
+    /// 授权签名验证扩展类
+    /// </summary>
     internal static class AuthorizeSignMiddlewareExtention
     {
         internal static IApplicationBuilder UseAuthorizeSignMiddleware(this IApplicationBuilder app)
