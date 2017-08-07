@@ -46,7 +46,7 @@ namespace OSS.Core.WebApi.Filters
             var sysInfo = new SysAuthorizeInfo();
             sysInfo.FromSignData(auticketStr);
 
-            var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
+            var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource,sysInfo.TenantId);
             if (!secretKeyRes.IsSuccess())
             {
                 await ResponseEnd(context, secretKeyRes);
@@ -55,6 +55,7 @@ namespace OSS.Core.WebApi.Filters
 
             if (!sysInfo.CheckSign(secretKeyRes.data))
             {
+
                 await ResponseEnd(context, new ResultMo(ResultTypes.ParaError, "非法应用签名！"));
                 return;
             }

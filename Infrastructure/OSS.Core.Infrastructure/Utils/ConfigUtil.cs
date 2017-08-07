@@ -32,9 +32,8 @@ namespace OSS.Core.Infrastructure.Utils
                     });
                 config = configBuilder.Build();
                 return config;
-
             }
-            set { config = value; }
+            set => config = value;
         }
         
         /// <summary>
