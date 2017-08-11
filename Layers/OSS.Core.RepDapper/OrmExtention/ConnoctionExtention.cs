@@ -49,8 +49,13 @@ namespace OSS.Core.RepDapper.OrmExtention
 
             var para = new DynamicParameters(ormInfo.ParaFunc?.Invoke(mo));
 
-            var id = isIdAuto ? con.ExecuteScalar<long>(ormInfo.Sql, para) : con.Execute(ormInfo.Sql, para);
-            return id > 0 ? new ResultIdMo(isIdAuto ? id : 0) : new ResultIdMo(ResultTypes.AddFail, "添加操作失败！");
+            long id;
+            if (isIdAuto)
+                id = await con.ExecuteScalarAsync<long>(ormInfo.Sql, para);
+            else
+                id = await con.ExecuteAsync(ormInfo.Sql, para);
+
+            return id > 0 ? new ResultIdMo(id) : new ResultIdMo(ResultTypes.AddFail, "添加操作失败！");
         }
 
         private static OrmOperateInfo GetInsertOrmCacheInfo<TType>(string tableName, string key) 

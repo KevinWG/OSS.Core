@@ -202,8 +202,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             var value = c.Value ?? "null";
             if (flag.IsRight)
             {
-                const string parameterPre = "ConstPara";
-                var paraName = GetParaName(parameterPre, flag.ParaPreToken, true);
+                var paraName = flag.GetCustomParaName();
                 flag.Append(paraName);
 
                 AddParameter(paraName, c.Type == typeof(bool) ? ((bool)value ? 1 : 0) : value);
@@ -235,7 +234,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 var arg = nex.Arguments[i];
                 var member = nex.Members[i];
 
-                flag.AppendColName(member.Name);
+                flag.Append(flag.GetColName(member.Name));
                 VisitRight(arg, flag);
             }
         }
@@ -247,7 +246,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 if (flag.IsRight)
                 {
-                    var proParaName = GetParaName(exp.Member.Name, flag.ParaPreToken);
+                    var proParaName = flag.GetParaName(exp.Member.Name);
 
                     flag.Append(proParaName);
 
@@ -268,7 +267,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                         Visit(doesNotEqualNull, flag);
                     }
                     else
-                        flag.AppendColName(exp.Member.Name);
+                        flag.Append(flag.GetColName(exp.Member.Name));
                 }
             }
             else if (exp.Expression != null && flag.IsRight)
@@ -322,13 +321,6 @@ namespace OSS.Core.RepDapper.OrmExtention
             parameters.Add(paraName, value);
         }
 
-
-
-        private int _constantParaIndex;
-        private string GetParaName(string nameWithNoPre,string paraPreToken, bool isConstant = false)
-        {
-            return String.Concat(paraPreToken, !isConstant ? nameWithNoPre : string.Concat(nameWithNoPre, _constantParaIndex++));
-        }
 
         protected virtual string GetBinaryOperater(ExpressionType e)
         {
@@ -454,15 +446,39 @@ namespace OSS.Core.RepDapper.OrmExtention
 
 
         /// <summary>
-        ///  往语句追加属性列名称
+        ///  获取对应的参数名称
+        ///    给参数添加前置符号
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public virtual string GetParaName(string name)
+        {
+            return string.Concat(ParaPreToken, name);
+        }
+
+        private int _constantParaIndex;
+        /// <summary>
+        ///  获取定制常量参数名称
+        ///   部分参数并无指定属性，这里自定义不重复参数
+        /// </summary>
+        /// <returns></returns>
+        public virtual string GetCustomParaName()
+        {
+            const string parameterPre = "ConstPara";
+            return string.Concat(ParaPreToken, parameterPre, _constantParaIndex++);
+        }
+
+        /// <summary>
+        ///  获取属性列名称
         ///    内部补充转义字符，防止和数据库关键字名称冲突，如 `name`
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public virtual SqlVistorFlag AppendColName(string name)
+        public virtual string GetColName(string name)
         {
-            return Append(string.Concat('`', name, '`'));
+            return string.Concat('`', name, '`');
         }
+
 
         private string GetSeparate()
         {
