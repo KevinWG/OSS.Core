@@ -203,7 +203,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             if (flag.IsRight)
             {
                 const string parameterPre = "ConstPara";
-                var paraName = GetParaName(parameterPre, true);
+                var paraName = GetParaName(parameterPre, flag.ParaPreToken, true);
                 flag.Append(paraName);
 
                 AddParameter(paraName, c.Type == typeof(bool) ? ((bool)value ? 1 : 0) : value);
@@ -234,8 +234,8 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 var arg = nex.Arguments[i];
                 var member = nex.Members[i];
-                flag.Append(string.Concat("`",member.Name,"`", "="), true);
 
+                flag.AppendColName(member.Name);
                 VisitRight(arg, flag);
             }
         }
@@ -247,8 +247,10 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 if (flag.IsRight)
                 {
-                    var proParaName = GetParaName(exp.Member.Name);
+                    var proParaName = GetParaName(exp.Member.Name, flag.ParaPreToken);
+
                     flag.Append(proParaName);
+
                     AddMemberProperty(proParaName, exp.Member.DeclaringType.GetProperty(exp.Member.Name));
                 }
                 else
@@ -256,17 +258,17 @@ namespace OSS.Core.RepDapper.OrmExtention
                     if (exp.Member.DeclaringType.GetTypeInfo().IsGenericType
                         && exp.Member.DeclaringType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
-                        if (exp.Member.Name == "Value") //Can't use C# 6 yet: nameof(Nullable<bool>.Value)
+                        if (exp.Member.Name == "Value") 
                             Visit(exp.Expression, flag);
-                        if (exp.Member.Name == "HasValue") //nameof(Nullable<bool>.HasValue)
-                        {
-                            var doesNotEqualNull = Expression.MakeBinary(ExpressionType.NotEqual, exp.Expression,
-                                Expression.Constant(null));
-                            Visit(doesNotEqualNull, flag); // Nullable<T>.HasValue is equivalent to "!= null"
-                        }
+
+                        if (exp.Member.Name != "HasValue") return;
+
+                        var doesNotEqualNull = Expression.MakeBinary(ExpressionType.NotEqual, exp.Expression,
+                            Expression.Constant(null));
+                        Visit(doesNotEqualNull, flag);
                     }
                     else
-                        flag.Append(string.Concat("`", exp.Member.Name,"`"), true);
+                        flag.AppendColName(exp.Member.Name);
                 }
             }
             else if (exp.Expression != null && flag.IsRight)
@@ -311,7 +313,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         }
 
         /// <summary>
-        ///  添加参数
+        ///  添加值对应的参数
         /// </summary>
         /// <param name="paraName"></param>
         /// <param name="value"></param>
@@ -321,11 +323,11 @@ namespace OSS.Core.RepDapper.OrmExtention
         }
 
 
-        private int constantParaIndex = 0;
 
-        private string GetParaName(string nameWithNoPre, bool isConstant = false)
+        private int _constantParaIndex;
+        private string GetParaName(string nameWithNoPre,string paraPreToken, bool isConstant = false)
         {
-            return String.Concat("@",!isConstant ? nameWithNoPre : string.Concat(nameWithNoPre, constantParaIndex++));
+            return String.Concat(paraPreToken, !isConstant ? nameWithNoPre : string.Concat(nameWithNoPre, _constantParaIndex++));
         }
 
         protected virtual string GetBinaryOperater(ExpressionType e)
@@ -389,14 +391,13 @@ namespace OSS.Core.RepDapper.OrmExtention
     /// </summary>
     public class SqlVistorFlag
     {
+        private readonly StringBuilder _sqlBuilder;
         public SqlVistorFlag(SqlVistorType vistorType)
         {
-            VistorType = vistorType;
-            sqlBuilder = new StringBuilder();
+            _sqlBuilder = new StringBuilder();
             UnaryType = (ExpressionType) (-1);
         }
 
-        public SqlVistorType VistorType { get; set; }
 
         /// <summary>
         ///   是否是表达式右侧项，决定右侧树是否做参数化处理
@@ -404,34 +405,66 @@ namespace OSS.Core.RepDapper.OrmExtention
         public bool IsRight { get; set; }
 
         /// <summary>
-        /// 主要是MethodCall方法中解析时需要知晓上层一元运算
+        /// 主要是MethodCall方法中解析时需要知晓上层一元运算符
         /// </summary>
         public ExpressionType UnaryType { get; set; }
+        
+        /// <summary>
+        ///  参数辨识符号
+        /// </summary>
+        public string ParaPreToken { get; set; } = "@";
+
+        /// <summary>
+        ///  对应的SQL语句
+        /// </summary>
+        public string Sql => _sqlBuilder.ToString();
+
+        /// <summary>
+        ///  解析语段类型
+        /// </summary>
+        public SqlVistorType VistorType { get; set; }
 
         #region 语句拼接
 
-        private bool isStarted = false;
-        public string Sql => sqlBuilder.ToString();
 
-        private readonly StringBuilder sqlBuilder;
+        private bool _isStarted;
 
+
+        /// <summary>
+        ///  往语句中追加内容
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="needCheckSep"></param>
+        /// <returns></returns>
         public SqlVistorFlag Append(string content, bool needCheckSep = false)
         {
-            if (!isStarted)
-                isStarted = true;
+            if (!_isStarted)
+                _isStarted = true;
             else
             {
                 if (needCheckSep)
                 {
-                    sqlBuilder.Append(GetSeparate());
+                    _sqlBuilder.Append(GetSeparate());
                 }
             }
 
-            sqlBuilder.Append(content);
+            _sqlBuilder.Append(content);
             return this;
         }
 
-        public string GetSeparate()
+
+        /// <summary>
+        ///  往语句追加属性列名称
+        ///    内部补充转义字符，防止和数据库关键字名称冲突，如 `name`
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public virtual SqlVistorFlag AppendColName(string name)
+        {
+            return Append(string.Concat('`', name, '`'));
+        }
+
+        private string GetSeparate()
         {
             switch (VistorType)
             {
@@ -440,13 +473,17 @@ namespace OSS.Core.RepDapper.OrmExtention
 
                 case SqlVistorType.Where:
                     return " ";
+                default:
+                    return string.Empty;
             }
-            return string.Empty;
         }
 
         #endregion
     }
-    
+
+
+
+
     public enum SqlVistorType
     {
         /// <summary>
@@ -456,5 +493,5 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         Where
     }
-
+    
 }

@@ -27,7 +27,7 @@ using OSS.Common.Extention.DTO;
 
 namespace OSS.Core.RepDapper.OrmExtention
 {
-    internal static class ConnoctionExtention
+    internal static class ConnoctionExtention 
     {
         #region    插入扩展
         /// <summary>
