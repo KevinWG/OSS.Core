@@ -134,8 +134,8 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         protected virtual void VisitMethodCall(MethodCallExpression exp, SqlVistorFlag flag)
         {
-            var MethodName = exp.Method.Name;
-            switch (MethodName) //这里其实还可以改成反射调用，不用写switch
+            var methodName = exp.Method.Name;
+            switch (methodName) //这里其实还可以改成反射调用，不用写switch
             {
                 case "Contains":
                     MethodCallLike(exp, flag);
@@ -149,7 +149,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         private void MethodCallLike(MethodCallExpression exp, SqlVistorFlag flag)
         {
             Visit(exp.Object, flag);
-            flag.Append(GetUnaryOperater(flag.UnaryType), true);
+            flag.Append(GetUnaryOperater(flag.UnaryType));
             flag.Append(" LIKE CONCAT('%',");
             VisitRight(exp.Arguments[0], flag);
             flag.Append(",'%')");

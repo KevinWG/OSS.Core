@@ -116,7 +116,7 @@ namespace OSS.Core.RepDapper
         /// <param name="isAuto">Id主键是否自增长</param>
         /// <returns></returns>
         public virtual async Task<ResultIdMo> Insert<T>(T mo, bool isAuto = true)
-            =>await ExcuteWriteAsync(con => con.Insert(mo, isAuto, m_TableName));
+            =>await ExcuteWriteAsync(con => con.Insert(mo, m_TableName,isAuto));
 
         /// <summary>
         /// 全量更新
@@ -137,7 +137,7 @@ namespace OSS.Core.RepDapper
         /// <returns></returns>
         public virtual async Task<ResultMo> Update<TType>(TType mo, Expression<Func<TType, object>> updateExp,
             Expression<Func<TType, bool>> whereExp = null)
-            => await ExcuteWriteAsync(con => con.UpdatePartail(mo, updateExp, whereExp, m_TableName));
+            => await ExcuteWriteAsync(con => con.UpdatePartail(mo, updateExp, m_TableName, whereExp ));
 
         /// <summary>
         /// 软删除，仅仅修改State状态
@@ -149,7 +149,7 @@ namespace OSS.Core.RepDapper
             where TType : BaseMo
         {
             mo.status = (int) CommonStatus.Delete;
-            return await ExcuteWriteAsync(con => con.UpdatePartail(mo, m => new {m.status }, whereExp, m_TableName));
+            return await ExcuteWriteAsync(con => con.UpdatePartail(mo, m => new {m.status }, m_TableName, whereExp));
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace OSS.Core.RepDapper
         /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
         /// <returns></returns>
         public virtual async Task<ResultMo<TType>> Get<TType>(Expression<Func<TType, bool>> whereExp = null, TType mo = null) where TType : class
-            =>await ExcuteReadeAsync(con => con.Get(mo, whereExp, m_TableName));
+            =>await ExcuteReadeAsync(con => con.Get( m_TableName,mo, whereExp));
 
 
 

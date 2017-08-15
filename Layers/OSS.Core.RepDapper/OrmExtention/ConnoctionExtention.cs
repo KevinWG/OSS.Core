@@ -38,8 +38,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="isIdAuto"> 【Id】主键是否是自增长，如果是同步返回，不是则需要外部传值（不通过Attribute处理是为了尽可能减少依赖 </param>
         /// <param name="tableName">如果为空则以TType.GetType().Name</param>
         /// <returns></returns>
-        public static async Task<ResultIdMo> Insert<TType>(this IDbConnection con, TType mo, bool isIdAuto = true,
-            string tableName = null)
+        public static async Task<ResultIdMo> Insert<TType>(this IDbConnection con, TType mo,string tableName = null, bool isIdAuto = true)
         {
             if (string.IsNullOrEmpty(tableName))
                 tableName = mo.GetType().Name;
@@ -161,8 +160,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         #endregion
 
         internal static async Task<ResultMo> UpdatePartail<TType>(this IDbConnection con, TType mo,
-            Expression<Func<TType, object>> update, Expression<Func<TType, bool>> where = null,
-            string tableName = null)
+            Expression<Func<TType, object>> update, string tableName = null, Expression<Func<TType, bool>> where = null)
         {
             if (string.IsNullOrEmpty(tableName))
                 tableName = typeof(TType).Name;
@@ -256,8 +254,11 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="whereExp"></param>
         /// <param name="tableName"></param>
         /// <returns></returns>
-        public static async Task<TType> Get<TType>(this IDbConnection con,TType mo, Expression<Func<TType,bool>> whereExp=null,string tableName=null)
+        public static async Task<TType> Get<TType>(this IDbConnection con, string tableName=null, TType mo = default(TType), Expression<Func<TType, bool>> whereExp = null)
         {
+            if (string.IsNullOrEmpty(tableName))
+                tableName = typeof(TType).Name;
+
             var sqlVisitor=new SqlExpressionVisitor();
             var whereSql = VisitWhereExpress(sqlVisitor, whereExp);
 
