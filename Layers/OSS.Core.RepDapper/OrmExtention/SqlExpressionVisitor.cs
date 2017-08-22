@@ -234,7 +234,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 var arg = nex.Arguments[i];
                 var member = nex.Members[i];
 
-                flag.Append(flag.GetColName(member.Name));
+                flag.Append(flag.GetColName(member.Name)).Append("=");
                 VisitRight(arg, flag);
             }
         }
