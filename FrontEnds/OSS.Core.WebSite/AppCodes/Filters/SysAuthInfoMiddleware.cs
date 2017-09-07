@@ -30,13 +30,11 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     internal class SysAuthInfoMiddleware:BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
-        private static readonly string _appSource;
-        private static readonly string _appVersion;
+        //private static readonly string _appVersion;
 
         static SysAuthInfoMiddleware()
         {
-            _appSource = ConfigUtil.GetSection("ApiConfig:AppSource").Value;
-            _appVersion = ConfigUtil.GetSection("ApiConfig:AppVersion").Value;
+            //_appVersion = ConfigUtil.GetSection("ApiConfig:AppVersion").Value;
         }
 
         public SysAuthInfoMiddleware(RequestDelegate next)
@@ -70,10 +68,9 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                     Token = context.Request.Cookies[GlobalKeysUtil.UserCookieName],
                     DeviceId = "WEB"
                 };
-                sysInfo.AppSource = _appSource;
-                sysInfo.AppVersion = _appVersion;
-                // todo 剩余部分  
-
+                //// todo 剩余部分 
+                //sysInfo.AppVersion = _appVersion;
+                //sysInfo.AppSource = ;
             }
 
             if (string.IsNullOrEmpty(sysInfo.IpAddress))

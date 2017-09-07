@@ -29,7 +29,7 @@ namespace OSS.Core.WebSite.AppCodes.Tools
     public static class ApiUtil
     {
 
-        private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiConfig:BaseUrl").Value;
+        private static readonly string coreApiUrlPre = ConfigUtil.GetSection("CoreApiConfig:BaseUrl").Value;
 
         /// <summary>
         ///   post一个Api请求
