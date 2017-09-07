@@ -35,7 +35,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
 
         static SysAuthInfoMiddleware()
         {
-            var appConfig = ConfigUtil.GetSection("ApiConfig");
+            var appConfig = ConfigUtil.GetSection("AppConfig");
 
             _appVersion = appConfig.GetSection("AppVersion").Value;// AppVersion.Value;
             _appSource= appConfig.GetSection("AppSource").Value;
