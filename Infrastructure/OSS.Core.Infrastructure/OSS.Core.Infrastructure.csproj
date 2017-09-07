@@ -6,7 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="1.1.2" />
-    <PackageReference Include="OSS.Common" Version="1.1.5.56" />
+    <PackageReference Include="OSS.Common" Version="1.2.3.8" />
+    <PackageReference Include="OSS.Http.Extention" Version="1.2.3.3" />
   </ItemGroup>
 
 </Project>

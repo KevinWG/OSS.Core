@@ -16,11 +16,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Core.Infrastructure.Utils;
 using OSS.Http.Extention;
 using OSS.Http.Mos;
 
-namespace OSS.Core.WebSite.AppCodes.Tools
+namespace OSS.Core.Infrastructure.Utils
 {
 
     /// <summary>
@@ -28,7 +27,6 @@ namespace OSS.Core.WebSite.AppCodes.Tools
     /// </summary>
     public static class ApiUtil
     {
-
         private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiConfig:BaseUrl").Value;
 
         /// <summary>
@@ -39,8 +37,8 @@ namespace OSS.Core.WebSite.AppCodes.Tools
         /// <param name="apiRoute"></param>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static async Task<TRes> PostCoreApi<TReq,TRes>(string apiRoute, TReq req = null)
-            where TReq : class 
+        public static async Task<TRes> PostCoreApi<TReq, TRes>(string apiRoute, TReq req = null)
+            where TReq : class
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(coreApiUrlPre, apiRoute);
@@ -48,9 +46,10 @@ namespace OSS.Core.WebSite.AppCodes.Tools
             {
                 NullValueHandling = NullValueHandling.Ignore
             });
-            
+
             return await PostApi<TRes>(apiUrl, reqContent);
         }
+
 
         public static async Task<TRes> PostApi<TRes>(string absoluateApiUrl, string reqContent)
             where TRes : ResultMo, new()

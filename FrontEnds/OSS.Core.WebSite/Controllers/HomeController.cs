@@ -8,7 +8,7 @@ namespace OSS.Core.WebSite.Controllers
     {
         public IActionResult Index()
         {
-            var res= ApiUtil.PostApi<ResultMo>("/member/test").Result;
+            //var res= ApiUtil.PostApi<ResultMo>("/member/test").Result;
             return View();
         }
 
