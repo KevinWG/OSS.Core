@@ -27,25 +27,27 @@ namespace OSS.Core.Infrastructure.Utils
     /// </summary>
     public static class ApiUtil
     {
-        private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiConfig:BaseUrl").Value;
+
+        private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;
+        private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiUrlConfig:CoreApi").Value;
 
         /// <summary>
         ///   post一个Api请求
         /// </summary>
         /// <typeparam name="TRes"></typeparam>
-        /// <typeparam name="TReq"></typeparam>
         /// <param name="apiRoute"></param>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static async Task<TRes> PostCoreApi<TReq, TRes>(string apiRoute, TReq req = null)
-            where TReq : class
+        public static async Task<TRes> PostCoreApi<TRes>(string apiRoute, object req = null)
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(coreApiUrlPre, apiRoute);
-            var reqContent = JsonConvert.SerializeObject(req, Formatting.None, new JsonSerializerSettings()
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            var reqContent = req == null
+                ? null
+                : JsonConvert.SerializeObject(req, Formatting.None, new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore
+                });
 
             return await PostApi<TRes>(apiUrl, reqContent);
         }
@@ -54,12 +56,6 @@ namespace OSS.Core.Infrastructure.Utils
         public static async Task<TRes> PostApi<TRes>(string absoluateApiUrl, string reqContent)
             where TRes : ResultMo, new()
         {
-            var sysInfo = MemberShiper.AppAuthorize;
-
-            var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource);
-            if (!secretKeyRes.IsSuccess())
-                return secretKeyRes.ConvertToResult<TRes>();
-
             var httpReq = new OsHttpRequest
             {
                 HttpMothed = HttpMothed.POST,
@@ -69,7 +65,7 @@ namespace OSS.Core.Infrastructure.Utils
                 RequestSet = r =>
                 {
                     r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" };
-                    var ticket = MemberShiper.AppAuthorize.ToSignData(secretKeyRes.data);
+                    var ticket = MemberShiper.AppAuthorize.ToSignData(secretKey);
                     r.Content.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
                 }
             };

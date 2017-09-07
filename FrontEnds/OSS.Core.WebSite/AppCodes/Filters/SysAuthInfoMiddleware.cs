@@ -30,11 +30,15 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     internal class SysAuthInfoMiddleware:BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
-        //private static readonly string _appVersion;
+        private static readonly string _appVersion;
+        private static readonly string _appSource;
 
         static SysAuthInfoMiddleware()
         {
-            //_appVersion = ConfigUtil.GetSection("ApiConfig:AppVersion").Value;
+            var appConfig = ConfigUtil.GetSection("ApiConfig");
+
+            _appVersion = appConfig.GetSection("AppVersion").Value;// AppVersion.Value;
+            _appSource= appConfig.GetSection("AppSource").Value;
         }
 
         public SysAuthInfoMiddleware(RequestDelegate next)
@@ -52,7 +56,8 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             }
 
             SysAuthorizeInfo sysInfo = null;
-            //  这里是为了兼容App嵌套h5页面，使用App的授权信息
+
+            //  这里是为了兼容App内部嵌套h5页面，使用App的授权信息
             string auticketStr = context.Request.Headers[GlobalKeysUtil.AuthorizeTicketName];
             if (!string.IsNullOrEmpty(auticketStr))
             {
@@ -68,20 +73,18 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                     Token = context.Request.Cookies[GlobalKeysUtil.UserCookieName],
                     DeviceId = "WEB"
                 };
-                //// todo 剩余部分 
-                //sysInfo.AppVersion = _appVersion;
-                //sysInfo.AppSource = ;
+                // todo 给 webbrowser 赋值 
             }
+
+            sysInfo.AppVersion = _appVersion;
+            sysInfo.AppSource = _appSource;
 
             if (string.IsNullOrEmpty(sysInfo.IpAddress))
                 sysInfo.IpAddress = GetIpAddress(context);
 
             MemberShiper.SetAppAuthrizeInfo(sysInfo);
-
             await _next.Invoke(context);
         }
-
-   
 
         /// <summary>
         ///  获取IP地址

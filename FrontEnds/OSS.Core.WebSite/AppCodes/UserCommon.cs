@@ -15,6 +15,7 @@ using System;
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.Plugs.CachePlug;
+using OSS.Core.Infrastructure.Utils;
 using OSS.Core.WebSite.AppCodes.Tools;
 using OSS.Core.WebSite.Controllers.Users.Mos;
 
@@ -33,7 +34,7 @@ namespace OSS.Core.WebSite.AppCodes
                 return new ResultMo<UserInfoMo>(user);
             }
 
-            var userRes = await ApiUtil.PostApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser");
+            var userRes = await ApiUtil.PostCoreApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser");
             if (!userRes.IsSuccess())
                 return userRes.ConvertToResultOnly<UserInfoMo>();
 

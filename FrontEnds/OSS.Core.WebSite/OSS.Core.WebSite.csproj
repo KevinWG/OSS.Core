@@ -24,8 +24,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-    <PackageReference Include="OSS.Common" Version="1.1.5.58" />
-    <PackageReference Include="OSS.Http.Extention" Version="1.0.3.6" />
+    <PackageReference Include="OSS.Common" Version="1.2.3.8" />
+    <PackageReference Include="OSS.Http.Extention" Version="1.2.3.3" />
   </ItemGroup>
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
