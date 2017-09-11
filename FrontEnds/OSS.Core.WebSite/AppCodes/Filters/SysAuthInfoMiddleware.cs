@@ -125,7 +125,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             if (IsAjax(context))
             {
                 ClearCacheHeaders(context.Response);
-                context.Response.ContentType = "application/json;charset=utf-8";
+                context.Response.ContentType = "application/json; charset=utf-8";
                 await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.msg}\"}}");
             }
             else
