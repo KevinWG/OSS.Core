@@ -11,7 +11,6 @@
 
 #endregion
 
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.Authrization;
@@ -19,10 +18,9 @@ using OSS.Common.ComModels;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Services.Members;
 
-
-namespace OSS.Core.WebApi.Controllers.Member
+namespace OSS.Core.WebApi.Controllers.CoreApi.Member
 {
-    public class MemberController : BaseApiController
+    public class MemberController : BaseCoreApiController
     {
         private static readonly MemberService service=new MemberService();
 

@@ -25,16 +25,23 @@ using OSS.Core.Services.Members;
 using OSS.Core.WebApi.Controllers.Member.Reqs;
 using OSS.Core.WebApi.Filters;
 
-namespace OSS.Core.WebApi.Controllers.Member
+namespace OSS.Core.WebApi.Controllers.CoreApi.Member
 {
     [AllowAnonymous]
-    public class PortalController : BaseApiController
+    public class PortalController : BaseCoreApiController
     {
         private static readonly PortalService service = new PortalService();
 
         #region 用户登录注册
 
         #region 正常登录注册
+
+
+        public IActionResult Test()
+        {
+            return Content("sss");
+        }
+
         /// <summary>
         /// 用户注册
         /// </summary>

@@ -5,11 +5,11 @@ using OSS.Core.WebApi.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace OSS.Core.WebApi.Controllers
+namespace OSS.Core.WebApi.Controllers.CoreApi
 {
-
+    [Area("coreapi")]
     [AuthorizeMember]
-    public class BaseApiController : Controller
+    public class BaseCoreApiController :Controller
     {
         /// <summary>
         /// 获取验证失败列表信息

@@ -58,10 +58,13 @@ namespace OSS.Core.WebApi
             app.UseExceptionMiddleware();// 注册全局错误
 
             ConfigStaticFiles(app);
-            app.UseAuthorizeSignMiddleware();
+           // app.UseAuthorizeSignMiddleware();
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "api/{controller=Home}/{action=Index}/{id?}");
