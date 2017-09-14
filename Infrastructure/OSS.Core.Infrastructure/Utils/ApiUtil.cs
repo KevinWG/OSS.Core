@@ -56,6 +56,7 @@ namespace OSS.Core.Infrastructure.Utils
         public static async Task<TRes> PostApi<TRes>(string absoluateApiUrl, string reqContent)
             where TRes : ResultMo, new()
         {
+
             var httpReq = new OsHttpRequest
             {
                 HttpMothed = HttpMothed.POST,
