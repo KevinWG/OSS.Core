@@ -1,115 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8+wpa81;</PackageTargetFallback>
-    <PostBuildEvent></PostBuildEvent>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+  </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\dist\**" />
-    <Content Remove="wwwroot\dist\**" />
-    <EmbeddedResource Remove="wwwroot\dist\**" />
-    <None Remove="wwwroot\dist\**" />
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="BuildBundlerMinifier" Version="2.4.337" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.1.1" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.0.0" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
-    <PackageReference Include="OSS.Common" Version="1.2.3.8" />
-    <PackageReference Include="OSS.Http.Extention" Version="1.2.3.3" />
-  </ItemGroup>
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.1" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="wwwroot\images\banner1.svg" />
-    <None Include="wwwroot\images\banner2.svg" />
-    <None Include="wwwroot\images\banner3.svg" />
-    <None Include="wwwroot\images\banner4.svg" />
-    <None Include="wwwroot\js\site.js" />
-    <None Include="wwwroot\js\site.min.js" />
-    <None Include="wwwroot\js\vue.veevalidate.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-theme.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.svg" />
-    <None Include="wwwroot\lib\bootstrap\dist\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\npm.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
-    <None Include="wwwroot\lib\jquery-validation\LICENSE.md" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-    <None Include="wwwroot\lib\qrcode\qrcode.js" />
-    <None Include="wwwroot\lib\qrcode\qrcode.min.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ar.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ca.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\da.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\de.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\el.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\en.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\es.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\et.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\fa.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\fi.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\fr.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\he.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\hu.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\id.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\it.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ja.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ka.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ko.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\nb_NO.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\nl.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\nn_NO.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\pl.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\pt_BR.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ro.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ru.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\sl.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\sv.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\tr.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\ua.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\uk.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\vi.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\zh_CN.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\locale\zh_TW.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\user.login.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\vee-validate-tips.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\vee-validate.es2015.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\vee-validate.js" />
-    <None Include="wwwroot\lib\vee-validate\dist\vee-validate.min.js" />
-    <None Include="wwwroot\lib\vue\dist\README.md" />
-    <None Include="wwwroot\lib\vue\dist\vue.common.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.esm.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.min.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.runtime.common.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.runtime.esm.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.runtime.js" />
-    <None Include="wwwroot\lib\vue\dist\vue.runtime.min.js" />
   </ItemGroup>
 
 </Project>

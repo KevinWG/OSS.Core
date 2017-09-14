@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OSS.Common.ComUtils;
 using OSS.Core.Domains.Members.Interfaces;
@@ -29,36 +28,38 @@ namespace OSS.Core.WebApi
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env)
+        public Startup(IConfiguration configuration)
         {
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(env.ContentRootPath)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
-            ConfigUtil.Configuration = Configuration = builder.Build();
+            ConfigUtil.Configuration = Configuration = configuration;
         }
 
-        public IConfigurationRoot Configuration { get; }
+        public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
-            RegisterRep();
             services.AddMvc().AddJsonOptions(op =>
             {
-                op.SerializerSettings.NullValueHandling=NullValueHandling.Ignore;
+                op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
+
+            RegisterRep();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
+
             app.UseExceptionMiddleware();// 注册全局错误
 
             ConfigStaticFiles(app);
             app.UseAuthorizeSignMiddleware();
-            
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -66,6 +67,7 @@ namespace OSS.Core.WebApi
                     template: "api/{controller=Home}/{action=Index}/{id?}");
             });
         }
+
         /// <summary>
         ///   处理默认和静态文件
         /// </summary>
@@ -91,9 +93,4 @@ namespace OSS.Core.WebApi
             InsContainer<IAdminInfoRep>.Set<AdminInfoRep>();
         }
     }
-
-
- 
-
-
 }

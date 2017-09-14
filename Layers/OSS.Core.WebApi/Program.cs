@@ -1,17 +1,12 @@
-﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
-
-/***************************************************************************
-*　　	文件功能描述：OSSCore —— 接口启动类
-*
-*　　	创建人： Kevin
-*       创建人Email：1985088337@qq.com
-*    	创建日期：2017-5-16
-*       
-*****************************************************************************/
-
-#endregion
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace OSS.Core.WebApi
 {
@@ -19,16 +14,12 @@ namespace OSS.Core.WebApi
     {
         public static void Main(string[] args)
         {
-            var host = new WebHostBuilder()
-                .UseUrls("http://*:5080")
-                .UseKestrel()
-                .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseIISIntegration()
-                .UseStartup<Startup>()
-                .UseApplicationInsights()
-                .Build();
-
-            host.Run();
+            BuildWebHost(args).Run();
         }
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseStartup<Startup>()
+                .Build();
     }
 }
