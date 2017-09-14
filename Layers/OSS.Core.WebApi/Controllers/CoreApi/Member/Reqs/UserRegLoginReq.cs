@@ -10,13 +10,13 @@
 *****************************************************************************/
 
 #endregion
+
 using System.ComponentModel.DataAnnotations;
-using Newtonsoft.Json;
 using OSS.Common.ComModels;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 
-namespace OSS.Core.WebApi.Controllers.Member.Reqs
+namespace OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs
 {
     /// <summary>
     /// 正常用户注册登录请求实体

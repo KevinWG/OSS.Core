@@ -22,7 +22,7 @@ using OSS.Common.ComModels.Enums;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members;
-using OSS.Core.WebApi.Controllers.Member.Reqs;
+using OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs;
 using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi.Controllers.CoreApi.Member
