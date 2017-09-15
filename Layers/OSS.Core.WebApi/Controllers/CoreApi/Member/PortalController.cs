@@ -36,12 +36,6 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
 
         #region 正常登录注册
 
-
-        public IActionResult Test()
-        {
-            return Content("sss");
-        }
-
         /// <summary>
         /// 用户注册
         /// </summary>
