@@ -19,4 +19,8 @@
     <ProjectReference Include="..\OSS.Core.Domains\OSS.Core.Domains.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Sns\Oauth\" />
+  </ItemGroup>
+
 </Project>
