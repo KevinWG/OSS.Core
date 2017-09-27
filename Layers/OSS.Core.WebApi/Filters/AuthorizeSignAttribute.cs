@@ -11,10 +11,13 @@
 
 #endregion
 
+using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
@@ -25,50 +28,8 @@ namespace OSS.Core.WebApi.Filters
     /// <summary>
     ///  签名验证中间件
     /// </summary>
-    internal class AuthorizeSignMiddleware: BaseMiddlewaire
+    internal class AuthorizeSignAttribute : Attribute, IAuthorizationFilter
     {
-        private readonly RequestDelegate _next;
-
-        public AuthorizeSignMiddleware(RequestDelegate next)
-        {
-            _next = next;
-        }
-        
-        public async Task Invoke(HttpContext context)
-        {
-            string auticketStr = context.Request.Headers[GlobalKeysUtil.AuthorizeTicketName];
-            if (string.IsNullOrEmpty(auticketStr))
-            {
-                await ResponseEnd(context, new ResultMo(ResultTypes.UnKnowSource, "未知应用来源"));
-                return;
-            }
-
-            var sysInfo = new SysAuthorizeInfo();
-            sysInfo.FromSignData(auticketStr);
-
-            var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource,sysInfo.TenantId);
-            if (!secretKeyRes.IsSuccess())
-            {
-                await ResponseEnd(context, secretKeyRes);
-                return;
-            }
-
-            if (!sysInfo.CheckSign(secretKeyRes.data))
-            {
-
-                await ResponseEnd(context, new ResultMo(ResultTypes.ParaError, "非法应用签名！"));
-                return;
-            }
-
-            if (string.IsNullOrEmpty(sysInfo.IpAddress))
-                sysInfo.IpAddress = GetIpAddress(context);
-
-            MemberShiper.SetAppAuthrizeInfo(sysInfo);
-
-            await _next.Invoke(context);
-        }
-        
-    
         /// <summary>
         ///  获取IP地址
         /// </summary>
@@ -79,16 +40,59 @@ namespace OSS.Core.WebApi.Filters
             string ipAddress = context.Request.Headers["X-Forwarded-For"];
             return !string.IsNullOrEmpty(ipAddress) ? ipAddress : context.Connection.RemoteIpAddress.ToString();
         }
-    }
 
-    /// <summary>
-    /// 授权签名验证扩展类
-    /// </summary>
-    internal static class AuthorizeSignMiddlewareExtention
-    {
-        internal static IApplicationBuilder UseAuthorizeSignMiddleware(this IApplicationBuilder app)
+        public void OnAuthorization(AuthorizationFilterContext context)
         {
-            return app.UseMiddleware<AuthorizeSignMiddleware>();
+            SysAuthorizeInfo sysInfo = null;
+            var checkSign = !context.Filters.Any(filter => filter is AllowNoSignAttribute);
+          
+            if (checkSign)
+            {
+                string auticketStr = context.HttpContext.Request.Headers[GlobalKeysUtil.AuthorizeTicketName];
+                if (string.IsNullOrEmpty(auticketStr))
+                {
+                    context.Result = new JsonResult(new ResultMo(ResultTypes.UnKnowSource, "未知应用来源"));
+                    return;
+                }
+
+                sysInfo = new SysAuthorizeInfo();
+                sysInfo.FromSignData(auticketStr);
+
+                var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource, sysInfo.TenantId);
+                if (!secretKeyRes.IsSuccess())
+                {
+                    context.Result = new JsonResult(secretKeyRes);
+                    return;
+                }
+
+                if (!sysInfo.CheckSign(secretKeyRes.data))
+                {
+                    context.Result = new JsonResult(new ResultMo(ResultTypes.ParaError, "非法应用签名！"));
+                    return;
+                }
+            }
+
+            if (sysInfo == null)
+                sysInfo = new SysAuthorizeInfo();
+
+            SetSystemAuthorizeInfo(sysInfo, context);
+            MemberShiper.SetAppAuthrizeInfo(sysInfo);
+        }
+        
+        private static readonly string _appSource = ConfigUtil.GetSection("AppConfig:AppSource")?.Value;
+        private static readonly string _appVersion = ConfigUtil.GetSection("AppConfig:AppVersion")?.Value;
+
+        private static void SetSystemAuthorizeInfo(SysAuthorizeInfo sysInfo, ActionContext context)
+        {
+       
+
+            sysInfo.AppSource = _appSource;
+            sysInfo.AppVersion = _appVersion;
+
+            if (string.IsNullOrEmpty(sysInfo.IpAddress))
+                sysInfo.IpAddress = GetIpAddress(context.HttpContext);
+
+            // todo  设置浏览器等值
         }
     }
 
@@ -123,6 +127,12 @@ namespace OSS.Core.WebApi.Filters
             httpResponse.Headers["Expires"] = "-1";
             httpResponse.Headers.Remove("ETag");
         }
+    }
+
+
+    public class AllowNoSignAttribute : Attribute, IFilterMetadata
+    {
+
     }
 
 }

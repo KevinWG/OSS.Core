@@ -38,7 +38,7 @@ namespace OSS.Core.WebApi
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().AddJsonOptions(op =>
+            services.AddMvc(mvcOp=>mvcOp.Filters.Add(new AuthorizeSignAttribute())).AddJsonOptions(op =>
             {
                 op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
@@ -55,11 +55,11 @@ namespace OSS.Core.WebApi
             }
 
 
-            app.UseExceptionMiddleware();// 注册全局错误
+            app.UseExceptionMiddleware(); // 注册全局错误
 
             ConfigStaticFiles(app);
-           // app.UseAuthorizeSignMiddleware();
-
+            // app.UseAuthorizeSignMiddleware();
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(name: "areaRoute",
@@ -85,8 +85,7 @@ namespace OSS.Core.WebApi
                 DefaultContentType = "image/x-icon"
             });
         }
-
-
+        
         /// <summary>
         /// 注册仓储接口的具体实现
         /// </summary>
