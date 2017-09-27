@@ -66,4 +66,38 @@ namespace OSS.Core.WebApi.Filters
             return app.UseMiddleware<ExceptionMiddleware>();
         }
     }
+
+    /// <summary>
+    ///  中间件基类
+    /// </summary>
+    internal class BaseMiddlewaire
+    {
+        /// <summary>
+        ///   结束请求
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="res"></param>
+        /// <returns></returns>
+        protected static async Task ResponseEnd(HttpContext context, ResultMo res)
+        {
+            context.Response.Clear();
+            ClearCacheHeaders(context.Response);
+            context.Response.ContentType = "application/json; charset=utf-8";
+            context.Response.StatusCode = (int)HttpStatusCode.OK;
+            await context.Response.WriteAsync($"{{\"ret\":{res.ret},\"message\":\"{res.msg}\"}}");
+        }
+
+        /// <summary>
+        ///  清理Response缓存
+        /// </summary>
+        /// <param name="httpResponse"></param>
+        private static void ClearCacheHeaders(HttpResponse httpResponse)
+        {
+            httpResponse.Headers["Cache-Control"] = "no-cache";
+            httpResponse.Headers["Pragma"] = "no-cache";
+            httpResponse.Headers["Expires"] = "-1";
+            httpResponse.Headers.Remove("ETag");
+        }
+    }
+
 }
