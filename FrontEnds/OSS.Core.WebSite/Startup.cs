@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.WebSite.AppCodes.Filters;
@@ -18,11 +19,17 @@ namespace OSS.Core.WebSite
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddJsonOptions(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+            services.AddMvc().AddJsonOptions(op =>
+            {
+                //  设置属性序列化规范
+                op.SerializerSettings.ContractResolver = new DefaultContractResolver();
+                // 去除序列化中的默认值和空值
+                op.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                op.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

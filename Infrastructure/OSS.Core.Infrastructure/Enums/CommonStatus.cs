@@ -24,4 +24,5 @@ namespace OSS.Core.Infrastructure.Enums
         /// </summary>
         Normal=0
     }
+
 }
