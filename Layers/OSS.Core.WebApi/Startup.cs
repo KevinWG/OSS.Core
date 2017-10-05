@@ -23,6 +23,7 @@ using OSS.Common.ComUtils;
 using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.Members;
+using OSS.Core.Services.Sns.Exchange;
 using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi
@@ -48,7 +49,7 @@ namespace OSS.Core.WebApi
                 op.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
             });
 
-            RegisterRep();
+            RegisteGlobal();
         }
 
 
@@ -92,12 +93,35 @@ namespace OSS.Core.WebApi
         }
         
         /// <summary>
-        /// 注册仓储接口的具体实现
+        /// 注册全局配置等相关实现
         /// </summary>
-        private static void RegisterRep()
+        private static void RegisteGlobal()
+        {
+            RegisteReps();
+            RegisterWxConfig();
+        }
+
+
+        /// <summary>
+        ///  注册仓储接口的具体实现
+        /// </summary>
+        private static void RegisteReps()
         {
             InsContainer<IUserInfoRep>.Set<UserInfoRep>();
             InsContainer<IAdminInfoRep>.Set<AdminInfoRep>();
+        }
+
+        /// <summary>
+        ///  注册微信配置信息
+        /// </summary>
+        private static void RegisterWxConfig()
+        {
+            var appId = ConfigUtil.GetSection("DefaultWxConfig:AppId")?.Value;
+            var appSecret = ConfigUtil.GetSection("DefaultWxConfig:AppSecret")?.Value;
+            if (!string.IsNullOrEmpty(appId))
+            {
+                SnsConfigProvider.RegisterDefaultWxConfig(appId,appSecret);
+            }
         }
     }
 }

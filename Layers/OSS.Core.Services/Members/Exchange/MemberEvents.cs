@@ -9,12 +9,12 @@ namespace OSS.Core.Services.Members.Exchange
  
         #region 触发方法
         
-        public static void TriggerUserRegiteEvent(UserInfoBigMo arg1, SysAuthorizeInfo arg2)
+        public static void TriggerUserRegiteEvent(UserInfoBigMo arg1, AppAuthorizeInfo arg2)
         {
             // todo  推送注册消息
         }
 
-        public static void TriggerUserLoginEvent(UserInfoBigMo arg1, SysAuthorizeInfo arg2)
+        public static void TriggerUserLoginEvent(UserInfoBigMo arg1, AppAuthorizeInfo arg2)
         {
             // todo  推送登录消息
         }
