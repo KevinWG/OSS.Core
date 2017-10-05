@@ -64,7 +64,7 @@ namespace OSS.Core.WebApi
             app.UseExceptionMiddleware(); // 注册全局错误
 
             ConfigStaticFiles(app);
-            // app.UseAuthorizeSignMiddleware();
+             app.UseSysAuthInfoMiddleware();
             
             app.UseMvc(routes =>
             {
@@ -85,6 +85,7 @@ namespace OSS.Core.WebApi
         {
             app.UseDefaultFiles();
             app.UseStaticFiles();
+
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory())),

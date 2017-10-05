@@ -48,7 +48,7 @@
     <div class="col-xs-12 col-sm-6 login-footer">
         <div>第三方注册/登录</div>
         <div class="thirds">
-            <span>微信</span>
+            <span class="third-icons wechat">微信</span>
         </div>
     </div>
 </div>
@@ -84,15 +84,11 @@
                         var self = this;
                         var data = self.login;
                         var url = "/portal/login";
-
-                        //var isMobile = /^1\d{10}$/.test(data.name);
-                        //data.type = isMobile ? 20 : 30;
-
                         PostApi(event.target,
                             url,
                             data,
                             function(res) {
-                                if (res.ret == 0) {
+                                if (res.isRetOk()) {
                                     location.href = res.return_url;
                                 } else {
                                     ShowTip_Error(res.message);

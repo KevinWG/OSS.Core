@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.ComModels;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Oauth.Wx.Mos;

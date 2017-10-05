@@ -85,7 +85,7 @@
                         PostApi(event.target,
                             url, self.registe,
                             function(res) {
-                                if (res.ret == 0) {
+                                if (res.isRetOk()) {
                                     ShowTips("注册成功");
                                 } else {
                                     ShowTip_Error(res.message);

@@ -12,7 +12,7 @@ function ShowTips(message, tipType) {
     alert(message);
 }
 
-function PostApi(btnDocElement,url, data, successFun) {
+function PostApi(btnDocElement, url, data, successFun) {
     var btn = $(btnDocElement);
 
     btn.attr("disabled", "disabled");
@@ -25,4 +25,16 @@ function PostApi(btnDocElement,url, data, successFun) {
         .complete(function() {
             btn.removeAttr("disabled");
         });
+}
+
+/**
+ *  全局接口结果是否成功验证
+ * @returns  false 失败，true 成功
+ */
+object.prototype.isRetOk= function() {
+    var self = this;
+    if (!self.ret && self.ret != 0) {
+        return false;
+    }
+    return true;
 }

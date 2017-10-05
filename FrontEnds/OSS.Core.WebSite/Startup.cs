@@ -15,11 +15,12 @@ namespace OSS.Core.WebSite
     {
         public Startup(IConfiguration configuration)
         {
-          ConfigUtil.Configuration=  Configuration = configuration;
+            ConfigUtil.Configuration = Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
 
+        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().AddJsonOptions(op =>
@@ -35,6 +36,7 @@ namespace OSS.Core.WebSite
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            // 注册静态文件处理
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseStaticFiles(new StaticFileOptions
@@ -43,9 +45,20 @@ namespace OSS.Core.WebSite
                 DefaultContentType = "image/x-icon"
             });
 
-            app.UseExceptionMiddleware();
+            // 注册异常处理
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionMiddleware();
+            }
+            //  注册全局信息处理
             app.UseSysAuthInfoMiddleware();
 
+            //  站点路由
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

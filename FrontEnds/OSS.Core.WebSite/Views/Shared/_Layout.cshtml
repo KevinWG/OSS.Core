@@ -2,7 +2,6 @@
 @{
     ViewBag.CssStaticPath = "";
 }
-@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,7 +21,6 @@
         <link rel="stylesheet" href="@ViewBag.CssStaticPath/css/site.min.css" asp-append-version="true" />
     </environment>
     @RenderSection("Header", required: false)
-    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
     <!-- Top menu -->
