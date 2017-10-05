@@ -1,8 +1,6 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "用户登录 ";
 }
-
 <div class="container login">
     
     <div class="login-title">
@@ -46,28 +44,17 @@
         </form>      
     </div>
     <div class="col-xs-12 col-sm-6 login-footer">
-        <div>第三方注册/登录</div>
-        <div class="thirds">
-            <span class="third-icons wechat">微信</span>
-        </div>
+       @Html.Partial("_ThirdPlatform")
     </div>
 </div>
 @section Scripts
 {
-    <environment names="Development">
-        <script src="/lib/vue/dist/vue.min.js"></script>
-        <script src="/lib/vee-validate/dist/vee-validate.min.js"></script>
-        <script src="/lib/vee-validate/dist/vee-validate-tips.js" asp-append-version="true"></script>
-    </environment>
-
-    <environment names="Staging,Production">
-        <script src="@ViewBag.CssStaticPath/js/vue.veevalidate.min.js" asp-append-version="true"></script>
-    </environment>
-
+    <script src="@ViewBag.CssStaticPath/lib/vue/dist/vue.min.js"></script>
+    <script src="@ViewBag.CssStaticPath/lib/vee-validate/dist/vee-validate.min.js"></script>
+    <script src="@ViewBag.CssStaticPath/lib/vee-validate/dist/vee-validate-tips.js" asp-append-version="true"></script>
     <script>
 
         Vue.use(VeeValidate, { events: 'blur' });
-
         var loginVue = new Vue({
             el: "#login-form",
             data: {
@@ -100,25 +87,23 @@
             created() {
                 var data = this.login;
                 this.$validator.extend("emailandphone",
-                {
-                    getMessage(field, params, data) {
-                        return "请填写正确的手机号或者邮箱";
-                    },
-                    validate(value) {
-                        if (/^1\d{10}$/.test(value)) {
-                            data.type = 20;
-                        } else if (/^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/.test(value)) {
-                            data.type = 30;
-                        } else {
-                            return false;
+                    {
+                        getMessage(field, params, data) {
+                            return "请填写正确的手机号或者邮箱";
+                        },
+                        validate(value) {
+                            if (/^1\d{10}$/.test(value)) {
+                                data.type = 20;
+                            } else if (/^(\w-*\.*)+@@(\w-?)+(\.\w{2,})+$/.test(value)) {
+                                data.type = 30;
+                            } else {
+                                return false;
+                            }
+                            return true;
                         }
-                        return true;
-                    }
-                });
+                    });
             }
         });
-
-
     </script>
 
 }

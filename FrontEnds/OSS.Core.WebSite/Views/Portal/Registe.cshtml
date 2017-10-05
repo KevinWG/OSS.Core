@@ -43,26 +43,16 @@
         </form>
     </div>
     <div class="col-xs-12 col-sm-6 login-footer">
-        <div>第三方注册/登录</div>
-        <div class="thirds">
-            <span>微信</span>
-        </div>
+      @Html.Partial("_ThirdPlatform")
     </div>
 </div>
 @section Scripts
 {
-    <environment names="Development">
-        <script src="/lib/vue/dist/vue.min.js"></script>
-        <script src="/lib/vee-validate/dist/vee-validate.min.js"></script>
-        <script src="/lib/vee-validate/dist/vee-validate-tips.js" asp-append-version="true"></script>
-    </environment>
-
-    <environment names="Staging,Production">
-        <script src="@ViewBag.CssStaticPath/js/vue.veevalidate.min.js" asp-append-version="true"></script>
-    </environment>
+    <script src="@ViewBag.CssStaticPath/lib/vue/dist/vue.min.js"></script>
+    <script src="@ViewBag.CssStaticPath/lib/vee-validate/dist/vee-validate.min.js"></script>
+    <script src="@ViewBag.CssStaticPath/lib/vee-validate/dist/vee-validate-tips.js" asp-append-version="true"></script>
 
     <script>
-
         Vue.use(VeeValidate, { events: 'blur' });
 
         var loginVue = new Vue({
@@ -72,7 +62,7 @@
                     name: "",
                     pass_word: "",
                     type: 30,
-                    pass_code:""
+                    pass_code: ""
                 }
             },
             methods: {
@@ -83,9 +73,10 @@
                         var url = "/portal/registe";
 
                         PostApi(event.target,
-                            url, self.registe,
+                            url,
+                            self.registe,
                             function(res) {
-                                if (res.isRetOk()) {
+                                if (isRetOk(res)) {
                                     ShowTips("注册成功");
                                 } else {
                                     ShowTip_Error(res.message);

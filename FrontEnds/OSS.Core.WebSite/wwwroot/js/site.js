@@ -31,9 +31,8 @@ function PostApi(btnDocElement, url, data, successFun) {
  *  全局接口结果是否成功验证
  * @returns  false 失败，true 成功
  */
-object.prototype.isRetOk= function() {
-    var self = this;
-    if (!self.ret && self.ret != 0) {
+function isRetOk(res) {
+    if (!res.ret && res.ret != 0) {
         return false;
     }
     return true;

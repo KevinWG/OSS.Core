@@ -55,8 +55,16 @@
 }
     .login-footer .thirds {
         margin-top: 10px;
+        height: 32px;
     }
-
-    .login-footer .third-icons.wechat {
-       background-image: url('../images/logo/icon32_wx_logo.png');
+    .login-footer .third-icons {
+        line-height: 1;
+        height: 32px;
+        display: inline-block;
     }
+        .login-footer .third-icons.wechat {
+            
+            width: 32px;
+            height: 32px;
+            background-image: url('../images/logo/icon32_wx_logo.png');
+        }
