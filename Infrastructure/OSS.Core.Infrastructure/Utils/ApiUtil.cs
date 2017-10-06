@@ -30,6 +30,8 @@ namespace OSS.Core.Infrastructure.Utils
 
         private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;
         private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiUrlConfig:CoreApi").Value;
+        private static readonly string snsApiUrlPre = ConfigUtil.GetSection("ApiUrlConfig:SnsApi").Value;
+
 
         /// <summary>
         ///   post一个Api请求
@@ -42,18 +44,25 @@ namespace OSS.Core.Infrastructure.Utils
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(coreApiUrlPre, apiRoute);
-            var reqContent = req == null
-                ? null
-                : JsonConvert.SerializeObject(req, Formatting.None, new JsonSerializerSettings()
-                {
-                    NullValueHandling = NullValueHandling.Ignore
-                });
+            return await PostApi<TRes>(apiUrl, req);
+        }
 
-            return await PostApi<TRes>(apiUrl, reqContent);
+        /// <summary>
+        ///   post一个Api请求
+        /// </summary>
+        /// <typeparam name="TRes"></typeparam>
+        /// <param name="apiRoute"></param>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public static async Task<TRes> PostSnsApi<TRes>(string apiRoute, object req = null)
+            where TRes : ResultMo, new()
+        {
+            var apiUrl = string.Concat(snsApiUrlPre, apiRoute);
+            return await PostApi<TRes>(apiUrl, req);
         }
 
 
-        public static async Task<TRes> PostApi<TRes>(string absoluateApiUrl, string reqContent)
+        public static async Task<TRes> PostApi<TRes>(string absoluateApiUrl, object reqContent)
             where TRes : ResultMo, new()
         {
 
@@ -61,11 +70,17 @@ namespace OSS.Core.Infrastructure.Utils
             {
                 HttpMothed = HttpMothed.POST,
                 AddressUrl = absoluateApiUrl,
-                CustomBody = reqContent,
+                CustomBody = reqContent == null
+                    ? null
+                    : JsonConvert.SerializeObject(reqContent, Formatting.None, new JsonSerializerSettings()
+                    {
+                        DefaultValueHandling = DefaultValueHandling.Ignore,
+                        NullValueHandling = NullValueHandling.Ignore
+                    }),
 
                 RequestSet = r =>
                 {
-                    r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" };
+                    r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "UTF-8"};
                     var ticket = MemberShiper.AppAuthorize.ToSignData(secretKey);
                     r.Content.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
                 }
@@ -73,5 +88,7 @@ namespace OSS.Core.Infrastructure.Utils
 
             return await httpReq.RestCommonJson<TRes>();
         }
+
+
     }
 }

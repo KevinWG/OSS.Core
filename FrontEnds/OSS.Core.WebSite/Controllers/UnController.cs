@@ -6,7 +6,6 @@ namespace OSS.Core.WebSite.Controllers
     {
         public IActionResult notfound()
         {
-            
             return View();
         }
 

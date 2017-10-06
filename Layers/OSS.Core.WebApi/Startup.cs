@@ -61,10 +61,8 @@ namespace OSS.Core.WebApi
             }
 
 
-            app.UseExceptionMiddleware(); // 注册全局错误
-
             ConfigStaticFiles(app);
-             app.UseSysAuthInfoMiddleware();
+            app.UseExceptionMiddleware(); // 注册全局错误
             
             app.UseMvc(routes =>
             {

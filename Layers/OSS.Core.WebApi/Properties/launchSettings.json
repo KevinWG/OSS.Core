@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://coreapi.dev.com",
+      "applicationUrl": "http://api.dev.com",
       "sslPort": 0
     },
     "iisExpress": {

@@ -75,7 +75,7 @@
                             url,
                             data,
                             function(res) {
-                                if (res.isRetOk()) {
+                                if (isRetOk(res)) {
                                     location.href = res.return_url;
                                 } else {
                                     ShowTip_Error(res.message);
