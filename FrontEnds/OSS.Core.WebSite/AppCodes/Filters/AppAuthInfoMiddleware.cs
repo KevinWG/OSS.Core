@@ -27,13 +27,13 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     ///   请求相关的系统信息
     ///  如果是App内嵌，免登录
     /// </summary>
-    internal class SysAuthInfoMiddleware:BaseMiddlewaire
+    internal class AppAuthInfoMiddleware:BaseMiddlewaire
     {
         private readonly RequestDelegate _next;
         private static readonly string _appVersion;
         private static readonly string _appSource;
 
-        static SysAuthInfoMiddleware()
+        static AppAuthInfoMiddleware()
         {
             var appConfig = ConfigUtil.GetSection("AppConfig");
 
@@ -41,7 +41,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             _appSource= appConfig.GetSection("AppSource").Value;
         }
 
-        public SysAuthInfoMiddleware(RequestDelegate next)
+        public AppAuthInfoMiddleware(RequestDelegate next)
         {
             _next = next;
         }
@@ -55,20 +55,20 @@ namespace OSS.Core.WebSite.AppCodes.Filters
                 return;
             }
 
-            SysAuthorizeInfo sysInfo = null;
+            AppAuthorizeInfo sysInfo = null;
 
             //  这里是为了兼容App内部嵌套h5页面，使用App的授权信息
             string auticketStr = context.Request.Headers[GlobalKeysUtil.AuthorizeTicketName];
             if (!string.IsNullOrEmpty(auticketStr))
             {
-                sysInfo=new SysAuthorizeInfo();
+                sysInfo = new AppAuthorizeInfo();
                 sysInfo.FromSignData(auticketStr);
             }
 
             //  如果不是App访问，添加Web相关系统信息
             if (sysInfo==null)
             {
-                sysInfo = new SysAuthorizeInfo
+                sysInfo = new AppAuthorizeInfo
                 {
                     Token = context.Request.Cookies[GlobalKeysUtil.UserCookieName],
                     DeviceId = "WEB"
@@ -102,7 +102,7 @@ namespace OSS.Core.WebSite.AppCodes.Filters
     {
         internal static IApplicationBuilder UseSysAuthInfoMiddleware(this IApplicationBuilder app)
         {
-            return app.UseMiddleware<SysAuthInfoMiddleware>();
+            return app.UseMiddleware<AppAuthInfoMiddleware>();
         }
     }
     

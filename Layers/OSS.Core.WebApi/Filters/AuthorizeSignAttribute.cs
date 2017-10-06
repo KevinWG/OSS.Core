@@ -41,7 +41,7 @@ namespace OSS.Core.WebApi.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            SysAuthorizeInfo sysInfo = null;
+            AppAuthorizeInfo sysInfo = null;
             var checkSign = !context.Filters.Any(filter => filter is AllowNoSignAttribute);
           
             if (checkSign)
@@ -53,7 +53,7 @@ namespace OSS.Core.WebApi.Filters
                     return;
                 }
 
-                sysInfo = new SysAuthorizeInfo();
+                sysInfo = new AppAuthorizeInfo();
                 sysInfo.FromSignData(auticketStr);
 
                 var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource, sysInfo.TenantId);
@@ -71,7 +71,7 @@ namespace OSS.Core.WebApi.Filters
             }
 
             if (sysInfo == null)
-                sysInfo = new SysAuthorizeInfo();
+                sysInfo = new AppAuthorizeInfo();
 
             SetSystemAuthorizeInfo(sysInfo, context);
             MemberShiper.SetAppAuthrizeInfo(sysInfo);
@@ -80,10 +80,8 @@ namespace OSS.Core.WebApi.Filters
         private static readonly string _appSource = ConfigUtil.GetSection("AppConfig:AppSource")?.Value;
         private static readonly string _appVersion = ConfigUtil.GetSection("AppConfig:AppVersion")?.Value;
 
-        private static void SetSystemAuthorizeInfo(SysAuthorizeInfo sysInfo, ActionContext context)
+        private static void SetSystemAuthorizeInfo(AppAuthorizeInfo sysInfo, ActionContext context)
         {
-       
-
             sysInfo.AppSource = _appSource;
             sysInfo.AppVersion = _appVersion;
 
