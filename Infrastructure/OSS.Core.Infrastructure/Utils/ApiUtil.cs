@@ -39,12 +39,14 @@ namespace OSS.Core.Infrastructure.Utils
         /// <typeparam name="TRes"></typeparam>
         /// <param name="apiRoute"></param>
         /// <param name="req"></param>
+        /// <param name="mothed">请求方式</param>
         /// <returns></returns>
-        public static async Task<TRes> PostCoreApi<TRes>(string apiRoute, object req = null)
+        public static async Task<TRes> RestCoreApi<TRes>(string apiRoute, object req = null,
+            HttpMothed mothed = HttpMothed.POST)
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(coreApiUrlPre, apiRoute);
-            return await PostApi<TRes>(apiUrl, req);
+            return await RestApi<TRes>(apiUrl, req, mothed);
         }
 
         /// <summary>
@@ -53,16 +55,18 @@ namespace OSS.Core.Infrastructure.Utils
         /// <typeparam name="TRes"></typeparam>
         /// <param name="apiRoute"></param>
         /// <param name="req"></param>
+        /// <param name="mothed">请求方式</param>
         /// <returns></returns>
-        public static async Task<TRes> PostSnsApi<TRes>(string apiRoute, object req = null)
+        public static async Task<TRes> RestSnsApi<TRes>(string apiRoute, object req = null,
+            HttpMothed mothed = HttpMothed.POST)
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(snsApiUrlPre, apiRoute);
-            return await PostApi<TRes>(apiUrl, req);
+            return await RestApi<TRes>(apiUrl, req, mothed);
         }
 
 
-        public static async Task<TRes> PostApi<TRes>(string absoluateApiUrl, object reqContent)
+        public static async Task<TRes> RestApi<TRes>(string absoluateApiUrl, object reqContent, HttpMothed mothed)
             where TRes : ResultMo, new()
         {
 
@@ -88,7 +92,5 @@ namespace OSS.Core.Infrastructure.Utils
 
             return await httpReq.RestCommonJson<TRes>();
         }
-
-
     }
 }

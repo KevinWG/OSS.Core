@@ -45,7 +45,7 @@ namespace OSS.Core.WebSite.Controllers.Users
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserRegLoginResp>();
 
-            var loginRes = await ApiUtil.PostCoreApi<UserRegLoginResp>(apiUrl, req);
+            var loginRes = await ApiUtil.RestCoreApi<UserRegLoginResp>(apiUrl, req);
             if (!loginRes.IsSuccess()) return loginRes;
 
             Response.Cookies.Append(GlobalKeysUtil.UserCookieName, loginRes.token,

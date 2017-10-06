@@ -34,7 +34,7 @@ namespace OSS.Core.WebSite.AppCodes
                 return new ResultMo<UserInfoMo>(user);
             }
 
-            var userRes = await ApiUtil.PostCoreApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser");
+            var userRes = await ApiUtil.RestCoreApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser");
             if (!userRes.IsSuccess())
                 return userRes.ConvertToResultOnly<UserInfoMo>();
 

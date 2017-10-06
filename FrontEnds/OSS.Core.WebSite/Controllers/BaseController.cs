@@ -1,17 +1,38 @@
-
-
-using System.Collections.Generic;
+锘縰sing System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Core.WebSite.AppCodes.Filters;
 
 namespace OSS.Core.WebSite.Controllers
 {
+    public class HomeController : Controller
+    {
+        public IActionResult Index()
+        {
+            //var res= ApiUtil.PostApi<ResultMo>("/member/test").Result;
+            return View();
+        }
+
+    }
+
+    public class UnController : Controller
+    {
+        public IActionResult notfound()
+        {
+            return View();
+        }
+
+        public IActionResult error()
+        {
+            return View();
+        }
+    }
+
     [AuthorizeUser]
     public class BaseController : Controller
     {
         /// <summary>
-        /// 获取验证失败列表信息
+        /// 鑾峰彇楠岃瘉澶辫触鍒楄〃淇℃伅
         /// </summary>
         /// <returns></returns>
         protected string GetVolidMessage()
@@ -22,7 +43,7 @@ namespace OSS.Core.WebSite.Controllers
         }
 
         /// <summary>
-        /// 获取验证失败列表信息
+        /// 鑾峰彇楠岃瘉澶辫触鍒楄〃淇℃伅
         /// </summary>
         /// <returns></returns>
         protected List<string> GetVolidMsgs()
@@ -32,7 +53,7 @@ namespace OSS.Core.WebSite.Controllers
         }
 
         /// <summary>
-        /// 获取验证失败列表信息
+        /// 鑾峰彇楠岃瘉澶辫触鍒楄〃淇℃伅
         /// </summary>
         /// <returns></returns>
         protected Dictionary<string, string> GetVolidMsgDirs()
