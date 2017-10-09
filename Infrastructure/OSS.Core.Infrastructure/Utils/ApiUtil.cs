@@ -72,7 +72,7 @@ namespace OSS.Core.Infrastructure.Utils
 
             var httpReq = new OsHttpRequest
             {
-                HttpMothed = HttpMothed.POST,
+                HttpMothed = mothed,
                 AddressUrl = absoluateApiUrl,
                 CustomBody = reqContent == null
                     ? null
@@ -84,9 +84,15 @@ namespace OSS.Core.Infrastructure.Utils
 
                 RequestSet = r =>
                 {
-                    r.Content.Headers.ContentType = new MediaTypeHeaderValue("application/json") {CharSet = "UTF-8"};
                     var ticket = MemberShiper.AppAuthorize.ToSignData(secretKey);
-                    r.Content.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
+                    r.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
+                    r.Headers.Add("Accept", "application/json");
+
+                    if (r.Content != null)
+                    {
+                        r.Content.Headers.ContentType =
+                            new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" };
+                    }
                 }
             };
 
