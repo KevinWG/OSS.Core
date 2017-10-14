@@ -1,13 +1,27 @@
-﻿using OSS.Common.ComModels;
+﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+
+/***************************************************************************
+*　　	文件功能描述：OSSCore服务层 —— 社会化配置模块
+*
+*　　	创建人： Kevin
+*       创建人Email：1985088337@qq.com
+*    	创建日期：2017-10-1
+*       
+*****************************************************************************/
+
+#endregion
+
+
+using OSS.Common.ComModels;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Official.Wx;
 
-namespace OSS.Core.Services.Sns.Exchange
+namespace OSS.Core.Services.Sns.Oauth.Exchange
 {
     /// <summary>
     ///  社会化模块配置设置类
     /// </summary>
-    public static class SnsConfigProvider
+    public static class SnsOauthConfigProvider
     {
         public static void RegisterDefaultWxConfig(string appId,string appSecret)
         {
@@ -24,9 +38,5 @@ namespace OSS.Core.Services.Sns.Exchange
                 AppSecret = appSecret
             };
         }
-
-
-
-
     }
 }

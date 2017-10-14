@@ -23,7 +23,7 @@ using OSS.Common.ComUtils;
 using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.Members;
-using OSS.Core.Services.Sns.Exchange;
+using OSS.Core.Services.Sns.Oauth.Exchange;
 using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi
@@ -119,7 +119,7 @@ namespace OSS.Core.WebApi
             var appSecret = ConfigUtil.GetSection("DefaultWxConfig:AppSecret")?.Value;
             if (!string.IsNullOrEmpty(appId))
             {
-                SnsConfigProvider.RegisterDefaultWxConfig(appId,appSecret);
+                SnsOauthConfigProvider.RegisterDefaultWxConfig(appId,appSecret);
             }
         }
     }

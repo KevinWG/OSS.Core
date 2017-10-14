@@ -11,16 +11,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="1.2.3.11" />
+    <PackageReference Include="OSS.Common" Version="1.2.3.12" />
     <PackageReference Include="OSS.PaySdk.Ali" Version="1.1.5" />
     <PackageReference Include="OSS.PaySdk.Wx" Version="1.1.5.3" />
-    <PackageReference Include="OSS.SnsSdk.Oauth" Version="1.0.1.5" />
+    <PackageReference Include="OSS.SnsSdk.Oauth" Version="1.0.2" />
     <PackageReference Include="OSS.SnsSdk.Official.Wx" Version="1.0.2.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\OSS.Core.Domains\OSS.Core.Domains.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Sns\Oauth\Mos\" />
   </ItemGroup>
 
 </Project>

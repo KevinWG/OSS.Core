@@ -14,6 +14,8 @@ namespace OSS.Core.WebSite.Controllers.Users
         // GET: /<controller>/
         public async Task<IActionResult> auth(ThirdPaltforms plat)
         {
+            //sting
+                 
             var urlRes =await ApiUtil.RestSnsApi<ResultMo<string>>("/oauth/getoauthurl", null, HttpMothed.GET);
             if (urlRes.IsSuccess())
             {
