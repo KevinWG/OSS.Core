@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using OSS.Core.Infrastructure.Utils;
 using OSS.Core.WebSite.AppCodes.Filters;
 
 namespace OSS.Core.WebSite.Controllers
@@ -12,7 +13,6 @@ namespace OSS.Core.WebSite.Controllers
             //var res= ApiUtil.PostApi<ResultMo>("/member/test").Result;
             return View();
         }
-
     }
 
     public class UnController : Controller
@@ -31,6 +31,7 @@ namespace OSS.Core.WebSite.Controllers
     [AuthorizeUser]
     public class BaseController : Controller
     {
+        protected static string m_CurrentDomain= ConfigUtil.GetSection("AppConfig:AppDomain")?.Value;
         /// <summary>
         /// 获取验证失败列表信息
         /// </summary>

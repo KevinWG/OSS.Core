@@ -62,8 +62,12 @@ namespace OSS.Core.WebSite
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
+                    name: "snsoauth",
+                    template: "oauth/{action=auth}/{plat?}");
+                routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
+              
             });
         }
     }
