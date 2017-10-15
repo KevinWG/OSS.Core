@@ -5,7 +5,7 @@ using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi.Controllers.CoreApi
 {
-    [Area("coreapi")]
+    [Area("core")]
     [AuthorizeMember]
     public class BaseCoreApiController : BaseController
     {

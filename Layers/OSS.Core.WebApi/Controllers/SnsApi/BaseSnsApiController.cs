@@ -5,7 +5,7 @@ using OSS.Core.WebApi.Filters;
 
 namespace OSS.Core.WebApi.Controllers.SnsApi
 {
-    [Area("snsapi")]
+    [Area("sns")]
     public class BaseSnsApiController : BaseController
     {
         [AllowNoSign]
