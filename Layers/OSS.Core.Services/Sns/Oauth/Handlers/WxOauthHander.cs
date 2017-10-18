@@ -21,7 +21,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
     /// <summary>
     /// 微信授权处理类
     /// </summary>
-    public class WxOauthHander : BaseOauthHander<WxOauthHander>
+    internal class WxOauthHander : BaseOauthHander<WxOauthHander>
     {
         private static readonly WxOauthApi _api = new WxOauthApi();
 

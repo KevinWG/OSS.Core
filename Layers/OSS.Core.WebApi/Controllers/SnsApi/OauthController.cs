@@ -26,5 +26,8 @@ namespace OSS.Core.WebApi.Controllers.SnsApi
             var url = _OauthApi.GetAuthorizeUrl(redirectUrl, state, type);
             return new ResultMo<string>(url);
         }
+
+
+
     }
 }

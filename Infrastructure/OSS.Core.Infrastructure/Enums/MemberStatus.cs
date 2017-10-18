@@ -12,4 +12,13 @@
         Normal = 0
     }
 
+
+
+    public enum Sex
+    {
+        Unknow=0,
+        male = 1,
+        Female =2
+    }
+
 }

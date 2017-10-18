@@ -11,9 +11,12 @@
 
 #endregion
 
+using System;
+using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Core.Domains.Members.Mos;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.Core.Services.Sns.Oauth.Handlers
@@ -21,7 +24,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
     /// <summary>
     /// 授权处理接口
     /// </summary>
-    public class BaseOauthHander
+    internal class BaseOauthHander
     {
         /// <summary>
         /// 获取授权地址
@@ -42,9 +45,21 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
         public virtual void SetCOntextConfig(AppAuthorizeInfo appInfo)
         {
         }
+
+
+        /// <summary>
+        /// 通过授权回调code 获取授权用户信息
+        /// </summary>
+        /// <param name="code"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        public async Task<ResultMo<ThirdPlatformUserMo>> GetOauthUserAsync(string code,string state)
+        {
+            throw new NotImplementedException();
+        }
     }
 
-    public class BaseOauthHander<HType>: BaseOauthHander where
+    internal class BaseOauthHander<HType>: BaseOauthHander where
         HType : BaseOauthHander, new()
     {
         private static HType _instance;

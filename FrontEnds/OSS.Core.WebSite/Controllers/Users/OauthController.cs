@@ -31,10 +31,12 @@ namespace OSS.Core.WebSite.Controllers.Users
         /// 授权回调接收
         /// </summary>
         /// <param name="plat"></param>
+        /// <param name="code"></param>
+        /// <param name="state"></param>
         /// <returns></returns>
-        public async Task<ResultMo> receive(int plat)
+        public async Task<ResultMo> receive(int plat,string code,string  state)
         {
-            //  todo 获取用户信息
+          
             return new ResultIdMo();
         }
     }
