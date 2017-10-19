@@ -11,12 +11,12 @@
 
 #endregion
 
-using System;
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Domains.Members.Mos;
+using OSS.Core.Domains.Sns.Oauth.Mos;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.Core.Services.Sns.Oauth.Handlers
@@ -46,17 +46,29 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
         {
         }
 
-
         /// <summary>
         /// 通过授权回调code 获取授权用户信息
         /// </summary>
         /// <param name="code"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public async Task<ResultMo<ThirdPlatformUserMo>> GetOauthUserAsync(string code,string state)
+        public virtual async Task<ResultMo<OauthAccessTokenMo>> GetOauthTokenAsync(string code,string state)
         {
-            throw new NotImplementedException();
+            return new ResultMo<OauthAccessTokenMo>(ResultTypes.UnKnowSource, "未知应用平台！");
         }
+
+
+        /// <summary>
+        /// 通过授权回调code 获取授权用户信息
+        /// </summary>
+        /// <param name="accessToken"></param>
+        /// <param name="appUserId"></param>
+        /// <returns></returns>
+        public virtual async Task<ResultMo<OauthUserMo>> GetOauthUserAsync(string accessToken, string appUserId)
+        {
+            return new ResultMo<OauthUserMo>(ResultTypes.UnKnowSource, "未知应用平台！");
+        }
+
     }
 
     internal class BaseOauthHander<HType>: BaseOauthHander where

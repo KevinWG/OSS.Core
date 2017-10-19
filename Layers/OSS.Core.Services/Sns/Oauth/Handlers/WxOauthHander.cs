@@ -11,8 +11,11 @@
 
 #endregion
 
+using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
+using OSS.Core.Domains.Sns.Oauth.Mos;
+using OSS.Core.Services.Sns.Oauth.Handlers.Extention;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
@@ -40,6 +43,19 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
         {
             // todo 多租户配置设置
             // WxOauthConfigProvider.SetContextConfig(config);
+        }
+
+        /// <inheritdoc />
+        public override async Task<ResultMo<OauthAccessTokenMo>> GetOauthTokenAsync(string code, string state)
+        {
+            return (await _api.GetOauthAccessTokenAsync(code)).ConvertToComMo();
+        }
+
+
+        /// <inheritdoc />
+        public override async Task<ResultMo<OauthUserMo>> GetOauthUserAsync(string accessToken,string appUserId )
+        {
+            return (await _api.GetWxOauthUserInfoAsync(accessToken, appUserId)).ConvertToComMo();
         }
     }
 }

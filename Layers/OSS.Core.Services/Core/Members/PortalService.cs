@@ -19,7 +19,7 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.ComUtils;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
-using OSS.Core.Domains.Members.Interfaces;
+using OSS.Core.Domains.Core.Members.Interfaces;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members.Exchange;

@@ -2,7 +2,7 @@
 using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
-using OSS.Core.Domains.Members.Interfaces;
+using OSS.Core.Domains.Core.Members.Interfaces;
 
 #region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 

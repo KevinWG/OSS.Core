@@ -20,7 +20,7 @@ using Microsoft.Extensions.FileProviders;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OSS.Common.ComUtils;
-using OSS.Core.Domains.Members.Interfaces;
+using OSS.Core.Domains.Core.Members.Interfaces;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.Members;
 using OSS.Core.Services.Sns.Oauth.Exchange;
