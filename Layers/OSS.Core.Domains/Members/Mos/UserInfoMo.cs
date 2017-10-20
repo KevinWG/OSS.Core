@@ -39,6 +39,11 @@ namespace OSS.Core.Domains.Members.Mos
         public string nick_name { get; set; }
 
         /// <summary>
+        ///  头像信息
+        /// </summary>
+        public string head_img { get; set; }
+
+        /// <summary>
         ///  邮件地址
         /// </summary>
         public string email { get; set; }
@@ -65,10 +70,11 @@ namespace OSS.Core.Domains.Members.Mos
             {
                 email = io.email,
                 nick_name = io.nick_name,
+                head_img =io.head_img,
                 mobile = io.mobile,
                 Id = io.Id,
-                create_time = io.create_time,
 
+                create_time = io.create_time,
                 status = io.status
             };
             return userInfo;

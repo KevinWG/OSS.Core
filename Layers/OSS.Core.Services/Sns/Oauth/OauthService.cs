@@ -54,7 +54,7 @@ namespace OSS.Core.Services.Oauth
                 return tokenRes.ConvertToResultOnly<OauthUserMo>();
 
             var oauthUserRes = await handler.GetOauthUserAsync(tokenRes.data.access_token, tokenRes.data.app_user_id);
-          
+            //var oauthUserRes=Oa
 
             //  todo 获取数据库中是否存在第三方用户信息，如果没有添加第三方用户信息到数据库，如果有Update
             return oauthUserRes;
