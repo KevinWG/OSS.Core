@@ -14,12 +14,12 @@
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Sns.Oauth.Mos;
+using OSS.Core.Domains.Sns.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Sns.Oauth.Handlers;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
-namespace OSS.Core.Services.Sns.Oauth
+namespace OSS.Core.Services.Oauth
 {
 
     public class OauthService
@@ -53,7 +53,6 @@ namespace OSS.Core.Services.Sns.Oauth
             if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResultOnly<OauthUserMo>();
 
-          
             var oauthUserRes = await handler.GetOauthUserAsync(tokenRes.data.access_token, tokenRes.data.app_user_id);
           
 

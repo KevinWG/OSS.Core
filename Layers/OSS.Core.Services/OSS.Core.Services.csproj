@@ -5,8 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Sns\Oauth\Mos\**" />
     <Compile Remove="SysTools\**" />
+    <EmbeddedResource Remove="Sns\Oauth\Mos\**" />
     <EmbeddedResource Remove="SysTools\**" />
+    <None Remove="Sns\Oauth\Mos\**" />
     <None Remove="SysTools\**" />
   </ItemGroup>
 
@@ -21,10 +24,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
     <ProjectReference Include="..\OSS.Core.Domains\OSS.Core.Domains.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Sns\Oauth\Mos\" />
   </ItemGroup>
 
 </Project>

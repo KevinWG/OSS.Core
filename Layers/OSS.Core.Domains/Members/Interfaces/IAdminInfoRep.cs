@@ -12,7 +12,7 @@
 #endregion
 
 
-namespace OSS.Core.Domains.Core.Members.Interfaces
+namespace OSS.Core.Domains.Members.Interfaces
 {
     /// <summary>
     ///  管理员仓储接口

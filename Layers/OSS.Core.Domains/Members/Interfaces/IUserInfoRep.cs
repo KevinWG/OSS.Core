@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Core.Infrastructure.Enums;
 
-namespace OSS.Core.Domains.Core.Members.Interfaces
+namespace OSS.Core.Domains.Members.Interfaces
 {
     public interface IUserInfoRep: IBaseRep
     {

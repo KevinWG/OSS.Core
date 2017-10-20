@@ -12,7 +12,7 @@
 #endregion
 
 
-using OSS.Core.Domains.Core.Members.Interfaces;
+using OSS.Core.Domains.Members.Interfaces;
 
 namespace OSS.Core.RepDapper.Members
 {

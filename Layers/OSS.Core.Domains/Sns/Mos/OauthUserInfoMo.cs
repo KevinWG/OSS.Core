@@ -14,7 +14,7 @@
 
 using OSS.Core.Infrastructure.Enums;
 
-namespace OSS.Core.Domains.Sns.Oauth.Mos
+namespace OSS.Core.Domains.Sns.Mos
 {
     /// <summary>
     ///  用户授权Token信息

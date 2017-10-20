@@ -16,7 +16,7 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Domains.Members.Mos;
-using OSS.Core.Domains.Sns.Oauth.Mos;
+using OSS.Core.Domains.Sns.Mos;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.Core.Services.Sns.Oauth.Handlers

@@ -48,11 +48,6 @@ namespace OSS.Core.Domains.Members.Mos
         /// </summary>
         public string mobile { get; set; }
 
-        ///// <summary>
-        /////   用户状态
-        /////  测试序列化时，取得是父类的值
-        ///// </summary>
-        //public new MemberStatus status { get; set; }
     }
 
 

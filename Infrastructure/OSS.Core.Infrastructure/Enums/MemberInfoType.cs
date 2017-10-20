@@ -26,7 +26,25 @@ namespace OSS.Core.Infrastructure.Enums
     /// </summary>
     public enum MemberAuthorizeType
     {
+        /// <summary>
+        /// 系统用户
+        /// </summary>
         User,
-        Admin
+
+        /// <summary>
+        ///  第三方临时授权用户
+        /// </summary>
+        OauthUserTemp,
+
+        /// <summary>
+        ///  后台管理员
+        /// </summary>
+        Admin,
+
+        /// <summary>
+        ///  超级管理员
+        /// </summary>
+        SuperAdmin
+
     }
 }

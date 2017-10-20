@@ -3,11 +3,11 @@ using OSS.Core.WebApi.Filters;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace OSS.Core.WebApi.Controllers.CoreApi
+namespace OSS.Core.WebApi.Controllers.Member
 {
-    [Area("core")]
+    [Area("")]
     [AuthorizeMember]
-    public class BaseCoreApiController : BaseController
+    public class BaseMemberApiController : BaseController
     {
     }
 }

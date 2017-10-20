@@ -16,7 +16,7 @@
 using System;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
-using OSS.Core.Domains.Sns.Oauth.Mos;
+using OSS.Core.Domains.Sns.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 

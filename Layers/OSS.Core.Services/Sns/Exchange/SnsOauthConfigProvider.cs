@@ -16,7 +16,7 @@ using OSS.Common.ComModels;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Official.Wx;
 
-namespace OSS.Core.Services.Sns.Oauth.Exchange
+namespace OSS.Core.Services.Sns.Exchange
 {
     /// <summary>
     ///  社会化模块配置设置类

@@ -12,10 +12,10 @@
 #endregion
 
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Sns.Oauth.Mos;
+using OSS.Core.Domains.Sns.Mos;
 using OSS.Core.Infrastructure.Enums;
 
-namespace OSS.Core.Domains.Sns.Oauth.Interfaces
+namespace OSS.Core.Domains.Sns.Interfaces
 {
     /// <summary>
     /// 授权用户接口

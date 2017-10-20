@@ -17,10 +17,11 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Services.Members;
+using OSS.Core.WebApi.Controllers.Member;
 
 namespace OSS.Core.WebApi.Controllers.CoreApi.Member
 {
-    public class MemberController : BaseCoreApiController
+    public class MemberController : BaseMemberApiController
     {
         private static readonly MemberService service=new MemberService();
 

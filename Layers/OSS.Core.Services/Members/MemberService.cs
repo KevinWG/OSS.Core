@@ -14,8 +14,9 @@
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.ComUtils;
-using OSS.Core.Domains.Core.Members.Interfaces;
+using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Domains.Members.Mos;
+using OSS.Core.Services.Core.Members.Exchange;
 using OSS.Core.Services.Members.Exchange;
 
 namespace OSS.Core.Services.Members

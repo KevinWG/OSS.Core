@@ -14,10 +14,10 @@
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
 using OSS.Common.ComUtils;
-using OSS.Core.Domains.Core.Members.Interfaces;
+using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Domains.Members.Mos;
 
-namespace OSS.Core.Services.Members.Exchange
+namespace OSS.Core.Services.Core.Members.Exchange
 {
     /// <summary>
     ///  不同模块之间成员信息的共享类
@@ -33,5 +33,6 @@ namespace OSS.Core.Services.Members.Exchange
         {
             return await InsContainer<IUserInfoRep>.Instance.Get<UserInfoMo>(u=>u.Id==userId);
         }
+        
     }
 }
