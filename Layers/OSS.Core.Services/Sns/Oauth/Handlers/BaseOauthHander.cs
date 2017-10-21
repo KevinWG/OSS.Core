@@ -20,10 +20,26 @@ using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.Core.Services.Sns.Oauth.Handlers
 {
+    internal class BaseOauthHander<HType> where
+        HType : IOauthHander, new()
+    {
+        private static HType _instance;
+
+        public static HType Instance
+        {
+            get
+            {
+                if (_instance == null)
+                    _instance = new HType();
+                return _instance;
+            }
+        }
+    }
+
     /// <summary>
     /// 授权处理接口
     /// </summary>
-    internal class BaseOauthHander
+    internal class NoneOauthHander :IOauthHander
     {
         /// <summary>
         /// 获取授权地址
@@ -58,7 +74,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
 
 
         /// <summary>
-        /// 通过授权回调code 获取授权用户信息
+        /// 通过授权Token 获取授权用户信息
         /// </summary>
         /// <param name="accessToken"></param>
         /// <param name="appUserId"></param>
@@ -70,10 +86,5 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
 
     }
 
-    internal class BaseOauthHander<HType>: BaseOauthHander where
-        HType : BaseOauthHander, new()
-    {
-        private static HType _instance;
-        public static HType Instance => _instance ?? (_instance = new HType());
-    }
+
 }

@@ -24,12 +24,12 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
     /// <summary>
     /// 微信授权处理类
     /// </summary>
-    internal class WxOauthHander : BaseOauthHander<WxOauthHander>
+    internal class WxOauthHander :  BaseOauthHander<WxOauthHander>, IOauthHander
     {
         private static readonly WxOauthApi _api = new WxOauthApi();
 
         /// <inheritdoc />
-        public override ResultMo<string> GetOauthUrl(string redirectUrl, string state,
+        public ResultMo<string> GetOauthUrl(string redirectUrl, string state,
             AuthClientType type)
         {
             var url = _api.GetAuthorizeUrl(redirectUrl, state, type);
@@ -39,21 +39,21 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
         /// <summary>
         ///  设置上下文方法
         /// </summary>
-        public override void SetCOntextConfig(AppAuthorizeInfo appInfo)
+        public void SetCOntextConfig(AppAuthorizeInfo appInfo)
         {
             // todo 多租户配置设置
             // WxOauthConfigProvider.SetContextConfig(config);
         }
 
         /// <inheritdoc />
-        public override async Task<ResultMo<OauthAccessTokenMo>> GetOauthTokenAsync(string code, string state)
+        public async Task<ResultMo<OauthAccessTokenMo>> GetOauthTokenAsync(string code, string state)
         {
             return (await _api.GetOauthAccessTokenAsync(code)).ConvertToComMo();
         }
 
 
         /// <inheritdoc />
-        public override async Task<ResultMo<OauthUserMo>> GetOauthUserAsync(string accessToken,string appUserId )
+        public async Task<ResultMo<OauthUserMo>> GetOauthUserAsync(string accessToken,string appUserId )
         {
             return (await _api.GetWxOauthUserInfoAsync(accessToken, appUserId)).ConvertToComMo();
         }

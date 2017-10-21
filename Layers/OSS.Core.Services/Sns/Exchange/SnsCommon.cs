@@ -30,9 +30,9 @@ namespace OSS.Core.Services.Sns.Exchange
         /// </summary>
         /// <param name="plat">平台类型</param>
         /// <returns></returns>
-        internal static BaseOauthHander GetHandlerByPlatform(SocialPaltforms plat)
+        internal static IOauthHander GetHandlerByPlatform(SocialPaltforms plat)
         {
-            BaseOauthHander handler;
+            IOauthHander handler;
             switch (plat)
             {
                 case SocialPaltforms.Wechat:
@@ -40,7 +40,7 @@ namespace OSS.Core.Services.Sns.Exchange
                     break;
                 //  todo 添加其他平台
                 default:
-                    handler = BaseOauthHander<BaseOauthHander>.Instance;
+                    handler = BaseOauthHander<NoneOauthHander>.Instance;
                     break;
             }
 
