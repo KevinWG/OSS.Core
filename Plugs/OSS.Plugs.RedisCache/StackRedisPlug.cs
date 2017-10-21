@@ -1,14 +1,14 @@
 ﻿using System;
-using StackExchange.Redis;
 using Newtonsoft.Json;
 using OSS.Common.Plugs.CachePlug;
+using StackExchange.Redis;
 
-namespace OSS.CachePlug.StackRedis
+namespace OSS.Plugs.RedisCache
 {
     /// <summary>
     /// redis缓存实现类
     /// </summary>
-    public class RedisCache : ICachePlug
+    public class StackRedisPlug : ICachePlug
     {
         //redis数据库连接字符串
         private readonly string ConnectionStr = null;
@@ -24,7 +24,7 @@ namespace OSS.CachePlug.StackRedis
         /// </summary>
         /// <param name="db"></param>
         /// <param name="connectStr"></param>
-        public RedisCache(int db, string connectStr)
+        public StackRedisPlug(int db, string connectStr)
         {
             ConnectionStr = connectStr;
             this._db = db;
