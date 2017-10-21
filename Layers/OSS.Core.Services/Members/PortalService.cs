@@ -99,9 +99,10 @@ namespace OSS.Core.Services.Members
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public Task<ResultMo> SendVertifyCode(string name, RegLoginType type)
+        public async Task<ResultMo> SendVertifyCode(string name, RegLoginType type)
         {
-            throw new NotImplementedException();
+            // todo 发送验证码
+            return new ResultMo();
         }
 
         /// <summary>
