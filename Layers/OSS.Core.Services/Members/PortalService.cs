@@ -29,6 +29,8 @@ namespace OSS.Core.Services.Members
 {
     public class PortalService
     {
+
+        #region  用户注册登录
         /// <summary>
         /// 注册用户信息
         /// </summary>
@@ -52,7 +54,7 @@ namespace OSS.Core.Services.Members
             userInfo.Id = idRes.id;
             MemberEvents.TriggerUserRegiteEvent(userInfo, MemberShiper.AppAuthorize);
 
-            return GenerateUserToken(userInfo.ConvertToMo());
+            return GenerateUserToken(userInfo.ConvertToMo(),MemberAuthorizeType.User);
         }
 
         private static UserInfoBigMo GetRegisteUserInfo(string value, string passWord, RegLoginType type)
@@ -117,7 +119,7 @@ namespace OSS.Core.Services.Members
             var checkRes = CheckMemberStatus(userRes.data.status);
 
             return checkRes.IsSuccess()
-                ? GenerateUserToken(userRes.data.ConvertToMo())
+                ? GenerateUserToken(userRes.data.ConvertToMo(),MemberAuthorizeType.User)
                 : checkRes.ConvertToResult<UserTokenResp>();
         }
 
@@ -176,37 +178,33 @@ namespace OSS.Core.Services.Members
 
         #endregion
 
-        private static UserTokenResp GenerateUserToken(UserInfoMo user)
+
+        #endregion
+
+        private static UserTokenResp GenerateUserToken(UserInfoMo user, MemberAuthorizeType authType)
         {
-            var tokenRes = AppendToken(MemberShiper.AppAuthorize.AppSource, user.Id,
-                MemberAuthorizeType.User);
+            var tokenRes = AppendToken(user.Id, authType);
 
             return tokenRes.IsSuccess()
                 ? new UserTokenResp() {token = tokenRes.data, user = user }
                 : tokenRes.ConvertToResult<UserTokenResp>();
         }
-        
+
+
+        private readonly static string tokenSecret = ConfigUtil.GetSection("AppConfig:AppSecret")?.Value;
         public static ResultMo<(long id, int authType)> GetTokenDetail(string appSource, string tokenStr)
         {
-            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
-            if (!secreateKeyRes.IsSuccess())
-                return secreateKeyRes.ConvertToResultOnly<(long id, int authType)>();
-
-            var tokenDetail = MemberShiper.GetTokenDetail(secreateKeyRes.data, tokenStr);
+            var tokenDetail = MemberShiper.GetTokenDetail(tokenSecret, tokenStr);
 
             var tokenSplit = tokenDetail.Split('|');
             return new ResultMo<ValueTuple<long, int>>((tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32()));
         }
 
-        public static ResultMo<string> AppendToken(string appSource, long id, MemberAuthorizeType authType)
+        public static ResultMo<string> AppendToken(long id, MemberAuthorizeType authType)
         {
-            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
-            if (!secreateKeyRes.IsSuccess())
-                return secreateKeyRes.ConvertToResultOnly<string>();
-
             var tokenCon = string.Concat(id, "|", (int) authType, "|", DateTime.Now.ToUtcSeconds());
-            return new ResultMo<string>(MemberShiper.GetToken(secreateKeyRes.data, tokenCon));
+            return new ResultMo<string>(MemberShiper.GetToken(tokenSecret, tokenCon));
         }
 
     }
-}
+}]

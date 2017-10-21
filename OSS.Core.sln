@@ -33,7 +33,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Domains", "Layers\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.WebApi", "Layers\OSS.Core.WebApi\OSS.Core.WebApi.csproj", "{BC79A0C2-E6D2-41BC-BDD7-41E8C3EFF901}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.WebSite", "FrontEnds\OSS.Core.WebSite\OSS.Core.WebSite.csproj", "{069E07B3-E2B0-4E02-B747-FDA1728A7AB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.WebSite", "FrontEnds\OSS.Core.WebSite\OSS.Core.WebSite.csproj", "{069E07B3-E2B0-4E02-B747-FDA1728A7AB0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
