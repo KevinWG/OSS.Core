@@ -1,7 +1,21 @@
 ﻿using OSS.Common.ComModels;
+using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.Domains.Members.Mos
 {
+    public class UserRegisteConfig
+    {
+        /// <summary>
+        ///  授权用户注册类型
+        /// </summary>
+        public OauthRegisteType OauthRegisteType { get; set; }
+
+        /// <summary>
+        ///  邮箱是否需要验证
+        /// </summary>
+        public bool EmailCheck { get; set; }
+    }
+
     public class UserTokenResp:ResultMo
     {
         /// <summary>

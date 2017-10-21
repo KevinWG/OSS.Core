@@ -124,5 +124,49 @@ namespace OSS.Core.Services.Members
         }
 
 
+
+
+        #region    第三方授权模块
+
+        ///// <summary>
+        ///// 注册第三方信息到系统中
+        ///// </summary>
+        ///// <param name="plat"></param>
+        ///// <param name="code"></param>
+        ///// <param name="state"></param>
+        ///// <returns></returns>
+        //public async Task<ResultMo<OauthUserMo>> RegisteThirdUser(ThirdPaltforms plat, string code, string state)
+        //{
+        //    var handler = GetHandlerByPlatform(plat);
+        //    var tokenRes = await handler.GetOauthTokenAsync(code, state);
+        //    if (!tokenRes.IsSuccess())
+        //        return tokenRes.ConvertToResultOnly<OauthUserMo>();
+
+        //    var userRes = await InsContainer<IOauthUserRep>.Instance.GetOauthUserByAppUId(tokenRes.data.app_user_id,
+        //        ThirdPaltforms.Wechat);
+
+        //    var userWxRes = await handler.GetOauthUserAsync(tokenRes.data.access_token, tokenRes.data.app_user_id);
+        //    if (userWxRes.IsSuccess())
+        //    {
+
+        //    }
+
+        //    if (userRes.IsSuccess())
+        //    {
+        //        //  执行修改
+        //    }
+        //    else
+        //    {
+        //        // 执行新增
+        //    }
+
+        //    //  
+
+        //}
+
+
+        #endregion
+
+
     }
 }

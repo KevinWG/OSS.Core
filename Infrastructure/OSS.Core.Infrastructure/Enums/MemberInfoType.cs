@@ -47,4 +47,21 @@ namespace OSS.Core.Infrastructure.Enums
         SuperAdmin
 
     }
+
+
+    public enum OauthRegisteType
+    {
+        /// <summary>
+        ///  直接注册
+        /// </summary>
+        JustRegiste,
+        /// <summary>
+        ///  选择是否绑定
+        /// </summary>
+        ChooseSkip,
+        /// <summary>
+        /// 绑定
+        /// </summary>
+        Bind
+    }
 }

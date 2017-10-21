@@ -34,5 +34,7 @@ namespace OSS.Core.Services.Core.Members.Exchange
             return await InsContainer<IUserInfoRep>.Instance.Get<UserInfoMo>(u=>u.Id==userId);
         }
         
+
+      
     }
 }

@@ -114,5 +114,11 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
         }
 
         #endregion
+
+
+        #region  第三方用户授权
+
+
+        #endregion
     }
 }

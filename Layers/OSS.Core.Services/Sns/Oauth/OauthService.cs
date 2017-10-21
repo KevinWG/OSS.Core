@@ -11,15 +11,12 @@
 
 #endregion
 
-using System.Threading.Tasks;
-using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Sns.Mos;
 using OSS.Core.Infrastructure.Enums;
-using OSS.Core.Services.Sns.Oauth.Handlers;
+using OSS.Core.Services.Sns.Exchange;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
-namespace OSS.Core.Services.Oauth
+namespace OSS.Core.Services.Sns.Oauth
 {
 
     public class OauthService
@@ -27,61 +24,17 @@ namespace OSS.Core.Services.Oauth
         /// <summary>
         /// 获取授权地址
         /// </summary>
-        /// <param name="plat">平台类型</param>
-        /// <param name="redirectUrl">回调地址</param>
-        /// <param name="state">附加信息，回调时附带</param>
+        /// <param name="plat">平台</param>
+        /// <param name="redirectUrl">重定向回跳地址</param>
+        /// <param name="state">返回参数，自行编码</param>
         /// <param name="type">授权类型</param>
-        /// <returns>返回授权Url</returns>
-        public ResultMo<string> GetOauthUrl( ThirdPaltforms plat,
-            string redirectUrl,AuthClientType type, string state = null)
+        /// <returns></returns>
+      
+        public ResultMo<string> GetOauthUrl(ThirdPaltforms plat, string redirectUrl, string state, AuthClientType type)
         {
-            var handler = GetHandlerByPlatform( plat);
+            var handler = SnsCommon.GetHandlerByPlatform(plat);
             return handler.GetOauthUrl(redirectUrl, state, type);
         }
-
-        /// <summary>
-        /// 注册第三方信息到系统中
-        /// </summary>
-        /// <param name="plat"></param>
-        /// <param name="code"></param>
-        /// <param name="state"></param>
-        /// <returns></returns>
-        public async Task<ResultMo<OauthUserMo>> RegisteThirdUser(ThirdPaltforms plat, string code, string state)
-        {
-            var handler = GetHandlerByPlatform(plat);
-            var tokenRes =await handler.GetOauthTokenAsync(code, state);
-            if (!tokenRes.IsSuccess())
-                return tokenRes.ConvertToResultOnly<OauthUserMo>();
-
-            var oauthUserRes = await handler.GetOauthUserAsync(tokenRes.data.access_token, tokenRes.data.app_user_id);
-            //var oauthUserRes=Oa
-
-            //  todo 获取数据库中是否存在第三方用户信息，如果没有添加第三方用户信息到数据库，如果有Update
-            return oauthUserRes;
-        }
-
-        /// <summary>
-        /// 获取处理Hander
-        /// </summary>
-        /// <param name="plat">平台类型</param>
-        /// <returns></returns>
-        private static BaseOauthHander GetHandlerByPlatform( ThirdPaltforms plat)
-        {
-            BaseOauthHander handler;
-            switch (plat)
-            {
-                case ThirdPaltforms.Wechat:
-                    handler = WxOauthHander.Instance;
-                    break;
-                //  todo 添加其他平台
-                default:
-                    handler = BaseOauthHander<BaseOauthHander>.Instance;
-                    break;
-            }
-
-            handler.SetCOntextConfig(MemberShiper.AppAuthorize);
-            return handler;
-        }
-
+        
     }
 }
