@@ -43,6 +43,13 @@ namespace OSS.Core.Infrastructure.Utils
 
         #endregion
 
+        #region 缓存Key
 
+        /// <summary>
+        ///  验证码前缀
+        /// </summary>
+        public const string RegLoginVertifyCodePre = "RegLoginVertifyCode_";
+
+        #endregion
     }
 }

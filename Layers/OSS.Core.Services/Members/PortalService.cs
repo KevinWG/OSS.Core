@@ -19,6 +19,7 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.ComUtils;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
+using OSS.Common.Plugs.CachePlug;
 using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
@@ -31,20 +32,35 @@ namespace OSS.Core.Services.Members
     {
         #region  用户手机号邮箱注册登录
         /// <summary>
+        ///  检查账号是否可以注册
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
+        {
+            return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type, value);
+        }
+
+        /// <summary>
         /// 注册用户信息
         /// </summary>
-        /// <param name="value">注册的账号信息</param>
+        /// <param name="name">注册的账号信息</param>
         /// <param name="passWord">密码</param>
-        /// <param name="passCode"> 验证码（手机号注册时需要 </param>
+        /// <param name="passcode"> 验证码（手机号注册时需要 </param>
         /// <param name="type">注册类型</param>
         /// <returns></returns>
-        public async Task<UserTokenResp> RegisteUser(string value, string passWord, string passCode,
+        public async Task<UserTokenResp> RegisteUser(string name, string passWord, string passcode,
             RegLoginType type)
         {
-            var checkRes = await CheckIfCanRegiste(type, value);
+            var codeRes = CheckPasscode(name, passcode);
+            if (codeRes.IsSuccess())
+                return codeRes.ConvertToResult<UserTokenResp>();
+
+            var checkRes = await CheckIfCanRegiste(type, name);
             if (!checkRes.IsSuccess()) return checkRes.ConvertToResult<UserTokenResp>();
 
-            var userInfo = GetRegisteUserInfo(value, passWord, type);
+            var userInfo = GetRegisteUserInfo(name, passWord, type);
 
             var idRes = await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResult<UserTokenResp>();
@@ -76,18 +92,17 @@ namespace OSS.Core.Services.Members
 
             return userInfo;
         }
-
-        /// <summary>
-        ///  检查账号是否可以注册
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public async Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value)
-        {
-            return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type, value);
-        }
         
+        /// <summary>
+        ///  发送验证码
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public Task<ResultMo> SendVertifyCode(string name, RegLoginType type)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         ///  验证验证码是否正确
@@ -95,9 +110,15 @@ namespace OSS.Core.Services.Members
         /// <param name="loginName"></param>
         /// <param name="passcode"></param>
         /// <returns></returns>
-        private async Task<ResultMo> CheckPasscode(string loginName, string passcode)
+        private static ResultMo CheckPasscode(string loginName, string passcode)
         {
-            // todo check passcode
+            var key = string.Concat(GlobalKeysUtil.RegLoginVertifyCodePre, loginName);
+            var code = CacheUtil.Get<string>(key);
+
+            if (string.IsNullOrEmpty(code) || passcode != code)
+                return new ResultIdMo(ResultTypes.ObjectStateError, "验证码错误");
+
+            CacheUtil.Remove(key);
             return new ResultIdMo();
         }
 
@@ -119,9 +140,18 @@ namespace OSS.Core.Services.Members
             if (!userRes.IsSuccess())
                 return userRes.ConvertToResult<UserTokenResp>();
 
-            if (Md5.EncryptHexString(passWord) != userRes.data.pass_word)
-                return new UserTokenResp(ResultTypes.UnAuthorize, "账号密码不正确！");
-
+            if (string.IsNullOrEmpty(passcode))
+            {
+                if (Md5.EncryptHexString(passWord) != userRes.data.pass_word)
+                    return new UserTokenResp(ResultTypes.UnAuthorize, "账号密码不正确！");
+            }
+            else
+            {
+                var codeRes = CheckPasscode(name, passcode);
+                if (codeRes.IsSuccess())
+                    return codeRes.ConvertToResult<UserTokenResp>();
+            }
+      
             MemberEvents.TriggerUserLoginEvent(userRes.data, MemberShiper.AppAuthorize);
 
             var checkRes = CheckMemberStatus(userRes.data.status);
@@ -141,7 +171,6 @@ namespace OSS.Core.Services.Members
                 ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！")
                 : new ResultMo();
         }
-
         
         #region    第三方授权模块
 
@@ -184,7 +213,6 @@ namespace OSS.Core.Services.Members
 
         #endregion
 
-
         #endregion
 
         private static UserTokenResp GenerateUserToken(UserInfoMo user, MemberAuthorizeType authType)
@@ -195,8 +223,7 @@ namespace OSS.Core.Services.Members
                 ? new UserTokenResp() {token = tokenRes.data, user = user }
                 : tokenRes.ConvertToResult<UserTokenResp>();
         }
-
-
+        
         private static readonly string tokenSecret = ConfigUtil.GetSection("AppConfig:AppSecret")?.Value;
         public static ResultMo<(long id, int authType)> GetTokenDetail(string appSource, string tokenStr)
         {
@@ -211,9 +238,7 @@ namespace OSS.Core.Services.Members
             var tokenCon = string.Concat(id, "|", (int) authType, "|", DateTime.Now.ToUtcSeconds());
             return new ResultMo<string>(MemberShiper.GetToken(tokenSecret, tokenCon));
         }
-
-
-        //private  static UserRegisteConfig GetRegisteconfig
+        
 
     }
 }
