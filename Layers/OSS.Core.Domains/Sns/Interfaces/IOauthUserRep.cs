@@ -29,6 +29,6 @@ namespace OSS.Core.Domains.Sns.Interfaces
         /// <param name="appUId">应用用户Id</param>
         /// <param name="plat">平台</param>
         /// <returns></returns>
-        Task<ResultMo<OauthUserMo>> GetOauthUserByAppUId(string appUId, ThirdPaltforms plat);
+        Task<ResultMo<OauthUserMo>> GetOauthUserByAppUId(string appUId, SocialPaltforms plat);
     }
 }

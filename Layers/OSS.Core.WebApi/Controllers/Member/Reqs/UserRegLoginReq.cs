@@ -14,7 +14,7 @@
 using System.ComponentModel.DataAnnotations;
 using OSS.Core.Infrastructure.Enums;
 
-namespace OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs
+namespace OSS.Core.WebApi.Controllers.Member.Reqs
 {
     /// <summary>
     /// 正常用户注册登录请求实体
@@ -36,11 +36,11 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "密码必填"), MinLength(6, ErrorMessage = "密码不得少于6位")]
         public string pass_word { get; set; }
 
         /// <summary>
-        ///  手机号注册时需要验证码
+        /// 动态验证码
+        ///  登录时如果验证码不为空，则使用动态验证码登录
         /// </summary>
         public string pass_code { get; set; }
     }

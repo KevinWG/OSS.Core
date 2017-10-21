@@ -14,7 +14,7 @@ namespace OSS.Core.Domains.Members.Mos
         /// <summary>
         ///  邮箱是否需要验证
         /// </summary>
-        public bool EmailCheck { get; set; }
+        public bool NeedEmailCheck { get; set; }
     }
 
     public class UserTokenResp:ResultMo

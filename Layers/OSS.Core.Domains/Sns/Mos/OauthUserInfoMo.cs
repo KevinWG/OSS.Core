@@ -65,7 +65,7 @@ namespace OSS.Core.Domains.Sns.Mos
         /// <summary>
         ///  应用平台
         /// </summary>
-        public ThirdPaltforms platform { get; set; }
+        public SocialPaltforms platform { get; set; }
         
         /// <summary>
         ///  头像

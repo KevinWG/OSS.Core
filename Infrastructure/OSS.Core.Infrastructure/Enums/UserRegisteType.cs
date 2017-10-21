@@ -18,11 +18,6 @@ namespace OSS.Core.Infrastructure.Enums
     public enum RegLoginType
     {
         /// <summary>
-        /// 手机+动态验证码
-        /// </summary>
-        MobileCode=10,
-
-        /// <summary>
         /// 手机号
         /// </summary>
         Mobile=20,

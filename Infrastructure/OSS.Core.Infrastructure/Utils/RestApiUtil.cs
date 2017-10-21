@@ -25,7 +25,7 @@ namespace OSS.Core.Infrastructure.Utils
     /// <summary>
     ///  请求api辅助类
     /// </summary>
-    public static class ApiUtil
+    public static class RestApiUtil
     {
 
         private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;

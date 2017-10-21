@@ -20,7 +20,7 @@ namespace OSS.Core.WebApi.Controllers.SnsApi
         /// <param name="type">授权类型</param>
         /// <returns></returns>
         [HttpGet]
-        public ResultMo<string> GetOauthUrl(ThirdPaltforms plat,string redirectUrl, string state, AuthClientType type)
+        public ResultMo<string> GetOauthUrl(SocialPaltforms plat,string redirectUrl, string state, AuthClientType type)
         {
             return service.GetOauthUrl(plat, redirectUrl, state, type);
         }

@@ -16,17 +16,14 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members;
-using OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs;
-using OSS.Core.WebApi.Controllers.Member;
-using OSS.Core.WebApi.Filters;
+using OSS.Core.WebApi.Controllers.Member.Reqs;
 
-namespace OSS.Core.WebApi.Controllers.CoreApi.Member
+namespace OSS.Core.WebApi.Controllers.Member
 {
     [AllowAnonymous]
     public class PortalController : BaseMemberApiController
@@ -65,7 +62,7 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.LoginUser(req.name, req.pass_word, req.type);
+            return await service.LoginUser(req.name, req.pass_word, req.pass_code, req.type);
         }
 
         #endregion
@@ -82,10 +79,12 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
             if (!ModelState.IsValid)
                 return new ResultMo(ResultTypes.ParaError, GetVolidMessage());
 
+            if (string.IsNullOrEmpty(req.pass_code)&& string.IsNullOrEmpty(req.pass_word))
+                return new ResultMo(ResultTypes.ParaError, "请填写密码或者验证码！");
+
             if (!Enum.IsDefined(typeof(RegLoginType), req.type))
                 return new ResultMo(ResultTypes.ParaError, "未知的账号类型！");
-
-
+            
             var validator = new DataTypeAttribute(
                 req.type == RegLoginType.Mobile
                     ? DataType.PhoneNumber
@@ -103,8 +102,8 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
 
 
         #region  第三方用户授权
-
-
+        // 登录后直接 bind
+        //  check whether thirduser had uid binded
         #endregion
     }
 }

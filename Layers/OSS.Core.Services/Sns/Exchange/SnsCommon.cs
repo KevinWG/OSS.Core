@@ -13,10 +13,8 @@
 #endregion
 
 using OSS.Common.Authrization;
-using OSS.Common.ComModels;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Sns.Oauth.Handlers;
-using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.Core.Services.Sns.Exchange
 {
@@ -28,31 +26,16 @@ namespace OSS.Core.Services.Sns.Exchange
         #region  Oauth模块
 
         /// <summary>
-        /// 获取授权地址
-        /// </summary>
-        /// <param name="plat">平台类型</param>
-        /// <param name="redirectUrl">回调地址</param>
-        /// <param name="state">附加信息，回调时附带</param>
-        /// <param name="type">授权类型</param>
-        /// <returns>返回授权Url</returns>
-        public static ResultMo<string> GetOauthUrl(ThirdPaltforms plat,
-            string redirectUrl, AuthClientType type, string state = null)
-        {
-            var handler = GetHandlerByPlatform(plat);
-            return handler.GetOauthUrl(redirectUrl, state, type);
-        }
-        
-        /// <summary>
         /// 获取处理Hander
         /// </summary>
         /// <param name="plat">平台类型</param>
         /// <returns></returns>
-        internal static BaseOauthHander GetHandlerByPlatform(ThirdPaltforms plat)
+        internal static BaseOauthHander GetHandlerByPlatform(SocialPaltforms plat)
         {
             BaseOauthHander handler;
             switch (plat)
             {
-                case ThirdPaltforms.Wechat:
+                case SocialPaltforms.Wechat:
                     handler = WxOauthHander.Instance;
                     break;
                 //  todo 添加其他平台

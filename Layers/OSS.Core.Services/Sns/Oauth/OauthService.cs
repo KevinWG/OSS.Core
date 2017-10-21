@@ -30,7 +30,7 @@ namespace OSS.Core.Services.Sns.Oauth
         /// <param name="type">授权类型</param>
         /// <returns></returns>
       
-        public ResultMo<string> GetOauthUrl(ThirdPaltforms plat, string redirectUrl, string state, AuthClientType type)
+        public ResultMo<string> GetOauthUrl(SocialPaltforms plat, string redirectUrl, string state, AuthClientType type)
         {
             var handler = SnsCommon.GetHandlerByPlatform(plat);
             return handler.GetOauthUrl(redirectUrl, state, type);

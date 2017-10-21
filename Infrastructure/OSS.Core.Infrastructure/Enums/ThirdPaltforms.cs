@@ -1,5 +1,4 @@
-﻿
-#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+﻿#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
 
 /***************************************************************************
 *　　	文件功能描述：OSSCore —— 第三方平台名称
@@ -15,9 +14,9 @@
 namespace OSS.Core.Infrastructure.Enums
 {
     /// <summary>
-    ///  第三方平台
+    ///  社交平台
     /// </summary>
-    public enum ThirdPaltforms
+    public enum SocialPaltforms
     {
         /// <summary>
         ///  系统本身
@@ -38,6 +37,5 @@ namespace OSS.Core.Infrastructure.Enums
         ///  新浪
         /// </summary>
         Sina=30
-            
     }
 }

@@ -65,7 +65,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers.Extention
                 app_union_id = wxMo.unionid,
                 sex = (Sex)wxMo.sex,
                 nick_name = wxMo.nickname,
-                platform = ThirdPaltforms.Wechat,
+                platform = SocialPaltforms.Wechat,
 
                 head_img = wxMo.headimgurl
             };

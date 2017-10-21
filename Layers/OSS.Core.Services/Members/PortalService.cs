@@ -29,8 +29,7 @@ namespace OSS.Core.Services.Members
 {
     public class PortalService
     {
-
-        #region  用户注册登录
+        #region  用户手机号邮箱注册登录
         /// <summary>
         /// 注册用户信息
         /// </summary>
@@ -42,7 +41,6 @@ namespace OSS.Core.Services.Members
         public async Task<UserTokenResp> RegisteUser(string value, string passWord, string passCode,
             RegLoginType type)
         {
-            // todo 如果是手机号注册，检查验证码
             var checkRes = await CheckIfCanRegiste(type, value);
             if (!checkRes.IsSuccess()) return checkRes.ConvertToResult<UserTokenResp>();
 
@@ -59,7 +57,6 @@ namespace OSS.Core.Services.Members
 
         private static UserInfoBigMo GetRegisteUserInfo(string value, string passWord, RegLoginType type)
         {
-
             var sysInfo = MemberShiper.AppAuthorize;
 
             var userInfo = new UserInfoBigMo
@@ -69,15 +66,12 @@ namespace OSS.Core.Services.Members
                 app_version = sysInfo.AppVersion
             };
 
-            if (type == RegLoginType.Email)
-            {
-                userInfo.email = value;
-                userInfo.status = (int) MemberStatus.WaitConfirm;
-            }
-            else
+            if (type == RegLoginType.Mobile)
                 userInfo.mobile = value;
+            else
+                userInfo.email = value;
 
-            if (type != RegLoginType.MobileCode)
+            if (!string.IsNullOrEmpty(passWord))
                 userInfo.pass_word = Md5.EncryptHexString(passWord);
 
             return userInfo;
@@ -93,15 +87,29 @@ namespace OSS.Core.Services.Members
         {
             return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type, value);
         }
+        
+
+        /// <summary>
+        ///  验证验证码是否正确
+        /// </summary>
+        /// <param name="loginName"></param>
+        /// <param name="passcode"></param>
+        /// <returns></returns>
+        private async Task<ResultMo> CheckPasscode(string loginName, string passcode)
+        {
+            // todo check passcode
+            return new ResultIdMo();
+        }
 
         /// <summary>
         ///  用户登录
         /// </summary>
         /// <param name="name"></param>
         /// <param name="passWord"></param>
+        /// <param name="passcode">动态验证码</param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public async Task<UserTokenResp> LoginUser(string name, string passWord, RegLoginType type)
+        public async Task<UserTokenResp> LoginUser(string name, string passWord,string passcode, RegLoginType type)
         {
             var rep = InsContainer<IUserInfoRep>.Instance;
             var userRes = await (type == RegLoginType.Mobile
@@ -129,14 +137,12 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public static ResultMo CheckMemberStatus(int state)
         {
-            return state < (int) MemberStatus.WaitConfirm
+            return state < (int) MemberStatus.WaitOauthChooseBind
                 ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！")
                 : new ResultMo();
         }
 
-
-
-
+        
         #region    第三方授权模块
 
         ///// <summary>
@@ -191,7 +197,7 @@ namespace OSS.Core.Services.Members
         }
 
 
-        private readonly static string tokenSecret = ConfigUtil.GetSection("AppConfig:AppSecret")?.Value;
+        private static readonly string tokenSecret = ConfigUtil.GetSection("AppConfig:AppSecret")?.Value;
         public static ResultMo<(long id, int authType)> GetTokenDetail(string appSource, string tokenStr)
         {
             var tokenDetail = MemberShiper.GetTokenDetail(tokenSecret, tokenStr);
@@ -206,5 +212,8 @@ namespace OSS.Core.Services.Members
             return new ResultMo<string>(MemberShiper.GetToken(tokenSecret, tokenCon));
         }
 
+
+        //private  static UserRegisteConfig GetRegisteconfig
+
     }
-}]
+}

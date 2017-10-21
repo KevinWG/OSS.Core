@@ -21,20 +21,21 @@ namespace OSS.Core.Infrastructure.Enums
         OnlyId,
         Info
     }
+
     /// <summary>
     /// 成员授权类型
     /// </summary>
     public enum MemberAuthorizeType
     {
         /// <summary>
-        /// 系统用户
-        /// </summary>
-        User,
-
-        /// <summary>
         ///  第三方临时授权用户
         /// </summary>
         OauthUserTemp,
+        
+        /// <summary>
+        /// 系统用户
+        /// </summary>
+        User,
 
         /// <summary>
         ///  后台管理员
@@ -45,23 +46,28 @@ namespace OSS.Core.Infrastructure.Enums
         ///  超级管理员
         /// </summary>
         SuperAdmin
-
     }
-
-
+    
+    /// <summary>
+    ///  授权注册时绑定类型
+    ///   可以根据平台自定义
+    /// </summary>
     public enum OauthRegisteType
     {
         /// <summary>
         ///  直接注册
         /// </summary>
         JustRegiste,
+
         /// <summary>
         ///  选择是否绑定
         /// </summary>
-        ChooseSkip,
+        ChooseBind,
+
         /// <summary>
         /// 绑定
         /// </summary>
         Bind
     }
+    
 }
