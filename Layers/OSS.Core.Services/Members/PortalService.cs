@@ -23,6 +23,7 @@ using OSS.Core.Domains.Members.Interfaces;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members.Exchange;
+using OSS.Core.Infrastructure.Utils;
 
 namespace OSS.Core.Services.Members
 {
@@ -36,22 +37,22 @@ namespace OSS.Core.Services.Members
         /// <param name="passCode"> 验证码（手机号注册时需要 </param>
         /// <param name="type">注册类型</param>
         /// <returns></returns>
-        public async Task<ResultMo<UserInfoMo>> RegisteUser(string value,string passWord,string passCode, RegLoginType type)
+        public async Task<UserTokenResp> RegisteUser(string value, string passWord, string passCode,
+            RegLoginType type)
         {
             // todo 如果是手机号注册，检查验证码
+            var checkRes = await CheckIfCanRegiste(type, value);
+            if (!checkRes.IsSuccess()) return checkRes.ConvertToResult<UserTokenResp>();
 
-            var checkRes =await CheckIfCanRegiste(type, value);
-            if (!checkRes.IsSuccess()) return checkRes.ConvertToResultOnly<UserInfoMo>();
-            
             var userInfo = GetRegisteUserInfo(value, passWord, type);
 
-            var idRes =await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
-            if (!idRes.IsSuccess()) return idRes.ConvertToResultOnly<UserInfoMo>();
+            var idRes = await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
+            if (!idRes.IsSuccess()) return idRes.ConvertToResult<UserTokenResp>();
 
             userInfo.Id = idRes.id;
             MemberEvents.TriggerUserRegiteEvent(userInfo, MemberShiper.AppAuthorize);
 
-            return new ResultMo<UserInfoMo>(userInfo.ConvertToMo());
+            return GenerateUserToken(userInfo.ConvertToMo());
         }
 
         private static UserInfoBigMo GetRegisteUserInfo(string value, string passWord, RegLoginType type)
@@ -91,27 +92,33 @@ namespace OSS.Core.Services.Members
             return await InsContainer<IUserInfoRep>.Instance.CheckIfCanRegiste(type, value);
         }
 
-
-        public async Task<ResultMo<UserInfoMo>> LoginUser(string name, string passWord, RegLoginType type)
+        /// <summary>
+        ///  用户登录
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="passWord"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task<UserTokenResp> LoginUser(string name, string passWord, RegLoginType type)
         {
             var rep = InsContainer<IUserInfoRep>.Instance;
-            var userRes=await (type == RegLoginType.Mobile
+            var userRes = await (type == RegLoginType.Mobile
                 ? rep.Get<UserInfoBigMo>(u => u.mobile == name)
                 : rep.Get<UserInfoBigMo>(u => u.email == name));
 
-         if (!userRes.IsSuccess())
-                return userRes.ConvertToResultOnly<UserInfoMo>();
+            if (!userRes.IsSuccess())
+                return userRes.ConvertToResult<UserTokenResp>();
 
-            if (Md5.EncryptHexString(passWord)!=userRes.data.pass_word)
-            return new ResultMo<UserInfoMo>(ResultTypes.UnAuthorize,"账号密码不正确！");
-          
-            MemberEvents.TriggerUserLoginEvent(userRes.data,MemberShiper.AppAuthorize);
+            if (Md5.EncryptHexString(passWord) != userRes.data.pass_word)
+                return new UserTokenResp(ResultTypes.UnAuthorize, "账号密码不正确！");
+
+            MemberEvents.TriggerUserLoginEvent(userRes.data, MemberShiper.AppAuthorize);
 
             var checkRes = CheckMemberStatus(userRes.data.status);
 
             return checkRes.IsSuccess()
-                ? new ResultMo<UserInfoMo>(userRes.data.ConvertToMo())
-                : checkRes.ConvertToResultOnly<UserInfoMo>();
+                ? GenerateUserToken(userRes.data.ConvertToMo())
+                : checkRes.ConvertToResult<UserTokenResp>();
         }
 
         /// <summary>
@@ -120,7 +127,9 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public static ResultMo CheckMemberStatus(int state)
         {
-            return state < (int)MemberStatus.WaitConfirm ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！") : new ResultMo();
+            return state < (int) MemberStatus.WaitConfirm
+                ? new ResultMo(ResultTypes.AuthFreezed, "此账号已经被锁定！")
+                : new ResultMo();
         }
 
 
@@ -167,6 +176,37 @@ namespace OSS.Core.Services.Members
 
         #endregion
 
+        private static UserTokenResp GenerateUserToken(UserInfoMo user)
+        {
+            var tokenRes = AppendToken(MemberShiper.AppAuthorize.AppSource, user.Id,
+                MemberAuthorizeType.User);
+
+            return tokenRes.IsSuccess()
+                ? new UserTokenResp() {token = tokenRes.data, user = user }
+                : tokenRes.ConvertToResult<UserTokenResp>();
+        }
+        
+        public static ResultMo<(long id, int authType)> GetTokenDetail(string appSource, string tokenStr)
+        {
+            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
+            if (!secreateKeyRes.IsSuccess())
+                return secreateKeyRes.ConvertToResultOnly<(long id, int authType)>();
+
+            var tokenDetail = MemberShiper.GetTokenDetail(secreateKeyRes.data, tokenStr);
+
+            var tokenSplit = tokenDetail.Split('|');
+            return new ResultMo<ValueTuple<long, int>>((tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32()));
+        }
+
+        public static ResultMo<string> AppendToken(string appSource, long id, MemberAuthorizeType authType)
+        {
+            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
+            if (!secreateKeyRes.IsSuccess())
+                return secreateKeyRes.ConvertToResultOnly<string>();
+
+            var tokenCon = string.Concat(id, "|", (int) authType, "|", DateTime.Now.ToUtcSeconds());
+            return new ResultMo<string>(MemberShiper.GetToken(secreateKeyRes.data, tokenCon));
+        }
 
     }
 }

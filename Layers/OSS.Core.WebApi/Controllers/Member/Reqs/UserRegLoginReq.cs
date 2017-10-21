@@ -12,8 +12,6 @@
 #endregion
 
 using System.ComponentModel.DataAnnotations;
-using OSS.Common.ComModels;
-using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs
@@ -45,19 +43,5 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member.Reqs
         ///  手机号注册时需要验证码
         /// </summary>
         public string pass_code { get; set; }
-    }
-
-
-    public class UserRegLoginResp:ResultMo
-    {
-        /// <summary>
-        /// 用户token，作为用户授权判断依据
-        /// </summary>
-        public string token { get; set; }
-
-        /// <summary>
-        /// 用户信息
-        /// </summary>
-        public UserInfoMo user { get; set; }
     }
 }

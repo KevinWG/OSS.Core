@@ -43,14 +43,13 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UserRegLoginResp> UserRegiste([FromBody] UserRegLoginReq req)
+        public async Task<UserTokenResp> UserRegiste([FromBody] UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return stateRes.ConvertToResult<UserRegLoginResp>();
+                return stateRes.ConvertToResult<UserTokenResp>();
 
-            var userRes = await service.RegisteUser(req.name,req.pass_word, req.pass_code, req.type);
-            return GenerateUserToken(userRes);
+            return await service.RegisteUser(req.name,req.pass_word, req.pass_code, req.type);
         }
 
 
@@ -60,14 +59,13 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UserRegLoginResp> UserLogin([FromBody] UserRegLoginReq req)
+        public async Task<UserTokenResp> UserLogin([FromBody] UserRegLoginReq req)
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return stateRes.ConvertToResult<UserRegLoginResp>();
+                return stateRes.ConvertToResult<UserTokenResp>();
 
-            var userRes = await service.LoginUser(req.name, req.pass_word, req.type);
-            return GenerateUserToken(userRes);
+            return await service.LoginUser(req.name, req.pass_word, req.type);
         }
 
         #endregion
@@ -100,19 +98,7 @@ namespace OSS.Core.WebApi.Controllers.CoreApi.Member
 
         #endregion
 
-        private static UserRegLoginResp GenerateUserToken(ResultMo<UserInfoMo> userRes)
-        {
-            if (!userRes.IsSuccess())
-                return userRes.ConvertToResult<UserRegLoginResp>();
-
-            var tokenRes = MemberTokenUtil.AppendToken(MemberShiper.AppAuthorize.AppSource, userRes.data.Id,
-                MemberAuthorizeType.User);
-
-            return tokenRes.IsSuccess()
-                ? new UserRegLoginResp() { token = tokenRes.data, user = userRes.data }
-                : tokenRes.ConvertToResult<UserRegLoginResp>();
-        }
-
+ 
         #endregion
 
 

@@ -1,4 +1,5 @@
 ﻿using OSS.Common.ComModels;
+using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.Domains.Members.Mos
@@ -18,6 +19,18 @@ namespace OSS.Core.Domains.Members.Mos
 
     public class UserTokenResp:ResultMo
     {
+        public UserTokenResp()
+        {
+            
+        }
+
+        public UserTokenResp(ResultTypes result, string message)
+        {
+            ret = (int)result;
+            msg = message;
+        }
+
+
         /// <summary>
         /// 用户信息
         /// </summary>

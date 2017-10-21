@@ -22,7 +22,6 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
 using OSS.Core.Domains;
 using OSS.Core.Infrastructure.Enums;
-using OSS.Core.Infrastructure.Utils;
 using OSS.Core.Services.Members;
 
 namespace OSS.Core.WebApi.Filters
@@ -109,7 +108,7 @@ namespace OSS.Core.WebApi.Filters
             if (string.IsNullOrEmpty(sysInfo.Token))
                 return new ResultMo<MemberIdentity>(ResultTypes.UnAuthorize, "用户未登录！");
 
-            var tokenRes = MemberTokenUtil.GetTokenDetail(sysInfo.AppSource, sysInfo.Token);
+            var tokenRes = PortalService.GetTokenDetail(sysInfo.AppSource, sysInfo.Token);
             if (!tokenRes.IsSuccess())
                 return tokenRes.ConvertToResultOnly<MemberIdentity>();
 
@@ -119,31 +118,6 @@ namespace OSS.Core.WebApi.Filters
                 Id = tokenRes.data.id
             };
             return new ResultMo<MemberIdentity>(identity);
-        }
-    }
-
-    public static class MemberTokenUtil
-    {
-        public static ResultMo<(long id,int authType)> GetTokenDetail(string appSource,string tokenStr)
-        {
-            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
-            if (!secreateKeyRes.IsSuccess())
-                return secreateKeyRes.ConvertToResultOnly<(long id, int authType)>();
-
-            var tokenDetail = MemberShiper.GetTokenDetail(secreateKeyRes.data, tokenStr);
-
-            var tokenSplit = tokenDetail.Split('|');
-            return new ResultMo<ValueTuple<long, int>>((tokenSplit[0].ToInt64(), tokenSplit[1].ToInt32()));
-        }
-
-        public static ResultMo<string> AppendToken(string appSource,long id, MemberAuthorizeType authType)
-        {
-            var secreateKeyRes = ApiSourceKeyUtil.GetAppSecretKey(appSource);
-            if (!secreateKeyRes.IsSuccess())
-                return secreateKeyRes.ConvertToResultOnly<string>();
-
-            var tokenCon=string.Concat(id, "|", (int)authType, "|", DateTime.Now.ToUtcSeconds());
-            return new ResultMo<string>(MemberShiper.GetToken(secreateKeyRes.data, tokenCon));
         }
     }
 }
