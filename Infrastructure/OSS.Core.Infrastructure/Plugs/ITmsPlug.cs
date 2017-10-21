@@ -18,35 +18,30 @@ using OSS.Common.ComModels;
 
 namespace OSS.Core.Infrastructure.Plugs
 {
-  
+    public interface ITmsPlug
+    {
+        /// <summary>
+        ///  发送固定模板消息
+        /// </summary>
+        /// <param name="receiveNum">接收账号</param>
+        /// <param name="templateId">模板Id</param>
+        /// <param name="contentData">内容数据</param>
+        /// <returns></returns>
+        Task<ResultMo> SendMsg(string receiveNum, string templateId, Dictionary<string, string> contentData);
+    }
+
     /// <summary>
     ///  短信插件接口
     /// </summary>
-    public interface ISmsPlug 
+    public interface ISmsPlug : ITmsPlug
     {
-        /// <summary>
-        ///  发送短信
-        /// </summary>
-        /// <param name="receiveNum"></param>
-        /// <param name="msgId"></param>
-        /// <param name="contentData"></param>
-        /// <returns></returns>
-        Task<ResultMo> SendMsg(string receiveNum, string msgId, Dictionary<string, string> contentData);
     }
 
     /// <summary>
     ///  邮件插件接口
     /// </summary>
-    public interface IEmailPlug 
+    public interface IEmailPlug : ITmsPlug
     {
-        /// <summary>
-        ///  发送短信
-        /// </summary>
-        /// <param name="receiveNum"></param>
-        /// <param name="msgId"></param>
-        /// <param name="contentData"></param>
-        /// <param name="attach"></param>
-        /// <returns></returns>
-        Task<ResultMo> SendMsg(string receiveNum, string msgId, Dictionary<string, string> contentData, object attach);
     }
+    
 }
