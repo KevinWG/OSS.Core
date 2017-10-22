@@ -13,6 +13,7 @@
 
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.Domains.Members.Interfaces
@@ -26,5 +27,13 @@ namespace OSS.Core.Domains.Members.Interfaces
         /// <param name="value"></param>
         /// <returns></returns>
         Task<ResultMo> CheckIfCanRegiste(RegLoginType type, string value);
+
+        /// <summary>
+        ///  获取用户信息
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        Task<ResultMo<UserInfoBigMo>> GetUserByLoginType(string name, RegLoginType type);
     }
 }

@@ -133,28 +133,27 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public async Task<UserTokenResp> LoginUser(string name, string passWord,string passcode, RegLoginType type)
         {
-            var rep = InsContainer<IUserInfoRep>.Instance;
-            var userRes = await (type == RegLoginType.Mobile
-                ? rep.Get<UserInfoBigMo>(u => u.mobile == name)
-                : rep.Get<UserInfoBigMo>(u => u.email == name));
-
-            if (!userRes.IsSuccess())
-                return userRes.ConvertToResult<UserTokenResp>();
-
-            if (string.IsNullOrEmpty(passcode))
-            {
-                if (Md5.EncryptHexString(passWord) != userRes.data.pass_word)
-                    return new UserTokenResp(ResultTypes.UnAuthorize, "账号密码不正确！");
-            }
-            else
+            var isCodeCheck = !string.IsNullOrEmpty(passcode);
+            if (isCodeCheck)
             {
                 var codeRes = CheckPasscode(name, passcode);
                 if (codeRes.IsSuccess())
                     return codeRes.ConvertToResult<UserTokenResp>();
             }
+
+            var userRes =await InsContainer<IUserInfoRep>.Instance.GetUserByLoginType(name,type );
+            if (!userRes.IsSuccess())
+                return userRes.ConvertToResult<UserTokenResp>();
+
+            if (!isCodeCheck)
+            {
+                if (string.IsNullOrEmpty(userRes.data.pass_word))
+                    return new UserTokenResp(ResultTypes.ObjectStateError, "当前账号需要动态码登录！");
+                if (Md5.EncryptHexString(passWord) != userRes.data.pass_word)
+                    return new UserTokenResp(ResultTypes.UnAuthorize, "账号密码不正确！");
+            }
       
             MemberEvents.TriggerUserLoginEvent(userRes.data, MemberShiper.AppAuthorize);
-
             var checkRes = CheckMemberStatus(userRes.data.status);
 
             return checkRes.IsSuccess()
