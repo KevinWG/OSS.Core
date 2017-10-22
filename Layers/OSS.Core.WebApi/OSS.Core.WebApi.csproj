@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Plugs\OSS.Plugs.TemplateMsg\OSS.Plugs.TemplateMsg.csproj" />
     <ProjectReference Include="..\OSS.Core.Domains\OSS.Core.Domains.csproj" />
     <ProjectReference Include="..\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
     <ProjectReference Include="..\OSS.Core.Services\OSS.Core.Services.csproj" />

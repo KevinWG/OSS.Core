@@ -21,10 +21,13 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OSS.Common.ComUtils;
 using OSS.Core.Domains.Members.Interfaces;
+using OSS.Core.Infrastructure.Plugs;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.RepDapper.Members;
 using OSS.Core.Services.Sns.Exchange;
 using OSS.Core.WebApi.Filters;
+using OSS.Plugs.TemplateMsg.Email;
+using OSS.Plugs.TemplateMsg.Sms;
 
 namespace OSS.Core.WebApi
 {
@@ -97,6 +100,7 @@ namespace OSS.Core.WebApi
         private static void RegisteGlobal()
         {
             RegisteReps();
+            RegistePlugs();
             RegisterWxConfig();
         }
 
@@ -121,6 +125,15 @@ namespace OSS.Core.WebApi
             {
                 SnsOauthConfigProvider.RegisterDefaultWxConfig(appId,appSecret);
             }
+        }
+        
+        /// <summary>
+        /// 注册相关插件
+        /// </summary>
+        private static void RegistePlugs()
+        {
+            InsContainer<IEmailPlug>.Set<EmailPlug>();
+            InsContainer<ISmsPlug>.Set<AliSmsPlug>();
         }
     }
 }
