@@ -8,8 +8,6 @@ using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Utils;
-using OSS.Core.WebSite.AppCodes;
-using OSS.Core.WebSite.AppCodes.Tools;
 using OSS.Core.WebSite.Controllers.Users.Mos;
 
 namespace OSS.Core.WebSite.Controllers.Users
@@ -34,14 +32,14 @@ namespace OSS.Core.WebSite.Controllers.Users
         [HttpPost]
         public async Task<IActionResult> Login(UserRegLoginReq req)
         {
-            var loginRes =await RegOrLogin(req, false, "portal/userlogin");
+            var loginRes =await RegOrLogin(req, "portal/userlogin");
 
             return Json(loginRes);
         }
 
-        private async Task<UserRegLoginResp> RegOrLogin(UserRegLoginReq req, bool isReg,string apiUrl)
+        private async Task<UserRegLoginResp> RegOrLogin(UserRegLoginReq req,string apiUrl)
         {
-            var stateRes = CheckLoginModelState(req, isReg);
+            var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserRegLoginResp>();
 
@@ -59,21 +57,18 @@ namespace OSS.Core.WebSite.Controllers.Users
         ///   正常登录时，验证实体参数
         /// </summary>
         /// <param name="req"></param>
-        /// <param name="isReg">是否是注册</param>
         /// <returns></returns>
-        private ResultMo CheckLoginModelState(UserRegLoginReq req,bool isReg)
+        private ResultMo CheckLoginModelState(UserRegLoginReq req)
         {
             if (!ModelState.IsValid)
                 return new ResultMo(ResultTypes.ParaError, GetVolidMessage());
 
             if (!Enum.IsDefined(typeof(RegLoginType), req.type))
                 return new ResultMo(ResultTypes.ParaError, "未知的账号类型！");
-            
-            if (req.type == RegLoginType.MobileCode || (req.type == RegLoginType.Mobile && isReg))
-            {
-                if (string.IsNullOrEmpty(req.pass_code))
-                    return new ResultMo(ResultTypes.ParaError, "验证码不能为空！");
-            }
+
+            if (string.IsNullOrEmpty(req.pass_code)
+                && string.IsNullOrEmpty(req.pass_word))
+                return new ResultMo(ResultTypes.ParaError, "请填写密码或者验证码！");
 
             var validator = new DataTypeAttribute(
                 req.type == RegLoginType.Mobile
@@ -86,8 +81,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         }
 
         #endregion
-
-
+        
         #region  用户注册
 
         public IActionResult Registe()
@@ -98,7 +92,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         [HttpPost]
         public async Task<IActionResult> Registe(UserRegLoginReq req)
         {
-            var regRes = await RegOrLogin(req, false, "portal/userregiste");
+            var regRes = await RegOrLogin(req, "portal/userregiste");
 
             return Json(regRes);
         }
