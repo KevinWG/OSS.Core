@@ -9,4 +9,8 @@
     <Folder Include="Email\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Infrastructure\OSS.Core.Infrastructure\OSS.Core.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
