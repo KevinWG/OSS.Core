@@ -193,7 +193,7 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public async Task<UserTokenResp> SocialAuth(SocialPaltforms plat, string code, string state)
         {
-            var oauthUserRes = await SetOauthUser(plat, code, state);
+            var oauthUserRes = await AddOrUpdateOauthUser(plat, code, state);
             if (!oauthUserRes.IsSuccess())
                 return oauthUserRes.ConvertToResult<UserTokenResp>();
 
@@ -241,9 +241,8 @@ namespace OSS.Core.Services.Members
             }
             return GenerateUserToken(user, type);
         }
-
-
-        private static async Task<ResultMo<OauthUserMo>> SetOauthUser(SocialPaltforms plat, string code, string state)
+        
+        private static async Task<ResultMo<OauthUserMo>> AddOrUpdateOauthUser(SocialPaltforms plat, string code, string state)
         {
             var userWxRes = await SnsCommon.GetOauthUserByCode(plat, code, state);
             var userRes = await InsContainer<IOauthUserRep>.Instance.GetOauthUserByAppUId(
