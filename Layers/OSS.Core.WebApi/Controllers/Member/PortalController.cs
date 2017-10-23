@@ -33,6 +33,20 @@ namespace OSS.Core.WebApi.Controllers.Member
         #region 用户登录注册
 
         #region 正常登录注册
+        /// <summary>
+        ///   验证码登录
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public async Task<UserTokenResp> CodeLogin(UserPasscodeReq req)
+        {
+            var stateRes = CheckLoginModelState(req);
+            if (!stateRes.IsSuccess())
+                return stateRes.ConvertToResult<UserTokenResp>();
+
+            return await service.CodeLogin(req.name, req.pass_code, req.type);
+        }
+
 
         /// <summary>
         /// 用户注册
@@ -40,13 +54,13 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UserTokenResp> UserRegiste([FromBody] UserRegLoginReq req)
+        public async Task<UserTokenResp> UserReg([FromBody] UserPasswordReq req)
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.RegisteUser(req.name, req.pass_word, req.pass_code, req.type);
+            return await service.UserReg(req.name, req.pass_word, req.type);
         }
 
 
@@ -56,13 +70,13 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<UserTokenResp> UserLogin([FromBody] UserRegLoginReq req)
+        public async Task<UserTokenResp> UserLogin([FromBody] UserPasswordReq req)
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.LoginUser(req.name, req.pass_word, req.pass_code, req.type);
+            return await service.UserLogin(req.name, req.pass_word, req.type);
         }
 
         /// <summary>
@@ -80,23 +94,17 @@ namespace OSS.Core.WebApi.Controllers.Member
 
             return await service.SendVertifyCode(name, type);
         }
-
-
-
+        
         /// <summary>
         ///   正常登录时，验证实体参数
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private ResultMo CheckLoginModelState(UserRegLoginReq req)
+        private ResultMo CheckLoginModelState(UserLoginBaseReq req)
         {
             if (!ModelState.IsValid)
                 return new ResultMo(ResultTypes.ParaError, GetVolidMessage());
-
-            if (string.IsNullOrEmpty(req.pass_code)
-                && string.IsNullOrEmpty(req.pass_word))
-                return new ResultMo(ResultTypes.ParaError, "请填写密码或者验证码！");
-
+            
             return CheckNameType(req.name, req.type);
         }
 

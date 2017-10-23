@@ -15,10 +15,7 @@
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Common.ComUtils;
-using OSS.Common.Extention;
-using OSS.Core.Domains.Sns.Interfaces;
-using OSS.Core.Domains.Sns.Mos;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Sns.Oauth.Handlers;
 
@@ -49,30 +46,8 @@ namespace OSS.Core.Services.Sns.Exchange
             if (!userWxRes.IsSuccess())
                 return tokenRes.ConvertToResultOnly<OauthUserMo>();
 
-            var userRes = await InsContainer<IOauthUserRep>.Instance.GetOauthUserByAppUId(MemberShiper.AppAuthorize.TenantId.ToInt64(),
-                tokenRes.data.app_user_id,plat);
-            if (userRes.IsSuccess())
-            {
-                var user = userRes.data;
-                user.ResetFromSocial(userWxRes.data);
-                user.SetTokenInfo(tokenRes.data);
-
-                await InsContainer<IOauthUserRep>.Instance.UpdateUserWithToken(user);
-                return new ResultMo<OauthUserMo>(user);
-            }
-            else
-            {
-                var user = userWxRes.data;
-                user.SetTokenInfo(tokenRes.data);
-
-                var idRes=await InsContainer<IOauthUserRep>.Instance.Insert(user);
-                if (!idRes.IsSuccess())
-                    return idRes.ConvertToResultOnly<OauthUserMo>();
-
-                user.Id = idRes.id;
-                return new ResultMo<OauthUserMo>(user);
-            }
-
+            userWxRes.data.SetTokenInfo(tokenRes.data);
+            return userWxRes;
         }
 
         /// <summary>
@@ -97,6 +72,7 @@ namespace OSS.Core.Services.Sns.Exchange
             handler.SetCOntextConfig(MemberShiper.AppAuthorize);
             return handler;
         }
+
 
         #endregion
     }

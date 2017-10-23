@@ -15,7 +15,7 @@
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Sns.Mos;
+using OSS.Core.Domains.Members.Mos;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
 namespace OSS.Core.Services.Sns.Oauth.Handlers
@@ -30,6 +30,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers
         /// <param name="type"></param>
         /// <returns></returns>
         ResultMo<string> GetOauthUrl(string redirectUrl, string state, AuthClientType type);
+
         /// <summary>
         /// 通过授权回调code 获取授权用户信息
         /// </summary>

@@ -14,7 +14,6 @@
 using System;
 using OSS.Common.Authrization;
 using OSS.Common.Extention;
-using OSS.Core.Domains.Sns.Mos;
 
 namespace OSS.Core.Domains.Members.Mos
 {

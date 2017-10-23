@@ -59,9 +59,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         [HttpPost]
         public async Task<UserRegLoginResp> Registe(UserRegLoginReq req)
         {
-
             var regRes = await RegOrLogin(req, "/portal/userregiste");
-
             return regRes;
         }
         #endregion

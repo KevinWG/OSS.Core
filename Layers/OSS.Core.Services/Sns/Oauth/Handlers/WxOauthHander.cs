@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Sns.Mos;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Services.Sns.Oauth.Handlers.Extention;
 using OSS.SnsSdk.Oauth.Wx;
 using OSS.SnsSdk.Oauth.Wx.Mos;

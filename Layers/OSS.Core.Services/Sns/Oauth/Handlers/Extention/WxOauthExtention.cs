@@ -17,7 +17,7 @@ using System;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
-using OSS.Core.Domains.Sns.Mos;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 
@@ -39,7 +39,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers.Extention
                 return wxMo.ConvertToResultOnly<OauthAccessTokenMo>();
 
             var nowTimestamp = DateTime.Now.ToUtcSeconds();
-            var appInfo = MemberShiper.AppAuthorize;
+            //var appInfo = MemberShiper.AppAuthorize;
 
             var comMo = new OauthAccessTokenMo
             {
@@ -48,8 +48,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers.Extention
                 refresh_token = wxMo.refresh_token,
                 create_time = nowTimestamp,
 
-                app_user_id = wxMo.openid,
-                tenant_id = appInfo.TenantId.ToInt64()
+                app_user_id = wxMo.openid
             };
             return new ResultMo<OauthAccessTokenMo>(comMo);
         }
@@ -65,7 +64,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers.Extention
             if (!wxMo.IsSuccess())
                 return wxMo.ConvertToResultOnly<OauthUserMo>();
 
-            var appInfo = MemberShiper.AppAuthorize;
+            //var appInfo = MemberShiper.AppAuthorize;
             var comMo = new OauthUserMo
             {
                 app_user_id = wxMo.openid,
@@ -74,9 +73,7 @@ namespace OSS.Core.Services.Sns.Oauth.Handlers.Extention
                 nick_name = wxMo.nickname,
                 platform = SocialPaltforms.Wechat,
 
-                head_img = wxMo.headimgurl,
-                create_time = DateTime.Now.ToUtcSeconds(),
-                tenant_id = appInfo.TenantId.ToInt64()
+                head_img = wxMo.headimgurl
             };
             return new ResultMo<OauthUserMo>(comMo);
         }

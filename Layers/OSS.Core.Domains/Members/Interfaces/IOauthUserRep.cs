@@ -13,10 +13,10 @@
 
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Sns.Mos;
+using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 
-namespace OSS.Core.Domains.Sns.Interfaces
+namespace OSS.Core.Domains.Members.Interfaces
 {
     /// <summary>
     /// 授权用户接口
@@ -38,5 +38,13 @@ namespace OSS.Core.Domains.Sns.Interfaces
         /// <param name="user"></param>
         /// <returns></returns>
         Task<ResultMo> UpdateUserWithToken(OauthUserMo user);
+
+        /// <summary>
+        ///  修改授权绑定的用户Id
+        /// </summary>
+        /// <param name="oauthUserId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        Task<ResultMo> UpdateUserIdByOauthId(long oauthUserId,long userId);
     }
 }

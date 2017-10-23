@@ -16,10 +16,7 @@ using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.WebApi.Controllers.Member.Reqs
 {
-    /// <summary>
-    /// 正常用户注册登录请求实体
-    /// </summary>
-    public class UserRegLoginReq
+    public class UserLoginBaseReq
     {
         /// <summary>
         /// 登录注册类型
@@ -30,18 +27,31 @@ namespace OSS.Core.WebApi.Controllers.Member.Reqs
         /// <summary>
         /// 手机号 或者 邮箱
         /// </summary>
-        [Required(ErrorMessage = "登录账号不能为空！")]
+        [Required(ErrorMessage = "请填写账号!")]
         public string name { get; set; }
+    }
 
+    /// <summary>
+    /// 正常用户注册登录请求实体
+    /// </summary>
+    public class UserPasswordReq: UserLoginBaseReq
+    {
         /// <summary>
         /// 密码
         /// </summary>
+        [Required(ErrorMessage = "请填写密码!"), MinLength(6, ErrorMessage = "密码不能少于六位！")]
         public string pass_word { get; set; }
 
+    }
+
+    public class UserPasscodeReq: UserLoginBaseReq
+    {
         /// <summary>
         /// 动态验证码
-        ///  登录时如果验证码不为空，则使用动态验证码登录
         /// </summary>
+        [Required(ErrorMessage = "请填写验证密码!"), MinLength(4, ErrorMessage = "验证码不少于四位!")]
         public string pass_code { get; set; }
     }
+
+
 }

@@ -21,7 +21,7 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
 using OSS.Core.Infrastructure.Utils;
 
-namespace OSS.Core.WebSite.AppCodes.Filters
+namespace OSS.Core.WebSite.Filters
 {
     /// <summary>
     ///   请求相关的系统信息
