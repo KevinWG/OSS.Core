@@ -11,6 +11,11 @@
 
 #endregion
 
+using System;
+using OSS.Common.Authrization;
+using OSS.Common.Extention;
+using OSS.Core.Domains.Sns.Mos;
+
 namespace OSS.Core.Domains.Members.Mos
 {
     public class UserInfoBigMo : UserInfoMo
@@ -29,6 +34,11 @@ namespace OSS.Core.Domains.Members.Mos
         /// 应用版本号
         /// </summary>
         public string app_version { get; set; }
+
+        /// <summary>
+        ///  租户Id
+        /// </summary>
+        public long tenant_id { get; set; }
     }
 
     public class UserInfoMo : BaseAutoMo
@@ -78,6 +88,29 @@ namespace OSS.Core.Domains.Members.Mos
                 status = io.status
             };
             return userInfo;
+        }
+
+        /// <summary>
+        /// 授权用户转化为系统用户信息
+        /// </summary>
+        /// <param name="io"></param>
+        /// <returns></returns>
+        public static UserInfoBigMo ConvertToBigMo(this OauthUserMo io)
+        {
+            var appInfo = MemberShiper.AppAuthorize;
+
+            var user = new UserInfoBigMo
+            {
+                create_time = DateTime.Now.ToUtcSeconds(),
+                app_source = appInfo.AppSource,
+                tenant_id = appInfo.TenantId.ToInt64(),
+                app_version = appInfo.AppVersion,
+                head_img = io.head_img,
+
+                nick_name = io.nick_name
+            };
+
+            return user;
         }
     }
 }

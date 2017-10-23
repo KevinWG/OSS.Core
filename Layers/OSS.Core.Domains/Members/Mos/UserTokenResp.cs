@@ -10,18 +10,12 @@ namespace OSS.Core.Domains.Members.Mos
         ///  授权用户注册类型
         /// </summary>
         public OauthRegisteType OauthRegisteType { get; set; }
-
-        /// <summary>
-        ///  邮箱是否需要验证
-        /// </summary>
-        public bool NeedEmailCheck { get; set; }
     }
 
     public class UserTokenResp:ResultMo
     {
         public UserTokenResp()
         {
-            
         }
 
         public UserTokenResp(ResultTypes result, string message)

@@ -46,7 +46,7 @@ namespace OSS.Core.WebApi.Controllers.Member
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.RegisteUser(req.name,req.pass_word, req.pass_code, req.type);
+            return await service.RegisteUser(req.name, req.pass_word, req.pass_code, req.type);
         }
 
 
@@ -97,7 +97,7 @@ namespace OSS.Core.WebApi.Controllers.Member
                 && string.IsNullOrEmpty(req.pass_word))
                 return new ResultMo(ResultTypes.ParaError, "请填写密码或者验证码！");
 
-            return CheckNameType(req.name,req.type);
+            return CheckNameType(req.name, req.type);
         }
 
         /// <summary>
@@ -126,13 +126,34 @@ namespace OSS.Core.WebApi.Controllers.Member
 
         #endregion
 
- 
+
         #endregion
 
-
         #region  第三方用户授权
+
+
         // 登录后直接 bind
         //  check whether thirduser had uid binded
+
+
+        /// <summary>
+        /// 授权
+        /// </summary>
+        /// <param name="plat"></param>
+        /// <param name="code"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<UserTokenResp> SocialAuth(SocialPaltforms plat, string code, string state)
+        {
+            if (string.IsNullOrEmpty(code))
+                return new UserTokenResp(ResultTypes.ParaError, "code 不能为空！");
+
+            return await service.SocialAuth(plat, code, state);
+        }
+
+
+
         #endregion
     }
 }

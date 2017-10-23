@@ -26,9 +26,17 @@ namespace OSS.Core.Domains.Sns.Interfaces
         /// <summary>
         /// 通过应用的用户Id获取授权用户信息
         /// </summary>
+        /// <param name="tenantId">租户Id</param>
         /// <param name="appUId">应用用户Id</param>
         /// <param name="plat">平台</param>
         /// <returns></returns>
-        Task<ResultMo<OauthUserMo>> GetOauthUserByAppUId(string appUId, SocialPaltforms plat);
+        Task<ResultMo<OauthUserMo>> GetOauthUserByAppUId(long tenantId, string appUId, SocialPaltforms plat);
+
+        /// <summary>
+        ///  更新授权用户和token信息
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<ResultMo> UpdateUserWithToken(OauthUserMo user);
     }
 }

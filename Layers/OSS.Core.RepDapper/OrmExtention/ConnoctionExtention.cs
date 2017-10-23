@@ -30,48 +30,51 @@ namespace OSS.Core.RepDapper.OrmExtention
     internal static class ConnoctionExtention 
     {
         #region    插入扩展
+
         /// <summary>
         ///   插入新记录
         /// </summary>
         /// <param name="con">数据库连接</param>
         /// <param name="mo">对应实体</param>
-        /// <param name="isIdAuto"> 【Id】主键是否是自增长，如果是同步返回，不是则需要外部传值（不通过Attribute处理是为了尽可能减少依赖 </param>
         /// <param name="tableName">如果为空则以TType.GetType().Name</param>
         /// <returns></returns>
-        public static async Task<ResultIdMo> Insert<TType>(this IDbConnection con, TType mo,string tableName = null, bool isIdAuto = true)
+        public static async Task<ResultIdMo> Insert<TType>(this IDbConnection con, TType mo,string tableName = null)
         {
             if (string.IsNullOrEmpty(tableName))
                 tableName = mo.GetType().Name;
 
-            var key = string.Concat(tableName, "|", isIdAuto, "|", con.ConnectionString, "|", typeof(TType).FullName);
-            var ormInfo = GetInsertOrmCacheInfo<TType>(tableName, key);
+            var isIdAuto = false;
 
-            var para = new DynamicParameters(ormInfo.ParaFunc?.Invoke(mo));
+            //var key = string.Concat(tableName, "|", con.ConnectionString, "|", typeof(TType).FullName);
+            //var ormInfo = GetInsertOrmCacheInfo<TType>(tableName, key ,ref isIdAuto);
+            //var para = new DynamicParameters(ormInfo.ParaFunc?.Invoke(mo));
+
+            var sql= GetInserSql<TType>(tableName, ref isIdAuto, out var prolist);
 
             long id;
             if (isIdAuto)
-                id = await con.ExecuteScalarAsync<long>(ormInfo.Sql, para);
+                id = await con.ExecuteScalarAsync<long>(sql, mo);
             else
-                id = await con.ExecuteAsync(ormInfo.Sql, para);
+                id = await con.ExecuteAsync(sql, mo);
 
             return id > 0 ? new ResultIdMo(id) : new ResultIdMo(ResultTypes.AddFail, "添加操作失败！");
         }
 
-        private static OrmOperateInfo GetInsertOrmCacheInfo<TType>(string tableName, string key) 
-        {
-            var cache = OrmCacheUtil.GetCacheInfo(key);
-            if (cache != null) return cache;
+        //private static OrmOperateInfo GetInsertOrmCacheInfo<TType>(string tableName, string key, ref bool isAuto)
+        //{
+        //    var cache = OrmCacheUtil.GetCacheInfo(key);
+        //    if (cache != null) return cache;
 
-            cache = new OrmOperateInfo
-            {
-                Sql = GetInserSql<TType>(tableName, out List<PropertyInfo> prolist),
-                ParaFunc = SqlParameterEmit.CreateDicDeleMothed<TType>(prolist)
-            };
-            OrmCacheUtil.AddCacheInfo(key, cache);
-            return cache;
-        }
+        //    cache = new OrmOperateInfo
+        //    {
+        //        Sql = GetInserSql<TType>(tableName, ref isAuto, out var prolist),
+        //        ParaFunc = SqlParameterEmit.CreateDicDeleMothed<TType>(prolist)
+        //    };
+        //    OrmCacheUtil.AddCacheInfo(key, cache);
+        //    return cache;
+        //}
 
-        private static string GetInserSql<TType>(string tableName, out List<PropertyInfo> proList)
+        private static string GetInserSql<TType>(string tableName, ref bool haveAuto, out List<PropertyInfo> proList)
         {
             //  1.  生成语句
             var sqlCols = new StringBuilder("INSERT INTO ");
@@ -81,7 +84,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             var properties = typeof(TType).GetProperties();
             proList = new List<PropertyInfo>(properties.Length);
 
-            bool isStart = false, haveAuto = false;
+            var isStart = false;
             foreach (var propertyInfo in properties)
             {
                 var isAuto = propertyInfo.GetCustomAttribute<AutoColumnAttribute>() != null;
@@ -108,6 +111,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             if (haveAuto) sqlCols.Append(";SELECT LAST_INSERT_ID();");
             return sqlCols.ToString();
         }
+
         #endregion
         
         #region  全量更新
@@ -193,7 +197,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             if (!prolist.Any())
                 return new OrmOperateInfo() {Sql = sql, ParaFunc = null};
 
-            string key = $"{tableName}|{sql}|{conStr}";
+            var key = $"{tableName}|{sql}|{conStr}";
             var cacheInfo = OrmCacheUtil.GetCacheInfo(key);
             if (cacheInfo != null)
                 return cacheInfo;

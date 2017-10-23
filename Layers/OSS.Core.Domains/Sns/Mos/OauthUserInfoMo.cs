@@ -11,7 +11,6 @@
 
 #endregion
 
-
 using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.Domains.Sns.Mos
@@ -19,7 +18,7 @@ namespace OSS.Core.Domains.Sns.Mos
     /// <summary>
     ///  用户授权Token信息
     /// </summary>
-    public class OauthAccessTokenMo:BaseAutoMo
+    public class OauthAccessTokenMo : BaseAutoMo
     {
         /// <summary>
         ///  应用的用户Id
@@ -40,6 +39,11 @@ namespace OSS.Core.Domains.Sns.Mos
         /// 过期时间
         /// </summary>
         public long expire_date { get; set; }
+
+        /// <summary>
+        ///  租户Id
+        /// </summary>
+        public long tenant_id { get; set; }
     }
 
     /// <summary>
@@ -47,6 +51,11 @@ namespace OSS.Core.Domains.Sns.Mos
     /// </summary>
     public class OauthUserMo : OauthAccessTokenMo
     {
+        /// <summary>
+        ///  用户Id
+        /// </summary>
+        public long user_id { get; set; }
+
         /// <summary>
         /// 性别
         /// </summary>
@@ -66,10 +75,42 @@ namespace OSS.Core.Domains.Sns.Mos
         ///  应用平台
         /// </summary>
         public SocialPaltforms platform { get; set; }
-        
+
         /// <summary>
         ///  头像
         /// </summary>
         public string head_img { get; set; }
+    }
+
+
+    public static class OauthUserMaps
+    {
+        /// <summary>
+        ///  设置token相关的信息
+        /// </summary>
+        /// <param name="userMo"></param>
+        /// <param name="accessMo"></param>
+        public static void SetTokenInfo(this OauthUserMo userMo, OauthAccessTokenMo accessMo)
+        {
+            userMo.access_token = accessMo.access_token;
+            userMo.expire_date = accessMo.expire_date;
+            userMo.refresh_token = accessMo.refresh_token;
+            userMo.create_time = accessMo.create_time;
+        }
+
+        /// <summary>
+        /// 通过从社交平台拿回来信息重新赋值
+        /// </summary>
+        /// <param name="target"></param>
+        /// <param name="source"></param>
+        public static void ResetFromSocial(this OauthUserMo target, OauthUserMo source)
+        {
+            target.head_img = source.head_img;
+            target.app_union_id = source.app_union_id;
+            target.nick_name = source.nick_name;
+            target.sex = source.sex;
+
+            target.app_user_id = source.app_user_id;
+        }
     }
 }

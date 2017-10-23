@@ -28,7 +28,6 @@ namespace OSS.Core.RepDapper.Members
             m_TableName = "user_info";
         }
 
-
         /// <summary>
         ///   判断账号是否可用于注册
         /// </summary>

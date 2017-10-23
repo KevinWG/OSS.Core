@@ -116,7 +116,7 @@ namespace OSS.Core.RepDapper
         /// <param name="isAuto">Id主键是否自增长</param>
         /// <returns></returns>
         public virtual async Task<ResultIdMo> Insert<T>(T mo, bool isAuto = true)
-            =>await ExcuteWriteAsync(con => con.Insert(mo, m_TableName,isAuto));
+            =>await ExcuteWriteAsync(con => con.Insert(mo, m_TableName));
 
         /// <summary>
         /// 全量更新
