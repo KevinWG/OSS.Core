@@ -47,7 +47,6 @@ namespace OSS.Core.WebSite.Controllers.Users.Mos
         /// <summary>
         /// 密码
         /// </summary>
-        [Required(ErrorMessage = "密码必填"), MinLength(6, ErrorMessage = "密码不得少于6位")]
         public string pass_word { get; set; }
 
         /// <summary>

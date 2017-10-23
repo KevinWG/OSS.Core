@@ -21,9 +21,11 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Common.Extention;
 using OSS.Core.Infrastructure.Utils;
+using OSS.Core.WebSite.AppCodes;
 
-namespace OSS.Core.WebSite.AppCodes.Filters
+namespace OSS.Core.WebSite.Filters
 {
     /// <summary>
     /// 用户授权验证
@@ -64,11 +66,11 @@ namespace OSS.Core.WebSite.AppCodes.Filters
             {
                 if (res.IsResultType(ResultTypes.UnAuthorize))
                 {
-                    var rUrl = string.Concat(context.HttpContext.Request.Path,
+                    var rUrl = string.Concat(context.HttpContext.Request.Path,"？",
                         context.HttpContext.Request.QueryString);
-                    context.HttpContext.Response.Cookies.Append(GlobalKeysUtil.UserReturnUrlCookieName,
-                       rUrl);
-                    context.Result = new RedirectResult(loginUrl ?? "/");
+             
+                    var url = string.Concat(loginUrl, "?rurl=" + rUrl.UrlEncode());
+                    context.Result = new RedirectResult(url ?? "/");
                 }
                 else
                 {

@@ -19,9 +19,8 @@ using Microsoft.AspNetCore.Http;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Plugs.LogPlug;
-using OSS.Core.Infrastructure.Utils;
 
-namespace OSS.Core.WebSite.AppCodes.Filters
+namespace OSS.Core.WebSite.Filters
 {
     /// <summary>
     ///   全局的异常处理
