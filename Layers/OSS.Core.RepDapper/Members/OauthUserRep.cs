@@ -21,6 +21,11 @@ namespace OSS.Core.RepDapper.Members
 {
     public class OauthUserRep:BaseRep,IOauthUserRep
     {
+        public OauthUserRep()
+        {
+            m_TableName = "oauth_user_info";
+        }
+
         public async Task<ResultMo<OauthUserMo>> GetOauthUserByAppUserId(long tenantId, string appUId, SocialPaltforms plat)
         {
             return await Get<OauthUserMo>(u => u.app_user_id == appUId

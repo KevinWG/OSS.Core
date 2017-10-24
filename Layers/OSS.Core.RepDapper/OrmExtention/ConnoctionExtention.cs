@@ -240,12 +240,12 @@ namespace OSS.Core.RepDapper.OrmExtention
             }
 
             const string sql = " WHERE Id=@Id";
-            if (visitor.Properties.ContainsKey("Id")) return sql;
+            if (visitor.Properties.ContainsKey("id")) return sql;
 
-            var p = typeof(TType).GetProperty("Id");
+            var p = typeof(TType).GetProperty("id");
             if (p == null)
                 throw new Exception("Update操作中where条件为空，且未发现Id属性");
-            visitor.Properties.Add("Id", p);
+            visitor.Properties.Add("id", p);
             return sql;
         }
 
