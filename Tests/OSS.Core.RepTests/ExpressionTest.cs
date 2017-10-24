@@ -21,7 +21,7 @@ namespace OSS.Core.RepTests
 
             var sqlWhereFlag = new SqlVistorFlag(SqlVistorType.Where);
             Expression<Func<UserInfoMo, bool>> booExpression =
-               u => (u.Id & 2) == 2 && u.Id + 2 == 3 || u.email == "test" && !u.email.Contains("ninin");
+               u => (u.id & 2) == 2 && u.id + 2 == 3 || u.email == "test" && !u.email.Contains("ninin");
 
             string name = "cecee";
             var mmm=new UserInfoMo();

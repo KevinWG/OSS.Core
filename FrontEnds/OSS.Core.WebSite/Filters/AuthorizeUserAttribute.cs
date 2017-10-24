@@ -53,7 +53,7 @@ namespace OSS.Core.WebSite.Filters
                 return;
             }
 
-            MemberShiper.SetIdentity(new MemberIdentity() {Id = userRes.data.Id, MemberInfo = userRes.data});
+            MemberShiper.SetIdentity(new MemberIdentity() {Id = userRes.data.id, MemberInfo = userRes.data});
         }
 
         private static void ReponseEnd(ResultMo res, AuthorizationFilterContext context)

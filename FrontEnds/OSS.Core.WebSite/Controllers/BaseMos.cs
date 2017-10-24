@@ -19,7 +19,7 @@
         /// <summary>
         /// 主键Id
         /// </summary>
-        public long Id { get; set; }
+        public long id { get; set; }
     }
 
     public class BaseMo<MoType> : BaseMo
@@ -27,7 +27,7 @@
         /// <summary>
         /// 主键Id
         /// </summary>
-        public MoType Id { get; set; }
+        public MoType id { get; set; }
     }
 
     
