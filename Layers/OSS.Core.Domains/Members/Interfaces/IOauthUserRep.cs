@@ -30,7 +30,7 @@ namespace OSS.Core.Domains.Members.Interfaces
         /// <param name="appUId">应用用户Id</param>
         /// <param name="plat">平台</param>
         /// <returns></returns>
-        Task<ResultMo<OauthUserMo>> GetOauthUserByAppUId(long tenantId, string appUId, SocialPaltforms plat);
+        Task<ResultMo<OauthUserMo>> GetOauthUserByAppUserId(long tenantId, string appUId, SocialPaltforms plat);
 
         /// <summary>
         ///  更新授权用户和token信息

@@ -245,7 +245,7 @@ namespace OSS.Core.Services.Members
         private static async Task<ResultMo<OauthUserMo>> AddOrUpdateOauthUser(SocialPaltforms plat, string code, string state)
         {
             var userWxRes = await SnsCommon.GetOauthUserByCode(plat, code, state);
-            var userRes = await InsContainer<IOauthUserRep>.Instance.GetOauthUserByAppUId(
+            var userRes = await InsContainer<IOauthUserRep>.Instance.GetOauthUserByAppUserId(
                 MemberShiper.AppAuthorize.TenantId.ToInt64(),
                 userWxRes.data.app_user_id, plat);
 

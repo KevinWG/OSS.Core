@@ -4,33 +4,10 @@ using OSS.Core.Infrastructure.Enums;
 
 namespace OSS.Core.WebSite.Controllers.Users.Mos
 {
-
-    #region  手机号登录注册（包含手机动态验证码
-    
-    /// <summary>
-    ///   手机号动态码注册登录 请求
-    /// </summary>
-    public class UserMobileCodeRegLoginReq
-    {
-        /// <summary>
-        /// 手机号验证码
-        /// </summary>
-        [Required(ErrorMessage = "验证码必填"), MinLength(4, ErrorMessage = "请填写正确的验证码！")]
-        public string pass_code { get; set; }
-
-        /// <summary>
-        ///  手机号
-        /// </summary>
-        [Required, DataType(DataType.PhoneNumber, ErrorMessage = "请输入正确的手机号")]
-        public string mobile { get; set; }
-    }
-
-    #endregion
-
     /// <summary>
     /// 正常用户注册登录请求实体
     /// </summary>
-    public class UserRegLoginReq
+    public class CodeLoginReq
     {
         /// <summary>
         /// 登录注册类型
@@ -54,9 +31,7 @@ namespace OSS.Core.WebSite.Controllers.Users.Mos
         /// </summary>
         public string pass_code { get; set; }
     }
-
-
-
+    
     /// <summary>
     /// 用户注册登录后响应实体
     /// </summary>

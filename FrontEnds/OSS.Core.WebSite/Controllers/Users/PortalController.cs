@@ -28,6 +28,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         /// <returns></returns>
         public IActionResult Login(string rurl,int state)
         {
+            ViewBag.UserState = state;
             if (!string.IsNullOrEmpty(rurl))
             {
                 Response.Cookies.Append(GlobalKeysUtil.UserReturnUrlCookieName, rurl);
@@ -35,17 +36,6 @@ namespace OSS.Core.WebSite.Controllers.Users
             return View();
         }
 
-        /// <summary>
-        /// ” œ‰µ«¬º
-        /// </summary>
-        /// <returns></returns>
-        [HttpPost]
-        public async Task<UserRegLoginResp> Login(UserRegLoginReq req)
-        {
-            var loginRes =await RegOrLogin(req, "/portal/userlogin");
-
-            return loginRes;
-        }
         
         #endregion
         
@@ -57,13 +47,13 @@ namespace OSS.Core.WebSite.Controllers.Users
         }
 
         [HttpPost]
-        public async Task<UserRegLoginResp> Registe(UserRegLoginReq req)
+        public async Task<UserRegLoginResp> Registe(CodeLoginReq req)
         {
             var regRes = await RegOrLogin(req, "/portal/userregiste");
             return regRes;
         }
         #endregion
-        private async Task<UserRegLoginResp> RegOrLogin(UserRegLoginReq req, string apiUrl)
+        private async Task<UserRegLoginResp> RegOrLogin(CodeLoginReq req, string apiUrl)
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
@@ -85,7 +75,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private ResultMo CheckLoginModelState(UserRegLoginReq req)
+        private ResultMo CheckLoginModelState(CodeLoginReq req)
         {
             if (!ModelState.IsValid)
                 return new ResultMo(ResultTypes.ParaError, GetVolidMessage());
