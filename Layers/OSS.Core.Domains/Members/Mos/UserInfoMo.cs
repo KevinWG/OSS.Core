@@ -81,7 +81,7 @@ namespace OSS.Core.Domains.Members.Mos
                 nick_name = io.nick_name,
                 head_img =io.head_img,
                 mobile = io.mobile,
-                Id = io.Id,
+                id = io.id,
 
                 create_time = io.create_time,
                 status = io.status

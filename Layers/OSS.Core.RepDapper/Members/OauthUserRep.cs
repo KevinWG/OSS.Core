@@ -46,7 +46,7 @@ namespace OSS.Core.RepDapper.Members
                     u.expire_date,
                     u.refresh_token
                 },
-                w => w.Id == user.Id);
+                w => w.id == user.id);
         }
 
         public async Task<ResultMo> UpdateUserIdByOauthId(long oauthUserId, long userId)
@@ -56,7 +56,7 @@ namespace OSS.Core.RepDapper.Members
                 {
                     user_id = userId
                 },
-                w => w.Id == oauthUserId);
+                w => w.id == oauthUserId);
         }
     }
 }

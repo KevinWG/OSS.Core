@@ -68,7 +68,7 @@ namespace OSS.Core.Services.Members
             var idRes = await InsContainer<IUserInfoRep>.Instance.Insert(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResult<UserTokenResp>();
 
-            userInfo.Id = idRes.id;
+            userInfo.id = idRes.id;
             MemberEvents.TriggerUserRegiteEvent(userInfo, MemberShiper.AppAuthorize);
 
             return BindOauthAndGenerateUserToken(userInfo, MemberAuthorizeType.User);
@@ -204,7 +204,7 @@ namespace OSS.Core.Services.Members
             if (oauthUser.user_id > 0) // 已经存在绑定，直接登录成功
             {
                 var userRes =
-                    await InsContainer<IUserInfoRep>.Instance.Get<UserInfoBigMo>(u => u.Id == oauthUser.user_id);
+                    await InsContainer<IUserInfoRep>.Instance.Get<UserInfoBigMo>(u => u.id == oauthUser.user_id);
                 if (!userRes.IsSuccess())
                     return userRes.ConvertToResult<UserTokenResp>();
 
@@ -222,17 +222,17 @@ namespace OSS.Core.Services.Members
                     if (!idRes.IsSuccess())
                         return idRes.ConvertToResult<UserTokenResp>();
 
-                    user.Id = idRes.id;
+                    user.id = idRes.id;
 
 #pragma warning disable 4014
-                    InsContainer<IOauthUserRep>.Instance.UpdateUserIdByOauthId(oauthUser.Id, user.Id);
+                    InsContainer<IOauthUserRep>.Instance.UpdateUserIdByOauthId(oauthUser.id, user.id);
 #pragma warning restore 4014
                     MemberEvents.TriggerUserLoginEvent(user, MemberShiper.AppAuthorize);
                 }
                 else
                 {
                     // 授权后通知前端，执行绑定相关操作
-                    user.Id = oauthUser.Id;
+                    user.id = oauthUser.id;
                     user.status = regConfig.OauthRegisteType == OauthRegisteType.Bind
                         ? (int) MemberStatus.WaitOauthBind
                         : (int) MemberStatus.WaitOauthChooseBind;
@@ -267,7 +267,7 @@ namespace OSS.Core.Services.Members
             if (!idRes.IsSuccess())
                 return idRes.ConvertToResultOnly<OauthUserMo>();
 
-            newUser.Id = idRes.id;
+            newUser.id = idRes.id;
             return new ResultMo<OauthUserMo>(newUser);
         }
 
@@ -297,7 +297,7 @@ namespace OSS.Core.Services.Members
                var OauthUserId = MemberShiper.Identity.Id;
                 if (OauthUserId > 0)
                 {
-                    InsContainer<IOauthUserRep>.Instance.UpdateUserIdByOauthId(OauthUserId, user.Id);
+                    InsContainer<IOauthUserRep>.Instance.UpdateUserIdByOauthId(OauthUserId, user.id);
                 }
             }
             return GenerateUserToken(user, authType);
@@ -307,7 +307,7 @@ namespace OSS.Core.Services.Members
         
         private static UserTokenResp GenerateUserToken(UserInfoBigMo user, MemberAuthorizeType authType)
         {
-            var tokenStr = string.Concat(user.Id, "|", (int) authType, "|", DateTime.Now.ToUtcSeconds());
+            var tokenStr = string.Concat(user.id, "|", (int) authType, "|", DateTime.Now.ToUtcSeconds());
             var token = MemberShiper.GetToken(tokenSecret, tokenStr);
             return new UserTokenResp() {token = token, user = user.ConvertToMo()};
         }
