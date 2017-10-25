@@ -17,9 +17,8 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Services.Members;
-using OSS.Core.WebApi.Controllers.Member;
 
-namespace OSS.Core.WebApi.Controllers.CoreApi.Member
+namespace OSS.Core.WebApi.Controllers.Member
 {
     public class MemberController : BaseMemberApiController
     {

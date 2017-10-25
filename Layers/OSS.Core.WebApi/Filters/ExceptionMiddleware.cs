@@ -48,6 +48,9 @@ namespace OSS.Core.WebApi.Filters
             }
             catch (Exception ex)
             {
+#if DEBUG
+                throw ex;
+#endif
                 error = ex;
             }
             var code = LogUtil.Error(error.StackTrace, nameof(ExceptionMiddleware));

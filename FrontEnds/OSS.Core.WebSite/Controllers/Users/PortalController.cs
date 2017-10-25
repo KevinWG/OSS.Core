@@ -36,23 +36,15 @@ namespace OSS.Core.WebSite.Controllers.Users
             return View();
         }
 
-        
-        #endregion
-        
-        #region  用户注册
 
-        public IActionResult Registe()
-        {
-            return View();
-        }
 
         [HttpPost]
-        public async Task<UserRegLoginResp> Registe(CodeLoginReq req)
+        public async Task<UserRegLoginResp> CodeLogin(CodeLoginReq req)
         {
-            var regRes = await RegOrLogin(req, "/portal/userregiste");
+            var regRes = await RegOrLogin(req, "/member/portal/CodeLogin");
             return regRes;
         }
-        #endregion
+
         private async Task<UserRegLoginResp> RegOrLogin(CodeLoginReq req, string apiUrl)
         {
             var stateRes = CheckLoginModelState(req);
@@ -70,6 +62,11 @@ namespace OSS.Core.WebSite.Controllers.Users
         }
 
 
+        #endregion
+
+
+
+
         /// <summary>
         ///   正常登录时，验证实体参数
         /// </summary>
@@ -82,9 +79,9 @@ namespace OSS.Core.WebSite.Controllers.Users
 
             if (!Enum.IsDefined(typeof(RegLoginType), req.type))
                 return new ResultMo(ResultTypes.ParaError, "未知的账号类型！");
-
-            if (string.IsNullOrEmpty(req.pass_code)
-                && string.IsNullOrEmpty(req.pass_word))
+            
+            if (string.IsNullOrEmpty(req.passcode)
+                && string.IsNullOrEmpty(req.password))
                 return new ResultMo(ResultTypes.ParaError, "请填写密码或者验证码！");
 
             var validator = new DataTypeAttribute(
@@ -96,6 +93,8 @@ namespace OSS.Core.WebSite.Controllers.Users
                 ? new ResultMo(ResultTypes.ParaError, "请输入正确的手机或邮箱！")
                 : new ResultMo();
         }
+
+
         #region 第三方用户授权
         /// <summary>
         /// 授权
@@ -127,7 +126,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         /// <returns></returns>
         public async Task<IActionResult> receive(int plat, string code, string state)
         {
-            var url = string.Concat("/portal/socialauth?plat=", plat, "&code=", code, "&state=", state);
+            var url = string.Concat("/member/portal/socialauth?plat=", plat, "&code=", code, "&state=", state);
             var userRes = await RestApiUtil.RestCoreApi<UserRegLoginResp>(url);
 
             if (!userRes.IsSuccess())

@@ -24,12 +24,12 @@ namespace OSS.Core.WebSite.Controllers.Users.Mos
         /// <summary>
         /// 密码
         /// </summary>
-        public string pass_word { get; set; }
+        public string password { get; set; }
 
         /// <summary>
         ///  手机号注册时需要验证码
         /// </summary>
-        public string pass_code { get; set; }
+        public string passcode { get; set; }
     }
     
     /// <summary>

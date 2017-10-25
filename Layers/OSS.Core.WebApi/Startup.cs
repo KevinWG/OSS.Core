@@ -39,8 +39,7 @@ namespace OSS.Core.WebApi
         }
 
         public IConfiguration Configuration { get; }
-
-
+        
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(mvcOp => mvcOp.Filters.Add(new AuthorizeSignAttribute())).AddJsonOptions(op =>
@@ -54,8 +53,7 @@ namespace OSS.Core.WebApi
 
             RegisteGlobal();
         }
-
-
+        
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
@@ -73,8 +71,12 @@ namespace OSS.Core.WebApi
                     template: "{area:exists}/{controller=Home}/{action=Index}");
 
                 routes.MapRoute(
+                    name: "coreapi",
+                    template: "core/{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
                     name: "default",
-                    template: "coreapi/{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
 
@@ -103,8 +105,7 @@ namespace OSS.Core.WebApi
             RegistePlugs();
             RegisterWxConfig();
         }
-
-
+        
         /// <summary>
         ///  注册仓储接口的具体实现
         /// </summary>
@@ -112,6 +113,7 @@ namespace OSS.Core.WebApi
         {
             InsContainer<IUserInfoRep>.Set<UserInfoRep>();
             InsContainer<IAdminInfoRep>.Set<AdminInfoRep>();
+            InsContainer<IOauthUserRep>.Set<OauthUserRep>();
         }
 
         /// <summary>

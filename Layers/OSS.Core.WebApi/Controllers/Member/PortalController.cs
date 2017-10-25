@@ -44,7 +44,7 @@ namespace OSS.Core.WebApi.Controllers.Member
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.CodeLogin(req.name, req.pass_code, req.type);
+            return await service.CodeLogin(req.name, req.passcode, req.type);
         }
 
 
@@ -60,7 +60,7 @@ namespace OSS.Core.WebApi.Controllers.Member
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.UserReg(req.name, req.pass_word, req.type);
+            return await service.UserReg(req.name, req.password, req.type);
         }
 
 
@@ -76,7 +76,7 @@ namespace OSS.Core.WebApi.Controllers.Member
             if (!stateRes.IsSuccess())
                 return stateRes.ConvertToResult<UserTokenResp>();
 
-            return await service.UserLogin(req.name, req.pass_word, req.type);
+            return await service.UserLogin(req.name, req.password, req.type);
         }
 
         /// <summary>
@@ -133,8 +133,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         }
 
         #endregion
-
-
+        
         #endregion
 
         #region  第三方用户授权

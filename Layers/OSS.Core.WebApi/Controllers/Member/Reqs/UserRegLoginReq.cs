@@ -40,7 +40,7 @@ namespace OSS.Core.WebApi.Controllers.Member.Reqs
         /// 密码
         /// </summary>
         [Required(ErrorMessage = "请填写密码!"), MinLength(6, ErrorMessage = "密码不能少于六位！")]
-        public string pass_word { get; set; }
+        public string password { get; set; }
 
     }
 
@@ -50,7 +50,7 @@ namespace OSS.Core.WebApi.Controllers.Member.Reqs
         /// 动态验证码
         /// </summary>
         [Required(ErrorMessage = "请填写验证密码!"), MinLength(4, ErrorMessage = "验证码不少于四位!")]
-        public string pass_code { get; set; }
+        public string passcode { get; set; }
     }
 
 
