@@ -30,7 +30,6 @@ namespace OSS.Core.Infrastructure.Utils
 
         private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;
         private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiUrlConfig:CoreApi").Value;
-        private static readonly string snsApiUrlPre = ConfigUtil.GetSection("ApiUrlConfig:SnsApi").Value;
 
 
         /// <summary>
@@ -46,22 +45,6 @@ namespace OSS.Core.Infrastructure.Utils
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(coreApiUrlPre, apiRoute);
-            return await RestApi<TRes>(apiUrl, req, mothed);
-        }
-
-        /// <summary>
-        ///   post一个Api请求
-        /// </summary>
-        /// <typeparam name="TRes"></typeparam>
-        /// <param name="apiRoute"></param>
-        /// <param name="req"></param>
-        /// <param name="mothed">请求方式</param>
-        /// <returns></returns>
-        public static async Task<TRes> RestSnsApi<TRes>(string apiRoute, object req = null,
-            HttpMothed mothed = HttpMothed.POST)
-            where TRes : ResultMo, new()
-        {
-            var apiUrl = string.Concat(snsApiUrlPre, apiRoute);
             return await RestApi<TRes>(apiUrl, req, mothed);
         }
 
