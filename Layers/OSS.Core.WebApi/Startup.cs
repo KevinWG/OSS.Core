@@ -70,9 +70,9 @@ namespace OSS.Core.WebApi
                 routes.MapRoute(name: "areaRoute",
                     template: "{area:exists}/{controller=Home}/{action=Index}");
 
-                routes.MapRoute(
-                    name: "coreapi",
-                    template: "core/{controller=Home}/{action=Index}/{id?}");
+                //routes.MapRoute(
+                //    name: "coreapi",
+                //    template: "core/{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                     name: "default",

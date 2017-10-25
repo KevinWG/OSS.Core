@@ -8,10 +8,6 @@ namespace OSS.Core.WebApi.Controllers.SnsApi
     [Area("sns")]
     public class BaseSnsApiController : BaseController
     {
-        [AllowNoSign]
-        public string GetTest()
-        {
-            return "test";
-        }
+  
     }
 }

@@ -106,9 +106,9 @@ namespace OSS.Core.WebSite.Controllers.Users
         public async Task<IActionResult> auth(int plat, string state, int type)
         {
             var redirectUrl = $"{m_CurrentDomain}/oauth/receive/{plat}";
-            var authUrl = $"/oauth/getoauthurl?plat={plat}&redirectUrl={redirectUrl}&state={state}&type={type}";
+            var authUrl = $"/sns/oauth/getoauthurl?plat={plat}&redirectUrl={redirectUrl}&state={state}&type={type}";
 
-            var urlRes = await RestApiUtil.RestSnsApi<ResultMo<string>>(authUrl, null, HttpMothed.GET);
+            var urlRes = await RestApiUtil.RestCoreApi<ResultMo<string>>(authUrl, null, HttpMothed.GET);
             if (urlRes.IsSuccess())
                 return Redirect(urlRes.data);
 
