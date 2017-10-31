@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50718
 File Encoding         : 65001
 
-Date: 2017-10-25 22:35:48
+Date: 2017-10-31 23:30:45
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -56,17 +56,17 @@ CREATE TABLE `oauth_user_info` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
-  `Id` bigint(8) NOT NULL AUTO_INCREMENT,
+  `id` bigint(8) NOT NULL AUTO_INCREMENT,
   `mobile` varchar(100) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `pass_word` varchar(64) DEFAULT NULL,
-  `tenant_id` bigint(8) unsigned zerofill NOT NULL DEFAULT '00000000',
+  `tenant_id` bigint(8) unsigned NOT NULL DEFAULT '0',
   `status` int(4) NOT NULL DEFAULT '0',
   `nick_name` varchar(255) DEFAULT NULL COMMENT '昵称',
   `head_img` varchar(255) DEFAULT NULL,
   `app_source` varchar(300) DEFAULT NULL,
   `app_version` varchar(50) DEFAULT NULL,
-  `create_time` bigint(8) unsigned zerofill NOT NULL DEFAULT '00000000',
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  `create_time` bigint(8) unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
 SET FOREIGN_KEY_CHECKS=1;

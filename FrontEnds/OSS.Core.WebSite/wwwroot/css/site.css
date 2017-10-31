@@ -11,12 +11,7 @@ body {
     background-color: #ebeced;
     /*background-color:ghostwhite;*/
 }
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
+
 
 a, a:hover, a:active, a:focus, a img {
     outline: none;

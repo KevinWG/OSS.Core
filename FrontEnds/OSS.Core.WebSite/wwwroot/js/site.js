@@ -32,8 +32,9 @@ function PostApi(btnDocElement, url, data, successFun) {
  * @returns  false 失败，true 成功
  */
 function isRetOk(res) {
-    if (!res.ret && res.ret != 0) {
-        return false;
+    // ret 不存在或者为0  则是成功标识
+    if (!res.ret || res.ret == 0) {
+        return true;
     }
-    return true;
+    return false;
 }
