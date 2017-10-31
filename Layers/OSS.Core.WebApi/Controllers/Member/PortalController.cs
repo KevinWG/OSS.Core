@@ -38,7 +38,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public async Task<UserTokenResp> CodeLogin(UserPasscodeReq req)
+        public async Task<UserTokenResp> CodeLogin([FromBody]UserPasscodeReq req)
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
