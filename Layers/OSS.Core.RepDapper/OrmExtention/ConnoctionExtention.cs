@@ -274,7 +274,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             foreach (var p in sqlVisitor.Parameters)
                 paraDics.Add(p.Key, p.Value);
 
-            return await con.QuerySingleAsync<TType>(opeInfo.Sql, paraDics);
+            return await con.QueryFirstOrDefaultAsync<TType>(opeInfo.Sql, paraDics);
         }
 
     }

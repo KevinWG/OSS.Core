@@ -144,7 +144,7 @@ namespace OSS.Core.Services.Members
         public async Task<UserTokenResp> CodeLogin(string name, string passcode, RegLoginType type)
         {
             var codeRes = CheckPasscode(name, passcode);
-            if (codeRes.IsSuccess())
+            if (!codeRes.IsSuccess())
                 return codeRes.ConvertToResult<UserTokenResp>();
 
             var userRes = await InsContainer<IUserInfoRep>.Instance.GetUserByLoginType(name, type);
@@ -171,10 +171,10 @@ namespace OSS.Core.Services.Members
             var code = CacheUtil.Get<string>(key);
 
             if (string.IsNullOrEmpty(code) || passcode != code)
-                return new ResultIdMo(ResultTypes.ObjectStateError, "验证码错误");
+                return new ResultMo(ResultTypes.ObjectStateError, "验证码错误");
 
             CacheUtil.Remove(key);
-            return new ResultIdMo();
+            return new ResultMo();
         }
 
         #endregion 
