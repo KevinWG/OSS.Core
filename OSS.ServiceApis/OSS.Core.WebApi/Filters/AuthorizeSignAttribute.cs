@@ -54,7 +54,7 @@ namespace OSS.Core.WebApi.Filters
                 }
 
                 sysInfo = new AppAuthorizeInfo();
-                sysInfo.FromSignData(auticketStr);
+                sysInfo.FromTicket(auticketStr);
 
                 var secretKeyRes = ApiSourceKeyUtil.GetAppSecretKey(sysInfo.AppSource, sysInfo.TenantId);
                 if (!secretKeyRes.IsSuccess())

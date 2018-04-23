@@ -1,17 +1,15 @@
-﻿
-#region Copyright (C) 2017 Kevin (OSS开源作坊) 公众号：osscoder
+﻿#region Copyright (C) 2017 Kevin (OSS开源实验室) 公众号：osscoder
 
 /***************************************************************************
-*　　	文件功能描述：OSSCore仓储层 —— 表达式解析扩展类
+*　　	文件功能描述：OSSCore仓储层 —— 表达式解析类
 *
 *　　	创建人： Kevin
 *       创建人Email：1985088337@qq.com
-*    	创建日期：2017-4-21
+*    	创建日期：2017-5-7
 *       
 *****************************************************************************/
 
 #endregion
-
 
 using System;
 using System.Collections.Generic;
@@ -19,27 +17,27 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 
-namespace OSS.Core.RepDapper.OrmExtention
+namespace OSS.Plugs.OrmMysql.OrmExtention
 {
     public class SqlExpressionVisitor
     {
         /// <summary>
         ///   表达式中的常量参数列表
         /// </summary>
-        public Dictionary<string, object> Parameters => parameters;
-        /// <summary>
-        ///  表达式中的属性参数列表
-        /// </summary>
-        public Dictionary<string, PropertyInfo> Properties => properties;
+        public Dictionary<string, object> Parameters { get; }
 
-        private readonly Dictionary<string, object> parameters;
-        private readonly Dictionary<string, PropertyInfo> properties;
+        /// <summary>
+        ///  表达式中的属性名称列表
+        /// </summary>
+        public Dictionary<string, string> Properties { get; }
 
         public SqlExpressionVisitor()
         {
-            parameters = new Dictionary<string, object>();
-            properties = new Dictionary<string, PropertyInfo>();
+            Parameters = new Dictionary<string, object>();
+            Properties = new Dictionary<string, string>();
         }
+
+
         /// <summary>
         ///  递归解析方法入口
         /// </summary>
@@ -141,7 +139,6 @@ namespace OSS.Core.RepDapper.OrmExtention
                     MethodCallLike(exp, flag);
                     break;
 
-
                     //  todo 补充其他方法
             }
         }
@@ -154,7 +151,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             VisitRight(exp.Arguments[0], flag);
             flag.Append(",'%')");
         }
-        
+
         #endregion
 
         protected virtual void VisitBinary(BinaryExpression exp, SqlVistorFlag flag)
@@ -165,6 +162,7 @@ namespace OSS.Core.RepDapper.OrmExtention
             {
                 flag.Append("(");
                 Visit(exp.Left, flag);
+
                 flag.Append(") ").Append(operand).Append(" (");
                 Visit(exp.Right, flag);
                 flag.Append(")");
@@ -186,8 +184,7 @@ namespace OSS.Core.RepDapper.OrmExtention
                 if (e.NodeType == ExpressionType.NewArrayInit ||
                     e.NodeType == ExpressionType.NewArrayBounds)
                 {
-                    var newArrayExpression = e as NewArrayExpression;
-                    if (newArrayExpression != null)
+                    if (e is NewArrayExpression newArrayExpression)
                         VisitNewArray(newArrayExpression, flag);
                 }
                 else
@@ -202,10 +199,19 @@ namespace OSS.Core.RepDapper.OrmExtention
             var value = c.Value ?? "null";
             if (flag.IsRight)
             {
-                var paraName = flag.GetCustomParaName();
-                flag.Append(paraName);
+                var paraName = GetCustomParaName(flag.ParaPreToken); // flag.GetCustomParaName();
+                flag.Append(paraName,true);
 
-                AddParameter(paraName, c.Type == typeof(bool) ? ((bool)value ? 1 : 0) : value);
+                if (c.Type.IsEnum)
+                {
+                    AddParameter(paraName, (int) c.Value);
+                }
+                else if (c.Type == typeof(bool))
+                {
+                    AddParameter(paraName, (bool) value ? 1 : 0);
+                }
+                else
+                    AddParameter(paraName, value);
             }
             else
             {
@@ -219,7 +225,6 @@ namespace OSS.Core.RepDapper.OrmExtention
             flag.UnaryType = u.NodeType;
             Visit(u.Operand, flag);
             flag.UnaryType = nodeType;
-
         }
 
         protected virtual void VisitLambda(LambdaExpression lambda, SqlVistorFlag flag)
@@ -244,20 +249,19 @@ namespace OSS.Core.RepDapper.OrmExtention
             if (exp.Expression != null
                 && exp.Expression.NodeType == ExpressionType.Parameter)
             {
-                if (flag.IsRight)
+                if (flag.IsRight && flag.VistorType == SqlVistorType.Update)
                 {
                     var proParaName = flag.GetParaName(exp.Member.Name);
+                    flag.Append(proParaName, true);
 
-                    flag.Append(proParaName);
-
-                    AddMemberProperty(proParaName, exp.Member.DeclaringType.GetProperty(exp.Member.Name));
+                    AddMemberProperty(proParaName, exp.Member.Name);
                 }
                 else
                 {
                     if (exp.Member.DeclaringType.GetTypeInfo().IsGenericType
                         && exp.Member.DeclaringType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     {
-                        if (exp.Member.Name == "Value") 
+                        if (exp.Member.Name == "Value")
                             Visit(exp.Expression, flag);
 
                         if (exp.Member.Name != "HasValue") return;
@@ -267,10 +271,10 @@ namespace OSS.Core.RepDapper.OrmExtention
                         Visit(doesNotEqualNull, flag);
                     }
                     else
-                        flag.Append(flag.GetColName(exp.Member.Name));
+                        flag.Append(flag.GetColName(exp.Member.Name),true);
                 }
             }
-            else if (exp.Expression != null && flag.IsRight)
+            else
             {
                 var value = Expression.Lambda(exp).Compile().DynamicInvoke();
                 Visit(Expression.Constant(value), flag);
@@ -295,7 +299,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         }
 
         #endregion
-        
+
         #region 辅助方法
 
         /// <summary>
@@ -303,11 +307,11 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// </summary>
         /// <param name="name"></param>
         /// <param name="pro"></param>
-        private void AddMemberProperty(string name, PropertyInfo pro)
+        private void AddMemberProperty(string name, string pro)
         {
-            if (!properties.ContainsKey(name))
+            if (!Properties.ContainsKey(name))
             {
-                properties.Add(name, pro);
+                Properties.Add(name, pro);
             }
         }
 
@@ -318,7 +322,7 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <param name="value"></param>
         private void AddParameter(string paraName, object value)
         {
-            parameters.Add(paraName, value);
+            Parameters.Add(paraName, value);
         }
 
 
@@ -375,6 +379,18 @@ namespace OSS.Core.RepDapper.OrmExtention
             }
         }
 
+        private int _constantParaIndex;
+
+        /// <summary>
+        ///  获取定制常量参数名称
+        ///   部分参数并无指定属性，这里自定义不重复参数
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetCustomParaName(string preToken)
+        {
+            const string parameterPre = "ConstPara";
+            return string.Concat(preToken, parameterPre, _constantParaIndex++);
+        }
         #endregion
     }
 
@@ -384,12 +400,13 @@ namespace OSS.Core.RepDapper.OrmExtention
     public class SqlVistorFlag
     {
         private readonly StringBuilder _sqlBuilder;
+
         public SqlVistorFlag(SqlVistorType vistorType)
         {
+            VistorType = vistorType;
             _sqlBuilder = new StringBuilder();
-            UnaryType = (ExpressionType) (-1);
+            UnaryType = (ExpressionType)(-1);
         }
-
 
         /// <summary>
         ///   是否是表达式右侧项，决定右侧树是否做参数化处理
@@ -400,16 +417,35 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// 主要是MethodCall方法中解析时需要知晓上层一元运算符
         /// </summary>
         public ExpressionType UnaryType { get; set; }
-        
+
         /// <summary>
         ///  参数辨识符号
         /// </summary>
-        public string ParaPreToken { get; set; } = "@";
+        public  string ParaPreToken {
+            get
+            {
+                switch (_sqlProvider)
+                {
+                    case SqlVistorProvider.Mysql:
+                    case SqlVistorProvider.SqlServer:
+                        return "@";
+                    case SqlVistorProvider.Oracle:
+                        return ":";
+                }
+                return string.Empty;
+            }
+        }
+
+        private static SqlVistorProvider _sqlProvider  = SqlVistorProvider.Mysql;
+        public static void SetDbProvider(SqlVistorProvider sqlProvider)
+        {
+            _sqlProvider = sqlProvider;
+        }
 
         /// <summary>
         ///  对应的SQL语句
         /// </summary>
-        public string Sql => _sqlBuilder.ToString();
+        public string Sql => _sqlBuilder.ToString().TrimEnd(GetSeparate());
 
         /// <summary>
         ///  解析语段类型
@@ -418,32 +454,21 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         #region 语句拼接
 
-
-        private bool _isStarted;
-
-
         /// <summary>
         ///  往语句中追加内容
         /// </summary>
         /// <param name="content"></param>
-        /// <param name="needCheckSep"></param>
+        /// <param name="needCheckSep">是否需要分隔符</param>
         /// <returns></returns>
         public SqlVistorFlag Append(string content, bool needCheckSep = false)
         {
-            if (!_isStarted)
-                _isStarted = true;
-            else
-            {
-                if (needCheckSep)
-                {
-                    _sqlBuilder.Append(GetSeparate());
-                }
-            }
-
             _sqlBuilder.Append(content);
+            if (needCheckSep)
+            {
+                _sqlBuilder.Append(GetSeparate());
+            }
             return this;
         }
-
 
         /// <summary>
         ///  获取对应的参数名称
@@ -456,17 +481,6 @@ namespace OSS.Core.RepDapper.OrmExtention
             return string.Concat(ParaPreToken, name);
         }
 
-        private int _constantParaIndex;
-        /// <summary>
-        ///  获取定制常量参数名称
-        ///   部分参数并无指定属性，这里自定义不重复参数
-        /// </summary>
-        /// <returns></returns>
-        public virtual string GetCustomParaName()
-        {
-            const string parameterPre = "ConstPara";
-            return string.Concat(ParaPreToken, parameterPre, _constantParaIndex++);
-        }
 
         /// <summary>
         ///  获取属性列名称
@@ -476,21 +490,30 @@ namespace OSS.Core.RepDapper.OrmExtention
         /// <returns></returns>
         public virtual string GetColName(string name)
         {
-            return string.Concat('`', name, '`');
+            switch (_sqlProvider)
+            {
+                case SqlVistorProvider.Mysql:
+                    return string.Concat('`', name, '`');
+                    
+                case SqlVistorProvider.SqlServer:
+                    return string.Concat('[', name, ']');
+                case SqlVistorProvider.Oracle:
+                    return string.Concat('"', name, '"');
+            }
+            return name;
         }
 
 
-        private string GetSeparate()
+        private char GetSeparate()
         {
             switch (VistorType)
             {
                 case SqlVistorType.Update:
-                    return ",";
-
+                    return ',';
                 case SqlVistorType.Where:
-                    return " ";
+                    return ' ';
                 default:
-                    return string.Empty;
+                    return ' ';
             }
         }
 
@@ -509,5 +532,13 @@ namespace OSS.Core.RepDapper.OrmExtention
 
         Where
     }
-    
+
+
+
+    public enum SqlVistorProvider
+    {
+        Mysql,
+        SqlServer,
+        Oracle
+    }
 }

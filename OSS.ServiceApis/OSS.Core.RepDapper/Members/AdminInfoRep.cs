@@ -12,16 +12,27 @@
 #endregion
 
 
+using System.Threading.Tasks;
+using OSS.Common.ComModels;
+using OSS.Core.Domains.Members;
+using OSS.Plugs.OrmMysql;
+
 namespace OSS.Core.RepDapper.Members
 {
     /// <summary>
     ///  后台管理员仓储实现
     /// </summary>
-    public class AdminInfoRep: BaseRep<AdminInfoRep>
+    public class AdminInfoRep: BaseMysqlRep<AdminInfoRep,AdminInfoMo>
     {
         public AdminInfoRep()
         {
             m_TableName = "admin_info";
+        }
+
+
+        public async Task<ResultMo<AdminInfoMo>> GetById(long id)
+        {
+            return await GetById(id);
         }
     }
 }

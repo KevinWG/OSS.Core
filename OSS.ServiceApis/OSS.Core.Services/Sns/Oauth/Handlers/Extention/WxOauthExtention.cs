@@ -14,10 +14,9 @@
 
 
 using System;
-using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.Extention;
-using OSS.Core.Domains.Members.Mos;
+using OSS.Core.Domains.Members;
 using OSS.Core.Infrastructure.Enums;
 using OSS.SnsSdk.Oauth.Wx.Mos;
 

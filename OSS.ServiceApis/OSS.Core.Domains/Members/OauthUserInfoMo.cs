@@ -15,13 +15,14 @@ using System;
 using OSS.Common.Authrization;
 using OSS.Common.Extention;
 using OSS.Core.Infrastructure.Enums;
+using OSS.Core.Infrastructure.Mos;
 
-namespace OSS.Core.Domains.Members.Mos
+namespace OSS.Core.Domains.Members
 {
     /// <summary>
     ///  用户授权Token信息
     /// </summary>
-    public class OauthAccessTokenMo : BaseAutoMo
+    public class OauthAccessTokenMo : BaseMo
     {
         /// <summary>
         ///  应用的用户Id

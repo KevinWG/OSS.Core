@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.Authrization;
 using OSS.Common.ComModels;
+using OSS.Core.Domains.Members;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Services.Members;
 
@@ -29,7 +30,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ResultMo<UserInfoMo>> GetCurrentUser()
+        public async Task<ResultMo<UserInfoBigMo>> GetCurrentUser()
         {
             return await service.GetUserInfo(MemberShiper.Identity.Id);
         }

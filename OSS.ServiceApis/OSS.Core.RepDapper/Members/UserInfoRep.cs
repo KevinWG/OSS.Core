@@ -15,12 +15,14 @@ using System.Threading.Tasks;
 using Dapper;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
+using OSS.Core.Domains.Members;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
+using OSS.Plugs.OrmMysql;
 
 namespace OSS.Core.RepDapper.Members
 {
-    public class UserInfoRep : BaseRep<UserInfoRep>
+    public class UserInfoRep : BaseMysqlRep<UserInfoRep, UserInfoBigMo>
     {
         public UserInfoRep()
         {
@@ -47,8 +49,14 @@ namespace OSS.Core.RepDapper.Members
         public async Task<ResultMo<UserInfoBigMo>> GetUserByLoginType(string name, RegLoginType type)
         {
             return await (type == RegLoginType.Mobile
-                ? Get<UserInfoBigMo>(u => u.mobile == name)
-                : Get<UserInfoBigMo>(u => u.email == name));
+                ? Get(u => u.mobile == name)
+                : Get(u => u.email == name));
+        }
+
+
+        public async Task<ResultMo<UserInfoBigMo>> GetById(long id)
+        {
+            return await GetById(id);
         }
     }
 }

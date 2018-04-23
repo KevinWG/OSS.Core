@@ -30,7 +30,7 @@ namespace OSS.Core.Infrastructure.Utils
         /// 获取应用授权key
         /// </summary>
         /// <returns></returns>
-        public static ResultMo<string> GetAppSecretKey(string appSource, string tenantId=null) 
+        public static ResultMo<string> GetAppSecretKey(string appSource, long tenantId=0) 
         {
             return _appSecretKeys.ContainsKey(appSource) 
                 ? new ResultMo<string>(_appSecretKeys[appSource]) 

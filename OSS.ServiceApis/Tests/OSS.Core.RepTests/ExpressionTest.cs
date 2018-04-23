@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using OSS.Core.Domains.Members.Mos;
-using OSS.Core.RepDapper.OrmExtention;
+using OSS.Core.Domains.Members;
+using OSS.Plugs.OrmMysql.OrmExtention;
 using Xunit;
 
 namespace OSS.Core.RepTests

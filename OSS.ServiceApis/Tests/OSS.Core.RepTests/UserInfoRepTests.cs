@@ -1,5 +1,5 @@
 ﻿using OSS.Common.Authrization;
-using OSS.Core.Domains.Members.Mos;
+using OSS.Core.Domains.Members;
 using Xunit;
 using OSS.Core.RepDapper.Members;
 
@@ -15,7 +15,7 @@ namespace OSS.Core.RepTests
             var info = new SysAuthorizeInfo();
 
             info.AppSource = "FrontWeb";
-            info.AppClient = "PC";
+            info.AppClient = AppClientType.Window;
             info.AppVersion = "1.0";
             info.DeviceId = "Test Device";
 
@@ -36,16 +36,11 @@ namespace OSS.Core.RepTests
 
             var rep = new UserInfoRep();
 
-            var res = rep.Insert(mo);
+            var res = rep.Add(mo);
             mo.id = res.Id;
             mo.email = "222222@qq.com";
             mo.mobile = "222222222222";
 
-            rep.UpdateAll(mo); //  全量更新测试
-
-            rep.Update(mo, m => new {m.email}, m => m.id == 1); //  部分更新
-            rep.DeleteSoft(m => m.id == 16, mo); //  软删除
-            rep.Get(m => m.id == 16, mo); //  查询
         }
     }
 }

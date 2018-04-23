@@ -22,6 +22,7 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
 using OSS.Core.Domains;
 using OSS.Core.Infrastructure.Enums;
+using OSS.Core.Infrastructure.Mos;
 using OSS.Core.Services.Members;
 
 namespace OSS.Core.WebApi.Filters
@@ -77,7 +78,7 @@ namespace OSS.Core.WebApi.Filters
         /// <returns></returns>
         private static ResultMo GetIdentityMemberInfo(MemberIdentity identity)
         {
-            BaseAutoMo memInfo = null;
+            BaseMo memInfo = null;
             if (identity.AuthenticationType == (int) MemberAuthorizeType.Admin)
             {
                 var memRes = service.GetAdminInfo(identity.Id).WaitResult();

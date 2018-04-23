@@ -12,12 +12,14 @@
 
 #endregion
 
-namespace OSS.Core.Domains.Members.Mos
+using OSS.Core.Infrastructure.Mos;
+
+namespace OSS.Core.Domains.Members
 {
     /// <summary>
     ///  后台管理员实体
     /// </summary>
-    public class AdminInfoMo:BaseAutoMo
+    public class AdminInfoMo:BaseUIdMo
     {
         /// <summary>
         /// 用户id
@@ -28,7 +30,6 @@ namespace OSS.Core.Domains.Members.Mos
         /// 管理员名称
         /// </summary>
         public string name { get; set; }
-
     }
 
 }

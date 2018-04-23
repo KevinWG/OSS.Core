@@ -13,20 +13,20 @@
 
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Members.Mos;
+using OSS.Core.Domains.Members;
 using OSS.Core.RepDapper.Members;
 using OSS.Core.Services.Members.Exchange;
 
 namespace OSS.Core.Services.Members
 {
-    public class MemberService
+    public class MemberService: BaseService
     {
         /// <summary>
         /// 获取前台用户信息
         /// </summary>
         /// <param name="userId">用户Id</param>
         /// <returns></returns>
-        public async Task<ResultMo<UserInfoMo>> GetUserInfo(long userId)
+        public async Task<ResultMo<UserInfoBigMo>> GetUserInfo(long userId)
         {
             return await MemberCommon.GetUserInfo(userId);
         }
@@ -38,7 +38,7 @@ namespace OSS.Core.Services.Members
         /// <returns></returns>
         public async Task<ResultMo<AdminInfoMo>> GetAdminInfo(long adminId)
         {
-            return await AdminInfoRep.Instance.Get<AdminInfoMo>();
+            return await AdminInfoRep.Instance.GetById(adminId);
         }
     }
 }

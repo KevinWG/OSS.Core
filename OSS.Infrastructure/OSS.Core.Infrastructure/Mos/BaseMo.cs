@@ -11,12 +11,15 @@
 
 #endregion
 
-using OSS.Common.Extention.DTO;
-
-namespace OSS.Core.Domains
+namespace OSS.Core.Infrastructure.Mos
 {
     public class BaseMo
     {
+        /// <summary>
+        /// 主键Id
+        /// </summary>
+        public long id { get; set; }
+
         /// <summary>
         /// 状态信息
         /// </summary>
@@ -28,23 +31,12 @@ namespace OSS.Core.Domains
         public long create_time { get; set; }
     }
 
-    
-    public class BaseAutoMo: BaseMo
+
+    public class BaseUIdMo:BaseMo
     {
         /// <summary>
-        /// 主键Id
+        ///  用户id
         /// </summary>
-        [AutoColumn]
-        public long id { get; set; }
+        public long u_id { get; set; }
     }
-
-    public class BaseMo<MoType>: BaseMo
-    {
-        /// <summary>
-        /// 主键Id
-        /// </summary>
-        public MoType id { get; set; }
-    }
-
-  
 }

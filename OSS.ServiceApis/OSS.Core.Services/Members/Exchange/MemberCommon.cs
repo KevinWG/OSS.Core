@@ -13,7 +13,7 @@
 
 using System.Threading.Tasks;
 using OSS.Common.ComModels;
-using OSS.Core.Domains.Members.Mos;
+using OSS.Core.Domains.Members;
 using OSS.Core.RepDapper.Members;
 
 namespace OSS.Core.Services.Members.Exchange
@@ -28,9 +28,9 @@ namespace OSS.Core.Services.Members.Exchange
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static async Task<ResultMo<UserInfoMo>> GetUserInfo(long userId)
+        public static async Task<ResultMo<UserInfoBigMo>> GetUserInfo(long userId)
         {
-            return await UserInfoRep.Instance.Get<UserInfoMo>(u=>u.id == userId);
+            return await UserInfoRep.Instance.GetById(userId);
         }
         
     }

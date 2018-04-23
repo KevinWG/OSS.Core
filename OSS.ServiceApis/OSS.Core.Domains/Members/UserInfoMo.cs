@@ -14,8 +14,9 @@
 using System;
 using OSS.Common.Authrization;
 using OSS.Common.Extention;
+using OSS.Core.Infrastructure.Mos;
 
-namespace OSS.Core.Domains.Members.Mos
+namespace OSS.Core.Domains.Members
 {
     public class UserInfoBigMo : UserInfoMo
     {
@@ -40,7 +41,7 @@ namespace OSS.Core.Domains.Members.Mos
         public long tenant_id { get; set; }
     }
 
-    public class UserInfoMo : BaseAutoMo
+    public class UserInfoMo : BaseMo
     {
         /// <summary>
         ///  昵称

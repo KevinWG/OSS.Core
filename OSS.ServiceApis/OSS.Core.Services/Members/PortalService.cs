@@ -19,6 +19,7 @@ using OSS.Common.ComModels.Enums;
 using OSS.Common.Encrypt;
 using OSS.Common.Extention;
 using OSS.Common.Plugs.CachePlug;
+using OSS.Core.Domains.Members;
 using OSS.Core.Domains.Members.Mos;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Services.Members.Exchange;
@@ -28,7 +29,7 @@ using OSS.Core.Services.Sns.Exchange;
 
 namespace OSS.Core.Services.Members
 {
-    public class PortalService
+    public class PortalService: BaseService
     {
         #region  用户手机号邮箱注册登录
 
@@ -64,7 +65,7 @@ namespace OSS.Core.Services.Members
         {
             var userInfo = GetRegisteUserInfo(name, passWord, type);
 
-            var idRes = await UserInfoRep.Instance.Insert(userInfo);
+            var idRes = await UserInfoRep.Instance.Add(userInfo);
             if (!idRes.IsSuccess()) return idRes.ConvertToResult<UserTokenResp>();
 
             userInfo.id = idRes.id;
@@ -203,7 +204,7 @@ namespace OSS.Core.Services.Members
             if (oauthUser.user_id > 0) // 已经存在绑定，直接登录成功
             {
                 var userRes =
-                    await UserInfoRep.Instance.Get<UserInfoBigMo>(u => u.id == oauthUser.user_id);
+                    await UserInfoRep.Instance.GetById( oauthUser.user_id);
                 if (!userRes.IsSuccess())
                     return userRes.ConvertToResult<UserTokenResp>();
 
@@ -217,7 +218,7 @@ namespace OSS.Core.Services.Members
                 if (regConfig.OauthRegisteType == OauthRegisteType.JustRegiste)
                 {
                     // 授权后直接注册用户
-                    var idRes = await UserInfoRep.Instance.Insert(user);
+                    var idRes = await UserInfoRep.Instance.Add(user);
                     if (!idRes.IsSuccess())
                         return idRes.ConvertToResult<UserTokenResp>();
 
@@ -245,7 +246,7 @@ namespace OSS.Core.Services.Members
         {
             var userWxRes = await SnsCommon.GetOauthUserByCode(plat, code, state);
             var userRes = await OauthUserRep.Instance.GetOauthUserByAppUserId(
-                MemberShiper.AppAuthorize.TenantId.ToInt64(),
+                MemberShiper.AppAuthorize.TenantId,
                 userWxRes.data.app_user_id, plat);
 
             if (userRes.IsSuccess())
@@ -261,7 +262,7 @@ namespace OSS.Core.Services.Members
                 return userRes;
 
             var newUser = userWxRes.data;
-            var idRes = await OauthUserRep.Instance.Insert(newUser);
+            var idRes = await OauthUserRep.Instance.Add(newUser);
 
             if (!idRes.IsSuccess())
                 return idRes.ConvertToResultOnly<OauthUserMo>();
@@ -272,7 +273,6 @@ namespace OSS.Core.Services.Members
 
         #endregion
 
-    
         #region 辅助方法
         /// <summary>
         ///  获取注册相关配置
@@ -323,10 +323,9 @@ namespace OSS.Core.Services.Members
 
             var userInfo = new UserInfoBigMo
             {
-                create_time = DateTime.Now.ToUtcSeconds(),
                 app_source = sysInfo.AppSource,
                 app_version = sysInfo.AppVersion,
-                tenant_id = sysInfo.TenantId.ToInt64()
+                tenant_id = sysInfo.TenantId
             };
 
             if (type == RegLoginType.Mobile)
@@ -337,11 +336,9 @@ namespace OSS.Core.Services.Members
             if (!string.IsNullOrEmpty(passWord))
                 userInfo.pass_word = Md5.EncryptHexString(passWord);
 
+            SetBaseInfo(userInfo);
             return userInfo;
         }
         #endregion
-
-
-
     }
 }
