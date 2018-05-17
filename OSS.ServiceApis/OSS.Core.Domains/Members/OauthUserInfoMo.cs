@@ -106,7 +106,7 @@ namespace OSS.Core.Domains.Members
             target.sex = source.sex;
 
             target.app_user_id = source.app_user_id;
-            target.tenant_id = appInfo.TenantId.ToInt64();
+            target.tenant_id = appInfo.TenantId;
             target.create_time = DateTime.Now.ToUtcSeconds();
            
         }

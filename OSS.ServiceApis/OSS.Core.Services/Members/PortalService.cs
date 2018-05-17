@@ -56,7 +56,7 @@ namespace OSS.Core.Services.Members
         public async Task<UserTokenResp> UserReg(string name, string passWord,RegLoginType type)
         {
             var checkRes = await CheckIfCanReg(type, name);
-            if (!checkRes.IsSuccess()) return checkRes.ConvertToResult<UserTokenResp>();
+            if (!checkRes.IsSuccess()) return checkRes.ConvertToResultInherit<UserTokenResp>();
 
             return await RegExcute(name, passWord, type);
         }
@@ -66,7 +66,7 @@ namespace OSS.Core.Services.Members
             var userInfo = GetRegisteUserInfo(name, passWord, type);
 
             var idRes = await UserInfoRep.Instance.Add(userInfo);
-            if (!idRes.IsSuccess()) return idRes.ConvertToResult<UserTokenResp>();
+            if (!idRes.IsSuccess()) return idRes.ConvertToResultInherit<UserTokenResp>();
 
             userInfo.id = idRes.id;
             MemberEvents.TriggerUserRegiteEvent(userInfo, MemberShiper.AppAuthorize);
@@ -87,7 +87,7 @@ namespace OSS.Core.Services.Members
         {
             var userRes = await UserInfoRep.Instance.GetUserByLoginType(name, type);
             if (!userRes.IsSuccess())
-                return userRes.ConvertToResult<UserTokenResp>();
+                return userRes.ConvertToResultInherit<UserTokenResp>();
 
             var user = userRes.data;
             return Md5.EncryptHexString(passWord) != user.pass_word 
@@ -102,7 +102,7 @@ namespace OSS.Core.Services.Members
 
             return checkRes.IsSuccess()
                 ? BindOauthAndGenerateUserToken(user, MemberAuthorizeType.User)
-                : checkRes.ConvertToResult<UserTokenResp>();
+                : checkRes.ConvertToResultInherit<UserTokenResp>();
         }
 
         /// <summary>
@@ -145,11 +145,11 @@ namespace OSS.Core.Services.Members
         {
             var codeRes = CheckPasscode(name, passcode);
             if (!codeRes.IsSuccess())
-                return codeRes.ConvertToResult<UserTokenResp>();
+                return codeRes.ConvertToResultInherit<UserTokenResp>();
 
             var userRes = await UserInfoRep.Instance.GetUserByLoginType(name, type);
             if (!userRes.IsSuccess() && !userRes.IsResultType(ResultTypes.ObjectNull))
-                return userRes.ConvertToResult<UserTokenResp>();
+                return userRes.ConvertToResultInherit<UserTokenResp>();
 
             // 执行注册
             if (userRes.IsResultType(ResultTypes.ObjectNull))
@@ -195,7 +195,7 @@ namespace OSS.Core.Services.Members
         {
             var oauthUserRes = await AddOrUpdateOauthUser(plat, code, state);
             if (!oauthUserRes.IsSuccess())
-                return oauthUserRes.ConvertToResult<UserTokenResp>();
+                return oauthUserRes.ConvertToResultInherit<UserTokenResp>();
 
             UserInfoBigMo user;
             var type = MemberAuthorizeType.User;
@@ -206,7 +206,7 @@ namespace OSS.Core.Services.Members
                 var userRes =
                     await UserInfoRep.Instance.GetById( oauthUser.user_id);
                 if (!userRes.IsSuccess())
-                    return userRes.ConvertToResult<UserTokenResp>();
+                    return userRes.ConvertToResultInherit<UserTokenResp>();
 
                 user = userRes.data;
                 MemberEvents.TriggerUserLoginEvent(user, MemberShiper.AppAuthorize);
@@ -220,7 +220,7 @@ namespace OSS.Core.Services.Members
                     // 授权后直接注册用户
                     var idRes = await UserInfoRep.Instance.Add(user);
                     if (!idRes.IsSuccess())
-                        return idRes.ConvertToResult<UserTokenResp>();
+                        return idRes.ConvertToResultInherit<UserTokenResp>();
 
                     user.id = idRes.id;
 

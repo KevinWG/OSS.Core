@@ -103,7 +103,7 @@ namespace OSS.Core.Domains.Members
             {
                 create_time = DateTime.Now.ToUtcSeconds(),
                 app_source = appInfo.AppSource,
-                tenant_id = appInfo.TenantId.ToInt64(),
+                tenant_id = appInfo.TenantId,
                 app_version = appInfo.AppVersion,
                 head_img = io.head_img,
 

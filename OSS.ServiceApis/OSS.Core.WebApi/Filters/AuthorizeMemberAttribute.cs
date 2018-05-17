@@ -20,7 +20,6 @@ using OSS.Common.Authrization;
 using OSS.Common.ComModels;
 using OSS.Common.ComModels.Enums;
 using OSS.Common.Extention;
-using OSS.Core.Domains;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Mos;
 using OSS.Core.Services.Members;

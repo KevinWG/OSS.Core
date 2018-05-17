@@ -42,7 +42,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return stateRes.ConvertToResult<UserTokenResp>();
+                return stateRes.ConvertToResultInherit<UserTokenResp>();
 
             return await service.CodeLogin(req.name, req.passcode, req.type);
         }
@@ -58,7 +58,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return stateRes.ConvertToResult<UserTokenResp>();
+                return stateRes.ConvertToResultInherit<UserTokenResp>();
 
             return await service.UserReg(req.name, req.password, req.type);
         }
@@ -74,7 +74,7 @@ namespace OSS.Core.WebApi.Controllers.Member
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return stateRes.ConvertToResult<UserTokenResp>();
+                return stateRes.ConvertToResultInherit<UserTokenResp>();
 
             return await service.UserLogin(req.name, req.password, req.type);
         }
