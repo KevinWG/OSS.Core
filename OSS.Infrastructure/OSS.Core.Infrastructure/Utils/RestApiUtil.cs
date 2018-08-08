@@ -11,6 +11,7 @@
 
 #endregion
 
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -38,24 +39,25 @@ namespace OSS.Core.Infrastructure.Utils
         /// <typeparam name="TRes"></typeparam>
         /// <param name="apiRoute"></param>
         /// <param name="req"></param>
-        /// <param name="mothed">请求方式</param>
         /// <returns></returns>
-        public static async Task<TRes> RestCoreApi<TRes>(string apiRoute, object req = null,
-            HttpMothed mothed = HttpMothed.POST)
+        public static async Task<TRes> PostCoreApi<TRes>(string apiRoute, object req =null)
             where TRes : ResultMo, new()
         {
             var apiUrl = string.Concat(coreApiUrlPre, apiRoute);
-            return await RestApi<TRes>(apiUrl, req, mothed);
+            return await RestApi<TRes>(apiUrl, req, HttpMethod.Post);
         }
 
 
-        public static async Task<TRes> RestApi<TRes>(string absoluateApiUrl, object reqContent, HttpMothed mothed)
+
+
+
+        public static async Task<TRes> RestApi<TRes>(string absoluateApiUrl, object reqContent, HttpMethod mothed)
             where TRes : ResultMo, new()
         {
 
             var httpReq = new OsHttpRequest
             {
-                HttpMothed = mothed,
+                HttpMethod = mothed,
                 AddressUrl = absoluateApiUrl,
                 CustomBody = reqContent == null
                     ? null
@@ -67,7 +69,7 @@ namespace OSS.Core.Infrastructure.Utils
 
                 RequestSet = r =>
                 {
-                    var ticket = MemberShiper.AppAuthorize.ToSignData(secretKey);
+                    var ticket = MemberShiper.AppAuthorize.ToTicket(secretKey);
                     r.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
                     r.Headers.Add("Accept", "application/json");
 
