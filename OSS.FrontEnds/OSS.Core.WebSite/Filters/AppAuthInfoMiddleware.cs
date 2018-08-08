@@ -62,7 +62,7 @@ namespace OSS.Core.WebSite.Filters
             if (!string.IsNullOrEmpty(auticketStr))
             {
                 sysInfo = new AppAuthorizeInfo();
-                sysInfo.FromSignData(auticketStr);
+                sysInfo.FromTicket(auticketStr);
             }
 
             //  如果不是App访问，添加Web相关系统信息

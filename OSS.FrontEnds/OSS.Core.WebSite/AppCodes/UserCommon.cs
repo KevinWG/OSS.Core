@@ -34,12 +34,11 @@ namespace OSS.Core.WebSite.AppCodes
                 return new ResultMo<UserInfoMo>(user);
             }
 
-            var userRes = await RestApiUtil.PostCoreApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser",);
+            var userRes = await RestApiUtil.PostCoreApi<ResultMo<UserInfoMo>>("/member/GetCurrentUser");
             if (!userRes.IsSuccess())
-                return userRes.ConvertToResultOnly<UserInfoMo>();
+                return userRes.ConvertToResult<UserInfoMo>();
 
-            CacheUtil.AddOrUpdate(CacheKeysUtil.CurrentUserInfo, userRes.data, TimeSpan.Zero,
-                DateTime.Now.AddHours(CacheKeysUtil.CurrentUserInfoHours));
+            CacheUtil.Set(CacheKeysUtil.CurrentUserInfo, userRes.data, TimeSpan.FromHours(CacheKeysUtil.CurrentUserInfoHours));
 
             return userRes;
         }

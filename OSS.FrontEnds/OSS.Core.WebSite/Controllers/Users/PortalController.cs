@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,7 +10,6 @@ using OSS.Common.ComModels.Enums;
 using OSS.Core.Infrastructure.Enums;
 using OSS.Core.Infrastructure.Utils;
 using OSS.Core.WebSite.Controllers.Users.Mos;
-using OSS.Http.Mos;
 
 namespace OSS.Core.WebSite.Controllers.Users
 {
@@ -48,9 +48,9 @@ namespace OSS.Core.WebSite.Controllers.Users
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return stateRes.ConvertToResult<UserRegLoginResp>();
+                return stateRes.ConvertToResultInherit<UserRegLoginResp>();
 
-            var loginRes = await RestApiUtil.RestCoreApi<UserRegLoginResp>(apiUrl, req);
+            var loginRes = await RestApiUtil.PostCoreApi<UserRegLoginResp>(apiUrl, req);
             if (!loginRes.IsSuccess()) return loginRes;
 
             Response.Cookies.Append(GlobalKeysUtil.UserCookieName, loginRes.token,
@@ -107,7 +107,7 @@ namespace OSS.Core.WebSite.Controllers.Users
             var redirectUrl = $"{m_CurrentDomain}/oauth/receive/{plat}";
             var authUrl = $"/sns/oauth/getoauthurl?plat={plat}&redirectUrl={redirectUrl}&state={state}&type={type}";
 
-            var urlRes = await RestApiUtil.RestCoreApi<ResultMo<string>>(authUrl, null, HttpMothed.GET);
+            var urlRes = await RestApiUtil.RestApi<ResultMo<string>>(authUrl, null, HttpMethod.Get);
             if (urlRes.IsSuccess())
                 return Redirect(urlRes.data);
 
@@ -126,7 +126,7 @@ namespace OSS.Core.WebSite.Controllers.Users
         public async Task<IActionResult> receive(int plat, string code, string state)
         {
             var url = string.Concat("/member/portal/socialauth?plat=", plat, "&code=", code, "&state=", state);
-            var userRes = await RestApiUtil.RestCoreApi<UserRegLoginResp>(url);
+            var userRes = await RestApiUtil.PostCoreApi<UserRegLoginResp>(url);
 
             if (!userRes.IsSuccess())
                 return Redirect(string.Concat("/un/error?ret=", userRes.ret, "&message=", userRes.msg));
@@ -139,12 +139,7 @@ namespace OSS.Core.WebSite.Controllers.Users
                 var returnUrl = Request.Cookies[GlobalKeysUtil.UserReturnUrlCookieName] ?? "/";
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return Redirect(string.Concat(loginUrl, "?state=", userRes.user.status));
-            }
-
-      
+            return Redirect(string.Concat(loginUrl, "?state=", userRes.user.status));
         }
         #endregion
 

@@ -29,7 +29,7 @@ namespace OSS.Core.Infrastructure.Utils
     public static class RestApiUtil
     {
 
-        private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;
+        //private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;
         private static readonly string coreApiUrlPre = ConfigUtil.GetSection("ApiUrlConfig:CoreApi").Value;
 
 
@@ -47,8 +47,9 @@ namespace OSS.Core.Infrastructure.Utils
             return await RestApi<TRes>(apiUrl, req, HttpMethod.Post);
         }
 
-
-
+        private static readonly string appSource = ConfigUtil.GetSection("AppConfig:AppSource").Value;
+        private static readonly string appVersion = ConfigUtil.GetSection("AppConfig:AppVersion").Value;
+        private static readonly string secretKey = ConfigUtil.GetSection("AppConfig:AppSecret").Value;
 
 
         public static async Task<TRes> RestApi<TRes>(string absoluateApiUrl, object reqContent, HttpMethod mothed)
@@ -69,7 +70,8 @@ namespace OSS.Core.Infrastructure.Utils
 
                 RequestSet = r =>
                 {
-                    var ticket = MemberShiper.AppAuthorize.ToTicket(secretKey);
+                    var ticket = MemberShiper.AppAuthorize.ToTicket(appSource,appVersion,secretKey);
+
                     r.Headers.Add(GlobalKeysUtil.AuthorizeTicketName, ticket);
                     r.Headers.Add("Accept", "application/json");
 

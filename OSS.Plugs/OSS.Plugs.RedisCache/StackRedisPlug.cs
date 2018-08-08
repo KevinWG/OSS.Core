@@ -59,14 +59,14 @@ namespace OSS.Plugs.RedisCache
         /// <param name="slidingExpiration">缓存时间 （redis目前都用绝对的）</param>
         /// <param name="absoluteExpiration"> 绝对过期时间（此字段无用 redis目前都用绝对的） </param>
         /// <returns>是否添加成功</returns>
-        public bool Add<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration)
+        private bool Add<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration)
         {
             if (slidingExpiration == TimeSpan.Zero && absoluteExpiration == null)
                 throw new ArgumentNullException(nameof(slidingExpiration), "缓存过期时间不正确,需要设置固定过期时间或者相对过期时间");
 
             if (obj == null)
                 return false;
-            
+
             var jsonStr = JsonConvert.SerializeObject(obj);
 
             if (slidingExpiration == TimeSpan.Zero)
@@ -76,19 +76,19 @@ namespace OSS.Plugs.RedisCache
             return CacheRedis.StringSet(key, jsonStr, slidingExpiration);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="obj"></param>
-        /// <param name="slidingExpiration"></param>
-        /// <param name="absoluteExpiration"></param>
-        /// <returns></returns>
-        public bool AddOrUpdate<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration = null)
-        {
-            return Add(key, obj, slidingExpiration, absoluteExpiration);
-        }
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <typeparam name="T"></typeparam>
+        ///// <param name="key"></param>
+        ///// <param name="obj"></param>
+        ///// <param name="slidingExpiration"></param>
+        ///// <param name="absoluteExpiration"></param>
+        ///// <returns></returns>
+        //public bool AddOrUpdate<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration = null)
+        //{
+        //    return Add(key, obj, slidingExpiration, absoluteExpiration);
+        //}
 
         /// <summary>
         /// 获取缓存
@@ -114,6 +114,25 @@ namespace OSS.Plugs.RedisCache
         public bool Remove(string key)
         {
             return CacheRedis.KeyDelete(key);
+        }
+
+        public bool Set<T>(string key, T obj, TimeSpan slidingExpiration)
+        {
+            return Add(key, obj, slidingExpiration, null);
+        }
+
+
+        [Obsolete("Redis 中没有提供此缓存过期方式！")]
+        public bool Set<T>(string key, T obj, DateTime absoluteExpiration)
+        {
+            throw new Exception("Redis 暂不支持此方法！");
+        }
+
+
+        [Obsolete("不再建议使用此方法！")]
+        public bool AddOrUpdate<T>(string key, T obj, TimeSpan slidingExpiration, DateTime? absoluteExpiration = null)
+        {
+            return Add(key, obj, slidingExpiration, absoluteExpiration);
         }
     }
 }
