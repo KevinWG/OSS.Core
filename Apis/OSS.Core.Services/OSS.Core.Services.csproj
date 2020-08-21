@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Basic\Permit\Initial\**" />
+    <EmbeddedResource Remove="Basic\Permit\Initial\**" />
+    <None Remove="Basic\Permit\Initial\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OSS.Adapter.SMS.Ali" Version="1.0.0" />
+    <PackageReference Include="OSS.Clients.Storage.AliOSS" Version="1.0.0" />
+    <PackageReference Include="OSS.Tools.DirConfig" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
+  </ItemGroup>
+
+</Project>

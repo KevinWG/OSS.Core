@@ -20,10 +20,9 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
-[Ll]og/
 
 #Connection Development File
-appsettings.Development.json
+#appsettings.Development.json
 
 # Visual Studio 2015 cache/options directory
 .vs/
@@ -254,4 +253,45 @@ paket-files/
 .idea/
 *.sln.iml
 
-appsettings.Development.json
+**/logs
+
+
+#  js  dependencies
+**/node_modules
+# roadhog-api-doc ignore
+ClientApp/src/utils/request-temp.js
+_roadhog-api-doc
+
+# production
+ClientApp/dist
+ClientApp/.vscode
+
+# misc
+.DS_Store
+npm-debug.log*
+yarn-error.log
+
+ClientApp/coverage
+.idea
+yarn.lock
+package-lock.json
+*bak
+.vscode
+
+# visual studio code
+.history
+*.log
+functions/*
+.temp/**
+
+# umi
+.umi
+.umi-production
+
+# screenshot
+screenshot
+.firebase
+.eslintcache
+
+build
+
