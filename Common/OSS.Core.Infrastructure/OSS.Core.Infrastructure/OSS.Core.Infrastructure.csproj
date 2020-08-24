@@ -2,7 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.1</Version>
+    <Version>1.1.1</Version>
+    <PackageReleaseNotes>基础类库</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\OSS.Core.Infrastructure.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
