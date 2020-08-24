@@ -42,3 +42,14 @@ OSS.Core.Infrastructure
 **Tests** -- 单元测试层
 
 **Docs** -- 辅助文档，初始化脚本
+
+
+当前API项目中：
+
+短信功实现使用的阿里云服务，密钥配置文件：/configs/plugs_notify_sms_ali.config
+邮件发送，使用的默认邮件发送，配置文件:/configs/plugs_notify_email.config
+
+在后台站点配置中：
+后台的权限列表配置文件在：/configs/sys_func_list.config
+
+日志默认写在 /logs 目录下，也可以同时配置邮件接收，接收人相关信息配置文件：/configs/plugs_log_receivers.config
