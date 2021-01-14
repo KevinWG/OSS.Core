@@ -35,10 +35,12 @@ namespace OSS.Core.Infrastructure.Extensions
         /// <param name="slidingTime"></param>
         /// <param name="cacheProtectSeconds"></param>
         /// <returns></returns>
-        public static Task<TRes> WithCache<TRes>(this Func<Task<TRes>> getFunc, string cacheKey,TimeSpan slidingTime,int cacheProtectSeconds=10, string moduleName = "default")
+        public static Task<TRes> WithCache<TRes>(this Func<Task<TRes>> getFunc, string cacheKey,TimeSpan slidingTime,int cacheProtectSeconds = 10, string sourceName = "default")
             where TRes : Resp
         {
-            return WithCache(getFunc, cacheKey, slidingTime, null, cacheProtectSeconds, moduleName);
+            return cacheProtectSeconds==0 
+                ? Cache(getFunc, cacheKey, slidingTime, null, sourceName) 
+                : WithCache(getFunc, cacheKey, slidingTime, null, cacheProtectSeconds, sourceName);
         }
 
 
@@ -51,10 +53,12 @@ namespace OSS.Core.Infrastructure.Extensions
         /// <param name="absoluteTime"></param>
         /// <param name="cacheProtectSeconds"></param>
         /// <returns></returns>
-        public static Task<TRes> WithAbsoluteCache<TRes>(this Func<Task<TRes>> getFunc, string cacheKey, TimeSpan absoluteTime, int cacheProtectSeconds = 10, string moduleName = "default")
+        public static Task<TRes> WithAbsoluteCache<TRes>(this Func<Task<TRes>> getFunc, string cacheKey, TimeSpan absoluteTime, int cacheProtectSeconds = 10, string sourceName = "default")
             where TRes : Resp
         {
-            return WithCache(getFunc, cacheKey, null, absoluteTime, cacheProtectSeconds, moduleName);
+            return cacheProtectSeconds==0 
+                ? Cache(getFunc, cacheKey, null, absoluteTime,  sourceName) 
+                : WithCache(getFunc, cacheKey, null, absoluteTime, cacheProtectSeconds, sourceName);
         }
 
 
@@ -67,13 +71,46 @@ namespace OSS.Core.Infrastructure.Extensions
         /// <param name="slidingTime"></param>
         /// <param name="maxAbsoluteTime"></param>
         /// <param name="cacheProtectSeconds"></param>
-        /// <param name="moduleName"></param>
+        /// <param name="sourceName"></param>
         /// <returns></returns>
-        public static Task<TRes> WithCache<TRes>(this Func<Task<TRes>> getFunc, string cacheKey, TimeSpan? slidingTime, TimeSpan? maxAbsoluteTime, int cacheProtectSeconds = 10, string moduleName = "default")
+        public static Task<TRes> WithCache<TRes>(this Func<Task<TRes>> getFunc, string cacheKey, TimeSpan? slidingTime, TimeSpan? maxAbsoluteTime, int cacheProtectSeconds=10, string sourceName = "default")
             where TRes : Resp
         {
+            if (cacheProtectSeconds==0)
+            {
+                return Cache(getFunc,cacheKey, slidingTime, maxAbsoluteTime, sourceName);
+            }
             return CacheHelper.GetOrSetAsync(cacheKey, getFunc, slidingTime,maxAbsoluteTime, res => !res.IsSuccess(),
-                cacheProtectSeconds, moduleName);
+                cacheProtectSeconds, sourceName);
+        }
+
+
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <typeparam name="TRes"></typeparam>
+        /// <param name="getFunc"></param>
+        /// <param name="cacheKey"></param>
+        /// <param name="slidingTime"></param>
+        /// <param name="maxAbsoluteTime"></param>
+        /// <param name="sourceName"></param>
+        /// <returns></returns>
+        private static async Task<TRes> Cache<TRes>( Func<Task<TRes>> getFunc, string cacheKey, 
+            TimeSpan? slidingTime, TimeSpan? maxAbsoluteTime, string sourceName = "default")
+            where TRes : Resp
+        {
+            var data =await CacheHelper.GetAsync<TRes>(cacheKey);
+            if (data!=null)
+            {
+                return data;
+            }
+
+            var r =await getFunc();
+            if (r.IsSuccess())
+            {
+               await CacheHelper.SetAsync(cacheKey, r, slidingTime, maxAbsoluteTime, sourceName);
+            }
+            return r;
         }
     }
 }
