@@ -5,6 +5,9 @@ using OSS.Core.Context.Mos;
 
 namespace OSS.Core.Infrastructure.Web.Extensions
 {
+    /// <summary>
+    ///  属性扩展
+    /// </summary>
     public static class HttpContextExtension
     {
         ///// <summary>
@@ -67,6 +70,8 @@ namespace OSS.Core.Infrastructure.Web.Extensions
                 sysInfo.trace_num = context.TraceIdentifier = Guid.NewGuid().ToString();
             else
                 context.TraceIdentifier = sysInfo.trace_num;
+
+            sysInfo.host = context.Request.Host.ToString();
         }
     }
 }

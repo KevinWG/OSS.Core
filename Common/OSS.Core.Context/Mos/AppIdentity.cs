@@ -69,6 +69,10 @@ namespace OSS.Core.Context.Mos
             return newOne;
         }
 
+        /// <summary>
+        ///  当前请求主机信息 [非外部传值，不参与签名]
+        /// </summary>
+        public string host { get; set; }
     }
 
     /// <summary>

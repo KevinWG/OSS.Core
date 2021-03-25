@@ -4,6 +4,7 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
+using OSS.CorePro.AdminSite.AppCodes;
 using OSS.CorePro.TAdminSite.Apis.Permit.Helpers;
 
 namespace OSS.CorePro.TAdminSite.AppCodes.Initial

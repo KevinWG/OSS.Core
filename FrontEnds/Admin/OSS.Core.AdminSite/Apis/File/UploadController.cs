@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
+using OSS.CorePro.AdminSite.AppCodes;
 
 namespace OSS.CorePro.TAdminSite.Apis.File
 {

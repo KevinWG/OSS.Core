@@ -3,7 +3,8 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>OSS.Core 全局上下文信息类库</Description>
-    <Version>1.1</Version>
+    <Version>1.1.1</Version>
+    <PackageReleaseNotes>添加属性</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

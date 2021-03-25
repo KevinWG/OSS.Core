@@ -19,12 +19,13 @@ using Newtonsoft.Json;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
 using OSS.Core.Infrastructure.Const;
+using OSS.Core.Infrastructure.Helpers;
 using OSS.Tools.Config;
 using OSS.Tools.Http.Extention;
 using OSS.Tools.Http.Mos;
 using OSS.Tools.Log;
 
-namespace OSS.Core.Infrastructure.Helpers
+namespace OSS.CorePro.AdminSite.AppCodes
 {
     /// <summary>
     ///     请求api辅助类

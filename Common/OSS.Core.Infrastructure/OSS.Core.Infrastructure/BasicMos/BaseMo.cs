@@ -43,7 +43,7 @@ namespace OSS.Core.Infrastructure.BasicMos
     /// <summary>
     ///   基础实体类扩展赋值
     /// </summary>
-    public static class BaseTenantMoExtention
+    public static class BaseTenantMoExtension
     {
         /// <summary>
         ///  从上下文中初始化基础信息

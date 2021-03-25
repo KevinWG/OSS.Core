@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Infrastructure.Const
+﻿namespace OSS.CorePro.AdminSite.AppCodes
 {
     public static class FuncCodes
     {

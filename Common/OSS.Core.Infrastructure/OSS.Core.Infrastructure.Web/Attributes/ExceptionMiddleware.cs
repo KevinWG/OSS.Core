@@ -9,13 +9,23 @@ using OSS.Tools.Log;
 
 namespace OSS.Core.Infrastructure.Web.Attributes
 {
+    /// <summary>
+    ///  异常处理中间件
+    /// </summary>
     public class ExceptionMiddleware : BaseMiddleware
     {
-       
+        /// <summary>
+        ///  异常处理中间件
+        /// </summary>
         public ExceptionMiddleware(RequestDelegate next):base(next)
         {
         }
 
+        /// <summary>
+        ///  处理方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task Invoke(HttpContext context)
         {
             Exception error;
@@ -49,7 +59,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
         }
     }
 
-    public static class ExceptionMiddlewareExtention
+    public static class ExceptionMiddlewareExtension
     {
         public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app,bool isWebSite=false)
         {
