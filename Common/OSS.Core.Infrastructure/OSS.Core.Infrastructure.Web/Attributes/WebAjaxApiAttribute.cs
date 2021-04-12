@@ -10,21 +10,19 @@ namespace OSS.Core.Infrastructure.Web.Attributes
         public WebApiAjaxAttribute()
         {
             p_Order = -99999;
-            p_IsWebSite = true;
+            //p_IsWebSite = true;
         }
 
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
 
-            if (!context.HttpContext.Request.IsApiAjax())
+            if (!context.HttpContext.Request.IsAjaxApi())
             {
                 var res = new Resp(RespTypes.UnKnowOperate, "未知操作!");
-                ResponseEnd(context, res);
+                ResponseExceptionEnd(context, res);
             }
             return Task.CompletedTask;
         }
-
-
 
     }
 

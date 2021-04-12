@@ -19,7 +19,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         {
             p_Order = -100;
             _option = option;
-            p_IsWebSite = option.IsWebSite;
+            //p_IsWebSite = option.IsWebSite;
         }
 
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)

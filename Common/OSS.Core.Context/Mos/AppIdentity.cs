@@ -23,19 +23,14 @@ namespace OSS.Core.Context.Mos
         public AppClientType app_client { get; set; }
 
         /// <summary>
-        ///   应用类型 [非外部传值，不参与签名]
-        /// </summary>
-        public AppType app_type { get; set; } = AppType.Outer;
-
-        /// <summary>
         ///  请求模块名称
         /// </summary>
         public string module_name { get; set; }
 
         /// <summary>
-        /// 是否是合作调用
+        /// 来源模式
         /// </summary> 
-        public bool is_partner { get; set; }
+        public AppSourceMode SourceMode { get; set; }
 
         /// <summary>
         ///  请求验证对应权限码
@@ -68,6 +63,11 @@ namespace OSS.Core.Context.Mos
 
             return newOne;
         }
+
+        /// <summary>
+        ///   应用类型 [非外部传值，不参与签名]
+        /// </summary>
+        public AppType app_type { get; set; } = AppType.Outer;
 
         /// <summary>
         ///  当前请求主机信息 [非外部传值，不参与签名]
@@ -135,5 +135,32 @@ namespace OSS.Core.Context.Mos
         ///   外部单租户应用
         /// </summary>
         Outer = 120
+    }
+
+
+
+    /// <summary>
+    ///  app的来源模式
+    /// </summary>
+    public enum AppSourceMode
+    {   /// <summary>
+        ///  服务端模式（强签名）
+        /// </summary>
+        Server = 0,
+
+        /// <summary>
+        ///  合作方的服务端模式（如第三方回调）
+        /// </summary>
+        PartnerServer = 100,
+
+        /// <summary>
+        /// 浏览器模式（含指定头）
+        /// </summary>
+        BrowserWithHeader = 200,
+
+        /// <summary>
+        ///  浏览器模式（泛）
+        /// </summary>
+        Browser = 300     
     }
 }

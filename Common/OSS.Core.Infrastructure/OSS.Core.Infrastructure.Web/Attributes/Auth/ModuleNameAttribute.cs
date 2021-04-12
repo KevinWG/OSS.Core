@@ -32,7 +32,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             var appInfo = AppWebInfoHelper.InitialDefaultAppIdentity(context.HttpContext);
             if (appInfo.app_type > _appType)
             {
-                ResponseEnd(context,new Resp(RespTypes.NoPermission,"当前应用类型，无此接口权限！"));
+                ResponseExceptionEnd(context,new Resp(RespTypes.NoPermission,"当前应用类型，无此接口权限！"));
                 return Task.CompletedTask;
             }
 

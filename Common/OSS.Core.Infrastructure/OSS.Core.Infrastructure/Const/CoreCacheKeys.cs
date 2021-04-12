@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Infrastructure.Const
 {
-   public static class CacheKeys
+   public static class CoreCacheKeys
    {
         #region tenant
 
@@ -36,8 +36,7 @@
         /// </summary>
         public const string Portal_Admin_ByUId = "Portal_Admin_";
         #endregion
-
-
+        
         #region Plugs
 
         /// <summary>
@@ -46,6 +45,5 @@
         public const string Plugs_Config_ByKey = "Plugs_Config_";
 
         #endregion
-
-    }
+   }
 }

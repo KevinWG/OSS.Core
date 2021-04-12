@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 
 namespace OSS.Core.Infrastructure.Web.Attributes.Auth
@@ -26,7 +25,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             p_Order     = -10;
             _userOption = userOption;
-            p_IsWebSite = userOption.IsWebSite;
+            //p_IsWebSite = userOption.IsWebSite;
         }
 
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -39,14 +38,14 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             var res =await FormatUserIdentity(context, appInfo, _userOption);
             if (!res.IsSuccess())
             {
-                ResponseEnd(context, res);
+                ResponseExceptionEnd(context, res);
                 return;
             }
 
             res = await CheckFunc(context.HttpContext, appInfo, _userOption);
             if (!res.IsSuccess())
             {
-                ResponseEnd(context, res);
+                ResponseExceptionEnd(context, res);
             }
         }
 
@@ -56,13 +55,13 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
                 return new Resp();
 
-            if (opt.IsWebSite && string.IsNullOrEmpty(appInfo.token))
-                appInfo.token = context.HttpContext.Request.Cookies[CookieKeys.UserCookieName];
+            //if (opt.IsWebSite && string.IsNullOrEmpty(appInfo.token))
+            //    appInfo.token = context.HttpContext.Request.Cookies[CookieKeys.UserCookieName];
 
-            if (string.IsNullOrEmpty(appInfo.token))
-            {
-                return new Resp().WithResp(RespTypes.UnLogin, "请先登录！");
-            }
+            //if (string.IsNullOrEmpty(appInfo.token))
+            //{
+            //    return new Resp().WithResp(RespTypes.UnLogin, "请先登录！");
+            //}
 
             var identityRes = await opt.UserProvider.InitialAuthUserIdentity(context.HttpContext, appInfo);
             if (!identityRes.IsSuccess())

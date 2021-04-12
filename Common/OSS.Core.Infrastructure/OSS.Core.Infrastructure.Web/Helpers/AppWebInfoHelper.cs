@@ -5,7 +5,8 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extention;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.Helpers;
+using OSS.Core.Infrastructure.Const;
+using OSS.Core.Infrastructure.Web.Extensions;
 using OSS.Tools.Config;
 
 namespace OSS.Core.Infrastructure.Web.Helpers
@@ -25,7 +26,7 @@ namespace OSS.Core.Infrastructure.Web.Helpers
         /// <summary>
         ///  404页
         /// </summary>
-        public static string NotFoundUrl { get; } = ConfigHelper.GetSection("AppWebConfig:NotFoundUrl")?.Value;
+        public static string NotFoundUrl { get; } = ConfigHelper.GetSection("AppWebConfig:404")?.Value;
 
         /// <summary>
         ///  错误页
@@ -49,14 +50,20 @@ namespace OSS.Core.Infrastructure.Web.Helpers
             var sysInfo = AppReqContext.Identity;
             if (sysInfo != null) return sysInfo;
 
-            sysInfo = new AppIdentity {is_partner = CheckIfPartnerCall(context)};
+            sysInfo = new AppIdentity {SourceMode = GetAppSourceMode(context)};
 
             AppReqContext.SetIdentity(sysInfo);
             return sysInfo;
         }
 
-        //检查是否已经是404页或异常页，排除防止死循环
-        internal static bool CheckWebUnRedirectUrl(string requestPath)
+
+
+        /// <summary>
+        /// 检查是否已经是404页或异常页，排除防止死循环
+        /// </summary>
+        /// <param name="requestPath"></param>
+        /// <returns></returns>
+        public static bool CheckIf404OrErrorUrl(string requestPath)
         {
             var isUnUrl = (!string.IsNullOrEmpty(NotFoundUrl) && requestPath.StartsWith(NotFoundUrl))
                           || (!string.IsNullOrEmpty(ErrorUrl) && requestPath.StartsWith(ErrorUrl));
@@ -64,26 +71,40 @@ namespace OSS.Core.Infrastructure.Web.Helpers
             return isUnUrl;
         }
 
-        internal static string GetRedirectUrl(HttpContext context, Resp res, bool isAjax)
+        public static string GetRedirectUrl(HttpContext context, Resp res)
         {
             var req = context.Request;
             if (res.IsRespType(RespTypes.UnLogin))
             {
-                var rUrl = isAjax ? GetReqReferer(req) : string.Concat(req.Path, req.QueryString);
+                var rUrl = context.Request.IsAjaxApi() ? GetReqReferer(req) : string.Concat(req.Path, req.QueryString);
                 return string.Concat(LoginUrl, "?rurl=" + rUrl.UrlEncode());
             }
-
-            if (isAjax)
-                return res.msg;
 
             var errUrl = res.IsRespType(RespTypes.ObjectNull) ? NotFoundUrl : ErrorUrl;
             return string.Concat(errUrl, "?ret=", res.ret, "&msg=", res.msg.UrlEncode());
         }
 
-        internal static bool CheckIfPartnerCall(HttpContext context)
+        /// <summary>
+        /// 获取应用的来源模式
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public static AppSourceMode GetAppSourceMode(HttpContext context)
         {
+            if (context.Request.Headers.ContainsKey(CoreConstKeys.AppServerModeTicketName))
+            {
+                return AppSourceMode.Server;
+            }
+
+            if (context.Request.IsAjaxApi())
+            {
+                return AppSourceMode.BrowserWithHeader;
+            }
+
             var path = context.Request.Path.ToString();
-            return path.StartsWith("/partner/");
+            return path.StartsWith("/partner/")
+                ? AppSourceMode.PartnerServer 
+                : AppSourceMode.Browser;
         }
 
         #endregion

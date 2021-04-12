@@ -6,6 +6,9 @@ using OSS.Common.Extention;
 
 namespace OSS.Core.Context.Mos
 {
+    /// <summary>
+    /// 应用信息
+    /// </summary>
     public class AppAuthInfo
     {
         #region  参与签名属性

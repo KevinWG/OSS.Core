@@ -2,14 +2,11 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Extensions;
-using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web
 {
     public abstract class BaseMiddleware
     {
-        protected bool p_IsWebSite = false;
         protected readonly RequestDelegate _next;
 
         protected BaseMiddleware(RequestDelegate next)
@@ -17,38 +14,45 @@ namespace OSS.Core.Infrastructure.Web
             _next = next;
         }
 
-        protected async Task ResponseEnd( HttpContext context, Resp res)
+        protected virtual  Task ExceptionResponse(HttpContext context, Resp res)
         {
-            if (!p_IsWebSite)
-            {
-                await ClearCacheHeaders(context.Response, res);
-                return;
-            }
-
-            if (context.Request.IsApiAjax())
-            {
-                res.msg = AppWebInfoHelper.GetRedirectUrl(context, res, true);
-                await ClearCacheHeaders(context.Response, res);
-                return;
-            }
-
-            if (AppWebInfoHelper.CheckWebUnRedirectUrl(context.Request.Path.ToString()))
-            {
-                if (_next != null)
-                    await _next.Invoke(context);
-
-                return;
-            }
-
-            var redirectUrl = AppWebInfoHelper.GetRedirectUrl(context, res, false);
-            context.Response.Redirect(redirectUrl);
+            return ResponseJsonError(context.Response, res);
         }
+
+        public abstract Task Invoke(HttpContext context);
+        //protected virtual async Task ExceptionResponse(HttpContext context, Resp res)
+        //{
+        //    var appSourceMode = AppWebInfoHelper.GetAppSourceMode(context);
+        //    if (appSourceMode < AppSourceMode.Browser)
+        //    {
+        //        await ResponseJsonError(context.Response, res);
+        //        return;
+        //    }
+
+        //    if (context.Request.IsAjaxApi())
+        //    {
+        //        res.msg = AppWebInfoHelper.GetRedirectUrl(context, res, true);
+        //        await ResponseJsonError(context.Response, res);
+        //        return;
+        //    }
+
+        //    if (AppWebInfoHelper.CheckWebUnRedirectUrl(context.Request.Path.ToString()))
+        //    {
+        //        if (_next != null)
+        //            await _next.Invoke(context);
+
+        //        return;
+        //    }
+
+        //    var redirectUrl = AppWebInfoHelper.GetRedirectUrl(context, res, false);
+        //    context.Response.Redirect(redirectUrl);
+        //}
 
         /// <summary>
         ///  清理Response缓存
         /// </summary>
         /// <param name="httpResponse"></param>
-        private static Task ClearCacheHeaders(HttpResponse httpResponse,Resp res)
+        private static Task ResponseJsonError(HttpResponse httpResponse,Resp res)
         {
             httpResponse.Clear();
             httpResponse.Headers.Remove("ETag");

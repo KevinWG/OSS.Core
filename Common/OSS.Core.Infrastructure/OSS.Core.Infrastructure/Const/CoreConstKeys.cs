@@ -16,20 +16,19 @@ namespace OSS.Core.Infrastructure.Const
     /// <summary>
     ///     系统 Cookie Key
     /// </summary>
-    public static class CookieKeys
+    public static class CoreConstKeys
     {
-        #region  cookie等名称
-
         /// <summary>
         ///    接口访问头信息验证票据名称
         /// </summary>
-        public const string AuthorizeTicketName = "at-id";
+        public const string AppServerModeTicketName = "at-id";
         
-        /// <summary>
-        ///     用户验证cookie名称
-        /// </summary>
-        public const string UserCookieName = "uc_n";
+        public const string AppBrowserModeAppNameHeader = "x-core-app";
 
-        #endregion
+        ///// <summary>
+        /////     用户验证cookie名称
+        ///// </summary>
+        //public const string UserCookieName = "uc_n";
+
     }
 }

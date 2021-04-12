@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using OSS.Core.Context.Mos;
+using OSS.Core.Infrastructure.Const;
 
 namespace OSS.Core.Infrastructure.Web.Extensions
 {
@@ -28,21 +28,22 @@ namespace OSS.Core.Infrastructure.Web.Extensions
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        [Obsolete("无法检测到fetch请求，使用IsApiAjax-需要前端配合")]
+        [Obsolete("无法检测到fetch请求，使用IsAjaxApi(需要浏览器添加头信息)")]
         public static bool IsAjax(this HttpRequest req)
         {
-            return IsApiAjax(req) || req.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return IsAjaxApi(req) || req.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
         /// <summary>
         ///  是否是前端API类发起的ajax
-        ///     -- 前端请求添加 X-App-OsVer 头信息
+        ///     -- 前端请求添加 x-core-app 头信息
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static bool IsApiAjax(this HttpRequest req)
+        public static bool IsAjaxApi(this HttpRequest req)
         {
-            return req.Headers["X-App-OsVer"].Count > 0;
+            return req.Headers.ContainsKey(CoreConstKeys.AppBrowserModeAppNameHeader);
+            //return req.Headers[CoreConstKeys.AppBrowserModeAppNameHeader].Count > 0;
         }
 
         /// <summary>
