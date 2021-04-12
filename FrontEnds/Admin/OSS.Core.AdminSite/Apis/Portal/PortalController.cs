@@ -71,7 +71,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal
             var loginRes = await RestApiHelper.PostApi<UserRegLoginResp>(apiUrl, req);
             if (!loginRes.IsSuccess()) return loginRes;
 
-            Response.Cookies.Append(CookieKeys.UserCookieName, loginRes.token,
+            Response.Cookies.Append(CoreConstKeys.UserCookieName, loginRes.token,
                 new CookieOptions() { HttpOnly = true, Expires = DateTimeOffset.Now.AddDays(30) });
 
             loginRes.token = string.Empty;// 写入cookie后不再明文传递到js
@@ -109,7 +109,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal
         public async Task<Resp> Quit()
         {
 
-            Response.Cookies.Delete(CookieKeys.UserCookieName);
+            Response.Cookies.Delete(CoreConstKeys.UserCookieName);
 
             var userRes =await AdminHelper.GetAuthAdmin();
             if (!userRes.IsSuccess())

@@ -26,12 +26,10 @@ namespace OSS.CorePro.TAdminSite
         {
             var appOption = new AppAuthOption()
             {
-                IsWebSite      = true,
                 TenantProvider = new TenantAuthProvider()
             };
             var userOption = new UserAuthOption()
             {
-                IsWebSite    = true,
                 UserProvider = new AdminAuthProvider(),
                 FuncProvider = new FuncAuthProvider()
             };
@@ -39,7 +37,6 @@ namespace OSS.CorePro.TAdminSite
             // 否则接口Controller基类处理即可，所有ajax请求统一处理，授权登录跳转，纯页面元素本身无需校验 
             services.AddControllers(opt =>
                 {
-                    opt.Filters.Add(new InitialContextAttribute());
                     opt.Filters.Add(new AppAuthAttribute(appOption));
                     opt.Filters.Add(new UserAuthAttribute(userOption));
                 })
@@ -73,7 +70,7 @@ namespace OSS.CorePro.TAdminSite
 
             if (!env.IsDevelopment())
             {
-                app.UseExceptionMiddleware(true);
+                app.UseExceptionMiddleware();
             }
 
             app.UseEndpoints(endpoints =>

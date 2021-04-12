@@ -10,7 +10,7 @@ using OSS.Core.WebApi.Controllers.Basic.Permit.Reqs;
 
 namespace OSS.Core.WebApi.Controllers.Basic.Permit
 {
-    [ModuleName(ModuleNames.Permit)]
+    [ModuleName(CoreModuleNames.Permit)]
     [Route("b/[controller]/[action]/{id?}")]
     public class PermitController:BaseController
     {

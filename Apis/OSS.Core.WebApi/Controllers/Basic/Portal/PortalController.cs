@@ -30,7 +30,7 @@ using OSS.Core.WebApi.Controllers.Basic.Portal.Reqs;
 namespace OSS.Core.WebApi.Controllers.Basic.Portal
 {
     [AllowAnonymous]
-    [ModuleName(ModuleNames.Portal)]
+    [ModuleName(CoreModuleNames.Portal)]
     [Route("b/[controller]/[action]/{id?}")]
     public partial class PortalController : BaseController
     {

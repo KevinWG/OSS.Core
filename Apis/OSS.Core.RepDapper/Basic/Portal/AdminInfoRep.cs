@@ -39,7 +39,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <returns></returns>
         public Task<Resp<AdminInfoMo>> GetAdminByUId(string uId)
         {
-            var adminKey = string.Concat(CacheKeys.Portal_Admin_ByUId, uId);
+            var adminKey = string.Concat(CoreCacheKeys.Portal_Admin_ByUId, uId);
             Func<Task<Resp<AdminInfoMo>>> getFunc = () => Get(a => a.u_id == uId && a.owner_tid == OwnerTId);
 
             return getFunc.WithCache(adminKey, TimeSpan.FromHours(1));
@@ -77,7 +77,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <returns></returns>
         public Task<Resp> UpdateStatus(string uId, AdminStatus adminStatus)
         {
-            var adminKey = string.Concat(CacheKeys.Portal_Admin_ByUId, uId);
+            var adminKey = string.Concat(CoreCacheKeys.Portal_Admin_ByUId, uId);
             return Update(t => new { status = adminStatus }, t => t.u_id == uId && t.owner_tid == OwnerTId)
                 .WithCacheClear(adminKey);
         }
@@ -90,7 +90,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeAvatar(string uId, string avatar)
         {
-            var adminKey = string.Concat(CacheKeys.Portal_Admin_ByUId, uId);
+            var adminKey = string.Concat(CoreCacheKeys.Portal_Admin_ByUId, uId);
 
             return Update(u => new { avatar = avatar }, u => u.u_id == uId && u.owner_tid == OwnerTId)
                 .WithCacheClear(adminKey);
@@ -104,7 +104,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <returns></returns>
         public Task<Resp> SetAdminType(string uId, AdminType adminType)
         {
-            var adminKey = string.Concat(CacheKeys.Portal_Admin_ByUId, uId);
+            var adminKey = string.Concat(CoreCacheKeys.Portal_Admin_ByUId, uId);
             return Update(t => new { admin_type = adminType }, t => t.u_id == uId && t.owner_tid == OwnerTId)
                 .WithCacheClear(adminKey);
         }

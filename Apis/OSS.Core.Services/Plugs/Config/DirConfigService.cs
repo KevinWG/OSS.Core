@@ -17,14 +17,14 @@ namespace OSS.Core.Services.Plugs.Config
         public async Task<Resp> SetDirConfig<TConfig>(string key, TConfig dirConfig) where TConfig : class, new()
         {
             await _xmlFileConfig.SetDirConfig(key, dirConfig);
-            await CacheHelper.RemoveAsync(string.Concat(CacheKeys.Plugs_Config_ByKey, key));
+            await CacheHelper.RemoveAsync(string.Concat(CoreCacheKeys.Plugs_Config_ByKey, key));
             return new Resp();
         }
 
         public async Task<Resp> RemoveDirConfig(string key)
         {
             await _xmlFileConfig.RemoveDirConfig(key);
-            await CacheHelper.RemoveAsync(string.Concat(CacheKeys.Plugs_Config_ByKey, key));
+            await CacheHelper.RemoveAsync(string.Concat(CoreCacheKeys.Plugs_Config_ByKey, key));
             return new Resp();
         }
 
@@ -49,7 +49,7 @@ namespace OSS.Core.Services.Plugs.Config
                     return new Resp<TConfig>().WithResp(RespTypes.ObjectNull, "未发现配置信息！");
                 };
 
-                return getFunc.WithCache(string.Concat(CacheKeys.Plugs_Config_ByKey, key), TimeSpan.FromHours(1));
+                return getFunc.WithCache(string.Concat(CoreCacheKeys.Plugs_Config_ByKey, key), TimeSpan.FromHours(1));
             }
             catch (Exception ex)
             {

@@ -21,7 +21,7 @@ namespace OSS.Core.Services.Plugs.Log
         {
             try
             {  
-                if (log.source_name != ModuleNames.Log)
+                if (log.source_name != CoreModuleNames.Log)
                 {
                     await _defaultFileLog.WriteLogAsync(log);
 
