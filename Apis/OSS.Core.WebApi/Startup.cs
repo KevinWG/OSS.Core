@@ -24,13 +24,13 @@ namespace OSS.Core.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var appOption=new AppAuthOption()
+            var appOption = new AppAuthOption()
             {
-                AppProvider =  new AppAuthProvider(),
-                TenantProvider =new TenantAuthProvider()
+                AppProvider = new AppAuthProvider(),
+                TenantProvider = new TenantAuthProvider()
             };
-            var moduleOption=new ModuleAuthOption() { ModuleProvider = new ModuleAuthProvider()};
-            var userOption=new UserAuthOption() { UserProvider = new UserAuthProvider() };
+            var moduleOption = new ModuleAuthOption() { ModuleProvider = new ModuleAuthProvider() };
+            var userOption = new UserAuthOption() { UserProvider = new UserAuthProvider() };
 
             services.AddControllers(
                     opt =>
@@ -41,7 +41,7 @@ namespace OSS.Core.WebApi
                     })
                 .AddJsonOptions(jsonOpt =>
                 {
-                    jsonOpt.JsonSerializerOptions.IgnoreNullValues     = true;
+                    jsonOpt.JsonSerializerOptions.IgnoreNullValues = true;
                     jsonOpt.JsonSerializerOptions.PropertyNamingPolicy = null;
                 });
         }

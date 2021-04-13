@@ -29,7 +29,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             // 0.  获取初始化app信息
-            var appInfo = AppWebInfoHelper.GetOrSetAppIdentity(context.HttpContext);
+            var appInfo = AppReqContext.Identity;
             if (appInfo==null)
             {
                 ResponseExceptionEnd(context, new Resp(SysRespTypes.AppConfigError, "请使用InitialMiddleware中间件初始化全局上下文信息"));
