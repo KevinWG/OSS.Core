@@ -2,13 +2,10 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.BasicMos.Enums;
-using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Helpers;
 using OSS.Core.Infrastructure.Web.Extensions;
 using OSS.CorePro.AdminSite.AppCodes;
 using OSS.CorePro.TAdminSite.Apis.Portal.Helpers;
@@ -71,13 +68,12 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal
             var loginRes = await RestApiHelper.PostApi<UserRegLoginResp>(apiUrl, req);
             if (!loginRes.IsSuccess()) return loginRes;
 
-            Response.Cookies.Append(CoreConstKeys.UserCookieName, loginRes.token,
-                new CookieOptions() { HttpOnly = true, Expires = DateTimeOffset.Now.AddDays(30) });
+            AdminHelper.SetCookie(Response, loginRes.token);
 
             loginRes.token = string.Empty;// 写入cookie后不再明文传递到js
             return loginRes;
         }
-
+      
         /// <summary>
         ///   正常登录时，验证实体参数
         /// </summary>
@@ -108,15 +104,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal
         [HttpGet]
         public async Task<Resp> Quit()
         {
-
-            Response.Cookies.Delete(CoreConstKeys.UserCookieName);
-
-            var userRes =await AdminHelper.GetAuthAdmin();
-            if (!userRes.IsSuccess())
-               return new Resp();
-
-            return  await AdminHelper.LogOut(userRes.data);
-       
+            return await AdminHelper.LogOut(HttpContext);
         }
 
         /// <summary>

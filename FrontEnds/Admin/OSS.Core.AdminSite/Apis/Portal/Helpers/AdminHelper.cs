@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
@@ -39,17 +40,36 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal.Helpers
             return CacheHelper.RemoveAsync(key);
         }
 
-
-        internal static async Task<Resp> LogOut(UserIdentity user)
+        internal static async Task<Resp> LogOut(HttpContext context)
         {
-            // 清楚用户权限相关缓存
-            await FuncHelper.ClearAuthUserFuncListCache(user);
+            ClearCookie(context.Response);
 
+            var userRes = await GetAuthAdmin();
+            if (!userRes.IsSuccess())
+                return new Resp();
+
+            // 清楚用户权限相关缓存         
+            await FuncHelper.ClearAuthUserFuncListCache(userRes.data);
             await ClearAdminCache();
 
             return new Resp(RespTypes.UnLogin, "请登录！");
         }
 
+        public static void SetCookie(HttpResponse response, string token)
+        {
+            response.Cookies.Append(CoreConstKeys.UserCookieName, token,
+          new CookieOptions() { HttpOnly = true, Expires = DateTimeOffset.Now.AddDays(30) });
+        }
+
+        public static string GetCookie(HttpRequest req)
+        {
+            return req.Cookies[CoreConstKeys.UserCookieName];
+        }
+
+        public static void ClearCookie(HttpResponse response)
+        {
+            response.Cookies.Delete(CoreConstKeys.UserCookieName);
+        }
 
 
 

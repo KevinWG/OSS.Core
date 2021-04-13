@@ -22,6 +22,13 @@ namespace OSS.CorePro.TAdminSite.AppCodes.Initial
 {
     public class AdminAuthProvider : IUserAuthProvider
     {
+        public void FormatUserToken(HttpContext context, AppIdentity appinfo)
+        {
+            if (string.IsNullOrEmpty(appinfo.token))
+            {
+                appinfo.token = AdminHelper.GetCookie(context.Request);
+            }
+        }
         public Task<Resp<UserIdentity>> InitialAuthUserIdentity(HttpContext context, AppIdentity appinfo)
         {
             return AdminHelper.GetAuthAdmin();

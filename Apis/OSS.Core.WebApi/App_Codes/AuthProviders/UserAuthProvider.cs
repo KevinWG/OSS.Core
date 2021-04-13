@@ -10,7 +10,12 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class UserAuthProvider : IUserAuthProvider
     {
-       public Task<Resp<UserIdentity>> InitialAuthUserIdentity(HttpContext context, AppIdentity appInfo)
+        public void FormatUserToken(HttpContext context, AppIdentity appinfo)
+        {
+            
+        }
+
+        public Task<Resp<UserIdentity>> InitialAuthUserIdentity(HttpContext context, AppIdentity appInfo)
        {
           return  InsContainer<IPortalServiceProxy>.Instance.GetAuthIdentity();
         }

@@ -9,7 +9,7 @@ namespace OSS.CorePro.TAdminSite.Apis
     /// <summary>
     /// 接口控制器基类
     /// </summary>
-    [WebApiAjax]
+    [WebAppAjax]
     [ApiController]
     [Route("api/[controller]/[action]")]
     public class BaseApiController : ControllerBase
