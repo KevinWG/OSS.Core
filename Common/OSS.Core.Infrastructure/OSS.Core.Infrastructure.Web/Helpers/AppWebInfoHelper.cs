@@ -96,15 +96,13 @@ namespace OSS.Core.Infrastructure.Web.Helpers
                 return AppSourceMode.ServerSign;
             }
 
-            if (context.Request.IsAjaxApi())
-            {
-                return AppSourceMode.BrowserWithHeader;
-            }
-
             var path = context.Request.Path.ToString();
-            return path.StartsWith("/partner/")
-                ? AppSourceMode.PartnerServer 
-                : AppSourceMode.Browser;
+            if (path.StartsWith("/partner/"))
+                return AppSourceMode.PartnerServer;
+
+            return context.Request.IsAjaxApi() ?
+               AppSourceMode.BrowserWithHeader :
+               AppSourceMode.Browser;
         }
 
         #endregion
