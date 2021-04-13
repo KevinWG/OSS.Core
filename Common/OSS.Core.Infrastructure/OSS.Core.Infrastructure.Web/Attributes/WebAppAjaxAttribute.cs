@@ -5,9 +5,9 @@ using OSS.Core.Infrastructure.Web.Extensions;
 
 namespace OSS.Core.Infrastructure.Web.Attributes
 {
-    public class WebApiAjaxAttribute : BaseOrderAuthAttribute
+    public class WebAppAjaxAttribute : BaseOrderAuthAttribute
     {
-        public WebApiAjaxAttribute()
+        public WebAppAjaxAttribute()
         {
             p_Order = -99999;
             //p_IsWebSite = true;

@@ -20,7 +20,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         public UserAuthAttribute(UserAuthOption userOption)
         {
-            if (userOption.UserProvider == null)
+            if (userOption?.UserProvider == null)
                 throw new Exception("UserAuthOption 中 UserProvider 接口对象必须提供！");
 
             p_Order     = -10;
@@ -34,6 +34,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 return;
 
             var appInfo = AppReqContext.Identity;
+            _userOption.UserProvider.FormatUserToken(context.HttpContext, appInfo);
 
             var res =await FormatUserIdentity(context, appInfo, _userOption);
             if (!res.IsSuccess())

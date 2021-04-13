@@ -29,7 +29,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             if (string.IsNullOrEmpty(_moduleName))
                 throw new NullReferenceException("请在当前Controller或父类中使用ModuleNameAttribute标注模块名称！");
 
-            var appInfo = AppWebInfoHelper.InitialDefaultAppIdentity(context.HttpContext);
+            var appInfo = AppWebInfoHelper.GetOrSetAppIdentity(context.HttpContext);
             if (appInfo.app_type > _appType)
             {
                 ResponseExceptionEnd(context,new Resp(RespTypes.NoPermission,"当前应用类型，无此接口权限！"));

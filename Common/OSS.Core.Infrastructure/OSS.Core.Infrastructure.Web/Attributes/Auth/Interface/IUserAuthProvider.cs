@@ -27,5 +27,13 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth.Interface
         /// <param name="appinfo"></param>
         /// <returns></returns>
         Task<Resp<UserIdentity>> InitialAuthUserIdentity(HttpContext context, AppIdentity appinfo);
+
+        /// <summary>
+        ///  处理用token
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="appinfo"></param>
+        /// <returns></returns>
+        void FormatUserToken(HttpContext context, AppIdentity appinfo);
     }
 }

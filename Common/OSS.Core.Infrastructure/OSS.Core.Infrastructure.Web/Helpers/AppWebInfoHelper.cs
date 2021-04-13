@@ -45,7 +45,7 @@ namespace OSS.Core.Infrastructure.Web.Helpers
 
         #region 中间件相关地址判断
 
-        internal static AppIdentity InitialDefaultAppIdentity(HttpContext context)
+        internal static AppIdentity GetOrSetAppIdentity(HttpContext context)
         {
             var sysInfo = AppReqContext.Identity;
             if (sysInfo != null) return sysInfo;
@@ -93,7 +93,7 @@ namespace OSS.Core.Infrastructure.Web.Helpers
         {
             if (context.Request.Headers.ContainsKey(CoreConstKeys.AppServerModeTicketName))
             {
-                return AppSourceMode.Server;
+                return AppSourceMode.ServerSign;
             }
 
             if (context.Request.IsAjaxApi())

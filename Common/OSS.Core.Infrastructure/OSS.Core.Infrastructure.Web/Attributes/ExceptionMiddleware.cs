@@ -21,7 +21,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
         public override Task Invoke(HttpContext context)
         {
             // 防止忘记，独立初始化处理
-            AppWebInfoHelper.InitialDefaultAppIdentity(context);
+            AppWebInfoHelper.GetOrSetAppIdentity(context);
             return _next.Invoke(context);
 
         }
@@ -52,7 +52,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
             try
             {
                 // 需要在此初始化，否则中间件依次退出后此值为空，下方异常无法捕获APP信息
-                AppWebInfoHelper.InitialDefaultAppIdentity(context);
+                AppWebInfoHelper.GetOrSetAppIdentity(context);
 
                 await _next.Invoke(context);
 

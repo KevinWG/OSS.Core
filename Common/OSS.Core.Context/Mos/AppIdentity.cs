@@ -45,19 +45,19 @@ namespace OSS.Core.Context.Mos
         {
             var newOne = new AppIdentity
             {
-                func      = this.func,
+                func = this.func,
                 app_client = this.app_client,
-                app_id    = this.app_id,
-                app_ver    = this.app_ver,
+                app_id = this.app_id,
+                app_ver = this.app_ver,
                 client_ip = this.client_ip,
 
-                sign      = this.sign,
+                sign = this.sign,
                 tenant_id = this.tenant_id,
                 timestamp = this.timestamp,
-                token     = this.token,
+                token = this.token,
                 trace_num = this.trace_num,
 
-                UDID    = this.UDID,
+                UDID = this.UDID,
                 app_type = this.app_type
             };
 
@@ -101,7 +101,7 @@ namespace OSS.Core.Context.Mos
         WindowStore = 40,
 
         /// <summary>
-        ///  服务器端（如：Web，WindowsService）
+        ///  服务器端（如：站点，WindowsService）
         /// </summary>
         Server = 60
     }
@@ -140,27 +140,28 @@ namespace OSS.Core.Context.Mos
 
 
     /// <summary>
-    ///  app的来源模式
+    ///  app的来源处理模式
     /// </summary>
     public enum AppSourceMode
-    {   /// <summary>
+    { 
+        /// <summary>
         ///  服务端模式（强签名）
         /// </summary>
-        Server = 0,
+        ServerSign = 0,
 
         /// <summary>
-        ///  合作方的服务端模式（如第三方回调）
+        ///  合作方的服务端模式（请求地址以“/partner/”开头，如第三方回调）
         /// </summary>
         PartnerServer = 100,
 
         /// <summary>
-        /// 浏览器模式（含指定头）
+        /// 浏览器模式（含指定头，如前端ajax请求）
         /// </summary>
         BrowserWithHeader = 200,
 
         /// <summary>
-        ///  浏览器模式（泛）
+        ///  浏览器模式（泛，浏览器直接请求）
         /// </summary>
-        Browser = 300     
+        Browser = 300
     }
 }

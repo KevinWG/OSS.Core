@@ -21,18 +21,20 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         }
         public AppAuthAttribute(AppAuthOption appOption)
         {
-            p_Order = -10000;
+            p_Order = -1000;
             _appOption = appOption;
             //p_IsWebSite = appOption.IsWebSite;
         }
 
-
-
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            // 0. app 初始化
-            var appInfo = AppWebInfoHelper.InitialDefaultAppIdentity(context.HttpContext);
-         
+            // 0.  获取初始化app信息
+            var appInfo = AppWebInfoHelper.GetOrSetAppIdentity(context.HttpContext);
+            if (appInfo==null)
+            {
+                ResponseExceptionEnd(context, new Resp(SysRespTypes.AppConfigError, "请使用InitialMiddleware中间件初始化全局上下文信息"));
+                return;
+            }
             // 1. app验证
             var res = await AppFormatAndCheck(context.HttpContext, appInfo, _appOption);
             if (!res.IsSuccess())
@@ -57,14 +59,18 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             {
                 // 第三方回调接口，直接放过
                 case AppSourceMode.PartnerServer:
-
+                    if (string.IsNullOrEmpty(appInfo.app_id))
+                    {
+                        res = new Resp(SysRespTypes.AppConfigError, "未指定PartnerName(请使用AppPartnerNameAttribute指定)");
+                        break;
+                    }
                     appInfo.app_client = AppClientType.Server;
                     appInfo.app_type   = AppType.Outer;
                     appInfo.UDID       = "WEB";
 
                     res = new Resp();
                     break;
-                case AppSourceMode.Server:
+                case AppSourceMode.ServerSign:
                     if (appOption?.AppProvider == null)
                     {
                         return new Resp(RespTypes.InnerError, "服务接口并未启用服务端应用校验，请求拒绝！");
@@ -80,11 +86,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                     res = new Resp();
                     break;
             }
-            if (!res.IsSuccess())
-            {
-                return res;
-            }
-            context.CompleteAppIdentity(appInfo);
+            context.CompleteAppIdentity(appInfo);          
             return res;
         }
 

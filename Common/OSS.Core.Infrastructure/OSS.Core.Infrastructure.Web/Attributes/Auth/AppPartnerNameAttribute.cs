@@ -25,7 +25,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var sysInfo = AppWebInfoHelper.InitialDefaultAppIdentity(context.HttpContext);
+            var sysInfo = AppWebInfoHelper.GetOrSetAppIdentity(context.HttpContext);
 
             sysInfo.app_id  = _appId;
             sysInfo.app_ver = _appVer;
