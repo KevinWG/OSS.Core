@@ -1,4 +1,4 @@
-import { PortalConfig } from './config_routes';
+﻿import { PortalConfig } from './config_routes';
 import { message } from 'antd';
 import { history, RequestConfig } from 'umi';
 
@@ -47,7 +47,7 @@ const apiStatusMidleware = async function middlewareA(ctx: any, next: any) {
 
 const defaultRequestConfig: RequestConfig = {
   headers: {
-    'X-App-OsVer': '1.0',
+    'x-core-app': 'admin_client',
     'Content-Type': 'application/json',
   },
   errorConfig: {
