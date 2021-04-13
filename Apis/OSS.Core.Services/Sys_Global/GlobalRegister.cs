@@ -57,7 +57,7 @@ namespace OSS.Core.Services.Sys_Global
                 if (appIdentity == null)
                     return;
 
-                if (!string.IsNullOrEmpty(appIdentity.module_name) && log.source_name == ModuleNames.Default)
+                if (!string.IsNullOrEmpty(appIdentity.module_name) && log.source_name == CoreModuleNames.Default)
                 {
                     log.source_name = AppReqContext.Identity?.module_name;
                 }

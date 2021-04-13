@@ -120,7 +120,7 @@ namespace OSS.Core.Services.Basic.Permit
         public Task<ListResp<RoleFunSmallMo>> GetAuthUserFuncList()
         {
             var userIdentity = UserContext.Identity;
-            var key = string.Concat(CacheKeys.Perm_UserRoles_ByUId, userIdentity.id);
+            var key = string.Concat(CoreCacheKeys.Perm_UserRoles_ByUId, userIdentity.id);
 
             Func<Task<ListResp<RoleFunSmallMo>>> getFunc = () => GetUserAllFuncsNoCache(userIdentity.id);
 

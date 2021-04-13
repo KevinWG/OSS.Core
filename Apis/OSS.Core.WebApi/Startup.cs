@@ -35,7 +35,6 @@ namespace OSS.Core.WebApi
             services.AddControllers(
                     opt =>
                     {
-                        opt.Filters.Add(new InitialContextAttribute());
                         opt.Filters.Add(new AppAuthAttribute(appOption));
                         opt.Filters.Add(new ModuleAuthAttribute(moduleOption));
                         opt.Filters.Add(new UserAuthAttribute(userOption));
@@ -60,6 +59,7 @@ namespace OSS.Core.WebApi
             app.UseStaticFiles();
             app.UseRouting();
 
+            app.UseInitialMiddleware();
             if (!env.IsDevelopment())
             {
                 app.UseExceptionMiddleware();

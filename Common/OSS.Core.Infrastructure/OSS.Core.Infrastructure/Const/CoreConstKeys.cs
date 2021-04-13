@@ -25,10 +25,10 @@ namespace OSS.Core.Infrastructure.Const
         
         public const string AppBrowserModeAppNameHeader = "x-core-app";
 
-        ///// <summary>
-        /////     用户验证cookie名称
-        ///// </summary>
-        //public const string UserCookieName = "uc_n";
+        /// <summary>
+        ///     用户验证cookie名称
+        /// </summary>
+        public const string UserCookieName = "uc_n";
 
     }
 }

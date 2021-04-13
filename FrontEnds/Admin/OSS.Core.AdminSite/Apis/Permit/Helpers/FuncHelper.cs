@@ -9,7 +9,6 @@ using OSS.Core.Context.Mos;
 
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Extensions;
-using OSS.Core.Infrastructure.Helpers;
 using OSS.CorePro.AdminSite.AppCodes;
 using OSS.CorePro.TAdminSite.Apis.Permit.Reqs;
 using OSS.Tools.Cache;
@@ -90,7 +89,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Permit.Helpers
         {
             var memIdentity = UserContext.Identity;
 
-            var key = string.Concat(CacheKeys.Perm_UserFuncs_ByUId, memIdentity.id);
+            var key = string.Concat(CoreCacheKeys.Perm_UserFuncs_ByUId, memIdentity.id);
 
             Func<Task<ListResp<GetRoleItemResp>>> getFunc = GetAuthUserFuncListFromApi;
             return getFunc.WithAbsoluteCache(key, TimeSpan.FromMinutes(30));
@@ -102,7 +101,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Permit.Helpers
         /// <returns></returns>
         public static Task<bool> ClearAuthUserFuncListCache(UserIdentity user)
         {
-            var key = string.Concat(CacheKeys.Perm_UserFuncs_ByUId, user.id);
+            var key = string.Concat(CoreCacheKeys.Perm_UserFuncs_ByUId, user.id);
             return CacheHelper.RemoveAsync(key);
         }
 

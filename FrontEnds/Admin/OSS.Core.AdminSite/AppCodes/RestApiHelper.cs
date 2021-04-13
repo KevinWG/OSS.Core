@@ -146,7 +146,7 @@ namespace OSS.CorePro.AdminSite.AppCodes
         {
             var ticket = AppReqContext.Identity.ToTicket(AppInfoHelper.AppId,AppInfoHelper.AppVersion, AppInfoHelper.AppSecret);
 
-            r.Headers.Add(CookieKeys.AuthorizeTicketName, ticket);
+            r.Headers.Add(CoreConstKeys.AppServerModeTicketName, ticket);
             r.Headers.Add("Accept", "application/json");
 
             if (r.Content!=null)

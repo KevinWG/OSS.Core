@@ -14,7 +14,7 @@ using OSS.Core.Services.Plugs.File;
 
 namespace OSS.Core.WebApi.Controllers.Plugs.File
 {
-    [ModuleName(ModuleNames.File)]
+    [ModuleName(CoreModuleNames.File)]
     [Route("p/[controller]/[action]/{id?}")]
     public class FileController : BaseController
     {

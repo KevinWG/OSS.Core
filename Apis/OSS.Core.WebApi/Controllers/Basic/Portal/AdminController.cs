@@ -24,7 +24,7 @@ using OSS.Core.WebApi.Controllers.Basic.Portal.Reqs;
 
 namespace OSS.Core.WebApi.Controllers.Basic.Portal
 {
-    [ModuleName(ModuleNames.Portal)]
+    [ModuleName(CoreModuleNames.Portal)]
     [Route("b/[controller]/[action]/{id?}")]
     public class AdminController : BaseController
     {

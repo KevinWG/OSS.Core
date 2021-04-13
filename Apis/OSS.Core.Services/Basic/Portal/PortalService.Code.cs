@@ -129,7 +129,7 @@ namespace OSS.Core.Services.Basic.Portal
             if (!res.IsSuccess())
                 return res ?? new Resp().WithResp(RespTypes.UnKnowSource, "未知类型！");
 
-            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
             await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
             return res;
         }
@@ -150,7 +150,7 @@ namespace OSS.Core.Services.Basic.Portal
                 return new Resp();
             }
 #endif
-            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
             var code =await CacheHelper.GetAsync<string>(key);
 
             if (string.IsNullOrEmpty(code) || passcode != code)

@@ -27,7 +27,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
             var sql = string.Concat("select role_id from ", TableName,
                 " where u_id=@u_id and status>@status and owner_tid=@owner_tid");
 
-            var cacheKey = string.Concat(CacheKeys.Perm_UserRoles_ByUId, userId);
+            var cacheKey = string.Concat(CoreCacheKeys.Perm_UserRoles_ByUId, userId);
 
             Func<Task<ListResp<string>>> getFunc = () =>
                 GetList<string>(sql, new {u_id = userId, owner_tid = OwnerTId, status = (int) CommonStatus.Deleted});

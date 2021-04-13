@@ -15,7 +15,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal.Helpers
     {
         internal static async Task<Resp<UserIdentity>> GetAuthAdmin()
         {
-            var key = string.Concat(CacheKeys.Portal_User_ByToken, AppReqContext.Identity.token);
+            var key = string.Concat(CoreCacheKeys.Portal_User_ByToken, AppReqContext.Identity.token);
             var user =await CacheHelper.GetAsync<UserIdentity>(key);
             if (user != null)
                 return new Resp<UserIdentity>(user);
@@ -35,7 +35,7 @@ namespace OSS.CorePro.TAdminSite.Apis.Portal.Helpers
 
         public static Task ClearAdminCache()
         {
-            var key = string.Concat(CacheKeys.Portal_User_ByToken, AppReqContext.Identity.token);
+            var key = string.Concat(CoreCacheKeys.Portal_User_ByToken, AppReqContext.Identity.token);
             return CacheHelper.RemoveAsync(key);
         }
 

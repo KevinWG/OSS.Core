@@ -66,7 +66,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public override Task<Resp<RoleMo>> GetById(string id)
         {
-            var cacheKey = string.Concat(CacheKeys.Perm_Role_ById, id);
+            var cacheKey = string.Concat(CoreCacheKeys.Perm_Role_ById, id);
             return CacheHelper.GetOrSetAsync(cacheKey, () => base.GetById(id), TimeSpan.FromHours(2),
                 res => !res.IsSuccess());
         }
@@ -79,7 +79,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public Task<Resp> UpdateStatus(string rid, CommonStatus status)
         {
-            var cacheKey = string.Concat(CacheKeys.Perm_Role_ById, rid);
+            var cacheKey = string.Concat(CoreCacheKeys.Perm_Role_ById, rid);
 
             return Update(u => new {u.status},
                 u => u.id == rid && u.owner_tid == OwnerTId,
@@ -95,7 +95,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public Task<Resp> UpdateName(string rid, string name)
         {
-            var cacheKey = string.Concat(CacheKeys.Perm_Role_ById, rid);
+            var cacheKey = string.Concat(CoreCacheKeys.Perm_Role_ById, rid);
 
             return Update(u => new { name },
                     u => u.id == rid && u.owner_tid == OwnerTId)

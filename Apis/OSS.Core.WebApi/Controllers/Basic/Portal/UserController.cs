@@ -28,7 +28,7 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
     /// <summary>
     /// 用户模块
     /// </summary>
-    [ModuleName(ModuleNames.Portal)]  
+    [ModuleName(CoreModuleNames.Portal)]  
     [Route("b/[controller]/[action]/{id?}")]
     public class UserController : BaseController
     {
