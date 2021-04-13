@@ -68,6 +68,7 @@ namespace OSS.CorePro.TAdminSite
 
             app.UseRouting();
 
+            app.UseInitialMiddleware();
             if (!env.IsDevelopment())
             {
                 app.UseExceptionMiddleware();
