@@ -59,10 +59,10 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             //if (opt.IsWebSite && string.IsNullOrEmpty(appInfo.token))
             //    appInfo.token = context.HttpContext.Request.Cookies[CookieKeys.UserCookieName];
 
-            //if (string.IsNullOrEmpty(appInfo.token))
-            //{
-            //    return new Resp().WithResp(RespTypes.UnLogin, "请先登录！");
-            //}
+            if (string.IsNullOrEmpty(appInfo.token))
+            {
+                return new Resp().WithResp(RespTypes.UnLogin, "请先登录！");
+            }
 
             var identityRes = await opt.UserProvider.InitialAuthUserIdentity(context.HttpContext, appInfo);
             if (!identityRes.IsSuccess())
