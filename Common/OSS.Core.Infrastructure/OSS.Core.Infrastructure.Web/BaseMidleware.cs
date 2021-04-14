@@ -5,54 +5,34 @@ using OSS.Common.BasicMos.Resp;
 
 namespace OSS.Core.Infrastructure.Web
 {
+    /// <summary>
+    ///  中间件基类
+    /// </summary>
     public abstract class BaseMiddleware
     {
         protected readonly RequestDelegate _next;
 
+        /// <summary>
+        /// 构造函数
+        /// </summary>
+        /// <param name="next"></param>
         protected BaseMiddleware(RequestDelegate next)
         {
             _next = next;
         }
 
-        protected virtual  Task ExceptionResponse(HttpContext context, Resp res)
-        {
-            return ResponseJsonError(context.Response, res);
-        }
-
+        /// <summary>
+        ///  执行方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public abstract Task Invoke(HttpContext context);
-        //protected virtual async Task ExceptionResponse(HttpContext context, Resp res)
-        //{
-        //    var appSourceMode = AppWebInfoHelper.GetAppSourceMode(context);
-        //    if (appSourceMode < AppSourceMode.Browser)
-        //    {
-        //        await ResponseJsonError(context.Response, res);
-        //        return;
-        //    }
-
-        //    if (context.Request.IsAjaxApi())
-        //    {
-        //        res.msg = AppWebInfoHelper.GetRedirectUrl(context, res, true);
-        //        await ResponseJsonError(context.Response, res);
-        //        return;
-        //    }
-
-        //    if (AppWebInfoHelper.CheckWebUnRedirectUrl(context.Request.Path.ToString()))
-        //    {
-        //        if (_next != null)
-        //            await _next.Invoke(context);
-
-        //        return;
-        //    }
-
-        //    var redirectUrl = AppWebInfoHelper.GetRedirectUrl(context, res, false);
-        //    context.Response.Redirect(redirectUrl);
-        //}
 
         /// <summary>
         ///  清理Response缓存
         /// </summary>
         /// <param name="httpResponse"></param>
-        private static Task ResponseJsonError(HttpResponse httpResponse,Resp res)
+        protected static Task ResponseJsonError(HttpResponse httpResponse,Resp res)
         {
             httpResponse.Clear();
             httpResponse.Headers.Remove("ETag");

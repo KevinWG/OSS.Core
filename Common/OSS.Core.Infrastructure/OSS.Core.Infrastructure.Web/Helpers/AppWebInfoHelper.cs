@@ -71,19 +71,6 @@ namespace OSS.Core.Infrastructure.Web.Helpers
             return isUnUrl;
         }
 
-        public static string GetRedirectUrl(HttpContext context, Resp res)
-        {
-            var req = context.Request;
-            if (res.IsRespType(RespTypes.UnLogin))
-            {
-                var rUrl = context.Request.IsAjaxApi() ? GetReqReferer(req) : string.Concat(req.Path, req.QueryString);
-                return string.Concat(LoginUrl, "?rurl=" + rUrl.UrlEncode());
-            }
-
-            var errUrl = res.IsRespType(RespTypes.ObjectNull) ? NotFoundUrl : ErrorUrl;
-            return string.Concat(errUrl, "?ret=", res.ret, "&msg=", res.msg.UrlEncode());
-        }
-
         /// <summary>
         /// 获取应用的来源模式
         /// </summary>
