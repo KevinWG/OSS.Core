@@ -20,6 +20,7 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Helpers;
+using OSS.Core.Infrastructure.Web.Helpers;
 using OSS.Tools.Config;
 using OSS.Tools.Http.Extention;
 using OSS.Tools.Http.Mos;
@@ -146,7 +147,7 @@ namespace OSS.CorePro.AdminSite.AppCodes
         {
             var ticket = AppReqContext.Identity.ToTicket(AppInfoHelper.AppId,AppInfoHelper.AppVersion, AppInfoHelper.AppSecret);
 
-            r.Headers.Add(CoreConstKeys.AppServerModeTicketName, ticket);
+            r.Headers.Add(AppWebInfoHelper.ServerSignModeHeaderName, ticket);
             r.Headers.Add("Accept", "application/json");
 
             if (r.Content!=null)

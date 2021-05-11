@@ -19,16 +19,8 @@ namespace OSS.Core.Infrastructure.Const
     public static class CoreConstKeys
     {
         /// <summary>
-        ///    接口访问头信息验证票据名称
-        /// </summary>
-        public const string AppServerModeTicketName = "at-id";
-        
-        public const string AppBrowserModeAppNameHeader = "x-core-app";
-
-        /// <summary>
         ///     用户验证cookie名称
         /// </summary>
         public const string UserCookieName = "uc_n";
-
     }
 }

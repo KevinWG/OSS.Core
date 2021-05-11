@@ -45,8 +45,11 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             if (UserContext.IsAuthenticated)
                 return;
 
+            if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
+                return;
+
             var appInfo = AppReqContext.Identity;
-            _userOption.UserProvider.FormatUserToken(context.HttpContext, appInfo);
+            //_userOption.UserProvider.FormatUserToken(context.HttpContext, appInfo);
 
             var res = await FormatUserIdentity(context, appInfo, _userOption);
             if (!res.IsSuccess())
@@ -69,6 +72,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 ResponseExceptionEnd(context, res);
                 return;
             }
+
             // 重定向用户登录页
             if (!string.IsNullOrEmpty(AppWebInfoHelper.LoginUrl)
                    && appInfo.SourceMode == AppSourceMode.Browser)
@@ -87,18 +91,12 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context,AppIdentity appInfo,UserAuthOption opt)
         {
-            if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
-                return new Resp();
-
-            //if (opt.IsWebSite && string.IsNullOrEmpty(appInfo.token))
-            //    appInfo.token = context.HttpContext.Request.Cookies[CookieKeys.UserCookieName];
-
             if (string.IsNullOrEmpty(appInfo.token))
             {
                 return new Resp().WithResp(RespTypes.UnLogin, "请先登录！");
             }
 
-            var identityRes = await opt.UserProvider.InitialAuthUserIdentity(context.HttpContext, appInfo);
+            var identityRes = await opt.UserProvider.InitialIdentity(context.HttpContext, appInfo);
             if (!identityRes.IsSuccess())
                 return identityRes;
 
@@ -118,7 +116,11 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         }
 
     }
-    public class UserAuthOption : BaseAuthOption
+
+    /// <summary>
+    ///  用户授权参数
+    /// </summary>
+    public class UserAuthOption 
     {
         /// <summary>
         ///  功能方法权限判断接口

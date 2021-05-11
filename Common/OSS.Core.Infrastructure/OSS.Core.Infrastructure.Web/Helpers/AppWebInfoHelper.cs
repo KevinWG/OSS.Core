@@ -1,8 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Const;
@@ -11,6 +9,9 @@ using OSS.Tools.Config;
 
 namespace OSS.Core.Infrastructure.Web.Helpers
 {
+    /// <summary>
+    ///  网站应用信息辅助类
+    /// </summary>
     public static class AppWebInfoHelper 
     {
         /// <summary>
@@ -32,6 +33,17 @@ namespace OSS.Core.Infrastructure.Web.Helpers
         ///  错误页
         /// </summary>
         public static string ErrorUrl { get; } = ConfigHelper.GetSection("AppWebConfig:ErrorUrl")?.Value;
+
+
+        /// <summary>
+        ///   应用服务端签名模式，对应的票据信息的请求头名称
+        /// </summary>
+        public const string ServerSignModeHeaderName = "at-id";
+
+        /// <summary>
+        ///  浏览器模式，附加应用信息的请求头名称  
+        /// </summary>
+        public const string BrowserModeHeaderName = "x-core-app";
 
         ///// <summary>
         /////  获取页面缓存ETag（追加当前租户信息修改时间，防止租户信息修改后前端没有变化）
@@ -78,7 +90,7 @@ namespace OSS.Core.Infrastructure.Web.Helpers
         /// <returns></returns>
         public static AppSourceMode GetAppSourceMode(HttpContext context)
         {
-            if (context.Request.Headers.ContainsKey(CoreConstKeys.AppServerModeTicketName))
+            if (context.Request.Headers.ContainsKey(ServerSignModeHeaderName))
             {
                 return AppSourceMode.ServerSign;
             }

@@ -29,7 +29,7 @@ namespace OSS.CorePro.TAdminSite.AppCodes.Initial
                 appinfo.token = AdminHelper.GetCookie(context.Request);
             }
         }
-        public Task<Resp<UserIdentity>> InitialAuthUserIdentity(HttpContext context, AppIdentity appinfo)
+        public Task<Resp<UserIdentity>> InitialIdentity(HttpContext context, AppIdentity appinfo)
         {
             return AdminHelper.GetAuthAdmin();
         }

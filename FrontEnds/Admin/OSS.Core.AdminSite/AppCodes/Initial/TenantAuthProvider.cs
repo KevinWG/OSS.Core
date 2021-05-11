@@ -12,7 +12,7 @@ namespace OSS.CorePro.TAdminSite.AppCodes.Initial
         ///  中间件初始化对应租户信息
         /// </summary>
         /// <returns></returns>
-        public Task<Resp<TenantIdentity>> InitialAuthTenantIdentity(HttpContext context, AppIdentity appInfo)
+        public Task<Resp<TenantIdentity>> CheckAndInitialIdentity(HttpContext context, AppIdentity appInfo)
         {
             var tenant = new TenantIdentity()
             {

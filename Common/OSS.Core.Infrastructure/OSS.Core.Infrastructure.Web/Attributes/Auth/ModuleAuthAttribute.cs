@@ -33,7 +33,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         }
     }
 
-    public class ModuleAuthOption : BaseAuthOption
+    public class ModuleAuthOption 
     {
         public IModuleAuthProvider ModuleProvider { get; set; }
     }

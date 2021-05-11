@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Const;
+using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web.Extensions
 {
@@ -42,7 +43,7 @@ namespace OSS.Core.Infrastructure.Web.Extensions
         /// <returns></returns>
         public static bool IsAjaxApi(this HttpRequest req)
         {
-            return req.Headers.ContainsKey(CoreConstKeys.AppBrowserModeAppNameHeader);
+            return req.Headers.ContainsKey(AppWebInfoHelper.BrowserModeHeaderName);
             //return req.Headers[CoreConstKeys.AppBrowserModeAppNameHeader].Count > 0;
         }
 
