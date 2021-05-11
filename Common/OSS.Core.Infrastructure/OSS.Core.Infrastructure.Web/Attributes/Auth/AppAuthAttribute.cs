@@ -83,7 +83,10 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 case AppSourceMode.ServerSign:
                     string authTicketStr = context.Request.Headers[AppWebInfoHelper.ServerSignModeHeaderName];
                     appInfo.FromTicket(authTicketStr);
-
+                    if (!AppInfoHelper.FormatAppIdInfo(appInfo))
+                    {
+                        return new Resp(RespTypes.UnKnowSource, "未知应用来源！");
+                    }
                     //if (appOption?.AppProvider == null)
                     //{
                     //    return new Resp(RespTypes.InnerError, "服务接口并未启用服务端应用校验，请求拒绝！");
@@ -95,7 +98,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                     appInfo.app_ver = AppInfoHelper.AppVersion;
                     appInfo.app_id = AppInfoHelper.AppId;
                     appInfo.UDID = "WEB";
-
                     break;
             }
 

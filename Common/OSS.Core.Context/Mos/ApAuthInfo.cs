@@ -59,7 +59,13 @@ namespace OSS.Core.Context.Mos
         ///  sign标识
         /// </summary>
         public string sign { get; set; }
-        
+
+
+        /// <summary>
+        ///   应用类型 [非外部传值，不参与签名]
+        /// </summary>
+        public AppType app_type { get; set; } = AppType.Outer;
+
         #region  字符串处理
 
         /// <summary>
@@ -205,7 +211,11 @@ namespace OSS.Core.Context.Mos
             //AddTicketProperty("func", func, separator, strTicketParas, isForSign);
             AddTicketProperty("ip", client_ip, separator, strTicketParas, isForSign);
 
-            AddTicketProperty("tenantid", tenant_id, separator, strTicketParas, isForSign);
+            if (app_type == AppType.Proxy)
+            {
+                AddTicketProperty("tenantid", tenant_id, separator, strTicketParas, isForSign);
+            }
+          
             AddTicketProperty("token", token, separator, strTicketParas, isForSign);
 
             AddTicketProperty("tracenum", trace_num, separator, strTicketParas, isForSign);
@@ -239,4 +249,36 @@ namespace OSS.Core.Context.Mos
         #endregion
 
     }
+
+    /// <summary>
+    ///  应用类型
+    /// </summary>
+    public enum AppType
+    {
+        /// <summary>
+        ///  平台管理应用
+        /// </summary>
+        SystemManager = 1,
+
+        /// <summary>
+        ///  平台应用
+        /// </summary>
+        System = 30,
+
+        /// <summary>
+        ///  多租户代理应用 
+        /// </summary>
+        Proxy = 60,
+
+        /// <summary>
+        ///  内部单租户应用
+        /// </summary>
+        Inner = 90,
+
+        /// <summary>
+        ///   外部单租户应用
+        /// </summary>
+        Outer = 120
+    }
+
 }

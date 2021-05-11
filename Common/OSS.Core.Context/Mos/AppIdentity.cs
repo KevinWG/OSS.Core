@@ -64,10 +64,7 @@ namespace OSS.Core.Context.Mos
             return newOne;
         }
 
-        /// <summary>
-        ///   应用类型 [非外部传值，不参与签名]
-        /// </summary>
-        public AppType app_type { get; set; } = AppType.Outer;
+     
 
         /// <summary>
         ///  当前请求主机信息 [非外部传值，不参与签名]
@@ -106,37 +103,7 @@ namespace OSS.Core.Context.Mos
         Server = 60
     }
 
-    /// <summary>
-    ///  应用类型
-    /// </summary>
-    public enum AppType
-    {
-        /// <summary>
-        ///  平台管理应用
-        /// </summary>
-        SystemManager = 1,
-
-        /// <summary>
-        ///  平台应用
-        /// </summary>
-        System = 30,
-
-        /// <summary>
-        ///  多租户代理应用 
-        /// </summary>
-        Proxy = 60,
-
-        /// <summary>
-        ///  内部单租户应用
-        /// </summary>
-        Inner = 90,
-
-        /// <summary>
-        ///   外部单租户应用
-        /// </summary>
-        Outer = 120
-    }
-
+ 
 
 
     /// <summary>
