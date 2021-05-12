@@ -25,7 +25,7 @@ namespace OSS.Core.RepDapper.Basic.Portal.Mos
         /// <summary>
         ///  管理员用户Id
         /// </summary>
-        public string u_id { get; set; }
+        public long u_id { get; set; }
 
         /// <summary>
         /// 管理员名称

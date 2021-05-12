@@ -11,13 +11,20 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="OSS.Adapter.Oauth.WX" Version="1.0.1" />
     <PackageReference Include="OSS.Adapter.SMS.Ali" Version="1.0.0" />
     <PackageReference Include="OSS.Clients.Storage.AliOSS" Version="1.0.0" />
     <PackageReference Include="OSS.Tools.DirConfig" Version="1.2.0" />
+    <PackageReference Include="OSS.Tools.Http" Version="1.3.0" />
+    <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\OSS.Core.RepDapper\OSS.Core.RepDapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Plugs\Notify\NotifyAdapters\SmsHandlers\" />
   </ItemGroup>
 
 </Project>

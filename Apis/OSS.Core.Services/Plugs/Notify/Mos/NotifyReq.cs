@@ -23,10 +23,12 @@ namespace OSS.Core.Services.Plugs.Notify.Mos
         SMS = 20,
         AppMsg = 30
     }
+
     public enum NotifyChannel
     {
-        Self,
-        AliYun,
+        Self=0,
+        AliYun =10 ,
+      
     }
 
     public class NotifyReq

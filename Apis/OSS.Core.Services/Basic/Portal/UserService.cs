@@ -17,32 +17,34 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Common.Helpers;
 using OSS.Core.Infrastructure.BasicMos;
 using OSS.Core.Infrastructure.BasicMos.Enums;
-using OSS.Core.RepDapper.Basic.Portal.Mos;
+using OSS.Core.Infrastructure.BasicMos;
+using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.RepDapper.Basic.Portal;
+using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.Services.Basic.Portal.IProxies;
 
 namespace OSS.Core.Services.Basic.Portal
 {
-    public partial class UserService : BaseService, IUserServiceProxy
+    public partial class UserService :  IUserServiceProxy
     {
         /// <summary>
         ///  添加用户
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public async Task<IdResp<string>> AddUser(UserInfoBigMo user)
+        public async Task<Resp<long>> AddUser(UserInfoBigMo user)
         {
             if (!string.IsNullOrEmpty(user.email))
             {
                 var checkEmailRes =await InsContainer<IPortalServiceProxy>.Instance.CheckIfCanReg(RegLoginType.Email, user.email);
                 if (!checkEmailRes.IsSuccess())
-                    return  new IdResp<string>().WithResp(checkEmailRes);
+                    return  new Resp<long>().WithResp(checkEmailRes);
             }
             if (!string.IsNullOrEmpty(user.mobile))
             {
                 var checkMobileRes = await InsContainer<IPortalServiceProxy>.Instance.CheckIfCanReg(RegLoginType.Mobile, user.mobile);
                 if (!checkMobileRes.IsSuccess())
-                    return new IdResp<string>().WithResp(checkMobileRes);
+                    return new Resp<long>().WithResp(checkMobileRes);
             }
 
             user.InitialBaseFromContext();
@@ -64,14 +66,14 @@ namespace OSS.Core.Services.Basic.Portal
         ///   获取用户信息
         /// </summary>
         /// <returns></returns>
-        public async Task<Resp<UserBasicMo>> GetUserById(string userId)
+        public async Task<Resp<UserBasicMo>> GetUserById(long userId)
         {
             var getRes = (await UserInfoRep.Instance.GetById(userId));
             return new Resp<UserBasicMo>().WithResp(getRes, UserInfoMoMaps.ConvertToMo);
         }
 
 
-        public async Task<Resp> ChangeLockStatus(string uId, bool makeLock)
+        public async Task<Resp> ChangeLockStatus(long uId, bool makeLock)
         {
             return await UserInfoRep.Instance.UpdateStatus(uId, makeLock ? UserStatus.Locked : UserStatus.Normal);
         }

@@ -6,16 +6,20 @@ using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
-using OSS.Core.Infrastructure.BasicMos;
+using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.BasicMos.Enums;
+using OSS.Core.AdminSite.Apis.Permit.Helpers;
+using OSS.Core.AdminSite.Apis.Permit.Reqs;
+using OSS.Core.Infrastructure.BasicMos;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Extensions;
 using OSS.Core.RepDapper.Basic.Permit;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
+using OSS.Core.Services.Basic.Permit.Proxy;
 
 namespace OSS.Core.Services.Basic.Permit
 {
-    public class PermitService:BaseService
+    public class PermitService: IPermitService
     {
         #region 角色查询修改处理 
 
@@ -24,7 +28,7 @@ namespace OSS.Core.Services.Basic.Permit
         /// </summary>
         /// <param name="rMo"></param>
         /// <returns></returns>
-        public async Task<IdResp<string>> RoleAdd(RoleMo rMo)
+        public async Task<Resp<long>> RoleAdd(RoleMo rMo)
         {
             rMo.InitialBaseFromContext();
             return await RoleRep.Instance.Add(rMo);
@@ -54,12 +58,12 @@ namespace OSS.Core.Services.Basic.Permit
         }
 
         /// <summary>
-        ///  更新角色
+        ///  更新角色名称
         /// </summary>
         /// <param name="rid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public async Task<Resp> RoleUpdate(string rid, string name)
+        public async Task<Resp> RoleUpdate(long rid, string name)
         {
             return await RoleRep.Instance.UpdateName(rid,name);
         }
@@ -69,9 +73,9 @@ namespace OSS.Core.Services.Basic.Permit
         /// </summary>
         /// <param name="rid"></param>
         /// <returns></returns>
-        public Task<Resp> RoleActive(string rid)
+        public Task<Resp> RoleActive(long rid)
         {
-            return UpdateRoleStatus(rid, CommonStatus.Original);
+            return RoleRep.Instance.UpdateStatus(rid, CommonStatus.Original);
         }
 
         /// <summary>
@@ -79,7 +83,7 @@ namespace OSS.Core.Services.Basic.Permit
         /// </summary>
         /// <param name="rid"></param>
         /// <returns></returns>
-        public async Task<Resp> RoleUnActive(string rid)
+        public async Task<Resp> RoleUnActive(long rid)
         {
             var countRes = await RoleUserRep.Instance.GetUserCountByRoleId(rid);
             if (!countRes.IsSuccess())
@@ -87,7 +91,7 @@ namespace OSS.Core.Services.Basic.Permit
 
             if (countRes.data == 0)
             {
-                return await UpdateRoleStatus(rid, CommonStatus.UnActived);
+                return await RoleRep.Instance.UpdateStatus(rid, CommonStatus.UnActived);
             }
             return new Resp(RespTypes.ObjectStateError,"当前角色已绑定用户，请取消用户绑定后再操作！");
         }
@@ -97,35 +101,14 @@ namespace OSS.Core.Services.Basic.Permit
         /// </summary>
         /// <param name="rid"></param>
         /// <returns></returns>
-        public Task<Resp> RoleDelete(string rid)
+        public Task<Resp> RoleDelete(long rid)
         {
-            return UpdateRoleStatus(rid, CommonStatus.Deleted);
-        }
-
-        private Task<Resp> UpdateRoleStatus(string rid, CommonStatus status)
-        {
-            return RoleRep.Instance.UpdateStatus(rid, status);
+            return RoleRep.Instance.UpdateStatus(rid, CommonStatus.Deleted);
         }
 
         #endregion
 
-
         #region 角色权限Func关联管理
-
-        /// <summary>
-        ///  获取当前授权用户下所有角色对应的全部权限列表
-        ///    （ 10 分钟左右缓存误差）
-        /// </summary>
-        /// <returns></returns>
-        public Task<ListResp<RoleFunSmallMo>> GetAuthUserFuncList()
-        {
-            var userIdentity = UserContext.Identity;
-            var key = string.Concat(CoreCacheKeys.Perm_UserRoles_ByUId, userIdentity.id);
-
-            Func<Task<ListResp<RoleFunSmallMo>>> getFunc = () => GetUserAllFuncsNoCache(userIdentity.id);
-
-            return getFunc.WithAbsoluteCache(key, TimeSpan.FromMinutes(10));
-        }
 
         /// <summary>
         ///  获取当前角色下权限项列表
@@ -155,9 +138,62 @@ namespace OSS.Core.Services.Basic.Permit
             return RoleFuncRep.Instance.ChangeRoleFuncItems(rid, addList, delete_items);
         }
 
-
-        private async Task<ListResp<RoleFunSmallMo>> GetUserAllFuncsNoCache(string userId)
+        /// <summary>
+        ///  判断登录用户是否具有某权限
+        /// </summary>
+        /// <param name="funcCode"></param>
+        /// <returns></returns>
+        public async Task<Resp> CheckIfHaveFunc(string funcCode)
         {
+            var memIdentity = UserContext.Identity;
+            if (memIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
+                return new Resp();
+
+            var userFunc = await GetMyFuncs();
+            if (!userFunc.IsSuccess() || userFunc.data.All(f => f.func_code != funcCode))
+                return new Resp().WithResp(RespTypes.NoPermission, "无此权限！");
+
+            return new Resp();
+        }
+
+        /// <summary>
+        ///  获取当前授权用户下所有角色对应的全部权限列表
+        ///    （ 10 分钟左右缓存误差）
+        /// </summary>
+        /// <returns></returns>
+        public Task<ListResp<RoleFunSmallMo>> GetMyFuncs()
+        {
+            var userIdentity = UserContext.Identity;
+            var key = string.Concat(CacheKeys.Perm_UserFuncs_ByUId, userIdentity.id);
+
+            Func<Task<ListResp<RoleFunSmallMo>>> getFunc = () => GetUserAllFuncsNoCache();
+
+            return getFunc.WithAbsoluteCache(key, TimeSpan.FromMinutes(10));
+        }
+        /// <summary>
+        ///  获取系统所有权限项
+        /// </summary>
+        /// <returns></returns>
+        public Task<ListResp<FuncBigItem>> GetAllFuncItems() 
+        {
+            return FuncHelper.GetAllFuncItems();
+        }
+
+
+        private async Task<ListResp<RoleFunSmallMo>> GetUserAllFuncsNoCache()
+        {
+            var userIdentity = UserContext.Identity;          
+            if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin) {
+                // 如果是超级管理员直接返回所有
+                var sysFunItemsRes = await FuncHelper.GetAllFuncItems();
+                if (!sysFunItemsRes.IsSuccess())
+                    return new ListResp<RoleFunSmallMo>().WithResp(sysFunItemsRes);
+
+                var roleItems = sysFunItemsRes.data.Select(item => item.ToSmallMo()).ToList();
+                return new ListResp<RoleFunSmallMo>(roleItems);
+            }
+
+            var userId = userIdentity.id;
             var roleIdsRes = await GetUserRoles(userId);
             if (!roleIdsRes.IsSuccess())
                 return new ListResp<RoleFunSmallMo>().WithResp(roleIdsRes);
@@ -206,7 +242,7 @@ namespace OSS.Core.Services.Basic.Permit
         /// </summary>
         /// <param name="ruMo"></param>
         /// <returns></returns>
-        public Task<IdResp<string>> AddRoleBind(RoleUserMo ruMo)
+        public Task<Resp<long>> AddRoleBind(RoleUserMo ruMo)
         {
             ruMo.InitialBaseFromContext();
             return RoleUserRep.Instance.Add(ruMo);
@@ -217,12 +253,12 @@ namespace OSS.Core.Services.Basic.Permit
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Task<Resp> DeleteRoleBind(string id)
+        public Task<Resp> DeleteRoleBind(long id)
         {
             return UpdateRoleUserStatus(id,CommonStatus.Deleted);
         }
 
-        private Task<Resp> UpdateRoleUserStatus(string id, CommonStatus status)
+        private Task<Resp> UpdateRoleUserStatus(long id, CommonStatus status)
         {
             return RoleUserRep.Instance.UpdateStatus(id, status);
         }

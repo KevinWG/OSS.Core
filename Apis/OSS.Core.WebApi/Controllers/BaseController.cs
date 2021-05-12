@@ -5,19 +5,26 @@ using OSS.Common.BasicMos.Resp;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace OSS.Core.WebApi.Controllers
+namespace OSS.Core.CoreApi.Controllers
 {
     public class BaseController : ControllerBase
     {
-        protected static Resp ParaErrorResp { get; }= new Resp(RespTypes.ParaError, "请求参数错误!");
-
         /// <summary>
         /// 获取验证失败列表信息
         /// </summary>
         /// <returns></returns>
         protected Resp GetInvalidResp()
         {
-            return new Resp(RespTypes.ParaError,GetInvalidMsg());
+            return new Resp(RespTypes.ParaError, GetInvalidMsg());
+        }
+
+        /// <summary>
+        /// 获取验证失败列表信息
+        /// </summary>
+        /// <returns></returns>
+        protected Resp<T> GetInvalidResp<T>()
+        {
+            return new Resp<T>().WithResp(GetInvalidResp());
         }
 
         /// <summary>
@@ -26,7 +33,10 @@ namespace OSS.Core.WebApi.Controllers
         /// <returns></returns>
         protected string GetInvalidMsg()
         {
-            var strMsgBuilder=new StringBuilder();
+            if (!ModelState.Keys.Any()) 
+                return "请求参数错误！";
+
+            var strMsgBuilder = new StringBuilder();
             foreach (var name in ModelState.Keys)
             {
                 var modelState = ModelState[name];
@@ -34,14 +44,11 @@ namespace OSS.Core.WebApi.Controllers
                 {
                     strMsgBuilder.Append("[").Append(name).Append("]")
                         .Append(modelState.Errors.First().ErrorMessage).Append(",");
-                } 
+                }
             }
-
-            return strMsgBuilder.ToString().TrimEnd(',');
+            var erMsg= strMsgBuilder.ToString().TrimEnd(',');
+            return string.IsNullOrEmpty(erMsg) ? "请求参数错误！" : erMsg;
         }
-
-     
-     
     }
-  
+
 }

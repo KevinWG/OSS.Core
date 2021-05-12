@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OSS.Clients.SMS.Ali.Reqs;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Helpers;
-using OSS.Core.Services.Plugs.Config.IProxies;
-using OSS.Core.Services.Plugs.Notify.EmailImp.Mos;
+using OSS.Tools.DirConfig;
+using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Plugs.Notify.Mos;
+using OSS.Core.Services.Plugs.Notify.NotifyAdapters.EmailHandlers.Mos;
 
 namespace OSS.Core.Services.Plugs.Notify
 {
@@ -14,80 +13,94 @@ namespace OSS.Core.Services.Plugs.Notify
     /// </summary>
     public partial class NotifyService
     {
-        private static Resp<NotifyTemplateMo> GetMsgTemplate(string tCode)
+        #region 账号配置
+
+        #region 短信
+
+        #endregion
+
+        #region 邮箱
+
+        /// <summary>
+        ///   获取邮箱账号配置 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Resp<EmailSmtpConfig>> GetEmailConfig()
         {
-            return _templates.TryGetValue(tCode, out NotifyTemplateMo template)
-                ? new Resp<NotifyTemplateMo>(template)
-                : new Resp<NotifyTemplateMo>().WithResp(RespTypes.ObjectNull, "没有对应模板");
+            var config = await DirConfigHelper.GetDirConfig<EmailSmtpConfig>(DirConfigKeys.plugs_notify_email_defult);
+            if (config == null)
+            {
+                return new Resp<EmailSmtpConfig>().WithResp(RespTypes.ObjectNull, "未发现配置信息");
+            }
+            return new Resp<EmailSmtpConfig>(config);
         }
+
+        /// <summary>
+        /// 设置邮箱账号配置信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Resp> SetEmailConfig(EmailSmtpConfig config)
+        {
+            var res = await DirConfigHelper.SetDirConfig(DirConfigKeys.plugs_notify_email_defult, config);
+            return res ? new Resp() : new Resp(RespTypes.OperateFailed, "设置华为云短信账号信息失败！");
+        }
+
+
+        #endregion
+
+        #endregion
 
         #region 设置默认模板
 
-        //  todo 后续修改为数据库配置，界面管理
-        private static readonly Dictionary<string, NotifyTemplateMo> _templates =
-            new Dictionary<string, NotifyTemplateMo>();
-
-        private static void RegisterTemplate(NotifyTemplateMo template)
-        {
-            _templates.Add(template.t_code, template);
-        }
-
+        private static readonly Dictionary<string, string> _tempalteDirs;
         static NotifyService()
         {
-            RegisterTemplate(new NotifyTemplateMo()
+            _tempalteDirs = new Dictionary<string, string>
             {
-                content =
-                    " 系统 {module_name}  模块日志 <br/>    日志等级：{level}<br/>    日志key：{msg_key} <br/>    日志唯一编码：{log_id}    日志详情：{msg_body}<br/>",
-                is_html = true,
-                title = "系统日志",
-                sign_name = "【系统】",
-
-                t_code = "Email_Log_NotifyDetail",
-                notify_type = NotifyType.Email
-            });
-
-
-            RegisterTemplate(new NotifyTemplateMo()
-            {
-                content = "你当前的动态码为：{code},如果不是你本人的操作,请忽略本条信息！",
-                is_html = true,
-                title = "动态验证码服务（注册/登录）",
-                sign_name = "[淘梦科技]",
-
-                t_code = "Email_Portal_LoginCode",
-                notify_type = NotifyType.Email
-            });
-
-            RegisterTemplate(new NotifyTemplateMo()
-            {
-                sign_name = "千贝云",
-                t_code = "SMS_Portal_LoginCode",
-                t_plat_code = "SMS_126865409",
-                notify_type = NotifyType.SMS,
-                notify_channel = NotifyChannel.AliYun
-            });
+                { DirConfigKeys.plugs_notify_email_log_tcode, "邮件日志模板" },
+                { DirConfigKeys.plugs_notify_email_portal_tcode, "邮件登录验证码模板" },
+                { DirConfigKeys.plugs_notify_sms_portal_tcode, "短信登录验证码模板" }
+            };
         }
 
-        #endregion
-
-        #region 相关账号设置
-        
-        private const string _aliSmsConfigKey = "plugs_notify_sms_ali";
-        public Task<Resp<AliSmsConfig>> GetAliSmsConfig(bool isFromLogModule = false)
+        /// <summary>
+        ///  获取配置模板code字典
+        /// </summary>
+        /// <returns></returns>
+        public Resp<Dictionary<string, string>> GetTemplateDirs()
         {
-            // 可扩展租户平台处理
-            return InsContainer<IDirConfigServiceProxy>.Instance.GetConfig<AliSmsConfig>(_aliSmsConfigKey, isFromLogModule);
+            return new Resp<Dictionary<string, string>>(_tempalteDirs);
         }
 
-        // todo  后续可以配置和模板code关联
-        private const string _emailConfigKey = "plugs_notify_email";
-        public  Task<Resp<EmailSmtpConfig>>  GetEmailConfig(bool isFromLogModule = false)
-        { 
-            // 可扩展租户平台处理
-           return InsContainer<IDirConfigServiceProxy>.Instance.GetConfig<EmailSmtpConfig>(_emailConfigKey, isFromLogModule);
+        /// <summary>
+        ///   获取通知模板 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Resp<NotifyTemplateConfig>> GetTemplateConfig(string templateCode)
+        {
+            string dirKey = string.Concat(DirConfigKeys.plugs_notify_template_bycode, templateCode);
+
+            var config = await DirConfigHelper.GetDirConfig<NotifyTemplateConfig>(dirKey);
+            if (config == null)
+            {
+                return new Resp<NotifyTemplateConfig>().WithResp(RespTypes.ObjectNull, "未发现配置信息");
+            }
+            return new Resp<NotifyTemplateConfig>(config);
         }
 
+
+        /// <summary>
+        /// 设置通知模板信息
+        /// </summary>
+        /// <returns></returns>
+        public async Task<Resp> SetTemplateConfig(string templateCode, NotifyTemplateConfig config)
+        {
+            string dirKey = string.Concat(DirConfigKeys.plugs_notify_template_bycode, templateCode);
+            var res = await DirConfigHelper.SetDirConfig(dirKey, config);
+            return res ? new Resp() : new Resp(RespTypes.OperateFailed, "设置华为云短信账号信息失败！");
+        }
 
         #endregion
+
     }
 }

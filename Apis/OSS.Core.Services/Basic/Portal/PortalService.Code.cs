@@ -17,15 +17,15 @@ using System.Threading.Tasks;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Helpers;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.Services.Basic.Portal.Mos;
-using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Helpers;
 using OSS.Core.RepDapper.Basic.Portal;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 using OSS.Core.Services.Plugs.Notify.IProxies;
 using OSS.Core.Services.Plugs.Notify.Mos;
 using OSS.Tools.Cache;
+using OSS.Core.Infrastructure.BasicMos.Enums;
+using OSS.Core.Infrastructure.Const;
+using OSS.Core.Infrastructure.Helpers;
 
 namespace OSS.Core.Services.Basic.Portal
 {
@@ -122,14 +122,17 @@ namespace OSS.Core.Services.Basic.Portal
             {
                 targets    = new List<string>() {loginName},
                 body_paras = new Dictionary<string, string> {{"code", code}},
-                t_code     = type == RegLoginType.Mobile ? "SMS_Portal_LoginCode" : "Email_Portal_LoginCode"
+
+                t_code     = type == RegLoginType.Mobile 
+                ? DirConfigKeys.plugs_notify_sms_portal_tcode 
+                : DirConfigKeys.plugs_notify_email_portal_tcode
             };
 
             var res = await InsContainer<INotifyServiceProxy>.Instance.Send(notifyMsg);
             if (!res.IsSuccess())
                 return res ?? new Resp().WithResp(RespTypes.UnKnowSource, "未知类型！");
 
-            var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
             await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
             return res;
         }
@@ -144,13 +147,18 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         private static async Task<Resp> CheckPasscode(string loginName, string passcode)
         {
+            if (AppInfoHelper.IsDev && passcode == "1111")
+            {
+                return new Resp();
+            }
+
 #if DEBUG
             if (AppInfoHelper.IsDev && passcode=="1111")
             {
                 return new Resp();
             }
 #endif
-            var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
             var code =await CacheHelper.GetAsync<string>(key);
 
             if (string.IsNullOrEmpty(code) || passcode != code)

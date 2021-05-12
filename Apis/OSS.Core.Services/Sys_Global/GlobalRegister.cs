@@ -3,17 +3,16 @@ using System.Net;
 using OSS.Common.BasicImpls;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
-using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Basic.Portal;
 using OSS.Core.Services.Basic.Portal.IProxies;
-using OSS.Core.Services.Plugs.Config;
-using OSS.Core.Services.Plugs.Config.IProxies;
-using OSS.Core.Services.Plugs.Log;
-using OSS.Core.Services.Plugs.Log.IProxies;
 using OSS.Core.Services.Plugs.Notify;
 using OSS.Core.Services.Plugs.Notify.IProxies;
 using OSS.Tools.DirConfig;
 using OSS.Tools.Log;
+using OSS.Core.Infrastructure.Const;
+using OSS.Core.Services.Sys_Global.Log;
+using OSS.Core.Services.Basic.Permit.Proxy;
+using OSS.Core.Services.Basic.Permit;
 
 namespace OSS.Core.Services.Sys_Global
 {
@@ -25,9 +24,8 @@ namespace OSS.Core.Services.Sys_Global
         public static void RegisterConfig()
         {
             SettingGlobal();
-            RegisterOSSTools();
-
             RegisterServiceProxies();
+            RegisterOSSTools();
         }
 
         /// <summary>
@@ -35,14 +33,17 @@ namespace OSS.Core.Services.Sys_Global
         /// </summary>
         private static void RegisterServiceProxies()
         {
-            //basic-portal
+            //basic
             InsContainer<IPortalServiceProxy>.Set<PortalService>();
             InsContainer<IUserServiceProxy>.Set<UserService>();
 
+            InsContainer<IPermitService>.Set<PermitService>();
+
+            // core
+
+
             //plugs
             InsContainer<INotifyServiceProxy>.Set<NotifyService>();
-            InsContainer<IDirConfigServiceProxy>.Set<DirConfigService>();
-            InsContainer<ILogServiceProxy>.Set<LogService>();
         }
 
         private static void RegisterOSSTools()
@@ -57,7 +58,7 @@ namespace OSS.Core.Services.Sys_Global
                 if (appIdentity == null)
                     return;
 
-                if (!string.IsNullOrEmpty(appIdentity.module_name) && log.source_name == CoreModuleNames.Default)
+                if (!string.IsNullOrEmpty(appIdentity.module_name) && log.source_name == ModuleNames.Default)
                 {
                     log.source_name = AppReqContext.Identity?.module_name;
                 }
@@ -71,6 +72,8 @@ namespace OSS.Core.Services.Sys_Global
         /// </summary>
         private static void SettingGlobal()
         {
+            ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+
             // 修改底层Http连接数限制
             ServicePointManager.DefaultConnectionLimit = 512;
         }

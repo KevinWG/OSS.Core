@@ -14,13 +14,13 @@
 using System;
 using System.Threading.Tasks;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 
 namespace OSS.Core.RepDapper.Basic.Portal
 {
-    public class OauthUserRep:BaseTenantRep<OauthUserRep,OauthUserMo>
+    public class OauthUserRep:BaseRep<OauthUserRep,OauthUserMo>
     {
         protected override string GetTableName()
         {
@@ -35,8 +35,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         public async Task<Resp<OauthUserMo>> GetOauthUserByAppUserId(string appUId, SocialPlatform plat)
         {
             return await Get(u => u.app_user_id == appUId
-                                               && u.owner_tid == OwnerTId 
-                                               && u.social_plat == plat);
+                                  && u.social_plat == plat);
         }
 
 
@@ -59,15 +58,15 @@ namespace OSS.Core.RepDapper.Basic.Portal
                     u.refresh_token,
                     u.status
                 },
-                w => w.id == user.id && w.owner_tid==user.owner_tid, user);
+                w => w.id == user.id , user);
         }
 
 
 
-        public override Task<Resp<OauthUserMo>> GetById(string id)
-        {
-            return base.GetById(id);
-        }
+        //public override Task<Resp<OauthUserMo>> GetById(string id)
+        //{
+        //    return base.GetById(id);
+        //}
 
         /// <summary>
         ///   更新第三方用户信息的绑定用户id
@@ -75,11 +74,11 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <param name="oauthUserId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<Resp> BindUserIdByOauthId(string oauthUserId, string userId)
+        public async Task<Resp> BindUserIdByOauthId(long oauthUserId, long userId)
         {
             var mTime = DateTime.Now.ToUtcSeconds();
             return await Update(u => new { u_id = userId, status=UserStatus.Normal,m_time= mTime },
-                w => w.id == oauthUserId && w.owner_tid == OwnerTId);
+                w => w.id == oauthUserId );
         }
     }
 }

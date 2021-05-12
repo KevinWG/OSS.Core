@@ -14,24 +14,26 @@
 using System.Threading.Tasks;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Encrypt;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
-
-using OSS.Core.Infrastructure.BasicMos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.RepDapper.Basic.Portal;
-using OSS.Core.RepDapper.Basic.Portal.Mos;
+using OSS.Core.RepDapper.Basic.Portal.Mos; 
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 using OSS.Core.Services.Basic.Portal.Events;
 using OSS.Core.Services.Basic.Portal.IProxies;
 using OSS.Core.Services.Basic.Portal.Mos;
 using OSS.Tools.Config;
+using OSS.Core.Infrastructure.BasicMos;
+using OSS.Core.Infrastructure.BasicMos.Enums;
+using OSS.Core.Infrastructure.Const;
+using System;
+using OSS.Core.Infrastructure.Extensions;
 
 namespace OSS.Core.Services.Basic.Portal
 {
-    public partial class PortalService : BaseService, IPortalServiceProxy
+    public partial class PortalService : IPortalServiceProxy
     {
         /// <summary>
         ///     检查账号是否可以注册
@@ -57,13 +59,18 @@ namespace OSS.Core.Services.Basic.Portal
         ///  获取授权账号信息
         /// </summary>
         /// <returns></returns>
-        public async Task<Resp<UserIdentity>> GetAuthIdentity()
+        public Task<Resp<UserIdentity>> GetMyself()
         {
-            var infoRes = FormatPortalToken();
-            if (!infoRes.IsSuccess())
-                return new Resp<UserIdentity>().WithResp(infoRes);
+            var cacheKey = string.Concat(CacheKeys.Portal_UserIdentity_ByToken, AppReqContext.Identity.token);
+            Func<Task<Resp<UserIdentity>>> getFunc = () =>
+            {
+                var infoRes = FormatPortalToken();
+                if (!infoRes.IsSuccess())
+                    return Task.FromResult(new Resp<UserIdentity>().WithResp(infoRes));
 
-            return await GetAuthIdentityById(infoRes.data.userId, infoRes.data.authType,infoRes.data.plat);
+                return GetAuthIdentityById(infoRes.data.userId, infoRes.data.authType, infoRes.data.plat);
+            };
+            return getFunc.WithAbsoluteCache(cacheKey, TimeSpan.FromMinutes(5));
         }
 
         #region 注册登录辅助方法
@@ -128,7 +135,7 @@ namespace OSS.Core.Services.Basic.Portal
             {
                 auth_type = authType,
 
-                id     = user.id,
+                id     = user.id.ToString(),
                 name   = user.nick_name,
                 avatar = user.avatar
             };
@@ -165,7 +172,7 @@ namespace OSS.Core.Services.Basic.Portal
         }
 
 
-        private async Task<Resp<SocialPlatform>> BindTempOauthUserToUser(string userId)
+        private async Task<Resp<SocialPlatform>> BindTempOauthUserToUser(long userId)
         {
             var tokenDetailRes = FormatPortalToken();
             if (!tokenDetailRes.IsSuccess())
@@ -173,7 +180,6 @@ namespace OSS.Core.Services.Basic.Portal
 
             if (tokenDetailRes.data.authType != PortalAuthorizeType.OauthTemp)
                 return new Resp<SocialPlatform>().WithResp(RespTypes.ObjectStateError, "未发现第三方临时授权信息！");
-
 
             var oauthUserId = tokenDetailRes.data.userId;
             var bindRes     = await OauthUserRep.Instance.BindUserIdByOauthId(oauthUserId, userId);
@@ -185,13 +191,11 @@ namespace OSS.Core.Services.Basic.Portal
             return new Resp<SocialPlatform>(tokenDetailRes.data.plat);
         }
 
-
-
         #endregion
 
         #region 通过授权类型和Id获取授权信息
 
-        private static async Task<Resp<UserIdentity>> GetAuthIdentityById(string userId,
+        private static async Task<Resp<UserIdentity>> GetAuthIdentityById(long userId,
             PortalAuthorizeType authType, SocialPlatform fromPlat)
         {
             Resp<UserIdentity> identityRes;
@@ -217,6 +221,10 @@ namespace OSS.Core.Services.Basic.Portal
                     break;
             }
 
+            if (!string.IsNullOrEmpty(identityRes.data?.avatar))
+            {
+                identityRes.data.avatar = string.Concat(identityRes.data.avatar, ImageStyle.avatar_style);
+            }
             return identityRes;
         }
 
@@ -230,8 +238,8 @@ namespace OSS.Core.Services.Basic.Portal
 
             var identity = new UserIdentity
             {
-                id        = user.id,
-                name      = user.nick_name,
+                id        = user.id.ToString(),
+                name      = user.nick_name??user.mobile??user.email,
                 avatar    = user.avatar,
                 from_plat = (int) fromPlat,
 
@@ -249,7 +257,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             var identity = new UserIdentity
             {
-                id        = admin.u_id, // 使用用户表的Id
+                id        = admin.u_id.ToString(), // 使用用户表的Id
                 name      = admin.admin_name,
                 avatar    = admin.avatar,
                 from_plat = (int) fromPlat,
@@ -271,7 +279,7 @@ namespace OSS.Core.Services.Basic.Portal
             //  此场景是给用户授权后选择是否绑定已有账户页面使用
             var identity = new UserIdentity
             {
-                id        = oauthUser.id,
+                id        = oauthUser.id.ToString(),
                 name      = oauthUser.nick_name,
                 avatar    = oauthUser.head_img,
                 from_plat = (int) fromPlat,
@@ -329,30 +337,31 @@ namespace OSS.Core.Services.Basic.Portal
         }
 
 
-        private static Resp<(string userId, PortalAuthorizeType authType, SocialPlatform plat)> FormatPortalToken()
+        private static Resp<(long userId, PortalAuthorizeType authType, SocialPlatform plat)> FormatPortalToken()
         {
             var appInfo = AppReqContext.Identity;
             if (string.IsNullOrEmpty(appInfo.token))
-                return new Resp<(string, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnLogin,
+                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnLogin,
                     "用户未登录");
 
             var tokenDetail = UserContext.GetTokenDetail(_portalTokenSecret, appInfo.token);
             var tokenSplit = tokenDetail.Split('|');
             if (tokenSplit.Length != 5)
-                return new Resp<(string, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,
+                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,
                     "非合法授权来源!");
 
             var tenantId = tokenSplit[1];
-            var userId   = tokenSplit[0];
+            var userId   = tokenSplit[0].ToInt64();
 
-            if (tenantId != appInfo.tenant_id || string.IsNullOrEmpty(userId))
-                return new Resp<(string, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,
+            if ( !string.IsNullOrEmpty(appInfo.tenant_id) && tenantId != appInfo.tenant_id 
+                || userId<=0)
+                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,
                     "非合法授权来源!");
 
             var authType = (PortalAuthorizeType) tokenSplit[2].ToInt32();
             var plat     = (SocialPlatform) tokenSplit[3].ToInt32();
 
-            return new Resp<(string, PortalAuthorizeType, SocialPlatform plat)>()
+            return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>()
             {
                 data = (userId, authType, plat)
             };

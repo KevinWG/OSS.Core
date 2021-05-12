@@ -9,7 +9,7 @@ using OSS.Core.RepDapper.Basic.Permit.Mos;
 
 namespace OSS.Core.RepDapper.Basic.Permit
 {
-    public class RoleFuncRep : BaseTenantRep<RoleFuncRep, RoleFuncMo>
+    public class RoleFuncRep : BaseRep<RoleFuncRep, RoleFuncMo>
     {
         protected override string GetTableName()
         {
@@ -22,11 +22,11 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(string roleId)
         {
-            var key = string.Concat(CoreCacheKeys.Perm_RoleFuncs_ByRId, roleId);
-            var sql = string.Concat("select * from ", TableName, " where role_id=@role_id and status>@status and owner_tid=@owner_tid");
+            var key = string.Concat(CacheKeys.Perm_RoleFuncs_ByRId, roleId);
+            var sql = string.Concat("select * from ", TableName, " where role_id=@role_id and status>@status ");
 
             Func<Task<ListResp<RoleFunSmallMo>>> getFunc = () =>
-                GetList<RoleFunSmallMo>(sql, new {role_id = roleId, status = CommonStatus.Deleted, owner_tid = OwnerTId});
+                GetList<RoleFunSmallMo>(sql, new {role_id = roleId, status = CommonStatus.Deleted});
 
           return  getFunc.WithCache(key, TimeSpan.FromHours(2));
         }
@@ -35,13 +35,13 @@ namespace OSS.Core.RepDapper.Basic.Permit
         ///  获取多个角色的权限列表
         /// </summary>
         /// <returns></returns> 
-        public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(List<string> roleIds)
+        public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(List<long> roleIds)
         {
             var sql = string.Concat("select func_code,data_level from ", TableName, " where role_id in (",
                 SqlFilter(string.Join(",",roleIds)),
-                ") and status>@status and owner_tid=@owner_tid");
+                ") and status>@status");
 
-            return GetList<RoleFunSmallMo>(sql, new {status = CommonStatus.Deleted, owner_tid = OwnerTId});
+            return GetList<RoleFunSmallMo>(sql, new {status = CommonStatus.Deleted});
         }
 
         /// <summary>
@@ -53,15 +53,15 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public async Task<Resp> ChangeRoleFuncItems(string rid, List<RoleFuncMo> addItems, List<string> deleteItems)
         {
-            var key = string.Concat(CoreCacheKeys.Perm_RoleFuncs_ByRId, rid);
+            var key = string.Concat(CacheKeys.Perm_RoleFuncs_ByRId, rid);
             if (deleteItems?.Count>0)
             {
                 var softDeleteWhereSql =
-                    " role_id=@role_id and status>@status and owner_tid=@owner_tid and func_code in ('" +
+                    " role_id=@role_id and status>@status and func_code in ('" +
                     SqlFilter(string.Join(",", deleteItems)).Replace(",", "','") + "')";
 
                 var sdRes = await SoftDelete(softDeleteWhereSql,
-                    new { status = CommonStatus.Deleted, role_id = rid, owner_tid = OwnerTId }).WithCacheClear(key);
+                    new { status = CommonStatus.Deleted, role_id = rid }).WithCacheClear(key);
 
                 if (!sdRes.IsSuccess() || !(addItems?.Count > 0))
                     return sdRes;

@@ -7,7 +7,11 @@ namespace OSS.Core.Services.Basic.Portal.IProxies
 {
     public interface IPortalServiceProxy
     {
-        Task<Resp<UserIdentity>> GetAuthIdentity();
+        /// <summary>
+        ///  获取登录用户自己信息
+        /// </summary>
+        /// <returns></returns>
+        Task<Resp<UserIdentity>> GetMyself();
 
         /// <summary>
         ///  判断是否可以注册

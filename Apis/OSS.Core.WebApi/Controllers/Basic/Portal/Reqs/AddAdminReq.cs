@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 
-namespace OSS.Core.WebApi.Controllers.Basic.Portal.Reqs
+namespace OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs
 {
     public class AddAdminReq
     {
         [Required]
-        public string u_id { get; set; }
+        public long u_id { get; set; }
 
         [Required]
         public string admin_name { get; set; }

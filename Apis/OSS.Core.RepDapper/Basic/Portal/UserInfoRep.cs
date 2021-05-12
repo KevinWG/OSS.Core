@@ -13,17 +13,19 @@
 
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks; 
+using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
+using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Extensions;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
+using UserStatus = OSS.Core.RepDapper.Basic.Portal.Mos.UserStatus;
 
 namespace OSS.Core.RepDapper.Basic.Portal
 {
-    public class UserInfoRep : BaseTenantRep<UserInfoRep,UserInfoBigMo>
+    public class UserInfoRep : BaseRep<UserInfoRep,UserInfoBigMo>
     {
         protected override string GetTableName()
         {
@@ -57,14 +59,14 @@ namespace OSS.Core.RepDapper.Basic.Portal
         public async Task<Resp<UserInfoBigMo>> GetUserByLoginType(string name, RegLoginType type)
         {
             return await (type == RegLoginType.Mobile
-                ? Get(u => u.mobile == name && u.owner_tid == OwnerTId && u.status >= UserStatus.Locked)
-                : Get(u => u.email == name && u.owner_tid == OwnerTId && u.status >= UserStatus.Locked));
+                ? Get(u => u.mobile == name  && u.status >= UserStatus.Locked)
+                : Get(u => u.email == name  && u.status >= UserStatus.Locked));
         }
 
-        public override Task<Resp<UserInfoBigMo>> GetById(string id)
+        public override Task<Resp<UserInfoBigMo>> GetById(long id)
         {
             Func<Task<Resp<UserInfoBigMo>>> getFunc = () => base.GetById(id);
-            var userKey = string.Concat(CoreCacheKeys.Portal_User_ById, id);
+            var userKey = string.Concat(CacheKeys.Portal_User_ById, id);
 
             return getFunc.WithCache(userKey, TimeSpan.FromHours(1));
         }
@@ -76,10 +78,10 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <param name="id"></param>
         /// <param name="state"></param>
         /// <returns></returns>
-        public Task<Resp> UpdateStatus(string id, UserStatus state)
+        public Task<Resp> UpdateStatus(long id, UserStatus state)
         {
-            var userKey = string.Concat(CoreCacheKeys.Portal_User_ById, id);
-            return Update(t => new { status = state }, t => t.id == id && t.owner_tid == OwnerTId)
+            var userKey = string.Concat(CacheKeys.Portal_User_ById, id);
+            return Update(t => new { status = state }, t => t.id == id )
                 .WithCacheClear(userKey);
         }
 

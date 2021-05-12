@@ -11,7 +11,7 @@ using OSS.Core.RepDapper.Basic.Permit.Mos;
 
 namespace OSS.Core.RepDapper.Basic.Permit
 {
-    public class RoleUserRep : BaseTenantRep<RoleUserRep, RoleUserMo>
+    public class RoleUserRep : BaseRep<RoleUserRep, RoleUserMo>
     {
         protected override string GetTableName()
         {
@@ -25,12 +25,12 @@ namespace OSS.Core.RepDapper.Basic.Permit
         public Task<ListResp<string>> GetRoleIdsByUserId(string userId)
         {
             var sql = string.Concat("select role_id from ", TableName,
-                " where u_id=@u_id and status>@status and owner_tid=@owner_tid");
+                " where u_id=@u_id and status>@status");
 
-            var cacheKey = string.Concat(CoreCacheKeys.Perm_UserRoles_ByUId, userId);
+            var cacheKey = string.Concat(CacheKeys.Perm_UserRoles_ByUId, userId);
 
             Func<Task<ListResp<string>>> getFunc = () =>
-                GetList<string>(sql, new {u_id = userId, owner_tid = OwnerTId, status = (int) CommonStatus.Deleted});
+                GetList<string>(sql, new {u_id = userId,  status = (int) CommonStatus.Deleted});
 
             return getFunc.WithAbsoluteCache(cacheKey, TimeSpan.FromMinutes(5));
         }
@@ -41,12 +41,12 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        public Task<Resp<int>> GetUserCountByRoleId(string roleId)
+        public Task<Resp<int>> GetUserCountByRoleId(long roleId)
         {
             var sql = string.Concat("select count(1) from ", TableName,
-                " where role_id=@role_id and status>@status and owner_tid=@owner_tid");
+                " where role_id=@role_id and status>@status");
 
-            return Get<int>(sql, new {role_id = roleId, owner_tid = OwnerTId, status = (int) CommonStatus.Deleted});
+            return Get<int>(sql, new {role_id = roleId, status = (int) CommonStatus.Deleted});
         }
 
         /// <summary>
@@ -55,9 +55,9 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <param name="id"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public Task<Resp> UpdateStatus(string id, CommonStatus status)
+        public Task<Resp> UpdateStatus(long id, CommonStatus status)
         {
-            return Update(u=>new {u.status},w=>w.id==id && w.owner_tid==OwnerTId,new{status});
+            return Update(u=>new {u.status},w=>w.id==id ,new{status});
         }
         
         /// <summary>
@@ -91,10 +91,10 @@ namespace OSS.Core.RepDapper.Basic.Permit
             switch (key)
             {
                 case "r_name":
-                    return "rt.`name` LIKE '%" + SqlFilter(value) + "%'";
+                    return "rt.`name` LIKE '%" + SqlFilter(value.ToString()) + "%'";
 
                 case "u_name":
-                    return "t.`u_name` LIKE '%" + SqlFilter(value) + "%'";
+                    return "t.`u_name` LIKE '%" + SqlFilter(value.ToString()) + "%'";
             }
             return base.BuildSimpleSearchWhereSqlByFilterItem(key, value, sqlParas);
         }

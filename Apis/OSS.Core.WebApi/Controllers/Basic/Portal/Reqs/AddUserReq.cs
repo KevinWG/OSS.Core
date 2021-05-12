@@ -2,7 +2,7 @@
 using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 
-namespace OSS.Core.WebApi.Controllers.Basic.Portal.Reqs
+namespace OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs
 {
  
     public class AddUserReq

@@ -9,7 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Core.ORM.Mysql.Dapper" Version="1.2.3.3" />
+    <PackageReference Include="MySql.Data" Version="8.0.25" />
+    <PackageReference Include="OSS.Core.ORM.Dapper" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup>

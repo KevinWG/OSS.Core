@@ -51,8 +51,7 @@ namespace OSS.Core.RepDapper.Basic.Portal.Mos
 
                 add_time = io.add_time,
                 status = io.status,
-                owner_tid = io.owner_tid,
-                from_app_id = io.from_app_id,
+                //from_app_id = io.from_app_id,
             };
             return userInfo;
         }

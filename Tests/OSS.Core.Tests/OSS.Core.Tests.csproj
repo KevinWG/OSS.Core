@@ -9,16 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Configs\plugs_notify_sms_ali.config" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="appsettings.json">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="Configs\plugs_notify_sms_ali.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>

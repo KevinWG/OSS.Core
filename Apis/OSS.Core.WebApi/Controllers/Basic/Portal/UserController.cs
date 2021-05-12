@@ -17,24 +17,22 @@ using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
-using OSS.Core.RepDapper.Basic.Portal.Mos;
+using OSS.Core.RepDapper.Basic.Portal.Mos; 
+
 using OSS.Core.Services.Basic.Portal;
-using OSS.Core.WebApi.Controllers.Basic.Portal.Reqs;
+using OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs;
+using OSS.Core.Infrastructure.Const;
 
-namespace OSS.Core.WebApi.Controllers.Basic.Portal
+namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 { 
-
-     
     /// <summary>
     /// 用户模块
     /// </summary>
-    [ModuleName(CoreModuleNames.Portal)]  
-    [Route("b/[controller]/[action]/{id?}")]
+    [ModuleName(ModuleNames.Portal)]  
+    [Route("b/[controller]/[action]")]
     public class UserController : BaseController
     {
         private static readonly UserService _service = new UserService();
-
-
 
         /// <summary>
         /// 添加用户
@@ -42,10 +40,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<IdResp<string>> AddUser([FromBody]AddUserReq req)
+        [UserFuncCode(ApiFuncCodes.Portal_User_Add)]
+        public Task<Resp<long>> AddUser([FromBody]AddUserReq req)
         {
             if (string.IsNullOrEmpty(req.email) && string.IsNullOrEmpty(req.mobile) || !ModelState.IsValid)
-                return Task.FromResult(new IdResp<string>().WithResp(ParaErrorResp));
+                return Task.FromResult(GetInvalidResp<long>());
 
             return _service.AddUser(req.MapToUserInfo());
         }
@@ -57,6 +56,7 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
+        [UserFuncCode(ApiFuncCodes.Portal_User_List)]
         public async Task<PageListResp<UserInfoBigMo>> SearchUsers([FromBody]SearchReq req)
         {
             if (req == null)
@@ -65,18 +65,14 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             return await _service.SearchUsers(req);
         }
 
-
-
-
-        
-
         /// <summary>
         ///  锁定用户
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Resp> Lock(string id)
+        [UserFuncCode(ApiFuncCodes.Portal_User_Lock)]
+        public async Task<Resp> Lock(long id)
         {
             return await _service.ChangeLockStatus(id,true);
         }
@@ -87,7 +83,8 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<Resp> UnLock(string id)
+        [UserFuncCode(ApiFuncCodes.Portal_User_UnLock)]
+        public async Task<Resp> UnLock(long id)
         {
             return await _service.ChangeLockStatus(id,false);
         }

@@ -16,16 +16,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.Services.Basic.Portal;
-using OSS.Core.WebApi.Controllers.Basic.Portal.Reqs;
+using OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs;
+using OSS.Core.Infrastructure.Const;
 
-namespace OSS.Core.WebApi.Controllers.Basic.Portal
+namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 {
-    [ModuleName(CoreModuleNames.Portal)]
-    [Route("b/[controller]/[action]/{id?}")]
+    [ModuleName(ModuleNames.Portal)]
+    [Route("b/[controller]/[action]")]
     public class AdminController : BaseController
     {
         private static readonly AdminService _service = new AdminService();
@@ -36,16 +36,19 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<IdResp<string>> Create([FromBody] AddAdminReq req)
+        [UserFuncCode(ApiFuncCodes.Portal_Admin_Create)]
+        public Task<Resp<long>> Create([FromBody] AddAdminReq req)
         {
+            
             if (!ModelState.IsValid)
-                return Task.FromResult(new IdResp<string>().WithResp(RespTypes.ParaError, GetInvalidMsg()));
+                return Task.FromResult(new Resp<long>().WithResp(RespTypes.ParaError, GetInvalidMsg()));
 
             return _service.AddAdmin(req.MapToAdminInfo());
         }
 
        
         [HttpPost]
+        [UserFuncCode(ApiFuncCodes.Portal_Admin_List)]
         public Task<PageListResp<AdminInfoMo>> SearchAdmins([FromBody]SearchReq req)
         {
             if (req==null)
@@ -64,10 +67,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="avatar"></param>
         /// <returns></returns>
         [HttpPost]
+        [UserFuncCode(ApiFuncCodes.None)]
         public Task<Resp> ChangeOwnerAvatar([FromQuery] string avatar)
         {
             return string.IsNullOrEmpty(avatar) ?
-                Task.FromResult(ParaErrorResp)
+                Task.FromResult(GetInvalidResp())
                 : _service.ChangeAvatar(avatar);
         }
 
@@ -77,10 +81,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="uid"></param>
         /// <returns></returns>
         [HttpPost]
-        public  Task<Resp> Lock(string uid)
+        [UserFuncCode(ApiFuncCodes.Portal_Admin_Lock)]
+        public  Task<Resp> Lock(long uid)
         {
-            return string.IsNullOrEmpty(uid) 
-                ? Task.FromResult(ParaErrorResp) : _service.ChangeLockStatus(uid, true);
+            return uid<=0 
+                ? Task.FromResult(GetInvalidResp()) : _service.ChangeLockStatus(uid, true);
         }
 
         /// <summary>
@@ -89,10 +94,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="uid"></param>
         /// <returns></returns>
         [HttpPost]
-        public  Task<Resp> UnLock(string uid)
+        [UserFuncCode(ApiFuncCodes.Portal_Admin_UnLock)]
+        public  Task<Resp> UnLock(long uid)
         {
-            return string.IsNullOrEmpty(uid)
-                ? Task.FromResult(ParaErrorResp) : _service.ChangeLockStatus(uid, false);
+            return uid<=0
+                ? Task.FromResult(GetInvalidResp()) : _service.ChangeLockStatus(uid, false);
         }
 
         /// <summary>
@@ -102,11 +108,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// <param name="admin_type"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<Resp> SetAdminType(string uid, AdminType admin_type)
+        [UserFuncCode(ApiFuncCodes.Portal_Admin_SetType)]
+        public Task<Resp> SetAdminType(long uid, AdminType admin_type)
         {
-            if (string.IsNullOrEmpty(uid)|| !Enum.IsDefined(typeof(AdminType), admin_type))
+            if (uid<=0|| !Enum.IsDefined(typeof(AdminType), admin_type))
             {
-                return Task.FromResult(ParaErrorResp);
+                return Task.FromResult(GetInvalidResp());
             }
             return _service.SetAdminType(uid, admin_type);
         }

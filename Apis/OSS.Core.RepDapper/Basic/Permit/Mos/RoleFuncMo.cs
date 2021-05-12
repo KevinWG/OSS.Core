@@ -1,5 +1,5 @@
-﻿using OSS.Core.Infrastructure.BasicMos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
+﻿using OSS.Core.Infrastructure.BasicMos.Enums;
+using OSS.Core.Infrastructure.BasicMos;
 
 namespace OSS.Core.RepDapper.Basic.Permit.Mos
 {

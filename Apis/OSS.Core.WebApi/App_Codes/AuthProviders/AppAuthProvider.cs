@@ -13,25 +13,28 @@
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Tools.Config;
 
-namespace OSS.Core.WebApi.App_Codes.AuthProviders
+namespace OSS.Core.CoreApi.App_Codes.AuthProviders
 {
-    public class AppAuthProvider:IAppAuthProvider
+    public class AppAuthProvider : IAppAuthProvider
     {
-        public Task<Resp<AppConfig>> IntialAuthAppConfig(HttpContext context, AppIdentity appinfo)
+        public Task<Resp> AppAuthCheck(HttpContext context, AppIdentity appinfo)
         {
-            var key = ConfigHelper.GetSection("KnockAppSecrets:" + appinfo.app_id)?.Value;
+            if (appinfo.SourceMode == AppSourceMode.ServerSign)
+            {
+                var key = ConfigHelper.GetSection("KnockAppSecrets:" + appinfo.app_id)?.Value;
 
-            var res= string.IsNullOrEmpty(key)
-                ? new Resp<AppConfig>().WithResp(RespTypes.UnKnowSource, "未知的应用来源!")
-                : new Resp<AppConfig>(new AppConfig(appinfo.app_id,key));
+                const int expireSecs = 60 * 60 * 2;
+                if (!appinfo.CheckSign(key, expireSecs).IsSuccess())
+                    return Task.FromResult(new Resp(RespTypes.SignError, "签名错误！"));
+            }
 
-            return Task.FromResult(res);
+            return Task.FromResult(new Resp());
         }
+
     }
 }

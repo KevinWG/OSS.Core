@@ -1,9 +1,6 @@
-﻿using OSS.Adapters.Notify.Reqs;
-
-namespace OSS.Core.Services.Plugs.Notify.Mos
+﻿namespace OSS.Core.Services.Plugs.Notify.Mos
 {
-  
-    public class NotifyTemplateMo//:BaseOwnerAndStateMo
+    public class NotifyTemplateConfig
     {
         /// <summary>
         ///  模板编号
@@ -38,29 +35,35 @@ namespace OSS.Core.Services.Plugs.Notify.Mos
         /// <summary>
         ///  是否html
         /// </summary>
-        public bool is_html { get; set; }
+        public int is_html { get; set; }
 
         /// <summary>
         ///  签名
         /// </summary>
         public string sign_name { get; set; }
+
+        /// <summary>
+        ///  发送人或者发送通道号码等
+        /// </summary>
+        public string sender { get; set; }
     }
 
 
-    public static class NotifyTemplateMaps
-    {
-        public static TemplateMo ConvertToAdapterTemplate(this NotifyTemplateMo nTemplate)
-        {
-            var t = new TemplateMo
-            {
-                title       = nTemplate.title,
-                content     = nTemplate.content,
-                is_html     = nTemplate.is_html,
+    //public static class NotifyTemplateMaps
+    //{
+    //    public static TemplateMo ConvertToAdapterTemplate(this NotifyTemplateMo nTemplate)
+    //    {
+    //        var t = new TemplateMo
+    //        {
+    //            title       = nTemplate.title,
+    //            content     = nTemplate.content,
+    //            is_html     = nTemplate.is_html,
 
-                t_plat_code = nTemplate.t_plat_code,
-                sign_name   = nTemplate.sign_name
-            };
-            return t;
-        }
-    }
+    //            t_plat_code = nTemplate.t_plat_code,
+    //            sign_name   = nTemplate.sign_name
+    //        };
+    //        return t;
+    //    }
+    //}
+
 }

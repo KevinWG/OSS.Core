@@ -19,7 +19,7 @@ namespace OSS.Core.RepDapper.Basic.SocialPlats.Mos
         /// <summary>
         /// 微信小程序
         /// </summary>
-        WeChatApp = 11,
+        WeChatApp=11,
 
         /// <summary>
         ///     支付宝

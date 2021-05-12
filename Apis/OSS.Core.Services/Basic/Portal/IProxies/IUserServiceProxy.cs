@@ -6,6 +6,6 @@ namespace OSS.Core.Services.Basic.Portal.IProxies
 {
   public interface IUserServiceProxy
   {
-      Task<Resp<UserBasicMo>> GetUserById(string userId);
+      Task<Resp<UserBasicMo>> GetUserById(long userId);
   }
 }

@@ -4,20 +4,19 @@ using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Extensions;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 using OSS.Tools.Cache;
+using OSS.Core.Infrastructure.Const;
+using OSS.Core.Infrastructure.Extensions;
 
 namespace OSS.Core.RepDapper.Basic.Permit
 {
-    public class RoleRep : BaseTenantRep<RoleRep, RoleMo>
+    public class RoleRep : BaseRep<RoleRep, RoleMo>
     {
         protected override string GetTableName()
         {
             return "b_permit_role";
         }
-        
 
         #region 搜索角色表
 
@@ -36,13 +35,12 @@ namespace OSS.Core.RepDapper.Basic.Permit
             switch (key)
             {
                 case "name":
-                    return "t.name LIKE '%" + SqlFilter(value) + "%'";
+                    return "t.name LIKE '%" + SqlFilter(value.ToString()) + "%'";
             }
 
             return base.BuildSimpleSearchWhereSqlByFilterItem(key, value, sqlParas);
         }
         #endregion
-
 
         /// <summary>
         ///  通过角色Ids获取角色列表
@@ -52,8 +50,8 @@ namespace OSS.Core.RepDapper.Basic.Permit
         public Task<ListResp<RoleMo>> GetList(IList<string> ids)
         {
             var sql = string.Concat("select * from ", TableName, " where id in(", string.Join(",", ids),
-                ") and status>@status and owner_tid=@owner_tid");
-            var paras = new { owner_tid = OwnerTId, status = (int)CommonStatus.Deleted };
+                ") and status>@status ");
+            var paras = new {  status = (int)CommonStatus.Deleted };
 
             return GetList(sql, paras);
         }
@@ -64,9 +62,9 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public override Task<Resp<RoleMo>> GetById(string id)
+        public override Task<Resp<RoleMo>> GetById(long id)
         {
-            var cacheKey = string.Concat(CoreCacheKeys.Perm_Role_ById, id);
+            var cacheKey = string.Concat(CacheKeys.Perm_Role_ById, id);
             return CacheHelper.GetOrSetAsync(cacheKey, () => base.GetById(id), TimeSpan.FromHours(2),
                 res => !res.IsSuccess());
         }
@@ -77,12 +75,12 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <param name="rid"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public Task<Resp> UpdateStatus(string rid, CommonStatus status)
+        public Task<Resp> UpdateStatus(long rid, CommonStatus status)
         {
-            var cacheKey = string.Concat(CoreCacheKeys.Perm_Role_ById, rid);
+            var cacheKey = string.Concat(CacheKeys.Perm_Role_ById, rid);
 
             return Update(u => new {u.status},
-                u => u.id == rid && u.owner_tid == OwnerTId,
+                u => u.id == rid ,
                 new{ status })
                 .WithCacheClear(cacheKey);
         }
@@ -93,12 +91,12 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <param name="rid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Task<Resp> UpdateName(string rid, string name)
+        public Task<Resp> UpdateName(long rid, string name)
         {
-            var cacheKey = string.Concat(CoreCacheKeys.Perm_Role_ById, rid);
+            var cacheKey = string.Concat(CacheKeys.Perm_Role_ById, rid);
 
             return Update(u => new { name },
-                    u => u.id == rid && u.owner_tid == OwnerTId)
+                    u => u.id == rid)
             .WithCacheClear(cacheKey);
         }
 

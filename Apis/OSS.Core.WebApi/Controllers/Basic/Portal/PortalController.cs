@@ -16,22 +16,25 @@ using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OSS.Adapter.Oauth.Interface.Mos.Enums;
 using OSS.Common.BasicMos.Resp;
 
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
-using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 using OSS.Core.Services.Basic.Portal;
 using OSS.Core.Services.Basic.Portal.Mos;
-using OSS.Core.WebApi.Controllers.Basic.Portal.Reqs;
+using OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs;
+using OSS.Core.Infrastructure.BasicMos.Enums;
+using OSS.Core.Infrastructure.Const;
+using OSS.Core.Context;
+using OSS.Core.CoreApi.App_Codes.AuthProviders;
 
-namespace OSS.Core.WebApi.Controllers.Basic.Portal
+namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 {
     [AllowAnonymous]
-    [ModuleName(CoreModuleNames.Portal)]
-    [Route("b/[controller]/[action]/{id?}")]
+    [ModuleName(ModuleNames.Portal)]
+    [Route("b/[controller]/[action]")]
     public partial class PortalController : BaseController
     {
         private static readonly PortalService service = new PortalService();
@@ -41,9 +44,9 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public Task<Resp<UserIdentity>> GetAuthIdentity()
+        public Task<Resp<UserIdentity>> GetMyself()
         {
-            return service.GetAuthIdentity();
+            return PortalAuthHelper.GetMyself(Request);
         }
 
         /// <summary>
@@ -54,9 +57,9 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         [HttpPost]
         public Task<Resp> CheckIfCanReg([FromBody] CheckRegNameReq req)
         {
-            return !ModelState.IsValid 
-                ? Task.FromResult( GetInvalidResp()) 
-                : service.CheckIfCanReg(req.reg_type,req.reg_name);
+            return !ModelState.IsValid
+                ? Task.FromResult(GetInvalidResp())
+                : service.CheckIfCanReg(req.reg_type, req.reg_name);
         }
 
         #region 短信动态码注册登录
@@ -76,7 +79,6 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             return await service.SendCode(req.name, req.type);
         }
 
-
         #region 【用户】动态码登录注册
 
         /// <summary>
@@ -91,7 +93,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             if (!stateRes.IsSuccess())
                 return new PortalTokenResp().WithResp(stateRes); //stateRes.ConvertToResultInherit<PortalTokenResp>();
 
-            return await service.CodeReg(req.name, req.code, req.type, req.is_from_bind);
+            var tokenResp = await service.CodeReg(req.name, req.code, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
 
         /// <summary>
@@ -106,9 +113,14 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             if (!stateRes.IsSuccess())
                 return new PortalTokenResp().WithResp(stateRes);// stateRes.ConvertToResultInherit<PortalTokenResp>();
 
-            return await service.CodeLogin(req.name, req.code, req.type, req.is_from_bind);
+            var tokenResp = await service.CodeLogin(req.name, req.code, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
-        
+
         /// <summary>
         ///   验证码登录
         /// </summary>
@@ -121,7 +133,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             if (!stateRes.IsSuccess())
                 return new PortalTokenResp().WithResp(stateRes); //stateRes.ConvertToResultInherit<PortalTokenResp>();
 
-            return await service.CodeRegOrLogin(req.name, req.code, req.type, req.is_from_bind);
+            var tokenResp = await service.CodeRegOrLogin(req.name, req.code, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
 
         #endregion
@@ -139,7 +156,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             if (!stateRes.IsSuccess())
                 return new PortalTokenResp().WithResp(stateRes);// stateRes.ConvertToResultInherit<PortalTokenResp>();
 
-            return await service.CodeAdminLogin(req.name, req.code, req.type, req.is_from_bind);
+            var tokenResp = await service.CodeAdminLogin(req.name, req.code, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
 
         #endregion
@@ -160,7 +182,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             if (!stateRes.IsSuccess())
                 return new PortalTokenResp().WithResp(stateRes);
 
-            return await service.PwdReg(req.name, req.password, req.type, req.is_from_bind);
+            var tokenResp = await service.PwdReg(req.name, req.password, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
 
         /// <summary>
@@ -173,9 +200,14 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
         {
             var stateRes = CheckLoginModelState(req);
             if (!stateRes.IsSuccess())
-                return new PortalTokenResp().WithResp(stateRes); 
+                return new PortalTokenResp().WithResp(stateRes);
 
-            return await service.PwdLogin(req.name, req.password, req.type, req.is_from_bind);
+            var tokenResp = await service.PwdLogin(req.name, req.password, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
 
         /// <summary>
@@ -190,15 +222,33 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
             if (!stateRes.IsSuccess())
                 return new PortalTokenResp().WithResp(stateRes);
 
-            return await service.PwdAdminLogin(req.name, req.password, req.type, req.is_from_bind);
+            var tokenResp = await service.PwdAdminLogin(req.name, req.password, req.type, req.is_from_bind);
+            if (tokenResp.IsSuccess())
+            {
+                PortalTokenFormat(tokenResp);
+            }
+            return tokenResp;
         }
 
-        #endregion
+        /// <summary>
+        ///  sourcemode 为 浏览器模式时才需要
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public Resp Logout() 
+        {
+            PortalAuthHelper.ClearCookie(Response);
+            return new Resp();
+        }
 
-        #region  第三方用户授权
-
-       
-
+        private  void PortalTokenFormat(PortalTokenResp tokenResp)
+        {
+            var appSourceMode = AppReqContext.Identity.SourceMode;
+            if (appSourceMode>=AppSourceMode.BrowserWithHeader)
+            {
+                PortalAuthHelper.SetCookie(Response, tokenResp.token);
+            }
+        }
         #endregion
 
         #region 辅助校验方法
@@ -238,10 +288,90 @@ namespace OSS.Core.WebApi.Controllers.Basic.Portal
                 ? new Resp(RespTypes.ParaError, "请输入正确的手机或邮箱！")
                 : new Resp();
         }
-
-
         #endregion
     }
 
-    
+    /// <summary>
+    ///  第三方部分
+    /// </summary>
+    public partial class PortalController
+    {
+        #region 第三方账号直接登录注册【用户】
+
+        /// <summary>
+        /// 获取授权地址
+        /// </summary>
+        /// <param name="plat">平台</param>
+        /// <param name="redirectUrl">重定向回跳地址</param>
+        /// <param name="state">返回参数，自行编码</param>
+        /// <param name="type">授权类型</param>
+        /// <returns></returns>
+        [HttpGet]
+        public Task<StrResp> GetOauthUrl(SocialPlatform plat, string redirectUrl, string state, OauthClientType type)
+        {
+            return service.GetOauthUrl(plat, redirectUrl, state, type);
+        }
+
+        /// <summary>
+        ///  系统用户主动绑定第三方平台
+        /// 【当前MemberContext信息为 系统用户信息(User  or  admin)】
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<Resp> OauthBind(SocialPlatform plat, string code, string state)
+        {
+            return service.OauthBind(plat, code, state);
+        }
+
+        /// <summary>
+        ///     通过第三方用户注册登录
+        /// </summary>
+        /// <param name="plat"></param>
+        /// <param name="code"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<PortalTokenResp> OauthLogin(SocialPlatform plat, string code, string state)
+        {
+            if (string.IsNullOrEmpty(code))
+                return new PortalTokenResp(RespTypes.ParaError, "code 不能为空！");
+
+            return await service.OauthLogin(plat, code, state);
+        }
+
+        /// <summary>
+        ///   跳过系统登录注册页面，直接通过第三信息注册用户信息
+        /// 【开启 用户选择是否跳过选项使用】
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public Task<PortalTokenResp> SkipWithReg()
+        {
+            return service.SkipWithReg();
+        }
+
+        #endregion
+
+        #region 第三方账号登录功能【管理员】
+
+        /// <summary>
+        ///     通过第三方用户登录管理员账号
+        /// </summary>
+        /// <param name="plat"></param>
+        /// <param name="code"></param>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<PortalTokenResp> OauthAdminLogin(SocialPlatform plat, string code, string state)
+        {
+            if (string.IsNullOrEmpty(code))
+                return new PortalTokenResp(RespTypes.ParaError, "code 不能为空！");
+
+            return await service.OauthAdminLogin(plat, code, state);
+        }
+
+
+        #endregion
+
+    }
 }

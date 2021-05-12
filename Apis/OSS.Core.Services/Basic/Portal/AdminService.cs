@@ -14,12 +14,12 @@
 using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
+using OSS.Common.Extension;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
 using OSS.Core.Infrastructure.BasicMos;
 using OSS.Core.RepDapper.Basic.Portal;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
-using OSS.Core.RepDapper.Basic.Portal;
 using OSS.Core.Services.Basic.Portal.IProxies;
 
 namespace OSS.Core.Services.Basic.Portal
@@ -33,23 +33,23 @@ namespace OSS.Core.Services.Basic.Portal
     /// </summary>
     /// <param name="admin"></param>
     /// <returns></returns>
-        public async Task<IdResp<string>> AddAdmin(AdminInfoMo admin)
+        public async Task<Resp<long>> AddAdmin(AdminInfoMo admin)
         {
             // 判断是否已经绑定
             var exitAdminRes = await AdminInfoRep.Instance.GetAdminByUId(admin.u_id);
 
             if (exitAdminRes.IsSuccess()) 
-                return new IdResp<string>().WithResp(RespTypes.ObjectExist, "当前用户已经存在绑定管理员");
+                return new Resp<long>().WithResp(RespTypes.ObjectExist, "当前用户已经存在绑定管理员");
             if (!exitAdminRes.IsRespType(RespTypes.ObjectNull))
-                return new IdResp<string>().WithResp(exitAdminRes);
+                return new Resp<long>().WithResp(exitAdminRes);
 
             // 判断用户本身是否存在问题
             var userRes = await InsContainer<IUserServiceProxy>.Instance.GetUserById(admin.u_id);
             if(!userRes.IsSuccess())
-                return new IdResp<string>().WithResp(userRes);
+                return new Resp<long>().WithResp(userRes);
 
             if(userRes.data.status<0)
-                return new IdResp<string>().WithResp(RespTypes.ObjectExist, "当前绑定用户状态异常！");
+                return new Resp<long>().WithResp(RespTypes.ObjectExist, "当前绑定用户状态异常！");
 
             // 执行添加
             admin.InitialBaseFromContext();
@@ -76,7 +76,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeAvatar(string avatar)
         {
-            return AdminInfoRep.Instance.ChangeAvatar(UserContext.Identity.id, avatar);
+            return AdminInfoRep.Instance.ChangeAvatar(UserContext.Identity.id.ToInt64(), avatar);
         }
 
 
@@ -86,7 +86,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <param name="uId"></param>
         /// <param name="makeLock"></param>
         /// <returns></returns>
-        public Task<Resp> ChangeLockStatus(string uId, bool makeLock)
+        public Task<Resp> ChangeLockStatus(long uId, bool makeLock)
         {
             return AdminInfoRep.Instance.UpdateStatus(uId, makeLock ? AdminStatus.Locked : AdminStatus.Normal);
         }
@@ -99,7 +99,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <param name="uId"></param>
         /// <param name="adminType"></param>
         /// <returns></returns>
-        public Task<Resp> SetAdminType(string uId, AdminType adminType)
+        public Task<Resp> SetAdminType(long uId, AdminType adminType)
         {
             return AdminInfoRep.Instance.SetAdminType(uId, adminType);
         }

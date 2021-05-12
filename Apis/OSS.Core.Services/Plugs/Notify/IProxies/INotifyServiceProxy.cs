@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using OSS.Adapters.Notify.Reqs;
 using OSS.Core.Services.Plugs.Notify.Mos;
 
 namespace OSS.Core.Services.Plugs.Notify.IProxies
@@ -12,6 +11,6 @@ namespace OSS.Core.Services.Plugs.Notify.IProxies
         /// <param name="msg"></param>
         /// <param name="isFromLogModule">【重要】是否来自日志模块，直接决定当前方法内部异常写日志的操作</param>
         /// <returns></returns>
-        Task<NotifyResp> Send(NotifyReq msg,bool isFromLogModule=false);
+        Task<NotifyResp> Send(NotifyReq msg);
     }
 }

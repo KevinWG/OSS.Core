@@ -2,16 +2,17 @@
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
+using OSS.Core.AdminSite.Apis.Permit.Reqs;
+using OSS.Core.Infrastructure.Const;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 using OSS.Core.Services.Basic.Permit;
-using OSS.Core.WebApi.Controllers.Basic.Permit.Reqs;
+using OSS.Core.Services.Basic.Permit.Reqs;
 
-namespace OSS.Core.WebApi.Controllers.Basic.Permit
+namespace OSS.Core.CoreApi.Controllers.Basic.Permit
 {
-    [ModuleName(CoreModuleNames.Permit)]
-    [Route("b/[controller]/[action]/{id?}")]
+    [ModuleName(ModuleNames.Permit)]
+    [Route("b/[controller]/[action]")]
     public class PermitController:BaseController
     {
         private static readonly PermitService _service=new PermitService();
@@ -24,10 +25,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
+        [UserFuncCode(ApiFuncCodes.Permit_RoleList)]
         public Task<PageListResp<RoleMo>> SearchRoles([FromBody] SearchReq req)
         {
             return req == null
-                ? Task.FromResult(new PageListResp<RoleMo>().WithResp(ParaErrorResp))
+                ? Task.FromResult(new PageListResp<RoleMo>().WithResp(GetInvalidResp()))
                 : _service.SearchRoles(req);
         }
 
@@ -36,11 +38,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Task<IdResp<string>> RoleAdd([FromBody] AddRoleReq req)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleAdd)]
+        public Task<Resp<long>> RoleAdd([FromBody] AddRoleReq req)
         {
             return ModelState.IsValid
                 ? _service.RoleAdd(req.ConvertToMo())
-                : Task.FromResult(new IdResp<string>().WithResp(GetInvalidResp()));
+                : Task.FromResult(GetInvalidResp<long>());
         }
 
         /// <summary>
@@ -48,6 +51,7 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpPost]
+        [UserFuncCode(ApiFuncCodes.Permit_RoleUpdate)]
         public Task<Resp> RoleUpdate([FromBody] UpdateRoleReq req)
         {
             return ModelState.IsValid
@@ -61,10 +65,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// <param name="rid"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<Resp> RoleActive(string rid)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleActive)]
+        public Task<Resp> RoleActive(long rid)
         {
-            return string.IsNullOrEmpty(rid)
-                ? Task.FromResult(ParaErrorResp)
+            return rid<=0
+                ? Task.FromResult(GetInvalidResp())
                 : _service.RoleActive(rid);
         }
 
@@ -74,10 +79,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// <param name="rid"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<Resp> RoleUnActive(string rid)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleActive)]
+        public Task<Resp> RoleUnActive(long rid)
         {
-            return string.IsNullOrEmpty(rid)
-                ? Task.FromResult(ParaErrorResp)
+            return rid <= 0
+                ? Task.FromResult(GetInvalidResp())
                 : _service.RoleUnActive(rid);
         }
 
@@ -87,10 +93,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// <param name="rid"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<Resp> RoleDelete(string rid)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleDelete)]
+        public Task<Resp> RoleDelete(long rid)
         {
-            return string.IsNullOrEmpty(rid)
-                ? Task.FromResult(ParaErrorResp)
+            return rid <= 0
+                ? Task.FromResult(GetInvalidResp())
                 : _service.RoleDelete(rid);
         }
 
@@ -98,26 +105,41 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
 
         #region 角色和功能项关联处理
 
+
+        /// <summary>
+        ///  获取系统所有权限项
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [UserFuncCode(ApiFuncCodes.Permit_RoleFuncList)]
+        public Task<ListResp<FuncBigItem>> GetAllFuncItems() 
+        {
+            return _service.GetAllFuncItems();
+        }
+
         /// <summary>
         ///  获取登录用户的权限列表
         ///      （可能出现 10 分钟左右缓存误差）
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public Task<ListResp<RoleFunSmallMo>> GetAuthUserFuncList()
+        public Task<ListResp<RoleFunSmallMo>> GetMyFuncs()
         {
-            return _service.GetAuthUserFuncList();
+            return _service.GetMyFuncs();
         }
+
+
 
         /// <summary>
         ///  获取当前角色下权限项列表
         /// </summary>
         /// <returns></returns> 
         [HttpGet]
+        [UserFuncCode(ApiFuncCodes.Permit_RoleFuncList)]
         public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(string rid)
         {
             return string.IsNullOrEmpty(rid)
-                ? Task.FromResult(new ListResp<RoleFunSmallMo>().WithResp(ParaErrorResp))
+                ? Task.FromResult(new ListResp<RoleFunSmallMo>().WithResp(GetInvalidResp()))
                 : _service.GetRoleFuncList(rid);
         }
 
@@ -127,12 +149,13 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Task<Resp> ChangeRoleFuncItems(string rid, [FromBody] ChangeRoleFuncItems items)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleFuncChange)]
+        public Task<Resp> ChangeRoleFuncItems(string rid, [FromBody] ChangeRoleFuncItemsReq items)
         {
             if (string.IsNullOrEmpty(rid)
                 || items == null
                 || !(items.add_items?.Count >0  || items.delete_items?.Count > 0))
-                return Task.FromResult(ParaErrorResp);
+                return Task.FromResult(GetInvalidResp());
 
             return _service.ChangeRoleFuncItems(rid, items.add_items, items.delete_items);
         }
@@ -147,11 +170,12 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        public Task<IdResp<string>> AddRoleBind([FromBody]AddRoleUserReq req)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleUserBind)]
+        public Task<Resp<long>> AddRoleBind([FromBody]AddRoleUserReq req)
         {
             return ModelState.IsValid
                 ? _service.AddRoleBind(req.ToMo())
-                : Task.FromResult(new IdResp<string>().WithResp(GetInvalidResp()));
+                : Task.FromResult(GetInvalidResp<long>());
         }
 
         /// <summary>
@@ -164,10 +188,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// </param>
         /// <returns></returns>
         [HttpPost]
+        [UserFuncCode(ApiFuncCodes.Permit_RoleUserSearch)]
         public Task<PageListResp<RoleUserBigMo>> SearchRoleUsers([FromBody] SearchReq req)
         {
             return req == null
-                ? Task.FromResult(new PageListResp<RoleUserBigMo>().WithResp(ParaErrorResp))
+                ? Task.FromResult(new PageListResp<RoleUserBigMo>().WithResp(GetInvalidResp()))
                 : _service.SearchRoleUsers(req);
         }
 
@@ -177,10 +202,11 @@ namespace OSS.Core.WebApi.Controllers.Basic.Permit
         /// <param name="id">绑定关系Id</param>
         /// <returns></returns>
         [HttpPost]
-        public Task<Resp> DeleteRoleBind(string id)
+        [UserFuncCode(ApiFuncCodes.Permit_RoleUserDelete)]
+        public Task<Resp> DeleteRoleBind(long id)
         {
-            return string.IsNullOrEmpty(id)
-                ? Task.FromResult(ParaErrorResp)
+            return id <= 0
+                ? Task.FromResult(GetInvalidResp())
                 : _service.DeleteRoleBind(id);
         }
         
