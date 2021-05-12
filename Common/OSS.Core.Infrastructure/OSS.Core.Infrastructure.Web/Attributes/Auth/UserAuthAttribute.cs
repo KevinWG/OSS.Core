@@ -91,11 +91,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context,AppIdentity appInfo,UserAuthOption opt)
         {
-            if (string.IsNullOrEmpty(appInfo.token))
-            {
-                return new Resp().WithResp(RespTypes.UnLogin, "请先登录！");
-            }
-
             var identityRes = await opt.UserProvider.InitialIdentity(context.HttpContext, appInfo);
             if (!identityRes.IsSuccess())
                 return identityRes;
