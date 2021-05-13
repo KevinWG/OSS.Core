@@ -94,10 +94,9 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes); //stateRes.ConvertToResultInherit<PortalTokenResp>();
 
             var tokenResp = await service.CodeReg(req.name, req.code, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+
+            PortalTokenFormat(tokenResp);
+
             return tokenResp;
         }
 
@@ -114,10 +113,9 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes);// stateRes.ConvertToResultInherit<PortalTokenResp>();
 
             var tokenResp = await service.CodeLogin(req.name, req.code, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+
+            PortalTokenFormat(tokenResp);
+
             return tokenResp;
         }
 
@@ -134,10 +132,9 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes); //stateRes.ConvertToResultInherit<PortalTokenResp>();
 
             var tokenResp = await service.CodeRegOrLogin(req.name, req.code, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+
+            PortalTokenFormat(tokenResp);
+
             return tokenResp;
         }
 
@@ -157,10 +154,9 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes);// stateRes.ConvertToResultInherit<PortalTokenResp>();
 
             var tokenResp = await service.CodeAdminLogin(req.name, req.code, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+
+            PortalTokenFormat(tokenResp);
+
             return tokenResp;
         }
 
@@ -183,10 +179,9 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes);
 
             var tokenResp = await service.PwdReg(req.name, req.password, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+
+            PortalTokenFormat(tokenResp);
+
             return tokenResp;
         }
 
@@ -203,10 +198,8 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes);
 
             var tokenResp = await service.PwdLogin(req.name, req.password, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+
+            PortalTokenFormat(tokenResp);
             return tokenResp;
         }
 
@@ -223,10 +216,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return new PortalTokenResp().WithResp(stateRes);
 
             var tokenResp = await service.PwdAdminLogin(req.name, req.password, req.type, req.is_from_bind);
-            if (tokenResp.IsSuccess())
-            {
-                PortalTokenFormat(tokenResp);
-            }
+            PortalTokenFormat(tokenResp);
             return tokenResp;
         }
 
@@ -235,16 +225,20 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public Resp Logout() 
+        public Resp Logout()
         {
             PortalAuthHelper.ClearCookie(Response);
             return new Resp();
         }
 
-        private  void PortalTokenFormat(PortalTokenResp tokenResp)
+        private void PortalTokenFormat(PortalTokenResp tokenResp)
         {
+            if (!tokenResp.IsSuccess())
+            {
+                return;
+            }
             var appSourceMode = AppReqContext.Identity.SourceMode;
-            if (appSourceMode>=AppSourceMode.BrowserWithHeader)
+            if (appSourceMode >= AppSourceMode.BrowserWithHeader)
             {
                 PortalAuthHelper.SetCookie(Response, tokenResp.token);
             }
@@ -336,7 +330,10 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
             if (string.IsNullOrEmpty(code))
                 return new PortalTokenResp(RespTypes.ParaError, "code 不能为空！");
 
-            return await service.OauthLogin(plat, code, state);
+            var tokenResp = await service.OauthLogin(plat, code, state);
+            PortalTokenFormat(tokenResp);
+
+            return tokenResp;
         }
 
         /// <summary>
@@ -345,9 +342,12 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public Task<PortalTokenResp> SkipWithReg()
+        public async Task<PortalTokenResp> SkipWithReg()
         {
-            return service.SkipWithReg();
+            var tokenResp = await service.SkipWithReg();
+            PortalTokenFormat(tokenResp);
+
+            return tokenResp;
         }
 
         #endregion
@@ -367,11 +367,11 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
             if (string.IsNullOrEmpty(code))
                 return new PortalTokenResp(RespTypes.ParaError, "code 不能为空！");
 
-            return await service.OauthAdminLogin(plat, code, state);
+            var tokenResp = await service.OauthAdminLogin(plat, code, state);
+            PortalTokenFormat(tokenResp);
+
+            return tokenResp;
         }
-
-
         #endregion
-
     }
 }

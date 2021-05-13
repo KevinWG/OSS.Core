@@ -1,21 +1,10 @@
-﻿using OSS.Common.BasicMos.Resp;
-using System.IO;
-using OSS.Core.Services.Plugs.File.Reqs;
+﻿
 
 namespace OSS.Core.Services.Plugs.File
 {
     public class UploadService
     {
-        /// <summary>
-        /// 直接上传
-        /// </summary>
-        /// <returns></returns>
-        public Resp Upload(UploadFileReq req, Stream file)
-        {
-            return new Resp(RespTypes.OperateFailed, "未实现该功能！");
-            
-        }
-
+       
         //public async Task<Resp> Notify(UploadFileMo mo,string token,string key)
         //{
         //    mo.InitialBaseFromContext();//不要放在下边，下边会给用户Id，和租户Id 根据实际信息赋值

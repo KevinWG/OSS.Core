@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
@@ -10,51 +11,34 @@ namespace OSS.Core.Services.Plugs.File
 {
     public class FileService
     {
-
         #region 获取上传参数
 
         /// <summary>
-        ///  获取上传头像的参数
-        /// </summary>
-        /// <returns></returns>
-
-        public Resp<BucketUploadPara> AvatarUploadPara(string name)
-        {
-            return GetUploadPara("avatar", name);
-        }
-
-        /// <summary>
         ///  获取商品上传的参数
         /// </summary>
         /// <returns></returns>
-
-        public Resp<BucketUploadPara> GetGoodsUploadParas(string name)
+        public Resp<BucketUploadPara> GetImgUploadParas(string name)
         {
-            return GetUploadPara("goods", name);
+            return GetUploadParas("imgs", name);
         }
 
-        /// <summary>
-        ///  获取商品上传的参数
-        /// </summary>
-        /// <returns></returns>
 
-        public Resp<BucketUploadPara> GetEditorUploadParas(string name)
+        public Resp<BucketUploadPara> GetFileUploadParas(string name)
         {
-            return GetUploadPara("rich_editor", name);
+            return GetUploadParas("files", name);
         }
 
-        /// <summary>
-        ///  获取商品上传的参数
-        /// </summary>
-        /// <returns></returns>
-
-        public Resp<BucketUploadPara> GetConfigUploadParas(string name)
-        {
-            return GetUploadPara("config", name);
-        }
         #endregion
 
 
+        /// <summary>
+        /// 直接上传
+        /// </summary>
+        /// <returns></returns>
+        public Resp Upload(UploadFileReq req, Stream file)
+        {
+            return new Resp(RespTypes.OperateFailed, "未实现该功能！");
+        }
 
         ///// <summary>
         /////  获取用户图片列表
@@ -75,27 +59,24 @@ namespace OSS.Core.Services.Plugs.File
         ///  获取上传参数信息
         /// </summary>
         /// <returns></returns>
-        private static Resp<BucketUploadPara> GetUploadPara(string category, string fileName)
+        private static Resp<BucketUploadPara> GetUploadParas(string category, string fileName)
         {
             var path = GetPathKey(category, fileName, UserContext.Identity.id);
-            return new Resp<BucketUploadPara>().WithResp(RespTypes.OperateFailed, "未实现该功能");
+            return new Resp<BucketUploadPara>().WithResp(RespTypes.OperateFailed, "未实现该功能！");
         }
 
 
         private static string GetPathKey(string category,string fileName, string userId)
         {
-            var appInfo = AppReqContext.Identity;
+            //var appInfo = AppReqContext.Identity;
 
             var patStr = new StringBuilder();
             if (AppInfoHelper.IsDev)
                 patStr.Append("test/");
 
-            patStr
+            patStr.Append(category).Append("/")
                 //.Append(appInfo.tenant_id).Append("/")
-                //.Append((int)appInfo.app_type)
-                .Append(category).Append("/")
                 .Append(DateTime.Now.ToString("yyyy-MM")).Append("/")
-                
                 .Append(userId).Append("/")
                 .Append(DateTime.Now.ToUtcMilliSeconds());
 

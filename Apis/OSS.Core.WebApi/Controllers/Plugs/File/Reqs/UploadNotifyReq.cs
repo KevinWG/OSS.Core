@@ -53,7 +53,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.File.Reqs
     //        mo.add_time = DateTime.Now.ToUtcSeconds();
     //        //mo.from_app_id = AppReqContext.Identity.app_id;
     //        mo.status = CommonStatus.Original;
-    //        mo.id = NumHelper.SnowNum().ToString();
+    //        mo.id = NumHelper();
 
     //        return mo;
     //    }

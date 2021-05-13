@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using OSS.Common.BasicMos;
+﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.Infrastructure.Const;
@@ -29,59 +27,63 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.File
 
         #region 获取上传参数
 
-        /// <summary>
-        ///  获取上传头像的参数
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public Resp<BucketUploadPara> AvatarUploadPara(string name)
-        {
-            return _service.AvatarUploadPara(name);
-        }
+        ///// <summary>
+        /////  获取上传头像的参数
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public Resp<BucketUploadPara> AvatarUploadPara(string name)
+        //{
+        //    return _service.AvatarUploadPara(name);
+        //}
+
+        ///// <summary>
+        /////  获取商品上传的参数
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public Resp<BucketUploadPara> GetGoodsUploadParas(string name)
+        //{
+        //    return _service.GetGoodsUploadParas(name);
+        //}
+
+        ///// <summary>
+        /////  获取文章上传的参数
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public Resp<BucketUploadPara> GetArticleUploadParas(string name)
+        //{
+        //    return _service.GetArticleUploadParas(name);
+        //}
+
+        ///// <summary>
+        /////  获取商品上传的参数
+        ///// </summary>
+        ///// <returns></returns>
+        //[HttpGet]
+        //public Resp<BucketUploadPara> GetEditorUploadParas(string name)
+        //{
+        //    return _service.GetEditorUploadParas(name);
+        //}
 
         /// <summary>
         ///  获取商品上传的参数
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public Resp<BucketUploadPara> GetGoodsUploadParas(string name)
+        public Resp<BucketUploadPara> GetImgUploadParas(string name)
         {
-            return _service.GetGoodsUploadParas(name);
-        }
-
-        /// <summary>
-        ///  获取商品上传的参数
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public Resp<BucketUploadPara> GetEditorUploadParas(string name)
-        {
-            return _service.GetEditorUploadParas(name);
-        }
-
-        /// <summary>
-        ///  获取商品上传的参数
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public Resp<BucketUploadPara> GetConfigUploadParas(string name)
-        {
-            return _service.GetConfigUploadParas(name);
+            return _service.GetImgUploadParas(name);
         }
         #endregion
-    }
 
-    [ModuleName(ModuleNames.File)]
-    public class FileUploadController : BasePartnerController
-    {
-        private static readonly UploadService _service = new UploadService();
 
         /// <summary>
         ///  获取上传所需相关参数
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [AppPartnerName("FileCenter")]
         public Resp Upload([FromForm] UploadFileReq req)
         {
             if (!ModelState.IsValid)
@@ -93,27 +95,35 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.File
                 : _service.Upload(req, Request.Form.Files[0].OpenReadStream());
         }
 
-        //[HttpPost]
-        //[AppPartnerName("AliOSS")]
-        //public async Task<Resp> ali([FromQuery] string t)
-        //{
-        //    var token =  t;
-
-        //    var size = Request.Form["size"].FirstOrDefault();
-        //    var bucket = Request.Form["bucket"].FirstOrDefault();
-        //    var key = Request.Form["object"].FirstOrDefault();
-        //    var mime_type = Request.Form["mimeType"].FirstOrDefault();
-
-        //    var mo = new UploadFileMo
-        //    {
-        //        mime_type = mime_type,
-        //        size = size.ToInt32(),
-        //        bucket = bucket,
-        //        status = CommonStatus.Original
-        //    };
-
-        //    return await _service.UploadNotify(mo, token, key);
-        //}
-
     }
+
+    //[ModuleName(ModuleNames.File)]
+    //public class FileUploadController : BasePartnerController
+    //{
+    //    //private static readonly UploadService _service = new UploadService();
+
+      
+    //    //[HttpPost]
+    //    //[AppPartnerName("AliOSS")]
+    //    //public async Task<Resp> ali([FromQuery] string t)
+    //    //{
+    //    //    var token =  t;
+
+    //    //    var size = Request.Form["size"].FirstOrDefault();
+    //    //    var bucket = Request.Form["bucket"].FirstOrDefault();
+    //    //    var key = Request.Form["object"].FirstOrDefault();
+    //    //    var mime_type = Request.Form["mimeType"].FirstOrDefault();
+
+    //    //    var mo = new UploadFileMo
+    //    //    {
+    //    //        mime_type = mime_type,
+    //    //        size = size.ToInt32(),
+    //    //        bucket = bucket,
+    //    //        status = CommonStatus.Original
+    //    //    };
+
+    //    //    return await _service.UploadNotify(mo, token, key);
+    //    //}
+
+    //}
 }
