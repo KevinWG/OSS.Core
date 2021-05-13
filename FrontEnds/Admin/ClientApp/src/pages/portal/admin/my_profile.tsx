@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import BodyContent from '@/layouts/compents/body_content';
 
 import { useModel } from 'umi';
 import AdminDetail from './compents/admin_detail';
@@ -15,9 +15,9 @@ const MyselfProfile: React.FC<{}> = ({}) => {
     avatar: curAdmin?.avatar || '',
   };
   return (
-    <PageHeaderWrapper>
+    <BodyContent>
       <AdminDetail admininfo={adminInfo} is_mine={true} />
-    </PageHeaderWrapper>
+    </BodyContent>
   );
 };
 export default MyselfProfile;

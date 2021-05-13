@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { Request, Response } from 'express';
 import { UserInfo } from './data_d';
-import { success } from '../../../../mock/_mock';
+import { success } from '../../../mock/_mock';
 
 let tableListDataSource: UserInfo[] = [];
 
@@ -40,10 +40,10 @@ function lockUser(req: Request, res: Response, u: string) {
   res.send({ ret: 0 });
 }
 export default {
-  'POST /api/portal/CheckIfCanReg': success,
+  'POST /api/b/portal/CheckIfCanReg': success,
 
-  'POST /api/user/adduser': success,
-  'POST /api/user/SearchUsers': getUsers,
-  'POST /api/user/lock': lockUser,
-  'POST /api/user/unlock': lockUser,
+  'POST /api/b/user/AddUser': success,
+  'POST /api/b/user/searchusers': getUsers,
+  'POST /api/b/user/lock': lockUser,
+  'POST /api/b/user/unlock': lockUser,
 };

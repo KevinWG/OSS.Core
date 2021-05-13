@@ -36,11 +36,13 @@ async function adminLogin(url: string, bodyData: any) {
 }
 
 function getAuthAdminFuncList() {
-  return request<RespData<AccessItem[]>>('/api/permit/GetAuthUserFuncList');
+  return request<RespData<AccessItem[]>>('/api/b/permit/GetMyFuncs');
 }
 
 export async function getAuthAdminWithAccess() {
-  var adminRes = await request<RespData<AdminIdentity>>('/api/portal/GetAuthAdmin');
+
+  var adminRes = await request<RespData<AdminIdentity>>('/api/b/Portal/GetMyself');
+  // var adminRes = await request<RespData<AdminIdentity>>('/api/portal/GetAuthAdmin');
   if (adminRes.is_failed) {
     return adminRes;
   }
@@ -52,18 +54,18 @@ export async function getAuthAdminWithAccess() {
 }
 
 export function adminUserCodeLogin(bodyData: any) {
-  return adminLogin('/api/portal/AdminCodeLogin', bodyData);
+  return adminLogin('/api/b/portal/codeadminlogin', bodyData);
 }
 export async function adminUserPasswordLogin(bodyData: any) {
-  return await adminLogin('/api/portal/AdminPasswordLogin', bodyData);
+  return await adminLogin('/api/b/portal/PwdAdminLogin', bodyData);
 }
 
 export async function outLogin() {
-  return request('/api/portal/quit');
+  return request('/api/b/portal/Logout');
 }
 
 export function sendCode(type: number, name: string) {
-  return request<Resp>('/api/portal/SendCode', {
+  return request<Resp>('/api/b/portal/sendcode', {
     method: 'post',
     data: { type, name },
   });

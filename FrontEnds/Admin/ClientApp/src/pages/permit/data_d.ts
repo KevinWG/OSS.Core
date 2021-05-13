@@ -21,14 +21,14 @@ export interface RoleFuncItem {
   func_code: string;
 }
 
-export const role_status = {
-  [-999]: '全部',
-  [-100]: {
-    text: '作废',
-    status: 'Error',
-  },
-  [0]: {
-    text: '正常',
-    status: 'Success',
-  },
-};
+// export const role_status = {
+//   [-999]: '全部',
+//   [-100]: {
+//     text: '作废',
+//     status: 'Error',
+//   },
+//   [0]: {
+//     text: '正常',
+//     status: 'Success',
+//   },
+// };

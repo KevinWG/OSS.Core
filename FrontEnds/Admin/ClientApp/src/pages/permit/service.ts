@@ -4,7 +4,7 @@ import { RoleInfo, FuncItem, RoleFuncItem, RoleUserInfo } from './data_d';
 import { AdminInfo } from '../portal/admin/data_d';
 
 export async function searchRoles(searchReq: SearchReq) {
-  return request<PageListResp<RoleInfo>>('/api/permit/searchRoles', {
+  return request<PageListResp<RoleInfo>>('/api/b/permit/SearchRoles', {
     method: 'POST',
     data: searchReq,
   });
@@ -13,17 +13,17 @@ export async function searchRoles(searchReq: SearchReq) {
 export async function OperateRoleStatus(operate: string, record: RoleInfo): Promise<Resp> {
   switch (operate) {
     case 'active':
-      return request<Resp>('/api/permit/roleactive?rid=' + record.id, {
+      return request<Resp>('/api/b/permit/RoleActive?rid=' + record.id, {
         method: 'POST',
       });
       break;
     case 'active_off':
-      return request<Resp>('/api/permit/roleUnActive?rid=' + record.id, {
+      return request<Resp>('/api/b/permit/RoleUnActive?rid=' + record.id, {
         method: 'POST',
       });
       break;
     case 'delete':
-      return request<Resp>('/api/permit/roleDelete?rid=' + record.id, {
+      return request<Resp>('/api/b/permit/RoleDelete?rid=' + record.id, {
         method: 'POST',
       });
       break;
@@ -35,13 +35,13 @@ export async function OperateRoleStatus(operate: string, record: RoleInfo): Prom
 
 export async function roleEdit(newFormVals: any, oldData?: RoleInfo) {
   if (!oldData) {
-    return request<Resp>('/api/permit/roleAdd', {
+    return request<Resp>('/api/b/permit/roleadd', {
       method: 'POST',
       data: newFormVals,
     });
   }
 
-  return request<Resp>('/api/permit/roleUpdate', {
+  return request<Resp>('/api/b/permit/RoleUpdate', {
     method: 'POST',
     data: { id: oldData.id, ...newFormVals },
   });
@@ -51,21 +51,21 @@ export async function roleEdit(newFormVals: any, oldData?: RoleInfo) {
  * 获取所有权限项
  */
 export async function getSysAllFuncs() {
-  return request<ListResp<FuncItem>>('/api/permit/getAllFuncItems');
+  return request<ListResp<FuncItem>>('/api/b/permit/getAllFuncItems');
 }
 
 /**
  * 获取角色对应权限项
  */
 export async function getRoleFuncs(r_id: string) {
-  return request<ListResp<RoleFuncItem>>('/api/permit/GetRoleFuncList?rid=' + r_id);
+  return request<ListResp<RoleFuncItem>>('/api/b/permit/GetRoleFuncList?rid=' + r_id);
 }
 
 /**
  * 修改角色对应权限信息
  */
 export async function editRoleFuncs(r_id: string, add_items: string[], delete_items: string[]) {
-  return request<ListResp<RoleFuncItem>>('/api/permit/ChangeRoleFuncItems?rid=' + r_id, {
+  return request<ListResp<RoleFuncItem>>('/api/b/permit/ChangeRoleFuncItems?rid=' + r_id, {
     method: 'POST',
     data: { add_items, delete_items },
   });
@@ -75,7 +75,7 @@ export async function editRoleFuncs(r_id: string, add_items: string[], delete_it
  * 搜索角色和管理员绑定信息
  */
 export async function searchRoleUsers(searchReq: SearchReq) {
-  return request<PageListResp<RoleUserInfo>>('/api/permit/searchRoleUsers', {
+  return request<PageListResp<RoleUserInfo>>('/api/b/permit/SearchRoleUsers', {
     method: 'POST',
     data: searchReq,
   });
@@ -88,7 +88,7 @@ export async function searchRoleUsers(searchReq: SearchReq) {
 export async function OperateRoleUserStatus(operate: string, record: RoleUserInfo): Promise<Resp> {
   switch (operate) {
     case 'deleteRoleBind':
-      return request<Resp>('/api/permit/DeleteRoleBind?id=' + record.id, {
+      return request<Resp>('/api/b/permit/DeleteRoleBind?id=' + record.id, {
         method: 'POST',
       });
       break;
@@ -102,7 +102,7 @@ export async function OperateRoleUserStatus(operate: string, record: RoleUserInf
  * 添加用户角色绑定信息
  */
 export async function addRoleBind(vals: { admin_info: AdminInfo; role_info: RoleInfo }) {
-  return request<Resp>('/api/permit/addRoleBind', {
+  return request<Resp>('/api/b/permit/AddRoleBind', {
     method: 'POST',
     data: {
       role_id: vals.role_info.id,

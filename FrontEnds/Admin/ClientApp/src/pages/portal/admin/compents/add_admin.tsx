@@ -19,6 +19,8 @@ const AddAdmin = (props: AddAdminProps) => {
     manual: true,
   });
 
+  const {callback,...restProps} = props;
+
   async function onFinish(vals: any) {
     if (!userInfo.id) {
       message.error('必须选择绑定用户！');
@@ -28,11 +30,11 @@ const AddAdmin = (props: AddAdminProps) => {
     const reqBody = { u_id: userInfo.id, admin_name: vals.admin_name } as AdminCreateReq;
     const reqRes = await createReq.run(reqBody);
 
-    props.callback(reqRes);
+    callback(reqRes);
   }
 
   return (
-    <Drawer placement="right" title="创建管理员" width={640} {...props}>
+    <Drawer placement="right" title="创建管理员" width={640} {...restProps}>
       <Form name="add_admin" onFinish={onFinish}>
         <Form.Item label="选择关联用户：">
           <Button

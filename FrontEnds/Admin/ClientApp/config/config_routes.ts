@@ -29,7 +29,7 @@ const routes = [
     name: '用户管理',
     icon: 'user',
     path: '/portal',
-    access: FuncCodes.Portal,
+    access: FuncCodes.Portal_UserList,
     routes: [
       {
         name: '用户列表',
@@ -69,6 +69,7 @@ const routes = [
       },
     ],
   },
+  
   {
     component: './404',
   },

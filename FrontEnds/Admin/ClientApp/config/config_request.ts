@@ -1,4 +1,4 @@
-﻿import { PortalConfig } from './config_routes';
+import { PortalConfig } from './config_routes';
 import { message } from 'antd';
 import { history, RequestConfig } from 'umi';
 

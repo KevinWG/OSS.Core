@@ -1,11 +1,12 @@
 interface GetUploadResp{
-    upload_url:string,
-    paras:UploadPara,    
+  upload_address:string,
+    paras:any,
+    access_url:string    
   }
 
-  interface UploadPara{
-    key:string,
-    OSSAccessKeyId:string,
-    policy:string,
-    Signature:string
-  }
+  // interface UploadPara{
+  //   key:string,
+  //   OSSAccessKeyId:string,
+  //   policy:string,
+  //   Signature:string
+  // }

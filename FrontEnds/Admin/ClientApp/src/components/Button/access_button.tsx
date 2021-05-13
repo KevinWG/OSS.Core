@@ -1,50 +1,18 @@
-import { useAccess, Access } from 'umi';
-import React from 'react';
-import { Popconfirm, Tooltip, Button } from 'antd';
-import { PopconfirmProps } from 'antd/lib/popconfirm';
-import { ButtonProps } from 'antd/lib/button';
+import { Button, ButtonProps } from "antd";
+import React from "react";
+import FuncAccess from "../func_access";
 
-interface AccessButtonProps extends ButtonProps {
-  tip_title?: string;
-  func_code?: string;
-
-  confirm_props?: PopconfirmProps;
+interface FuncAccessButtonProps extends ButtonProps {
+    func_code: string;
+    hidden?: boolean;
 }
 
-const AccessButton: React.FC<AccessButtonProps> = (props) => {
-  const { func_code, ...restProps } = props;
+export default function AccessButton(props: FuncAccessButtonProps) {
+    const { func_code, hidden, ...restProps } = props;
 
-  if (!func_code) {
-    return <AccessButtonCheckConfirm {...restProps}>{props.children}</AccessButtonCheckConfirm>;
-  }
-
-  const access = useAccess();
-  return (
-    <>
-      <Access accessible={access[func_code]}>
-        <AccessButtonCheckConfirm {...restProps}>{props.children}</AccessButtonCheckConfirm>
-      </Access>
-    </>
-  );
-};
-
-const AccessButtonCheckConfirm: React.FC<AccessButtonProps> = (props) => {
-  const { confirm_props, tip_title, ...restProps } = props;
-  if (!confirm_props) {
     return (
-      <Tooltip title={tip_title}>
-        <Button {...restProps}>{props.children}</Button>
-      </Tooltip>
+        <FuncAccess hidden={hidden} func_code={func_code}>
+            <Button type="dashed" shape='round' size='small' {...restProps}>{props.children}</Button>
+        </FuncAccess>
     );
-  }
-
-  return (
-    <Popconfirm {...confirm_props}>
-      <Tooltip title={tip_title}>
-        <Button {...restProps}>{props.children}</Button>
-      </Tooltip>
-    </Popconfirm>
-  );
 };
-
-export default AccessButton;

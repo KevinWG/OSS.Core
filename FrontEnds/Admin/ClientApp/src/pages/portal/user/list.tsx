@@ -1,24 +1,28 @@
 import React from 'react';
 import { Form, Avatar } from 'antd';
 import { useRef, useState } from 'react';
+
+import { LockOutlined, UnlockOutlined, PlusOutlined } from '@ant-design/icons';
+
+import SearchForm from '@/components/search/search_form';
+import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 import { FormItemFactoryType, FormItemFactoryProps } from '@/components/form/form_item_factory';
 import SearchTable, {
   SearchTableAction,
   getTextFromTableStatus,
-} from '@/components/Search/search_table';
-import TableAccessButtons from '@/components/Button/table_access_buttons';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import SearchForm from '@/components/Search/search_form';
+} from '@/components/search/search_table';
+import BodyContent from '@/layouts/compents/body_content';
 
 import { formatTimestamp } from '@/utils/utils';
-
 import { FuncCodes, Resp } from '@/utils/resp_d';
+
 import { UserInfo } from './data_d';
 import { searchUsers, lockUser } from './service';
-import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
+
 import Profile from './components/Profile';
-import AccessButton from '@/components/Button/access_button';
 import AddUser from './components/add_user';
+import AccessButton from '@/components/button/access_button';
+
 
 const UserList: React.FC<{}> = () => {
   const searchFormItems: FormItemFactoryProps[] = [
@@ -69,6 +73,7 @@ const UserList: React.FC<{}> = () => {
         },
       ],
     },
+    
   ];
 
   const tableColumns = [
@@ -111,14 +116,14 @@ const UserList: React.FC<{}> = () => {
       title: '操作',
       dataIndex: 'id',
       render: (_: any, r: UserInfo) => (
-        <TableAccessButtons
+        <TableFetchButtons
           record={r}
           callback={(res, item, aName) => {
             if (res.is_ok) tableRef.current?.refresh();
           }}
           fetchKey={(item) => item.id}
           condition_buttons={statusButtons}
-        ></TableAccessButtons>
+        ></TableFetchButtons>
       ),
     },
   ];
@@ -148,7 +153,7 @@ const UserList: React.FC<{}> = () => {
   }
 
   return (
-    <PageHeaderWrapper>
+    <BodyContent>
       <SearchForm
         items={searchFormItems}
         form={formRef}
@@ -168,6 +173,7 @@ const UserList: React.FC<{}> = () => {
             setAddUserVisible(true);
           }}
         >
+          <PlusOutlined />
           新增用户
         </AccessButton>
       </SearchForm>
@@ -187,7 +193,7 @@ const UserList: React.FC<{}> = () => {
           setAddUserVisible(false);
         }}
       ></AddUser>
-    </PageHeaderWrapper>
+    </BodyContent>
   );
 };
 

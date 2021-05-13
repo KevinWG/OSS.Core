@@ -7,7 +7,7 @@ import { useRequest } from 'umi';
 import { getSysAllFuncs, getRoleFuncs, editRoleFuncs } from '../service';
 import { DataNode } from 'antd/lib/tree';
 import { CompareNotIn } from '@/utils/utils';
-import AccessButton from '@/components/Button/access_button';
+import AccessButton from '@/components/button/access_button';
 
 function getTreeNodes(funcItems: FuncItem[], parentCode?: string): DataNode[] {
   const trees: DataNode[] = [];

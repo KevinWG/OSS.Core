@@ -1,11 +1,9 @@
-import { useRequest } from 'umi';
-import { message } from 'antd';
 import { lockUser } from '../service';
 import React from 'react';
 import { LockOutlined, UnlockOutlined } from '@ant-design/icons';
-import AccessButton from '@/components/Button/access_button';
 import { FuncCodes } from '@/utils/resp_d';
 import { UserInfo } from '../data_d';
+import { TableFetchButton } from '@/components/button/table_Fetch_buttons';
 
 // 锁定按钮
 const UserLockButton: React.FC<{
@@ -14,36 +12,15 @@ const UserLockButton: React.FC<{
   title: string;
   listReload: () => void;
 }> = ({ record, listReload, title, isLock }) => {
-  var lockReq = useRequest(lockUser, {
-    manual: true,
-    fetchKey: (r) => r.id,
-  });
-
-  const handler = async (item: UserInfo) => {
-    message.info('开始' + title);
-    var res = await lockReq.run(item, isLock);
-    if (res.is_ok) {
-      message.info(title + '成功！');
-      listReload();
-    } else {
-      message.info(title + '失败:' + res.msg);
-    }
-  };
-
   return (
-    <AccessButton
+    <TableFetchButton<UserInfo>
       func_code={isLock ? FuncCodes.Portal_UserLock : FuncCodes.Portal_UserUnLock}
-      confirm_props={{
-        title: '是否确认' + title + '？',
-        onConfirm: () => handler(record),
-        okText: '确认',
-        cancelText: '放弃',
-      }}
-      type='dashed'
-      shape='circle'
-      loading={lockReq.fetches[record.id]?.loading}
+      record={record}
+      fetch={(r) => lockUser(r, isLock)}
+      fetchKey={(r) => r.id}
+      callback={() => { listReload() }}
       icon={isLock ? <LockOutlined /> : <UnlockOutlined />}
-    ></AccessButton>
+    ></TableFetchButton>
   );
 };
 

@@ -1,16 +1,15 @@
 import React, { useRef, useState } from 'react';
 import { Form, Space } from 'antd';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import BodyContent from '@/layouts/compents/body_content';
 import { CloseCircleOutlined } from '@ant-design/icons';
 
-import SearchForm from '@/components/Search/search_form';
+import SearchForm from '@/components/search/search_form';
 import SearchTable, {
   SearchTableAction,
   getTextFromTableStatus,
-} from '@/components/Search/search_table';
+} from '@/components/search/search_table';
 import { FormItemFactoryProps, FormItemFactoryType } from '@/components/form/form_item_factory';
-import TableAccessButtons from '@/components/Button/table_access_buttons';
-import AccessButton from '@/components/Button/access_button';
+import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 
 import { formatTimestamp } from '@/utils/utils';
 
@@ -18,6 +17,7 @@ import { RoleUserInfo } from './data_d';
 import { OperateRoleUserStatus, searchRoleUsers } from './service';
 import BindRoleUser from './compents/bind_role_user';
 import { FuncCodes } from '@/utils/resp_d';
+import AccessButton from '@/components/button/access_button';
 
 const tableStatus = [
   { label: '正常', value: '0' },
@@ -34,7 +34,7 @@ const searchFormItems: FormItemFactoryProps[] = [
     type: FormItemFactoryType.input,
     label: '管理员名称',
     name: 'u_name',
-  },
+  }
 ];
 
 const RoleList: React.FC<{}> = () => {
@@ -82,20 +82,20 @@ const RoleList: React.FC<{}> = () => {
       title: '操作',
       dataIndex: 'id',
       render: (_: any, r: RoleUserInfo) => (
-        <TableAccessButtons
+        <TableFetchButtons
           record={r}
           callback={(res, item, aName) => {
             if (res.is_ok) tableRef.current?.refresh();
           }}
           fetchKey={(item) => item.id}
           condition_buttons={statusButtons}
-        ></TableAccessButtons>
+        ></TableFetchButtons>
       ),
     },
   ];
 
   return (
-    <PageHeaderWrapper>
+    <BodyContent>
       <SearchForm
         items={searchFormItems}
         form={formRef}
@@ -140,7 +140,7 @@ const RoleList: React.FC<{}> = () => {
           }
         }}
       ></BindRoleUser>
-    </PageHeaderWrapper>
+    </BodyContent>
   );
 };
 

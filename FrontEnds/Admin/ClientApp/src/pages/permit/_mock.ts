@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createTestPageList, success } from '../../../mock/_mock';
+import { createTestPageList, success } from '../../mock/_mock';
 import { RoleInfo, FuncItem, RoleFuncItem, RoleUserInfo } from './data_d';
 import { ListResp } from '@/utils/resp_d';
 
@@ -67,18 +67,18 @@ function searchUserLists(req: Request, res: Response, u: string) {
 }
 
 export default {
-  'POST /api/permit/searchRoles': searchLists,
-  'POST /api/permit/roleactive': success,
-  'POST /api/permit/roleUnActive': success,
-  'POST /api/permit/roleDelete': success,
-  'POST /api/permit/roleAdd': success,
-  'POST /api/permit/roleUpdate': success,
+  'POST /api/b/permit/SearchRoles': searchLists,
+  'POST /api/b/permit/RoleActive': success,
+  'POST /api/b/permit/roleUnActive': success,
+  'POST /api/b/permit/RoleDelete': success,
+  'POST /api/b/permit/roleadd': success,
+  'POST /api/b/permit/RoleUpdate': success,
 
-  'GET /api/permit/getAllFuncItems': getAllFuncItems,
-  'GET /api/permit/GetRoleFuncList': getRoleFuncItems,
-  'POST /api/permit/ChangeRoleFuncItems': success,
+  'GET /api/b/permit/GetAllFuncItems': getAllFuncItems,
+  'GET /api/b/permit/GetRoleFuncList': getRoleFuncItems,
+  'POST /api/b/permit/ChangeRoleFuncItems': success,
 
-  'POST /api/permit/searchRoleUsers': searchUserLists,
-  'POST /api/permit/DeleteRoleBind': success,
-  'POST /api/permit/addRoleBind': success,
+  'POST /api/b/permit/SearchRoleUsers': searchUserLists,
+  'POST /api/b/permit/DeleteRoleBind': success,
+  'POST /api/b/permit/AddRoleBind': success,
 };

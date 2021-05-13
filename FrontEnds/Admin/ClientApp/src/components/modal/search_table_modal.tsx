@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 import { Modal, Button } from 'antd';
 import { ModalProps } from 'antd/lib/modal';
-import SearchForm from '@/components/Search/search_form';
-import SearchTable, { SearchTableAction } from '@/components/Search/search_table';
+import SearchForm from '@/components/search/search_form';
+import SearchTable, { SearchTableAction } from '@/components/search/search_table';
 import { FormItemFactoryProps } from '@/components/form/form_item_factory';
 import { ColumnsType } from 'antd/lib/table';
 import { BaseMo, SearchReq, PageListResp } from '@/utils/resp_d';

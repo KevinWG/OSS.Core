@@ -42,9 +42,9 @@ function success(req: Request, res: Response, u: string) {
   });
 }
 export default {
-  'POST /api/admin/SearchAdmins': searchAdmins,
-  'POST /api/admin/create': success,
-  'POST /api/admin/lock': success,
-  'POST /api/admin/unlock': success,
-  'POST /api/admin/setAdminType': success,
+  'POST /api/b/admin/searchadmins': searchAdmins,
+  'POST /api/b/admin/create': success,
+  'POST /api/b/admin/lock': success,
+  'POST /api/b/admin/unlock': success,
+  'POST /api/b/admin/SetAdminType': success,
 };

@@ -9,11 +9,11 @@ export default defineConfig({
   hash: true,
   // 表示生成文件是否含有hash值
   antd: {},
-  outputPath: 'antd_spa',
+  outputPath: '.dist',
   dva: {
     hmr: true,
   },
-  layout:  {
+  layout: {
     name: 'OSSCore',
     locale: false,
     logo: '/logo.png',
@@ -26,7 +26,7 @@ export default defineConfig({
     baseNavigator: true,
   },
   dynamicImport: {
-    loading: '@/components/PageLoading/index',
+    loading: '@/components/page_loading/index',
   },
   request: {
     dataField: '',
@@ -35,7 +35,7 @@ export default defineConfig({
     ie: 11,
   },
   // umi routes: https://umijs.org/docs/routing
-  routes:routes,
+  routes: routes,
   // Theme for antd: https://ant.design/docs/react/customize-theme-cn
   theme: {
     // ...darkTheme,
@@ -46,4 +46,6 @@ export default defineConfig({
   manifest: {
     basePath: '/',
   },
+
+  // publicPath:"http://www.a.com/"
 });

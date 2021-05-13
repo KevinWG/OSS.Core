@@ -28,6 +28,8 @@ const FuncCodes = {
   Permit_RoleUserSearch: 'permit_roleuser_search',
   Permit_RoleUserBind: 'permit_roleuser_bind',
   Permit_RoleUserDelete: 'permit_roleuser_delete',
+
+
 };
 
 export default FuncCodes;

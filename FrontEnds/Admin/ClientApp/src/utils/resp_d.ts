@@ -31,7 +31,7 @@ export interface SearchReq {
   current: number;
   size: number;
   orders?: { [pname: string]: 'ASC' | 'DESC' };
-  filters: { [pname: string]: string };
+  filter: { [pname: string]: string };
 }
 export interface SearchFilterType {
   [pname: string]: string;

@@ -1,12 +1,12 @@
 import React, { useRef, useState } from 'react';
 import { Form, Space } from 'antd';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import BodyContent from '@/layouts/compents/body_content';
 
-import SearchForm from '@/components/Search/search_form';
+import SearchForm from '@/components/search/search_form';
 import SearchTable, {
   SearchTableAction,
   getTextFromTableStatus,
-} from '@/components/Search/search_table';
+} from '@/components/search/search_table';
 import { FormItemFactoryProps, FormItemFactoryType } from '@/components/form/form_item_factory';
 
 import { formatTimestamp } from '@/utils/utils';
@@ -14,7 +14,7 @@ import { formatTimestamp } from '@/utils/utils';
 import { RoleInfo } from './data_d';
 import EditRole from './compents/edit_role';
 import { searchRoles, OperateRoleStatus } from './service';
-import TableAccessButtons, { TableAccessButton } from '@/components/Button/table_access_buttons';
+import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -23,8 +23,8 @@ import {
   SearchOutlined,
 } from '@ant-design/icons';
 import EditRoleFunc from './compents/edit_role_funcs';
-import AccessButton from '@/components/Button/access_button';
 import { FuncCodes } from '@/utils/resp_d';
+import AccessButton from '@/components/button/access_button';
 
 const RoleList: React.FC<{}> = () => {
   const searchFormItems: FormItemFactoryProps[] = [
@@ -63,15 +63,7 @@ const RoleList: React.FC<{}> = () => {
           func_code: FuncCodes.Permit_RoleActive,
           icon: <CloseCircleOutlined />,
         },
-        {
-          btn_text: '编辑',
-          func_code: FuncCodes.Permit_RoleUpdate,
-          btn_click: (item?: RoleInfo) => {
-            setRoleInfo(item);
-            setEditShow(true);
-          },
-          icon: <EditOutlined />,
-        },
+
       ],
     },
     {
@@ -114,36 +106,44 @@ const RoleList: React.FC<{}> = () => {
       title: '关联权限',
       dataIndex: 'id',
       render: (_: any, record: any) => (
-        <TableAccessButton
-          record={record}
-          btn_click={() => {
+        <AccessButton
+          onClick={() => {
             setEditFuncRoleInfo(record);
             setEditFuncShow(true);
           }}
           func_code={FuncCodes.Permit_RoleFuncList}
           icon={<SearchOutlined />}
-          btn_text="查看关联权限"
-        ></TableAccessButton>
+        >查看关联权限</AccessButton>
       ),
     },
     {
       title: '操作',
       dataIndex: 'id',
       render: (_: any, r: RoleInfo) => (
-        <TableAccessButtons
-          record={r}
-          callback={(res, item, aName) => {
-            if (res.is_ok) tableRef.current?.refresh();
-          }}
-          fetchKey={(item) => item.id}
-          condition_buttons={statusButtons}
-        ></TableAccessButtons>
+        <>
+          <AccessButton
+            func_code={FuncCodes.Permit_RoleUpdate}
+            hidden={r.status != 0}
+            onClick={() => {
+              setRoleInfo(r);
+              setEditShow(true);
+            }}
+            icon={<EditOutlined />}
+          >编辑</AccessButton>
+          <TableFetchButtons
+            record={r}
+            callback={(res, item, aName) => {
+              if (res.is_ok) tableRef.current?.refresh();
+            }}
+            fetchKey={(item) => item.id}
+            condition_buttons={statusButtons}
+          ></TableFetchButtons></>
       ),
     },
   ];
 
   return (
-    <PageHeaderWrapper>
+    <BodyContent>
       <SearchForm
         // size="small"
         items={searchFormItems}
@@ -164,6 +164,7 @@ const RoleList: React.FC<{}> = () => {
               setRoleInfo(undefined);
               setEditShow(true);
             }}
+            func_code={FuncCodes.Permit_RoleAdd}
           >
             新增角色
           </AccessButton>
@@ -213,7 +214,7 @@ const RoleList: React.FC<{}> = () => {
           setEditFuncShow(false);
         }}
       ></EditRoleFunc>
-    </PageHeaderWrapper>
+    </BodyContent>
   );
 };
 

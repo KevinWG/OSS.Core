@@ -1,27 +1,27 @@
 import React from 'react';
-import { Form, Button, Card, Row, Col, Space, Radio, Divider } from 'antd';
+import { Form, Button,  Row, Col, Space, Radio, Divider } from 'antd';
 import { FormProps } from 'antd/lib/form';
 import FormItemFactory, { FormItemFactoryProps } from '../form/form_item_factory';
-import { SizeType } from 'antd/lib/config-provider/SizeContext';
 
 export interface SearchFormProps extends FormProps {
   items: FormItemFactoryProps[];
   reset?: () => void;
 
   finish_with_undifined?: boolean;
-  top_radios?: { options: { label: string; value: string; disable?: boolean }[]; name: string };
-  size?: SizeType;
+  top_radios?: { options: { label: string; value: string|number; disable?: boolean }[]; name: string };
+  // size?: SizeType;
 }
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
-  const { form, items, reset, onFinish, top_radios, size, ...restProps } = props;
+  const { form, items, reset, onFinish, top_radios,  ...restProps } = props;
   const count = items.length;
 
   if (count == 0) {
     return <></>;
   }
 
-  const formRef = form || Form.useForm()[0];
+  const size="middle";
+  const [formRef] = form? [form] : Form.useForm();
 
   const colSpan = {
     xs: 12,
@@ -34,16 +34,15 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     if (!onFinish) return;
 
     for (let i in vals) {
-      if (!vals[i]) {
+      if (vals[i]!==0&&!vals[i]) {
         delete vals[i];
       }
     }
     onFinish(vals);
   }
-
+ 
   return (
-    <div className="search-form">
-      <Card size={size}>
+
         <Form
           form={formRef}
           onFinish={props.finish_with_undifined ? onFinish : deleteNullFinish}
@@ -59,6 +58,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                       size={size}
                       name={top_radios.name}
                       options={top_radios.options}
+                      onChange={()=>formRef.submit()}
                     ></Radio.Group>
                   </Form.Item>
                 )}
@@ -66,7 +66,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
               <Col span={12} style={{ textAlign: 'right' }}>
                 {props.children}
               </Col>
-              <Divider style={{ marginTop: 16, marginBottom: 12 }} />
+              <Divider style={{ marginTop: 0, marginBottom: 12 }} />
             </Row>
           )}
 
@@ -108,8 +108,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             </Col>
           </Row>
         </Form>
-      </Card>
-    </div>
+
   );
 };
 

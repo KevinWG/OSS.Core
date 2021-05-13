@@ -4,7 +4,7 @@ import { DefaultFooter } from '@ant-design/pro-layout';
 
 export default () => (
   <DefaultFooter
-    copyright={new Date().getFullYear() + ' @OSSCore'}
+    copyright={new Date().getFullYear() + ' @万泰创新'}
     links={
       [
         // {

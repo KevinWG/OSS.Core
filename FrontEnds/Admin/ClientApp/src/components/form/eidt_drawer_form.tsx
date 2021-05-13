@@ -1,15 +1,17 @@
 import React, { useEffect } from 'react';
 import { Drawer, Button, Space, Form, message } from 'antd';
 import { DrawerProps } from 'antd/lib/drawer';
+import { useRequest } from 'umi';
 
 import { Resp } from '@/utils/resp_d';
 
 import EditForm from '@/components/form/edit_form';
 import { FormItemFactoryProps } from '@/components/form/form_item_factory';
-import { useRequest } from 'umi';
+
 
 interface EditDrawerProps<T> extends DrawerProps {
   callback: (res: Resp) => void;
+  
   edit_fetch: (newVals: any, oldRecord?: T) => Promise<Resp>;
   record?: T;
   form_items: FormItemFactoryProps[];
@@ -17,7 +19,7 @@ interface EditDrawerProps<T> extends DrawerProps {
 }
 
 export default function EditDrawerForm<T>(props: EditDrawerProps<T>) {
-  const { callback, edit_fetch, record, form_items, row_item_count, ...restProps } = props;
+  const { callback, edit_fetch, record, form_items, visible, row_item_count, ...restProps } = props;
 
   const [editForm] = Form.useForm();
   const editReq = useRequest(edit_fetch, {
@@ -38,12 +40,14 @@ export default function EditDrawerForm<T>(props: EditDrawerProps<T>) {
 
   // 因为 initialValues 的特殊，变化后这里需要重置一下
   useEffect(() => {
-    editForm.resetFields();
+    if(visible){
+      editForm.resetFields();
+    }
   }, [record]);
 
   return (
-    <Drawer placement="right" width={680} {...restProps}>
-      <EditForm
+    <Drawer placement="right" width={680} visible={visible} {...restProps}>
+      <EditForm name="DrawerEditForm"
         form={editForm}
         items={form_items}
         row_item_count={row_item_count}
@@ -54,7 +58,6 @@ export default function EditDrawerForm<T>(props: EditDrawerProps<T>) {
           <Button type="primary" htmlType="submit" loading={editReq.loading}>
             保存
           </Button>
-
           <Button
             type="default"
             onClick={() => {

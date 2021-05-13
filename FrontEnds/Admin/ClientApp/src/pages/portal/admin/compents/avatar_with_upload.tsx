@@ -9,22 +9,21 @@ import { useModel } from 'umi';
 
 const AvatarWithUpload: React.FC<{ is_mine: boolean }> = ({ is_mine }) => {
   const [uploadPara, setUploadPara] = useState({} as GetUploadResp);
-  // const [userAvatar, setUserAvatar] = useState('');
   const [uploading, setUploading] = useState(false);
   const { initialState, setInitialState } = useModel('@@initialState');
   const currentUser = initialState?.currentUser || ({} as AdminIdentity);
 
-  const beforUpload = function () {
+  const beforUpload = function (file:any) {
     setUploading(true);
 
-    var promise = new Promise((res, rej) => {
-      getAvatarUploadPara().then((rData) => {
+    var promise = new Promise<void>((res, rej) => {
+      getAvatarUploadPara(file.name).then((rData) => {
         if (rData.is_ok) {
           setUploadPara(rData.data);
-          res(rData);
+          res();
         } else {
           message.error(rData.msg);
-          rej(rData);
+          rej();
         }
       });
     });
@@ -32,18 +31,20 @@ const AvatarWithUpload: React.FC<{ is_mine: boolean }> = ({ is_mine }) => {
   };
 
   function getUploadAction() {
-    return uploadPara.upload_url;
+    return uploadPara.upload_address;
   }
   function getUploadData() {
     return uploadPara.paras;
   }
-  function onChange(info: { file: { status: string } }) {
+  function onChange(info: any) {
     if (info.file.status == 'done') {
-      var imgSrc = uploadPara.upload_url + uploadPara.paras.key;
+      
+      var imgSrc = uploadPara.access_url;
       updateNewAvatar(imgSrc)
         .then((res) => {
           if (res.is_ok) {
             currentUser.avatar = imgSrc;
+
             setInitialState({ ...initialState, currentUser: currentUser });
 
             message.info('头像修改成功！');
@@ -57,20 +58,21 @@ const AvatarWithUpload: React.FC<{ is_mine: boolean }> = ({ is_mine }) => {
     } else if (info.file.status == 'error') {
       message.info('上传失败！');
       setUploading(false);
-    }
+    } 
   }
 
   const uploadProps: UploadProps = {
     showUploadList: false,
     beforeUpload: beforUpload,
-    data: getUploadData,
+    data:getUploadData,
     action: getUploadAction,
     onChange: onChange,
+    // headers:{"Content-Type":""}
   };
   return (
     <Space direction="vertical">
-      <Avatar size={120} src={currentUser.avatar + '/s200'} icon={<UserOutlined />} />
-      <Upload {...uploadProps}>
+      <Avatar size={120} src={currentUser.avatar } icon={<UserOutlined />} />
+      <Upload method="POST" {...uploadProps}>
         {is_mine && (
           <Button loading={uploading}>
             <UploadOutlined /> 上传/更换

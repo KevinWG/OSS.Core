@@ -1,27 +1,25 @@
 import React, { useRef, useState } from 'react';
-import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import BodyContent from '@/layouts/compents/body_content';
 
-import { Avatar, Button, message, Form } from 'antd';
+import { Avatar, message } from 'antd';
 import { formatTimestamp } from '@/utils/utils';
 import { searchAdmins, lockAdmin, setAdminType } from './service';
 import { AdminInfo } from './data_d';
 import { PlusOutlined, LockOutlined, UnlockOutlined } from '@ant-design/icons';
-import { Access, useAccess } from 'umi';
 import AddAdmin from './compents/add_admin';
 import { FuncCodes } from '@/utils/resp_d';
 import { FormItemFactoryType, FormItemFactoryProps } from '@/components/form/form_item_factory';
 import SearchTable, {
   getTextFromTableStatus,
   SearchTableAction,
-} from '@/components/Search/search_table';
-import SearchForm from '@/components/Search/search_form';
-import TableAccessButtons from '@/components/Button/table_access_buttons';
-
+} from '@/components/search/search_table';
+import SearchForm from '@/components/search/search_form';
+import TableFetchButtons from '@/components/button/table_Fetch_buttons';
+import AccessButton from '@/components/button/access_button';
 const AdminList: React.FC<{}> = () => {
   const tableRef = useRef<SearchTableAction>();
-  const [formRef] = Form.useForm();
+  // const [formRef] = Form.useForm();
   const [addAdminVis, setAddAdminVis] = useState(false);
-  const access = useAccess();
 
   const searchFormItems: FormItemFactoryProps[] = [
     {
@@ -117,14 +115,14 @@ const AdminList: React.FC<{}> = () => {
       title: '操作',
       dataIndex: 'id',
       render: (_: any, r: AdminInfo) => (
-        <TableAccessButtons
+        <TableFetchButtons
           record={r}
           callback={(res, item, aName) => {
             if (res.is_ok) tableRef.current?.refresh();
           }}
           fetchKey={(item) => item.id}
           condition_buttons={statusButtons}
-        ></TableAccessButtons>
+        ></TableFetchButtons>
       ),
     },
   ];
@@ -132,10 +130,10 @@ const AdminList: React.FC<{}> = () => {
   const defaultFilter = { status: '0' };
 
   return (
-    <PageHeaderWrapper>
+    <BodyContent>
       <SearchForm
         items={searchFormItems}
-        form={formRef}
+        // form={formRef}
         initialValues={defaultFilter}
         onFinish={(vals) => {
           tableRef.current?.reload(vals);
@@ -145,18 +143,17 @@ const AdminList: React.FC<{}> = () => {
           options: tableStatus,
         }}
       >
-        <Access accessible={access[FuncCodes.Portal_AdminCreate]}>
-          <Button
+           <AccessButton
             type="primary"
             onClick={() => {
               setAddAdminVis(true);
             }}
+            func_code={FuncCodes.Portal_AdminCreate}
           >
-            <PlusOutlined />
+              <PlusOutlined />
             新增管理员
-          </Button>
-        </Access>
-        ,
+          </AccessButton>
+        
       </SearchForm>
 
       <SearchTable<AdminInfo>
@@ -181,7 +178,7 @@ const AdminList: React.FC<{}> = () => {
           tableRef.current?.refresh(true);
         }}
       />
-    </PageHeaderWrapper>
+    </BodyContent>
   );
 };
 

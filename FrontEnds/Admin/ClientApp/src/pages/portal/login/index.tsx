@@ -34,11 +34,11 @@ export default (props: any) => {
         <div className={styles.top}>
           <div className={styles.header}>
             <Link to="/">
-              {/* <img alt="logo" className={styles.logo} src={require('@/assets/logo.png')} /> */}
+       
               <span className={styles.title}>OSSCore</span>
             </Link>
           </div>
-          <div className={styles.desc}>.Net Core 开源框架</div>
+          {/* <div className={styles.desc}>.Net Core 开源框架</div> */}
         </div>
         <div className={styles.main}>
           {errMsg?.is_failed && (
