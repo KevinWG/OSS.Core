@@ -12,7 +12,8 @@ namespace OSS.Core.Services.Plugs.File
         /// <returns></returns>
         public Resp Upload(UploadFileReq req, Stream file)
         {
-            return new Resp();
+            return new Resp(RespTypes.OperateFailed, "未实现该功能！");
+            
         }
 
         //public async Task<Resp> Notify(UploadFileMo mo,string token,string key)

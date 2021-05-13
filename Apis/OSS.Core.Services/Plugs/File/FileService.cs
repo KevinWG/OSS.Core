@@ -10,6 +10,7 @@ namespace OSS.Core.Services.Plugs.File
 {
     public class FileService
     {
+
         #region 获取上传参数
 
         /// <summary>
@@ -53,6 +54,8 @@ namespace OSS.Core.Services.Plugs.File
         }
         #endregion
 
+
+
         ///// <summary>
         /////  获取用户图片列表
         ///// </summary>
@@ -67,6 +70,7 @@ namespace OSS.Core.Services.Plugs.File
         //}
 
 
+
         /// <summary>
         ///  获取上传参数信息
         /// </summary>
@@ -74,8 +78,7 @@ namespace OSS.Core.Services.Plugs.File
         private static Resp<BucketUploadPara> GetUploadPara(string category, string fileName)
         {
             var path = GetPathKey(category, fileName, UserContext.Identity.id);
-            return new Resp<BucketUploadPara>().WithResp(RespTypes.OperateFailed, "未实现");
-            //return HWFileHelper.GetUploadPara(category, path);
+            return new Resp<BucketUploadPara>().WithResp(RespTypes.OperateFailed, "未实现该功能");
         }
 
 
