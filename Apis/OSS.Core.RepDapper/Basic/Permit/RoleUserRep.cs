@@ -22,7 +22,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         ///  获取当前授权用户的功能权限列表  
         /// </summary>
         /// <returns></returns>
-        public Task<ListResp<string>> GetRoleIdsByUserId(string userId)
+        public Task<ListResp<string>> GetRoleIdsByUserId(long userId)
         {
             var sql = string.Concat("select role_id from ", TableName,
                 " where u_id=@u_id and status>@status");

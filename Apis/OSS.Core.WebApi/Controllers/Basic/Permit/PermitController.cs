@@ -15,7 +15,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
     [Route("b/[controller]/[action]")]
     public class PermitController:BaseController
     {
-        private static readonly PermitService _service=new PermitService();
+        private static readonly PermitService _service = new PermitService();
 
         #region 角色处理
 
@@ -68,7 +68,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         [UserFuncCode(ApiFuncCodes.Permit_RoleActive)]
         public Task<Resp> RoleActive(long rid)
         {
-            return rid<=0
+            return rid <= 0
                 ? Task.FromResult(GetInvalidResp())
                 : _service.RoleActive(rid);
         }
@@ -112,7 +112,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <returns></returns>
         [HttpGet]
         [UserFuncCode(ApiFuncCodes.Permit_RoleFuncList)]
-        public Task<ListResp<FuncBigItem>> GetAllFuncItems() 
+        public Task<ListResp<FuncBigItem>> GetAllFuncItems()
         {
             return _service.GetAllFuncItems();
         }
@@ -136,9 +136,9 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <returns></returns> 
         [HttpGet]
         [UserFuncCode(ApiFuncCodes.Permit_RoleFuncList)]
-        public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(string rid)
+        public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(long rid)
         {
-            return string.IsNullOrEmpty(rid)
+            return rid <= 0
                 ? Task.FromResult(new ListResp<RoleFunSmallMo>().WithResp(GetInvalidResp()))
                 : _service.GetRoleFuncList(rid);
         }
@@ -150,11 +150,11 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <returns></returns>
         [HttpPost]
         [UserFuncCode(ApiFuncCodes.Permit_RoleFuncChange)]
-        public Task<Resp> ChangeRoleFuncItems(string rid, [FromBody] ChangeRoleFuncItemsReq items)
+        public Task<Resp> ChangeRoleFuncItems(long rid, [FromBody] ChangeRoleFuncItemsReq items)
         {
-            if (string.IsNullOrEmpty(rid)
+            if (rid <= 0
                 || items == null
-                || !(items.add_items?.Count >0  || items.delete_items?.Count > 0))
+                || !(items.add_items?.Count > 0 || items.delete_items?.Count > 0))
                 return Task.FromResult(GetInvalidResp());
 
             return _service.ChangeRoleFuncItems(rid, items.add_items, items.delete_items);
@@ -171,7 +171,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <returns></returns>
         [HttpPost]
         [UserFuncCode(ApiFuncCodes.Permit_RoleUserBind)]
-        public Task<Resp<long>> AddRoleBind([FromBody]AddRoleUserReq req)
+        public Task<Resp<long>> AddRoleBind([FromBody] AddRoleUserReq req)
         {
             return ModelState.IsValid
                 ? _service.AddRoleBind(req.ToMo())
@@ -209,8 +209,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
                 ? Task.FromResult(GetInvalidResp())
                 : _service.DeleteRoleBind(id);
         }
-        
-        #endregion
 
+        #endregion
     }
 }

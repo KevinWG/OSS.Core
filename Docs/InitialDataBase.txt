@@ -1,5 +1,5 @@
 CREATE SCHEMA `oss.core` DEFAULT CHARACTER SET utf8mb4 ;
-
+USE `oss.core`;
 CREATE TABLE `b_portal_user` (
   `id` bigint(8) NOT NULL,
   `mobile` varchar(100) DEFAULT NULL COMMENT '登录手机号',

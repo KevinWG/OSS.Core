@@ -8,7 +8,7 @@ namespace OSS.Core.RepDapper.Basic.Permit.Mos
         /// <summary>
         ///  角色Id
         /// </summary>
-        public string role_id { get; set; }
+        public long role_id { get; set; }
 
         /// <summary>
         /// 权限码

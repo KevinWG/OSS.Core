@@ -20,7 +20,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         ///  获取指定角色的权限列表
         /// </summary>
         /// <returns></returns>
-        public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(string roleId)
+        public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(long roleId)
         {
             var key = string.Concat(CacheKeys.Perm_RoleFuncs_ByRId, roleId);
             var sql = string.Concat("select * from ", TableName, " where role_id=@role_id and status>@status ");
@@ -51,7 +51,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <param name="addItems"></param>
         /// <param name="deleteItems"></param>
         /// <returns></returns>
-        public async Task<Resp> ChangeRoleFuncItems(string rid, List<RoleFuncMo> addItems, List<string> deleteItems)
+        public async Task<Resp> ChangeRoleFuncItems(long rid, List<RoleFuncMo> addItems, List<string> deleteItems)
         {
             var key = string.Concat(CacheKeys.Perm_RoleFuncs_ByRId, rid);
             if (deleteItems?.Count>0)
