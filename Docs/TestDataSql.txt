@@ -1,12 +1,12 @@
 ﻿
 --  添加测试用户
 INSERT INTO `oss.core`.`b_portal_user`
-(`id`, `email`,`pass_word`, `nick_name`, `status`, `add_time`, `owner_uid`, `from_app_id`) 
+(`id`, `email`,`pass_word`, `nick_name`, `status`, `add_time`, `owner_uid`) 
 VALUES 
-('1', '1@osscore.cn','96e79218965eb72c92a549dd5a330112', '测试账号', '0', '1553947928', '0',  'app_y0cz09p0xajqc6vp');
+('1', '1@osscore.cn','96e79218965eb72c92a549dd5a330112', '测试账号', '0', '1553947928', '0');
 
 -- 添加测试管理员
 INSERT INTO `oss.core`.`b_portal_admin` 
-(`id`, `u_id`, `admin_name`, `admin_type`, `status`, `owner_uid`,  `add_time`, `from_app_id`) 
+(`id`, `u_id`, `admin_name`, `admin_type`, `status`, `owner_uid`,  `add_time`) 
 VALUES 
-('1', '1', '测试管理员', '100', '0', '1',  '1522118183', 'app_y0cz09p0xajqc6vp');
+('1', '1', '测试管理员', '100', '0', '1',  '1522118183');

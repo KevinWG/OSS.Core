@@ -3,6 +3,9 @@ using OSS.Core.Context.Mos;
 
 namespace OSS.Core.Context
 {
+    /// <summary>
+    ///  应用请求上下文
+    /// </summary>
     public static class AppReqContext
     {
         /// <summary>

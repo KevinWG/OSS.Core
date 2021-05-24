@@ -21,17 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Configs\plugs_log_receivers.config" />
-    <None Include="Configs\plugs_notify_email.config" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Common\OSS.Core.Infrastructure\OSS.Core.Infrastructure.Web\OSS.Core.Infrastructure.Web.csproj" />
     <ProjectReference Include="..\OSS.Core.Services\OSS.Core.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Controllers\Core\" />
   </ItemGroup>
 
 </Project>

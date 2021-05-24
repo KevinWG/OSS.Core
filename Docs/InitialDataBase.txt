@@ -10,7 +10,6 @@ CREATE TABLE `b_portal_user` (
   `status` int(4) NOT NULL DEFAULT '0' COMMENT '用户状态',
   `owner_uid` bigint(8) NOT NULL DEFAULT '0' COMMENT '【创建/归属】用户Id',
   `add_time` bigint(8) unsigned NOT NULL DEFAULT '0' COMMENT '创建时间',
-  `from_app_id` varchar(300) NOT NULL COMMENT '来源AppId',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表';
 
@@ -23,7 +22,6 @@ CREATE TABLE `b_portal_admin` (
   `status` int(4) NOT NULL COMMENT '管理员状态',
   `owner_uid` bigint(8) NOT NULL COMMENT '【创建/归属】用户id',
   `add_time` bigint(8) NOT NULL COMMENT '创建时间戳',
-  `from_app_id` varchar(255) NOT NULL COMMENT '来源AppId',
   PRIMARY KEY (`u_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='管理员表';
 
@@ -33,7 +31,6 @@ CREATE TABLE `b_permit_role` (
   `status` int(11) NOT NULL COMMENT '角色状态',
   `owner_uid` bigint(20) NOT NULL COMMENT ' 【创建/归属】用户Id',
   `add_time` bigint(20) NOT NULL COMMENT '创建时间',
-  `from_app_id` varchar(200) NOT NULL COMMENT '数据应用来源',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
@@ -45,7 +42,6 @@ CREATE TABLE `b_permit_role_func` (
   `status` int(11) NOT NULL COMMENT '状态（通用）',
   `add_time` bigint(8) NOT NULL COMMENT '创建时间',
   `owner_uid` bigint(8) NOT NULL COMMENT '【创建/归属】用户Id',
-  `from_app_id` varchar(255) NOT NULL COMMENT '应用来源',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限关联表';
 
@@ -57,7 +53,6 @@ CREATE TABLE `b_permit_role_user` (
   `status` int(11) DEFAULT NULL COMMENT '状态',
   `add_time` bigint(8) NOT NULL COMMENT '创建时间',
   `owner_uid` bigint(8) NOT NULL COMMENT '  【创建/归属】用户Id',
-  `from_app_id` varchar(45) COLLATE utf8mb4_bin NOT NULL COMMENT '应用来源',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色和用户关联表';
 

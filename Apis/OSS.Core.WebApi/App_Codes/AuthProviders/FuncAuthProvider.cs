@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Helpers;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Core.Infrastructure.Const;
+using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Core.Services.Basic.Permit.Proxy;
 
-namespace OSS.Core.CoreApi.App_Codes.AuthProviders
+namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class FuncAuthProvider : IFuncAuthProvider
     {

@@ -18,22 +18,19 @@ using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Tools.Config;
 
-namespace OSS.Core.CoreApi.App_Codes.AuthProviders
+namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class AppAuthProvider : IAppAuthProvider
     {
         public Task<Resp> AppAuthCheck(HttpContext context, AppIdentity appinfo)
         {
-            if (appinfo.SourceMode == AppSourceMode.ServerSign)
-            {
-                var key = ConfigHelper.GetSection("KnockAppSecrets:" + appinfo.app_id)?.Value;
+            if (appinfo.SourceMode != AppSourceMode.ServerSign)
+                return Task.FromResult(new Resp());
 
-                const int expireSecs = 60 * 60 * 2;
-                if (!appinfo.CheckSign(key, expireSecs).IsSuccess())
-                    return Task.FromResult(new Resp(RespTypes.SignError, "签名错误！"));
-            }
+            var key = ConfigHelper.GetSection("KnockAppSecrets:" + appinfo.app_id)?.Value;
 
-            return Task.FromResult(new Resp());
+            const int expireSecs = 60 * 60 * 2;
+            return Task.FromResult(!appinfo.CheckSign(key, expireSecs).IsSuccess() ? new Resp(RespTypes.SignError, "签名错误！") : new Resp());
         }
 
     }

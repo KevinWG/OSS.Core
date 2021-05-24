@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OSS.Core.CoreApi.App_Codes.AuthProviders;
 using OSS.Core.Infrastructure.Helpers;
 using OSS.Core.Infrastructure.Web.Attributes;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
@@ -11,6 +10,7 @@ using OSS.Core.Services.Sys_Global;
 using OSS.Tools.Config;
 using OSS.Tools.Http;
 using System.Net.Http;
+using OSS.Core.WebApi.App_Codes.AuthProviders;
 
 namespace OSS.Core.WebApi
 {
