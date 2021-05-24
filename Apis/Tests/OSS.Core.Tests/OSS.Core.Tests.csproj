@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Apis\OSS.Core.Services\OSS.Core.Services.csproj" />
+    <ProjectReference Include="..\..\OSS.Core.Services\OSS.Core.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
