@@ -1,4 +1,4 @@
-﻿using OSS.Core.Infrastructure.BasicMos;
+﻿
 
 namespace OSS.Core.RepDapper.Sys_Clobal.DirConfig.Mos
 {

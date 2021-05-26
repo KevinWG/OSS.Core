@@ -17,15 +17,7 @@
         public const string Category = "category";
 
         #endregion
-
-        #region Core
-
-        public const string Article = "article";
-
-        public const string Goods = "good";
-
-        #endregion
-
+        
         #region plugs
 
         public const string File = "file";
@@ -33,8 +25,5 @@
         public const string Notify = "notify";
 
         #endregion
-
-        public const string Home = "home";
-
     }
 }

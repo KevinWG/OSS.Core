@@ -15,9 +15,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
     public class NotifyController : BaseController
     {
         private static readonly NotifyService _service = new NotifyService();
-
-      
-
+        
         /// <summary>
         ///   获取邮箱账号配置 
         /// </summary>

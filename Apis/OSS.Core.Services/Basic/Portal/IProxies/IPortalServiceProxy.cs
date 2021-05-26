@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
+using OSS.Core.RepDapper.Basic.Portal.Mos;
 
 namespace OSS.Core.Services.Basic.Portal.IProxies
 {

@@ -7,16 +7,15 @@ using OSS.Common.BasicMos.Enums;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.AdminSite.Apis.Permit.Helpers;
 using OSS.Core.AdminSite.Apis.Permit.Reqs;
-using OSS.Core.Infrastructure.BasicMos;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Extensions;
 using OSS.Core.RepDapper.Basic.Permit;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 using OSS.Core.Services.Basic.Permit.Proxy;
 using OSS.Common.Extension;
+using OSS.Core.RepDapper;
 
 namespace OSS.Core.Services.Basic.Permit
 {

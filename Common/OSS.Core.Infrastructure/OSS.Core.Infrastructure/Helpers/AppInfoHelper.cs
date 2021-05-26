@@ -11,9 +11,21 @@ namespace OSS.Core.Infrastructure.Helpers
     /// </summary>
     public static class AppInfoHelper
     {
-        public const string SystemDefaultTenantId = "1001";
+        /// <summary>
+        ///  默认租户id
+        /// </summary>
+        public const string DefaultTenantId = "1001";
+        /// <summary>
+        ///  环境变量
+        /// </summary>
         public static string EnvironmentName { get; set; } 
+        /// <summary>
+        /// 是否是开发环境
+        /// </summary>
         public static bool IsDev => EnvironmentName == "Development";
+        /// <summary>
+        /// 是否是生产环境
+        /// </summary>
         public static bool IsProduct => EnvironmentName == "Product";
 
         /// <summary>

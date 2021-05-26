@@ -25,9 +25,9 @@ using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 using OSS.Core.Services.Basic.Portal;
 using OSS.Core.Services.Basic.Portal.Mos;
 using OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Context;
+using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.WebApi.App_Codes.AuthProviders;
 
 namespace OSS.Core.CoreApi.Controllers.Basic.Portal

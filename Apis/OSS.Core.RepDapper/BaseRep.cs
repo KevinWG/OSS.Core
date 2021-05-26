@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
-using OSS.Core.Infrastructure.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Tools.Config;
 using System.Data;

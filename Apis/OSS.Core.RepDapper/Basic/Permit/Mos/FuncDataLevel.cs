@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Infrastructure.BasicMos.Enums
+﻿namespace OSS.Core.RepDapper.Basic.Permit.Mos
 {
    public enum FuncDataLevel
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
 
-namespace OSS.Core.Infrastructure.BasicMos
+namespace OSS.Core.RepDapper
 {
     /// <inheritdoc />
     public class BaseOwnerAndStateMo : BaseOwnerMo

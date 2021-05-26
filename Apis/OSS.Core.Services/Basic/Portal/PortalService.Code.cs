@@ -23,9 +23,9 @@ using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 using OSS.Core.Services.Plugs.Notify.IProxies;
 using OSS.Core.Services.Plugs.Notify.Mos;
 using OSS.Tools.Cache;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Helpers;
+using OSS.Core.RepDapper.Basic.Portal.Mos;
 
 namespace OSS.Core.Services.Basic.Portal
 {

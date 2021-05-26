@@ -17,7 +17,7 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
-using OSS.Core.Infrastructure.BasicMos;
+using OSS.Core.RepDapper;
 using OSS.Core.RepDapper.Basic.Portal;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.Services.Basic.Portal.IProxies;

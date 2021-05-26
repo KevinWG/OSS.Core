@@ -19,7 +19,6 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.RepDapper.Basic.Portal;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;

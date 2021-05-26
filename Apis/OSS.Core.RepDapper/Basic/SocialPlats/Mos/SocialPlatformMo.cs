@@ -1,5 +1,4 @@
-﻿using OSS.Core.Infrastructure.BasicMos;
-using OSS.Core.Infrastructure.BasicMos;
+﻿
 
 namespace OSS.Core.RepDapper.Basic.SocialPlats.Mos
 {

@@ -11,7 +11,7 @@
 
 #endregion
 
-namespace OSS.Core.Infrastructure.BasicMos.Enums
+namespace OSS.Core.RepDapper.Basic.Portal.Mos
 {
     /// <summary>
     ///     注册类型

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 
 namespace OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs

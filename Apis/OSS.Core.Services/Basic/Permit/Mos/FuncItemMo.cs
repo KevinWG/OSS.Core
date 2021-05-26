@@ -1,5 +1,4 @@
-﻿using OSS.Core.Infrastructure.BasicMos.Enums;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 
 namespace OSS.Core.AdminSite.Apis.Permit.Reqs

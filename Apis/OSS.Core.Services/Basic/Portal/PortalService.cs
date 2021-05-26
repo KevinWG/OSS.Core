@@ -25,11 +25,10 @@ using OSS.Core.Services.Basic.Portal.Events;
 using OSS.Core.Services.Basic.Portal.IProxies;
 using OSS.Core.Services.Basic.Portal.Mos;
 using OSS.Tools.Config;
-using OSS.Core.Infrastructure.BasicMos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.Infrastructure.Const;
 using System;
 using OSS.Core.Infrastructure.Extensions;
+using OSS.Core.RepDapper;
 
 namespace OSS.Core.Services.Basic.Portal
 {

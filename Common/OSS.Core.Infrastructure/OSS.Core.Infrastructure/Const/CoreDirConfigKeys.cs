@@ -2,10 +2,15 @@
 {
     public static class CoreDirConfigKeys
     {
+
         #region 通知模块(Notify)
 
         public const string plugs_notify_email_defult = "plugs_notify_email_defult";
 
+        /// <summary>
+        /// 通知短信华为的账号配置键值
+        /// </summary>
+        public const string plugs_notify_sms_hw = "plug_notify_hw_sms";
 
 
         #region 通知模块-模板配置及相关code
@@ -33,5 +38,6 @@
         #endregion
 
         #endregion
+        
     }
 }

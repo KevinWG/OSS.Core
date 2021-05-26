@@ -3,7 +3,7 @@ using OSS.Common.BasicMos.Resp;
 
 using OSS.Tools.DirConfig;
 using Newtonsoft.Json;
-using OSS.Core.Infrastructure.BasicMos;
+using OSS.Core.RepDapper;
 using OSS.Core.RepDapper.Sys_Clobal.DirConfig;
 using OSS.Core.RepDapper.Sys_Clobal.DirConfig.Mos;
 

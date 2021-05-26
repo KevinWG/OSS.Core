@@ -15,9 +15,8 @@ using System.Threading.Tasks;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Encrypt;
 using OSS.Core.Context.Mos;
-using OSS.Core.Infrastructure.BasicMos.Enums;
-using OSS.Core.Infrastructure.BasicMos.Enums;
 using OSS.Core.RepDapper.Basic.Portal;
+using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.Services.Basic.Portal.Mos;
 using UserStatus = OSS.Core.RepDapper.Basic.Portal.Mos.UserStatus;
 
