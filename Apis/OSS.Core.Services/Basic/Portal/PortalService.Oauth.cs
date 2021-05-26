@@ -171,7 +171,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             var ide = InitialOauthTempIdentity(oauthUser,plat);
 
-            PortalEvents.TriggerOauthTempLoginEvent(ide.data, AppReqContext.Identity, plat);
+            PortalEvents.TriggerOauthTempLoginEvent(ide.data, CoreAppContext.Identity, plat);
             return GeneratePortalToken(ide.data, plat);
         }
 

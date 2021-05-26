@@ -61,7 +61,7 @@ namespace OSS.Core.Services.Plugs.File
         /// <returns></returns>
         private static Resp<BucketUploadPara> GetUploadParas(string category, string fileName)
         {
-            var path = GetPathKey(category, fileName, UserContext.Identity.id);
+            var path = GetPathKey(category, fileName, CoreUserContext.Identity.id);
             return new Resp<BucketUploadPara>().WithResp(RespTypes.OperateFailed, "未实现该功能！");
         }
 

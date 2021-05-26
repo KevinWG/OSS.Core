@@ -54,8 +54,8 @@ namespace OSS.Core.Infrastructure.BasicMos
             if (t.id<=0)
                 t.id = NumHelper.SmallSnowNum();
 
-            var appIdentity = AppReqContext.Identity;
-            t.owner_uid = UserContext.Identity?.id.ToInt64()??0;
+            var appIdentity = CoreAppContext.Identity;
+            t.owner_uid = CoreUserContext.Identity?.id.ToInt64()??0;
 
             //t.owner_tid   = appIdentity.tenant_id.ToInt64();
             t.add_time    = DateTime.Now.ToUtcSeconds();

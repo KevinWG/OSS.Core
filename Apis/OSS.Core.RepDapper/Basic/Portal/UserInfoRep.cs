@@ -66,7 +66,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         public override Task<Resp<UserInfoBigMo>> GetById(long id)
         {
             Func<Task<Resp<UserInfoBigMo>>> getFunc = () => base.GetById(id);
-            var userKey = string.Concat(CacheKeys.Portal_User_ById, id);
+            var userKey = string.Concat(CoreCacheKeys.Portal_User_ById, id);
 
             return getFunc.WithCache(userKey, TimeSpan.FromHours(1));
         }
@@ -80,7 +80,7 @@ namespace OSS.Core.RepDapper.Basic.Portal
         /// <returns></returns>
         public Task<Resp> UpdateStatus(long id, UserStatus state)
         {
-            var userKey = string.Concat(CacheKeys.Portal_User_ById, id);
+            var userKey = string.Concat(CoreCacheKeys.Portal_User_ById, id);
             return Update(t => new { status = state }, t => t.id == id )
                 .WithCacheClear(userKey);
         }

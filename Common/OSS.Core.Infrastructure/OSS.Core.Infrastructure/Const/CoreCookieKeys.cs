@@ -16,7 +16,7 @@ namespace OSS.Core.Infrastructure.Const
     /// <summary>
     ///     系统 Cookie Key
     /// </summary>
-    public static class CookieKeys
+    public static class CoreCookieKeys
     {
         #region  cookie等名称
 

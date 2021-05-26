@@ -58,7 +58,7 @@ namespace OSS.Core.Services.Sys_Global.Log
                             {"msg_body", log.msg_body.ToString()}
                         },
                 msg_title = $"系统日志({log.source_name} 模块)",
-                t_code = DirConfigKeys.plugs_notify_email_log_tcode
+                t_code = CoreDirConfigKeys.plugs_notify_email_log_tcode
             };
             await InsContainer<INotifyServiceProxy>.Instance.Send(notifyMsg);
         }
@@ -71,7 +71,7 @@ namespace OSS.Core.Services.Sys_Global.Log
         /// <returns></returns>
         private static async Task<bool> CheckSendRate(LogInfo info)
         {
-            string cacheKey = string.Concat(CacheKeys.System_Log_BySourceAndKey, info.source_name, info.msg_key);
+            string cacheKey = string.Concat(CoreCacheKeys.System_Log_BySourceAndKey, info.source_name, info.msg_key);
             var cacheRes = await CacheHelper.GetAsync<int>(cacheKey);
             if (cacheRes > 0)
                 return false;

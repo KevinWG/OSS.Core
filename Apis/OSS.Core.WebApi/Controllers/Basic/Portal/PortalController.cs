@@ -33,7 +33,7 @@ using OSS.Core.WebApi.App_Codes.AuthProviders;
 namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 {
     [AllowAnonymous]
-    [ModuleName(ModuleNames.Portal)]
+    [ModuleMeta(CoreModuleNames.Portal)]
     [Route("b/[controller]/[action]")]
     public partial class PortalController : BaseController
     {
@@ -237,7 +237,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
             {
                 return;
             }
-            var appSourceMode = AppReqContext.Identity.SourceMode;
+            var appSourceMode = CoreAppContext.Identity.SourceMode;
             if (appSourceMode >= AppSourceMode.BrowserWithHeader)
             {
                 PortalAuthHelper.SetCookie(Response, tokenResp.token);

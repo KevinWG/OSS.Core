@@ -9,11 +9,11 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     ///  功能权限名称过滤器
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class UserFuncCodeAttribute : BaseOrderAuthAttribute
+    public class UserMetaAttribute : BaseOrderAuthAttribute
     {
         private readonly string _funcCode;
 
-        public UserFuncCodeAttribute(string funcCode)
+        public UserMetaAttribute(string funcCode)
         {
             p_Order = -11;
             _funcCode = funcCode;
@@ -21,11 +21,11 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var appIdentity = AppReqContext.Identity;
-            if (string.IsNullOrEmpty(appIdentity.func))
+            var appIdentity = CoreAppContext.Identity;
+            if (string.IsNullOrEmpty(appIdentity.ask_func))
             { 
                 // 非需授权认证请求
-                appIdentity.func = _funcCode;
+                appIdentity.ask_func = _funcCode;
             }
             return Task.CompletedTask;
         }

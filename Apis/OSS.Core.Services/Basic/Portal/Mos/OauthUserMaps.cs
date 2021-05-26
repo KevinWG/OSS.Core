@@ -17,7 +17,7 @@ namespace OSS.Core.Services.Basic.Portal.Mos
         /// <param name="source"></param>
         public static void SetInfoFromSocial(this OauthUserMo target, OauthUser source)
         {
-            var appInfo = AppReqContext.Identity;
+            var appInfo = CoreAppContext.Identity;
 
             target.access_token = source.access_token;
             target.expire_date = source.expire_date;

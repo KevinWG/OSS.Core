@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Infrastructure.Const
 {
-    public static class ApiFuncCodes
+    public static class CoreFuncCodes
     {
         public const string None = "none";
 

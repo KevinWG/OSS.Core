@@ -61,7 +61,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp<UserIdentity>> GetMyself()
         {
-            var cacheKey = string.Concat(CacheKeys.Portal_UserIdentity_ByToken, AppReqContext.Identity.token);
+            var cacheKey = string.Concat(CoreCacheKeys.Portal_UserIdentity_ByToken, CoreAppContext.Identity.token);
             Func<Task<Resp<UserIdentity>>> getFunc = () =>
             {
                 var infoRes = FormatPortalToken();
@@ -110,7 +110,7 @@ namespace OSS.Core.Services.Basic.Portal
                 plat = bindRes.data;
             }
 
-            PortalEvents.TriggerLoginEvent(identityRes.data, AppReqContext.Identity);
+            PortalEvents.TriggerLoginEvent(identityRes.data, CoreAppContext.Identity);
             return GeneratePortalToken(identityRes.data, plat);
         }
 
@@ -140,14 +140,14 @@ namespace OSS.Core.Services.Basic.Portal
                 avatar = user.avatar
             };
 
-            PortalEvents.TriggerRegisterEvent(identity, plat, AppReqContext.Identity);
+            PortalEvents.TriggerRegisterEvent(identity, plat, CoreAppContext.Identity);
             return GeneratePortalToken(identity, plat);
             ;
         }
 
         private static UserInfoBigMo GetRegisterUserInfo(string value, string passWord, RegLoginType type)
         {
-            var sysInfo = AppReqContext.Identity;
+            var sysInfo = CoreAppContext.Identity;
             var userInfo = new UserInfoBigMo();
 
             userInfo.InitialBaseFromContext();
@@ -221,10 +221,6 @@ namespace OSS.Core.Services.Basic.Portal
                     break;
             }
 
-            if (!string.IsNullOrEmpty(identityRes.data?.avatar))
-            {
-                identityRes.data.avatar = string.Concat(identityRes.data.avatar, ImageStyle.avatar_style);
-            }
             return identityRes;
         }
 
@@ -328,23 +324,23 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         private PortalTokenResp GeneratePortalToken(UserIdentity newIdentity, SocialPlatform plat)
         {
-            var tenantId = AppReqContext.Identity.tenant_id;
+            var tenantId = CoreAppContext.Identity.tenant_id;
             var tokenStr = string.Concat(newIdentity.id, "|", tenantId, "|", (int)newIdentity.auth_type, "|", (int)plat, "|",
                 NumHelper.RandomNum(6));
 
-            var token = UserContext.GetToken(_portalTokenSecret, tokenStr);
+            var token = CoreUserContext.GetToken(_portalTokenSecret, tokenStr);
             return new PortalTokenResp {token = token, data = newIdentity};
         }
 
 
         private static Resp<(long userId, PortalAuthorizeType authType, SocialPlatform plat)> FormatPortalToken()
         {
-            var appInfo = AppReqContext.Identity;
+            var appInfo = CoreAppContext.Identity;
             if (string.IsNullOrEmpty(appInfo.token))
                 return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnLogin,
                     "用户未登录");
 
-            var tokenDetail = UserContext.GetTokenDetail(_portalTokenSecret, appInfo.token);
+            var tokenDetail = CoreUserContext.GetTokenDetail(_portalTokenSecret, appInfo.token);
             var tokenSplit = tokenDetail.Split('|');
             if (tokenSplit.Length != 5)
                 return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,

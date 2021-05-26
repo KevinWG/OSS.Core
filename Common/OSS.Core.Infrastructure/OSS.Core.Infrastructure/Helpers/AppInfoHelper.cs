@@ -1,5 +1,5 @@
 ﻿using System.Text;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Common.Helpers;
 using OSS.Core.Context.Mos;
 using OSS.Tools.Config;

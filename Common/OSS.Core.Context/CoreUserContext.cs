@@ -21,7 +21,7 @@ namespace OSS.Core.Context
     /// <summary>
     /// 当前系统访问上下文信息
     /// </summary>
-    public static class UserContext
+    public static class CoreUserContext
     {
         /// <summary>
         /// 是否已经验证

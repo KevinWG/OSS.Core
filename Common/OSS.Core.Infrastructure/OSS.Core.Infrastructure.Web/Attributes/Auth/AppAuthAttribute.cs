@@ -41,7 +41,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             // 0.  获取初始化app信息
-            var appInfo = AppReqContext.Identity;
+            var appInfo = CoreAppContext.Identity;
             if (appInfo==null)
             {
                 ResponseExceptionEnd(context, new Resp(SysRespTypes.AppConfigError, "请使用InitialMiddleware中间件初始化全局上下文信息"));
@@ -126,14 +126,14 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         {
             if (appInfo.SourceMode == AppSourceMode.PartnerServer
                 || appOption?.TenantProvider == null
-                || TenantContext.Identity != null)
+                || CoreTenantContext.Identity != null)
                 return new Resp();
 
             var identityRes = await appOption.TenantProvider.CheckAndInitialIdentity(context, appInfo);
             if (!identityRes.IsSuccess())
                 return identityRes;
 
-            TenantContext.SetIdentity(identityRes.data);
+            CoreTenantContext.SetIdentity(identityRes.data);
             return identityRes;
         }
 

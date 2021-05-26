@@ -7,7 +7,7 @@ using OSS.Core.Services.Plugs.File.Reqs;
 
 namespace OSS.Core.CoreApi.Controllers.Plugs.File
 {
-    [ModuleName(ModuleNames.File)]
+    [ModuleMeta(CoreModuleNames.File)]
     [Route("p/[controller]/[action]")]
     public class FileController : BaseController
     {

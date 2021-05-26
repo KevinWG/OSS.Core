@@ -146,7 +146,7 @@ namespace OSS.Core.Services.Basic.Permit
         /// <returns></returns>
         public async Task<Resp> CheckIfHaveFunc(string funcCode)
         {
-            var memIdentity = UserContext.Identity;
+            var memIdentity = CoreUserContext.Identity;
             if (memIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
                 return new Resp();
 
@@ -164,8 +164,8 @@ namespace OSS.Core.Services.Basic.Permit
         /// <returns></returns>
         public Task<ListResp<RoleFunSmallMo>> GetMyFuncs()
         {
-            var userIdentity = UserContext.Identity;
-            var key = string.Concat(CacheKeys.Perm_UserFuncs_ByUId, userIdentity.id);
+            var userIdentity = CoreUserContext.Identity;
+            var key = string.Concat(CoreCacheKeys.Perm_UserFuncs_ByUId, userIdentity.id);
 
             Func<Task<ListResp<RoleFunSmallMo>>> getFunc = () => GetUserAllFuncsNoCache();
 
@@ -183,7 +183,7 @@ namespace OSS.Core.Services.Basic.Permit
 
         private async Task<ListResp<RoleFunSmallMo>> GetUserAllFuncsNoCache()
         {
-            var userIdentity = UserContext.Identity;
+            var userIdentity = CoreUserContext.Identity;
             if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
             {
                 // 如果是超级管理员直接返回所有

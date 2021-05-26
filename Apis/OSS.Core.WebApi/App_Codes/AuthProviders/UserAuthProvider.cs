@@ -24,7 +24,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 
         public static Task<Resp<UserIdentity>> GetMyself(HttpRequest req)
         {
-            var appinfo = AppReqContext.Identity;
+            var appinfo = CoreAppContext.Identity;
             if (appinfo.SourceMode >= AppSourceMode.BrowserWithHeader)
             {
                 appinfo.token = GetCookie(req);
@@ -34,7 +34,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 
         public static void SetCookie(HttpResponse response, string token)
         {
-            response.Cookies.Append(CookieKeys.UserCookieName, token,
+            response.Cookies.Append(CoreCookieKeys.UserCookieName, token,
                 new CookieOptions() {
                     HttpOnly = true, 
                     //SameSite = SameSiteMode.None, 
@@ -45,12 +45,12 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 
         public static string GetCookie(HttpRequest req)
         {
-            return req.Cookies[CookieKeys.UserCookieName];
+            return req.Cookies[CoreCookieKeys.UserCookieName];
         }
 
         public static void ClearCookie(HttpResponse response)
         {
-            response.Cookies.Delete(CookieKeys.UserCookieName);
+            response.Cookies.Delete(CoreCookieKeys.UserCookieName);
         }
     }
 }

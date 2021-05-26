@@ -35,7 +35,7 @@ namespace OSS.Core.Context.Mos
         /// <summary>
         ///  请求验证对应权限码
         /// </summary>
-        public string func { get; set; }
+        public string ask_func { get; set; }
 
         /// <summary>
         /// 复制新的授权信息实体
@@ -45,7 +45,7 @@ namespace OSS.Core.Context.Mos
         {
             var newOne = new AppIdentity
             {
-                func = this.func,
+                ask_func = this.ask_func,
                 app_client = this.app_client,
                 app_id = this.app_id,
                 app_ver = this.app_ver,

@@ -17,7 +17,7 @@ namespace OSS.Core.Tests.Basic.Permission
         [TestMethod]
         public async Task GetAuthUserRolesTest() 
         {
-            var res = await _perService.GetUserRoles(UserContext.Identity.id.ToInt64());
+            var res = await _perService.GetUserRoles(CoreUserContext.Identity.id.ToInt64());
             Assert.IsTrue(res.IsSuccess()|| res.IsRespType(RespTypes.ObjectNull));
         }
 
@@ -44,10 +44,10 @@ namespace OSS.Core.Tests.Basic.Permission
         {
             var addList = new List<string>() {"test", "test1"};
             // 测添加
-            var addRes= await _perService.ChangeRoleFuncItems(UserContext.Identity.id.ToInt64(), addList, null);
+            var addRes= await _perService.ChangeRoleFuncItems(CoreUserContext.Identity.id.ToInt64(), addList, null);
             Assert.IsTrue(addRes.IsSysOk());
             // 测删除
-            var delRes = await _perService.ChangeRoleFuncItems(UserContext.Identity.id.ToInt64(), null, addList);
+            var delRes = await _perService.ChangeRoleFuncItems(CoreUserContext.Identity.id.ToInt64(), null, addList);
             Assert.IsTrue(delRes.IsSysOk());
 
         }

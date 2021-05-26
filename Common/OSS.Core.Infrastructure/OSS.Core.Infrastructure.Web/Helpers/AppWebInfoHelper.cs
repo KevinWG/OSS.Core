@@ -59,12 +59,12 @@ namespace OSS.Core.Infrastructure.Web.Helpers
 
         internal static AppIdentity GetOrSetAppIdentity(HttpContext context)
         {
-            var sysInfo = AppReqContext.Identity;
+            var sysInfo = CoreAppContext.Identity;
             if (sysInfo != null) return sysInfo;
 
             sysInfo = new AppIdentity {SourceMode = GetAppSourceMode(context)};
 
-            AppReqContext.SetIdentity(sysInfo);
+            CoreAppContext.SetIdentity(sysInfo);
             return sysInfo;
         }
 

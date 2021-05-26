@@ -23,7 +23,7 @@ namespace OSS.Core.RepDapper.Sys_Clobal.DirConfig
         /// <returns></returns>
         public Task<Resp> Update(string key, string vals)
         {
-            string cacheKey = string.Concat(CacheKeys.System_Dir_Config_ByKey, key);
+            string cacheKey = string.Concat(CoreCacheKeys.System_Dir_Config_ByKey, key);
             return Update(u => new { u.dir_vals }, w => w.dir_key == key, new { dir_vals = vals }).WithCacheClear(cacheKey);
         }
 
@@ -34,7 +34,7 @@ namespace OSS.Core.RepDapper.Sys_Clobal.DirConfig
         /// <returns></returns>
         public Task<Resp<DirConfigMo>> GetByKey(string key)
         {
-            string cacheKey = string.Concat(CacheKeys.System_Dir_Config_ByKey, key);
+            string cacheKey = string.Concat(CoreCacheKeys.System_Dir_Config_ByKey, key);
 
             Func<Task<Resp<DirConfigMo>>> getfunc = () => Get(w => w.dir_key == key && w.status > CommonStatus.Deleted);
             return getfunc.WithCache(cacheKey, TimeSpan.FromHours(1));

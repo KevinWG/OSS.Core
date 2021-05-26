@@ -7,17 +7,17 @@ using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 {
-    public class ModuleNameAttribute: BaseOrderAuthAttribute
+    public class ModuleMetaAttribute: BaseOrderAuthAttribute
     {
         private readonly string _moduleName;
         private readonly AppType _appType;
 
-        public ModuleNameAttribute(string moduleName)
+        public ModuleMetaAttribute(string moduleName)
             :this(moduleName,AppType.Outer)
         {
         }
 
-        public ModuleNameAttribute(string moduleName, AppType appType)
+        public ModuleMetaAttribute(string moduleName, AppType appType)
         {
             p_Order     = -101;
             _appType    = appType;

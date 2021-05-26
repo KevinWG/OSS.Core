@@ -25,7 +25,7 @@ namespace OSS.Core.Tests
         [TestInitialize]
         public void InitialTestContext()
         {
-            if (AppReqContext.Identity == null)
+            if (CoreAppContext.Identity == null)
             {
                 var appIdentity = new AppIdentity()
                 {
@@ -34,10 +34,10 @@ namespace OSS.Core.Tests
                     UDID      = "TestDevice",
                 };
                 AppInfoHelper.FormatAppIdInfo(appIdentity);
-                AppReqContext.SetIdentity(appIdentity);
+                CoreAppContext.SetIdentity(appIdentity);
             }
 
-            if (UserContext.Identity == null)
+            if (CoreUserContext.Identity == null)
             {
                 var userIdentity = new UserIdentity()
                 {
@@ -45,7 +45,7 @@ namespace OSS.Core.Tests
                     auth_type = PortalAuthorizeType.Admin
                 };
 
-                UserContext.SetIdentity(userIdentity);
+                CoreUserContext.SetIdentity(userIdentity);
             }
         }
 

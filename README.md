@@ -36,11 +36,11 @@
 	OSS.Core.WebApi -- 提供对外接口实现，参数验证，应用授权验证等
 
 	OSS.Core.Context -- 系统上下文管理，主要包含：
-		1. AppReqContext  
+		1. CoreAppContext  
 		   应用请求上下文管理，包含当前请求的 AppId，以及对应的相关租户Id，签名密钥等
-		2. TenantContext 
+		2. CoreTenantContext 
 			租户上下文信息，租户的基本信息
-		3. UserContext 
+		3. CoreUserContext 
 			主要是当前请求的授权用户上下文信息
 
 	OSS.Core.Infrastructure

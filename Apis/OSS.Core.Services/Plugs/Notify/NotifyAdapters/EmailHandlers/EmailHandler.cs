@@ -18,7 +18,7 @@ namespace OSS.Core.Services.Plugs.Notify.NotifyAdapters.EmailHandlers
         public Task<EmailSmtpConfig> GetEmailConfig()
         {
             // 可扩展租户平台处理
-            return DirConfigHelper.GetDirConfig<EmailSmtpConfig>(DirConfigKeys.plugs_notify_email_defult);
+            return DirConfigHelper.GetDirConfig<EmailSmtpConfig>(CoreDirConfigKeys.plugs_notify_email_defult);
         }
 
         public async Task<NotifyResp> NotifyMsg(NotifyTemplateConfig template, NotifyReq msg)

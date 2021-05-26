@@ -24,7 +24,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var appInfo = AppReqContext.Identity;
+            var appInfo = CoreAppContext.Identity;
             if (appInfo.app_type == AppType.SystemManager)
                 return Task.CompletedTask;
             

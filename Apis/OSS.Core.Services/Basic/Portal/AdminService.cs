@@ -76,7 +76,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeAvatar(string avatar)
         {
-            return AdminInfoRep.Instance.ChangeAvatar(UserContext.Identity.id.ToInt64(), avatar);
+            return AdminInfoRep.Instance.ChangeAvatar(CoreUserContext.Identity.id.ToInt64(), avatar);
         }
 
 

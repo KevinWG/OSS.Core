@@ -22,7 +22,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(long roleId)
         {
-            var key = string.Concat(CacheKeys.Perm_RoleFuncs_ByRId, roleId);
+            var key = string.Concat(CoreCacheKeys.Perm_RoleFuncs_ByRId, roleId);
             var sql = string.Concat("select * from ", TableName, " where role_id=@role_id and status>@status ");
 
             Func<Task<ListResp<RoleFunSmallMo>>> getFunc = () =>
@@ -53,7 +53,7 @@ namespace OSS.Core.RepDapper.Basic.Permit
         /// <returns></returns>
         public async Task<Resp> ChangeRoleFuncItems(long rid, List<RoleFuncMo> addItems, List<string> deleteItems)
         {
-            var key = string.Concat(CacheKeys.Perm_RoleFuncs_ByRId, rid);
+            var key = string.Concat(CoreCacheKeys.Perm_RoleFuncs_ByRId, rid);
             if (deleteItems?.Count>0)
             {
                 var softDeleteWhereSql =

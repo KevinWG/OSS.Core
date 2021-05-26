@@ -13,7 +13,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
     {
         public async Task<Resp> CheckFuncPermission(HttpContext context, UserIdentity identity, string funcCode)
         {
-            if (string.IsNullOrEmpty(funcCode)|| funcCode == ApiFuncCodes.None)
+            if (string.IsNullOrEmpty(funcCode)|| funcCode == CoreFuncCodes.None)
             {
                 return new Resp();
             }

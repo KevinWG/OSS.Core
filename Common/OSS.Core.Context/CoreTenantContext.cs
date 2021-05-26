@@ -6,7 +6,7 @@ namespace OSS.Core.Context
     /// <summary>
     ///   全局应用租户信息
     /// </summary>
-    public static class TenantContext
+    public static class CoreTenantContext
     {
         /// <summary>
         ///   成员身份信息

@@ -4,7 +4,7 @@ using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 {
-    public class AppPartnerNameAttribute : BaseOrderAuthAttribute
+    public class AppPartnerMetaAttribute : BaseOrderAuthAttribute
     {
         private readonly string _appId;
         private readonly string _appVer;
@@ -14,7 +14,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         /// </summary>
         /// <param name="fromApp">来源平台名称</param>
         /// <param name="fromAppVer"></param>
-        public AppPartnerNameAttribute(string fromApp, string fromAppVer = null)
+        public AppPartnerMetaAttribute(string fromApp, string fromAppVer = null)
         {
             _appId  = string.Concat("Partner_", fromApp);
             _appVer = fromAppVer ?? string.Empty;

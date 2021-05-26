@@ -24,7 +24,7 @@ using OSS.Core.Infrastructure.Const;
 
 namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 {
-    [ModuleName(ModuleNames.Portal)]
+    [ModuleMeta(CoreModuleNames.Portal)]
     [Route("b/[controller]/[action]")]
     public class AdminController : BaseController
     {
@@ -36,7 +36,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFuncCode(ApiFuncCodes.Portal_Admin_Create)]
+        [UserMeta(CoreFuncCodes.Portal_Admin_Create)]
         public Task<Resp<long>> Create([FromBody] AddAdminReq req)
         {
             
@@ -48,7 +48,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 
        
         [HttpPost]
-        [UserFuncCode(ApiFuncCodes.Portal_Admin_List)]
+        [UserMeta(CoreFuncCodes.Portal_Admin_List)]
         public Task<PageListResp<AdminInfoMo>> SearchAdmins([FromBody]SearchReq req)
         {
             if (req==null)
@@ -67,7 +67,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="avatar"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFuncCode(ApiFuncCodes.None)]
+        [UserMeta(CoreFuncCodes.None)]
         public Task<Resp> ChangeOwnerAvatar([FromQuery] string avatar)
         {
             return string.IsNullOrEmpty(avatar) ?
@@ -81,7 +81,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="uid"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFuncCode(ApiFuncCodes.Portal_Admin_Lock)]
+        [UserMeta(CoreFuncCodes.Portal_Admin_Lock)]
         public  Task<Resp> Lock(long uid)
         {
             return uid<=0 
@@ -94,7 +94,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="uid"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFuncCode(ApiFuncCodes.Portal_Admin_UnLock)]
+        [UserMeta(CoreFuncCodes.Portal_Admin_UnLock)]
         public  Task<Resp> UnLock(long uid)
         {
             return uid<=0
@@ -108,7 +108,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="admin_type"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFuncCode(ApiFuncCodes.Portal_Admin_SetType)]
+        [UserMeta(CoreFuncCodes.Portal_Admin_SetType)]
         public Task<Resp> SetAdminType(long uid, AdminType admin_type)
         {
             if (uid<=0|| !Enum.IsDefined(typeof(AdminType), admin_type))

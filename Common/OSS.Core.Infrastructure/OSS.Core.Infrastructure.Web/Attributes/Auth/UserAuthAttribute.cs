@@ -42,13 +42,13 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         /// <returns></returns>
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            if (UserContext.IsAuthenticated)
+            if (CoreUserContext.IsAuthenticated)
                 return;
 
             if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
                 return;
 
-            var appInfo = AppReqContext.Identity;
+            var appInfo = CoreAppContext.Identity;
             //_userOption.UserProvider.FormatUserToken(context.HttpContext, appInfo);
 
             var res = await FormatUserIdentity(context, appInfo, _userOption);
@@ -95,19 +95,19 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             if (!identityRes.IsSuccess())
                 return identityRes;
 
-            UserContext.SetIdentity(identityRes.data);
+            CoreUserContext.SetIdentity(identityRes.data);
             return identityRes;
         }
 
         private static Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
         {
-            var userInfo = UserContext.Identity;
+            var userInfo = CoreUserContext.Identity;
             if (userInfo == null // 非需授权认证请求
                 || opt.FuncProvider == null 
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
                 return Task.FromResult(new Resp());
 
-            return opt.FuncProvider.CheckFuncPermission(context, userInfo, appInfo.func);
+            return opt.FuncProvider.CheckFuncPermission(context, userInfo, appInfo.ask_func);
         }
 
     }

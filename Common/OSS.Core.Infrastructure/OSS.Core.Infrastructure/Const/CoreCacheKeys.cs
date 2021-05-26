@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Infrastructure.Const
 {
-    public static class CacheKeys
+    public static class CoreCacheKeys
     {
         #region tenant
 

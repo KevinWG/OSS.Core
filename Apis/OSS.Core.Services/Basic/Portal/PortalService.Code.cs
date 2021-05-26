@@ -124,15 +124,15 @@ namespace OSS.Core.Services.Basic.Portal
                 body_paras = new Dictionary<string, string> {{"code", code}},
 
                 t_code     = type == RegLoginType.Mobile 
-                ? DirConfigKeys.plugs_notify_sms_portal_tcode 
-                : DirConfigKeys.plugs_notify_email_portal_tcode
+                ? CoreDirConfigKeys.plugs_notify_sms_portal_tcode 
+                : CoreDirConfigKeys.plugs_notify_email_portal_tcode
             };
 
             var res = await InsContainer<INotifyServiceProxy>.Instance.Send(notifyMsg);
             if (!res.IsSuccess())
                 return res ?? new Resp().WithResp(RespTypes.UnKnowSource, "未知类型！");
 
-            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
             await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
             return res;
         }
@@ -158,7 +158,7 @@ namespace OSS.Core.Services.Basic.Portal
                 return new Resp();
             }
 #endif
-            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
             var code =await CacheHelper.GetAsync<string>(key);
 
             if (string.IsNullOrEmpty(code) || passcode != code)

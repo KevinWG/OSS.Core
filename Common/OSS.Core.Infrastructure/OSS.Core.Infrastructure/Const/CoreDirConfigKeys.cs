@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Infrastructure.Const
 {
-    public static class DirConfigKeys
+    public static class CoreDirConfigKeys
     {
         #region 通知模块(Notify)
 

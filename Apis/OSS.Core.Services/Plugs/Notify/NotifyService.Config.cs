@@ -27,7 +27,7 @@ namespace OSS.Core.Services.Plugs.Notify
         /// <returns></returns>
         public async Task<Resp<EmailSmtpConfig>> GetEmailConfig()
         {
-            var config = await DirConfigHelper.GetDirConfig<EmailSmtpConfig>(DirConfigKeys.plugs_notify_email_defult);
+            var config = await DirConfigHelper.GetDirConfig<EmailSmtpConfig>(CoreDirConfigKeys.plugs_notify_email_defult);
             if (config == null)
             {
                 return new Resp<EmailSmtpConfig>().WithResp(RespTypes.ObjectNull, "未发现配置信息");
@@ -41,7 +41,7 @@ namespace OSS.Core.Services.Plugs.Notify
         /// <returns></returns>
         public async Task<Resp> SetEmailConfig(EmailSmtpConfig config)
         {
-            var res = await DirConfigHelper.SetDirConfig(DirConfigKeys.plugs_notify_email_defult, config);
+            var res = await DirConfigHelper.SetDirConfig(CoreDirConfigKeys.plugs_notify_email_defult, config);
             return res ? new Resp() : new Resp(RespTypes.OperateFailed, "设置华为云短信账号信息失败！");
         }
 
@@ -57,9 +57,9 @@ namespace OSS.Core.Services.Plugs.Notify
         {
             _tempalteDirs = new Dictionary<string, string>
             {
-                { DirConfigKeys.plugs_notify_email_log_tcode, "邮件日志模板" },
-                { DirConfigKeys.plugs_notify_email_portal_tcode, "邮件登录验证码模板" },
-                { DirConfigKeys.plugs_notify_sms_portal_tcode, "短信登录验证码模板" }
+                { CoreDirConfigKeys.plugs_notify_email_log_tcode, "邮件日志模板" },
+                { CoreDirConfigKeys.plugs_notify_email_portal_tcode, "邮件登录验证码模板" },
+                { CoreDirConfigKeys.plugs_notify_sms_portal_tcode, "短信登录验证码模板" }
             };
         }
 
@@ -78,7 +78,7 @@ namespace OSS.Core.Services.Plugs.Notify
         /// <returns></returns>
         public async Task<Resp<NotifyTemplateConfig>> GetTemplateConfig(string templateCode)
         {
-            string dirKey = string.Concat(DirConfigKeys.plugs_notify_template_bycode, templateCode);
+            string dirKey = string.Concat(CoreDirConfigKeys.plugs_notify_template_bycode, templateCode);
 
             var config = await DirConfigHelper.GetDirConfig<NotifyTemplateConfig>(dirKey);
             if (config == null)
@@ -95,7 +95,7 @@ namespace OSS.Core.Services.Plugs.Notify
         /// <returns></returns>
         public async Task<Resp> SetTemplateConfig(string templateCode, NotifyTemplateConfig config)
         {
-            string dirKey = string.Concat(DirConfigKeys.plugs_notify_template_bycode, templateCode);
+            string dirKey = string.Concat(CoreDirConfigKeys.plugs_notify_template_bycode, templateCode);
             var res = await DirConfigHelper.SetDirConfig(dirKey, config);
             return res ? new Resp() : new Resp(RespTypes.OperateFailed, "设置华为云短信账号信息失败！");
         }

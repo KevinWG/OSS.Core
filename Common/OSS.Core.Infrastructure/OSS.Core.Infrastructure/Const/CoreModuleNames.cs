@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Infrastructure.Const
 {
-    public static class ModuleNames
+    public static class CoreModuleNames
     {
         public const string Default = "default";
 

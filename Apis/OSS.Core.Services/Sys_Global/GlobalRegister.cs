@@ -54,13 +54,13 @@ namespace OSS.Core.Services.Sys_Global
             LogHelper.LogFormat = log =>
             {
                 // 以防全局初始化错误
-                var appIdentity = AppReqContext.Identity;
+                var appIdentity = CoreAppContext.Identity;
                 if (appIdentity == null)
                     return;
 
-                if (!string.IsNullOrEmpty(appIdentity.module_name) && log.source_name == ModuleNames.Default)
+                if (!string.IsNullOrEmpty(appIdentity.module_name) && log.source_name == CoreModuleNames.Default)
                 {
-                    log.source_name = AppReqContext.Identity?.module_name;
+                    log.source_name = CoreAppContext.Identity?.module_name;
                 }
 
                 log.log_id = appIdentity.trace_num ?? Guid.NewGuid().ToString();
