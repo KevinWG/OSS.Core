@@ -44,7 +44,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             var appInfo = CoreAppContext.Identity;
             if (appInfo==null)
             {
-                ResponseExceptionEnd(context, new Resp(SysRespTypes.AppConfigError, "请使用InitialMiddleware中间件初始化全局上下文信息"));
+                ResponseExceptionEnd(context, new Resp(SysRespTypes.AppConfigError, $"请使用{nameof(InitialMiddleware)}中间件初始化全局上下文信息"));
                 return;
             }
             // 1. app验证
@@ -73,7 +73,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 case AppSourceMode.PartnerServer:
                     if (string.IsNullOrEmpty(appInfo.app_id))
                     {
-                        return new Resp(SysRespTypes.AppConfigError, "未指定PartnerName(请使用AppPartnerNameAttribute指定)");                      
+                        return new Resp(SysRespTypes.AppConfigError, $"未指定PartnerName,请使用{nameof(AppPartnerMetaAttribute)}指定");                      
                     }
                     appInfo.app_client = AppClientType.Server;
                     appInfo.app_type = AppType.Outer;

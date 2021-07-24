@@ -9,11 +9,11 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     ///  功能权限名称过滤器
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class UserMetaAttribute : BaseOrderAuthAttribute
+    public class UserFuncAttribute : BaseOrderAuthAttribute
     {
         private readonly string _funcCode;
 
-        public UserMetaAttribute(string funcCode)
+        public UserFuncAttribute(string funcCode)
         {
             p_Order = -11;
             _funcCode = funcCode;
