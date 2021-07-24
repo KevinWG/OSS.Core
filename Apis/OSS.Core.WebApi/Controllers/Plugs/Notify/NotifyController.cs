@@ -21,7 +21,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [UserMeta(CoreFuncCodes.Notify_Account_Manage)]
+        [UserFunc(CoreFuncCodes.Notify_Account_Manage)]
         public  Task<Resp<EmailSmtpConfig>> GetEmailConfig()
         {
             return _service.GetEmailConfig();
@@ -32,7 +32,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [UserMeta(CoreFuncCodes.Notify_Account_Manage)]
+        [UserFunc(CoreFuncCodes.Notify_Account_Manage)]
         public Task<Resp> SetEmailConfig([FromBody] EmailSmtpConfig config)
         {
             if (config == null)
@@ -47,7 +47,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
         /// </summary>
         /// <returns>{code:模板名称}</returns>
         [HttpGet]
-        [UserMeta(CoreFuncCodes.Notify_Template_Manage)]
+        [UserFunc(CoreFuncCodes.Notify_Template_Manage)]
         public Resp<Dictionary<string, string>> GetTemplateDirs()
         {
             return _service.GetTemplateDirs();
@@ -58,7 +58,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [UserMeta(CoreFuncCodes.Notify_Template_Manage)]
+        [UserFunc(CoreFuncCodes.Notify_Template_Manage)]
         public Task<Resp<NotifyTemplateConfig>> GetTemplateConfig(string t_code)
         {
             if (string.IsNullOrEmpty(t_code))
@@ -73,7 +73,7 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [UserMeta(CoreFuncCodes.Notify_Template_Manage)]
+        [UserFunc(CoreFuncCodes.Notify_Template_Manage)]
         public Task<Resp> SetTemplateConfig(string t_code, [FromBody] NotifyTemplateConfig req)
         {
             if (string.IsNullOrEmpty(t_code)|| req==null)
