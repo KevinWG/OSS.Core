@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.Infrastructure.Helpers;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Core.Infrastructure.Web.Extensions;
@@ -101,7 +101,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                     break;
             }
 
-            var res = (await appOption?.AppProvider?.AppAuthCheck(context, appInfo)) ?? new Resp();
+            var res = (await appOption?.AppProvider?.CheckApp(context, appInfo)) ?? new Resp();
 
             context.CompleteAppIdentity(appInfo);
             return res;
@@ -129,7 +129,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 || CoreTenantContext.Identity != null)
                 return new Resp();
 
-            var identityRes = await appOption.TenantProvider.CheckAndInitialIdentity(context, appInfo);
+            var identityRes = await appOption.TenantProvider.GetIdentity(context, appInfo);
             if (!identityRes.IsSuccess())
                 return identityRes;
 

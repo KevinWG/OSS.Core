@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.2.3.1</Version>
-    <PackageReleaseNotes>修改名称</PackageReleaseNotes>
+    <Version>2.0</Version>
+    <PackageReleaseNotes>优化实现</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

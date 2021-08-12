@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Context.Mos
+﻿namespace OSS.Core.Context
 {
     /// <summary>
     /// 成员通行证信息
@@ -29,6 +29,11 @@
         ///  展示图片
         /// </summary>
         public string avatar { get; set; }
+
+        /// <summary>
+        ///  数据权限层级
+        /// </summary>
+        public FuncDataLevel data_level { get;set; } = FuncDataLevel.All;
     }
     
     /// <summary>
@@ -55,5 +60,31 @@
         ///     第三方临时授权用户 (页面过渡第三方和系统用户绑定时使用
         /// </summary>
         OauthTemp = 400
+    }
+    
+    /// <summary>
+    /// 功能数据权限
+    /// </summary>
+    public enum FuncDataLevel
+    {
+        /// <summary>
+        ///  全部
+        /// </summary>
+        All = 1,
+
+        /// <summary>
+        ///  组织树
+        /// </summary>
+        GroupTree = 20,
+
+        /// <summary>
+        /// 当前组织
+        /// </summary>
+        Group = 40,
+
+        /// <summary>
+        ///  仅个人
+        /// </summary>
+        OnlySelf = 60
     }
 }

@@ -12,21 +12,49 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     public class UserFuncAttribute : BaseOrderAuthAttribute
     {
         private readonly string _funcCode;
+        private readonly string _queryCode;
 
-        public UserFuncAttribute(string funcCode)
+        private readonly PortalAuthorizeType _auth_type;
+        
+        /// <summary>
+        ///  功能权限验证
+        /// </summary>
+        /// <param name="authType"></param>
+        public UserFuncAttribute(PortalAuthorizeType authType):this(authType,string.Empty,String.Empty)
         {
-            p_Order = -11;
-            _funcCode = funcCode;
         }
 
+        /// <summary>
+        /// 功能权限验证
+        /// </summary>
+        /// <param name="funcCode"></param>
+        /// <param name="queryCode"></param>
+        public UserFuncAttribute( string funcCode, string queryCode = null):this(PortalAuthorizeType.Admin,funcCode,queryCode)
+        {
+        }
+
+        /// <summary>
+        /// 功能权限验证
+        /// </summary>
+        /// <param name="authType"></param>
+        /// <param name="funcCode"></param>
+        /// <param name="queryCode"></param>
+        public UserFuncAttribute(PortalAuthorizeType authType, string funcCode, string queryCode = null)
+        {
+            p_Order = -11;
+
+            _funcCode  = funcCode;
+            _queryCode = queryCode;
+            _auth_type = authType;
+        }
+
+        /// <inheritdoc />
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var appIdentity = CoreAppContext.Identity;
-            if (string.IsNullOrEmpty(appIdentity.ask_func))
-            { 
-                // 非需授权认证请求
-                appIdentity.ask_func = _funcCode;
-            }
+
+            appIdentity.ask_func = new AskUserFunc(_auth_type,_funcCode, _queryCode);
+
             return Task.CompletedTask;
         }
 

@@ -12,9 +12,8 @@
 
 using System;
 using OSS.Common.Encrypt;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Core.Context.Helper;
-using OSS.Core.Context.Mos;
 
 namespace OSS.Core.Context
 {
@@ -86,4 +85,6 @@ namespace OSS.Core.Context
 
         #endregion
     }
+
+
 }

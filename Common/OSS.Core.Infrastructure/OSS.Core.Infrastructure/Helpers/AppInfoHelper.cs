@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using OSS.Common.Extension;
 using OSS.Common.Helpers;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Tools.Config;
 
 namespace OSS.Core.Infrastructure.Helpers

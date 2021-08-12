@@ -2,9 +2,9 @@
 using System.Text;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Encrypt;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 
-namespace OSS.Core.Context.Mos
+namespace OSS.Core.Context
 {
     /// <summary>
     /// 应用信息
@@ -245,7 +245,6 @@ namespace OSS.Core.Context.Mos
 
             strTicketParas.Append(name).Append("=").Append(isForSign ? value : value.UrlEncode());
         }
-
         #endregion
 
     }

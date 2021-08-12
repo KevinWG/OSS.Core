@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Context.Mos
+﻿namespace OSS.Core.Context
 {
     public class TenantIdentity
     {

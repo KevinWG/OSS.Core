@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Core.Context;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 
 namespace OSS.Core.Infrastructure.Web.Attributes.Auth

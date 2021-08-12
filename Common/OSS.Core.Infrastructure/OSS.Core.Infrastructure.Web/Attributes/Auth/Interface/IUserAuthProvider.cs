@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 
 namespace OSS.Core.Infrastructure.Web.Attributes.Auth.Interface
 {
@@ -29,14 +29,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth.Interface
         /// <param name="context"></param>
         /// <param name="appinfo"></param>
         /// <returns></returns>
-        Task<Resp<UserIdentity>> InitialIdentity(HttpContext context, AppIdentity appinfo);
-
-        ///// <summary>
-        /////  处理用token
-        ///// </summary>
-        ///// <param name="context"></param>
-        ///// <param name="appinfo"></param>
-        ///// <returns></returns>
-        //void FormatUserToken(HttpContext context, AppIdentity appinfo);
+        Task<Resp<UserIdentity>> GetIdentity(HttpContext context, AppIdentity appinfo);
     }
 }

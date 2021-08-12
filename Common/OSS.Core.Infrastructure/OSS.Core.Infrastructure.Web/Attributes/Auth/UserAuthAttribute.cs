@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
+using OSS.Common.Extension;
 using OSS.Core.Context;
-using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Core.Infrastructure.Web.Helpers;
 
@@ -75,9 +74,9 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             // 重定向用户登录页
             if (!string.IsNullOrEmpty(AppWebInfoHelper.LoginUrl)
-                   && appInfo.SourceMode == AppSourceMode.Browser)
+                && appInfo.SourceMode == AppSourceMode.Browser)
             {
-                var req = context.HttpContext.Request;
+                var req  = context.HttpContext.Request;
                 var rUrl = string.Concat(req.Path, req.QueryString);
 
                 var newUrl = string.Concat(AppWebInfoHelper.LoginUrl, "?rurl=" + rUrl.UrlEncode());
@@ -85,13 +84,15 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 context.Result = new RedirectResult(newUrl);
                 return;
             }
+
             context.Result = new JsonResult(res);
             return;
         }
 
-        private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context,AppIdentity appInfo,UserAuthOption opt)
+        private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context, AppIdentity appInfo,
+            UserAuthOption opt)
         {
-            var identityRes = await opt.UserProvider.InitialIdentity(context.HttpContext, appInfo);
+            var identityRes = await opt.UserProvider.GetIdentity(context.HttpContext, appInfo);
             if (!identityRes.IsSuccess())
                 return identityRes;
 
@@ -99,17 +100,29 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             return identityRes;
         }
 
-        private static Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
+        private static async Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
         {
             var userInfo = CoreUserContext.Identity;
             if (userInfo == null // 非需授权认证请求
-                || opt.FuncProvider == null 
+                || opt.FuncProvider == null
+                || appInfo.ask_func == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
-                return Task.FromResult(new Resp());
+                return new Resp<FuncDataLevel>(FuncDataLevel.All);
 
-            return opt.FuncProvider.CheckFuncPermission(context, userInfo, appInfo.ask_func);
+
+            var askFunc = appInfo.ask_func;
+            if (userInfo.auth_type > askFunc.auth_type)
+                return new Resp(RespTypes.NoPermission, "当前用户权限不足");
+
+            var checkRes = await opt.FuncProvider.CheckFunc(context, userInfo, askFunc);
+            if (!checkRes.IsSuccess())
+            {
+                return checkRes;
+            }
+
+            userInfo.data_level = checkRes.data;
+            return checkRes;
         }
-
     }
 
     /// <summary>
@@ -126,6 +139,5 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         ///  用户授权登录判断接口
         /// </summary>
         public IUserAuthProvider UserProvider { get; set; }
-
     }
 }

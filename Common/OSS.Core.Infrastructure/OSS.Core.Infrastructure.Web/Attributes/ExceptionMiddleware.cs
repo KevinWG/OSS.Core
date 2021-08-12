@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Extention;
-using OSS.Core.Context.Mos;
+using OSS.Common.Extension;
+using OSS.Core.Context;
 using OSS.Core.Infrastructure.Web.Helpers;
 using OSS.Tools.Log;
 

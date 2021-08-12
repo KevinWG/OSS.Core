@@ -10,7 +10,7 @@
 
 #endregion
 
-namespace OSS.Core.Context.Mos
+namespace OSS.Core.Context
 {
     /// <summary>
     ///   应用的授权认证信息
@@ -33,9 +33,9 @@ namespace OSS.Core.Context.Mos
         public AppSourceMode SourceMode { get; set; }
 
         /// <summary>
-        ///  请求验证对应权限码
+        ///  请求验证对应功能权限信息
         /// </summary>
-        public string ask_func { get; set; }
+        public AskUserFunc ask_func { get; set; } 
 
         /// <summary>
         /// 复制新的授权信息实体
@@ -63,13 +63,45 @@ namespace OSS.Core.Context.Mos
 
             return newOne;
         }
-
-     
-
+        
         /// <summary>
         ///  当前请求主机信息 [非外部传值，不参与签名]
         /// </summary>
         public string host { get; set; }
+    }
+
+    /// <summary>
+    ///  要求的功能权限信息
+    /// </summary>
+    public class AskUserFunc
+    {
+        /// <summary>
+        /// 功能权限要求
+        /// </summary>
+        /// <param name="authType"></param>
+        /// <param name="funcCode"></param>
+        /// <param name="queryCode"></param>
+        public AskUserFunc(PortalAuthorizeType authType,string funcCode, string queryCode)
+        {
+            func_code  = funcCode;
+            query_code = queryCode;
+            auth_type  = authType;
+        }
+
+        /// <summary>
+        ///  权限码
+        /// </summary>
+        public string func_code { get; }
+
+        /// <summary>
+        ///  动态业务码
+        /// </summary>
+        public string query_code { get; }
+
+        /// <summary>
+        ///  要求的登录类型限制
+        /// </summary>
+        public PortalAuthorizeType auth_type { get; } 
     }
 
     /// <summary>
@@ -104,8 +136,6 @@ namespace OSS.Core.Context.Mos
     }
 
  
-
-
     /// <summary>
     ///  app的来源处理模式
     /// </summary>
