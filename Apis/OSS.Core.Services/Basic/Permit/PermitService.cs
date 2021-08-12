@@ -6,7 +6,7 @@ using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.AdminSite.Apis.Permit.Helpers;
 using OSS.Core.AdminSite.Apis.Permit.Reqs;
 using OSS.Core.Infrastructure.Const;
@@ -111,6 +111,32 @@ namespace OSS.Core.Services.Basic.Permit
         #region 角色权限Func关联管理
 
         /// <summary>
+        ///  判断登录用户是否具有某权限
+        /// </summary>
+        /// <param name="funcCode"></param>
+        /// <returns></returns>
+        public async Task<Resp<FuncDataLevel>> CheckIfHaveFunc(string funcCode, string queryCode)
+        {
+            var memIdentity = CoreUserContext.Identity;
+            if (memIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
+                return new Resp<FuncDataLevel>(FuncDataLevel.All);
+
+            var userFunc = await GetMyFuncs();
+            if (!userFunc.IsSuccess())
+                return new Resp<FuncDataLevel>().WithResp(userFunc);
+
+            var haveQueryCode = string.IsNullOrEmpty(queryCode);
+            var func = userFunc.data.FirstOrDefault(f => haveQueryCode
+                    ? (f.func_code == funcCode && f.query_code == queryCode)
+                    : (f.func_code == funcCode && string.IsNullOrEmpty(queryCode)));
+            if (func == null)
+                return new Resp<FuncDataLevel>().WithResp(RespTypes.NoPermission, "无操作权限!");
+
+            return new Resp<FuncDataLevel>(func.data_level);
+        }
+
+
+        /// <summary>
         ///  获取当前角色下权限项列表
         /// </summary>
         /// <returns></returns>
@@ -137,24 +163,7 @@ namespace OSS.Core.Services.Basic.Permit
 
             return RoleFuncRep.Instance.ChangeRoleFuncItems(rid, addList, delete_items);
         }
-
-        /// <summary>
-        ///  判断登录用户是否具有某权限
-        /// </summary>
-        /// <param name="funcCode"></param>
-        /// <returns></returns>
-        public async Task<Resp> CheckIfHaveFunc(string funcCode)
-        {
-            var memIdentity = CoreUserContext.Identity;
-            if (memIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
-                return new Resp();
-
-            var userFunc = await GetMyFuncs();
-            if (userFunc.IsSuccess() && userFunc.data.Any(f => f.func_code == funcCode))
-                return new Resp();
-
-            return new Resp().WithResp(RespTypes.NoPermission, "无此权限！");
-        }
+        
 
         /// <summary>
         ///  获取当前授权用户下所有角色对应的全部权限列表

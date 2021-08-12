@@ -16,7 +16,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Helpers;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.Services.Basic.Portal.Mos;
 using OSS.Core.RepDapper.Basic.Portal;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;

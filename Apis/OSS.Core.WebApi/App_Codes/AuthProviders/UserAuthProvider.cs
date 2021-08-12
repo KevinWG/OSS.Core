@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
-using OSS.Core.Context.Mos;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Core.Services.Basic.Portal.IProxies;
@@ -13,7 +12,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class UserAuthProvider : IUserAuthProvider
     {
-        public Task<Resp<UserIdentity>> InitialIdentity(HttpContext context, AppIdentity appinfo)
+        public Task<Resp<UserIdentity>> GetIdentity(HttpContext context, AppIdentity appinfo)
         {
             return PortalAuthHelper.GetMyself(context.Request);
         }       

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OSS.Core.Context;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.Infrastructure.Helpers;
 using OSS.Core.Services.Sys_Global;
 using OSS.Tools.Config;
@@ -33,7 +33,7 @@ namespace OSS.Core.Tests
                     app_id    = AppInfoHelper.AppId,
                     UDID      = "TestDevice",
                 };
-                AppInfoHelper.FormatAppIdInfo(appIdentity);
+                //AppInfoHelper.FormatAppIdInfo(appIdentity);
                 CoreAppContext.SetIdentity(appIdentity);
             }
 

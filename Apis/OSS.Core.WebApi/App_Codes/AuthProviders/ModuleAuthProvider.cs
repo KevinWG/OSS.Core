@@ -7,7 +7,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class ModuleAuthProvider : IModuleAuthProvider
     {
-        public Task<Resp> CheckModulePermission(HttpContext context, string moduleName)
+        public Task<Resp> CheckModule(HttpContext context, string moduleName)
         {
             return Task.FromResult(new Resp());
         }

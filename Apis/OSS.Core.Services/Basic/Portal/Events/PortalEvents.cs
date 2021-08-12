@@ -1,4 +1,4 @@
-﻿using OSS.Core.Context.Mos;
+﻿using OSS.Core.Context;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 
 namespace OSS.Core.Services.Basic.Portal.Events
@@ -23,9 +23,7 @@ namespace OSS.Core.Services.Basic.Portal.Events
             //return Task.CompletedTask;
             // var authType = (PortalAuthorizeType)identity.AuthenticationType;
         }
-
         
-
         #endregion
     }
 }

@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Tools.Config;
 
@@ -22,7 +22,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class AppAuthProvider : IAppAuthProvider
     {
-        public Task<Resp> AppAuthCheck(HttpContext context, AppIdentity appinfo)
+        public Task<Resp> CheckApp(HttpContext context, AppIdentity appinfo)
         {
             if (appinfo.SourceMode != AppSourceMode.ServerSign)
                 return Task.FromResult(new Resp());

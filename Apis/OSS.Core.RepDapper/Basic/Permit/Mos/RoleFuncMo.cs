@@ -1,4 +1,6 @@
 ﻿
+using OSS.Core.Context;
+
 namespace OSS.Core.RepDapper.Basic.Permit.Mos
 {
     public class RoleFuncMo : BaseOwnerAndStateMo
@@ -25,6 +27,11 @@ namespace OSS.Core.RepDapper.Basic.Permit.Mos
         /// 权限码
         /// </summary>
         public string func_code { get; set; }
+
+        /// <summary>
+        ///  业务参数编码
+        /// </summary>
+        public string query_code { get; set; }
 
         /// <summary> 
         ///  数据权限

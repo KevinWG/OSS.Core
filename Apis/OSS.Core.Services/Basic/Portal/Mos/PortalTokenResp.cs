@@ -1,5 +1,5 @@
 ﻿using OSS.Common.BasicMos.Resp;
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 
 namespace OSS.Core.Services.Basic.Portal.Mos

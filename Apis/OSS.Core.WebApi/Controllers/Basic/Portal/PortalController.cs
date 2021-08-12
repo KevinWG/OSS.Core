@@ -19,7 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using OSS.Adapter.Oauth.Interface.Mos.Enums;
 using OSS.Common.BasicMos.Resp;
 
-using OSS.Core.Context.Mos;
+using OSS.Core.Context;
 using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 using OSS.Core.Services.Basic.Portal;
