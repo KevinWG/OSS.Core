@@ -18,7 +18,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
                 return new Resp<FuncDataLevel>(FuncDataLevel.All);
             }
 
-            return await InsContainer<IPermitService>.Instance.CheckIfHaveFunc(askFunc.func_code, askFunc.query_code);
+            return await InsContainer<IPermitService>.Instance.CheckIfHaveFunc(askFunc.func_code, askFunc.scene_code);
         }
 
     }

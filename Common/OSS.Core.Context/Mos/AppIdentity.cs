@@ -80,12 +80,12 @@ namespace OSS.Core.Context
         /// </summary>
         /// <param name="authType"></param>
         /// <param name="funcCode"></param>
-        /// <param name="queryCode"></param>
-        public AskUserFunc(PortalAuthorizeType authType,string funcCode, string queryCode)
+        /// <param name="sceneCode"></param>
+        public AskUserFunc(PortalAuthorizeType authType, string funcCode, string sceneCode)
         {
-            func_code  = funcCode;
-            query_code = queryCode;
-            auth_type  = authType;
+            func_code = funcCode;
+            scene_code     = sceneCode;
+            auth_type = authType;
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace OSS.Core.Context
         public string func_code { get; }
 
         /// <summary>
-        ///  动态业务码
+        ///  业务场景
         /// </summary>
-        public string query_code { get; }
+        public string scene_code { get; }
 
         /// <summary>
         ///  要求的登录类型限制
@@ -147,7 +147,8 @@ namespace OSS.Core.Context
         ServerSign = 0,
 
         /// <summary>
-        ///  合作方的服务端模式（请求地址以“/partner/”开头，如第三方回调）
+        ///  合作方的服务端模式
+        ///  （一般请求地址以“/partner/”开头，如第三方回调）
         /// </summary>
         PartnerServer = 100,
 

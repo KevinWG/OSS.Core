@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.1.1</Version>
+    <Version>2.0.2</Version>
     <PackageReleaseNotes>优化参数名称</PackageReleaseNotes>
     <Description>常用的站点权限过滤器</Description>
   </PropertyGroup>

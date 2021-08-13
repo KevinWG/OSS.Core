@@ -17,6 +17,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
     /// <summary>
     ///  基础验证属性
     /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public abstract class BaseAuthAttribute : Attribute, IAsyncAuthorizationFilter
     {
         public abstract Task OnAuthorizationAsync(AuthorizationFilterContext context);

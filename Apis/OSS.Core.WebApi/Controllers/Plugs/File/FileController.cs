@@ -4,6 +4,7 @@ using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Plugs.File;
 using OSS.Core.Services.Plugs.File.Reqs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace OSS.Core.CoreApi.Controllers.Plugs.File
 {
@@ -97,12 +98,15 @@ namespace OSS.Core.CoreApi.Controllers.Plugs.File
 
     }
 
+
+    
+
     //[ModuleName(ModuleNames.File)]
     //public class FileUploadController : BasePartnerController
     //{
     //    //private static readonly UploadService _service = new UploadService();
 
-      
+
     //    //[HttpPost]
     //    //[AppPartnerName("AliOSS")]
     //    //public async Task<Resp> ali([FromQuery] string t)
