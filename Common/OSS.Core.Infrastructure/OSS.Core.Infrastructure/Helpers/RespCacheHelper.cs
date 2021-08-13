@@ -63,7 +63,7 @@ namespace OSS.Core.Infrastructure.Helpers
             {
                 return GetOrSetAsync(cacheKey, getFunc, slidingTime, maxAbsoluteTime, sourceName);
             }
-            return CacheHelper.GetOrSetAsync(cacheKey, getFunc, slidingTime, maxAbsoluteTime, res => !res.IsSuccess(),
+            return CacheHelper.GetOrSetAsync(cacheKey, getFunc, new CacheTimeOptions() { sliding_expiration = slidingTime, absolute_expiration_relative_to_now = maxAbsoluteTime }, res => !res.IsSuccess(),
                 cacheProtectSeconds, sourceName);
         }
 
@@ -116,10 +116,8 @@ namespace OSS.Core.Infrastructure.Helpers
             if (data == null || !data.IsSuccess())
                 return data;
 
-            await CacheHelper.SetAsync(cacheKey, data, slidingTime, maxAbsoluteTime, sourceName);
+            await CacheHelper.SetAsync(cacheKey, data,new CacheTimeOptions(){sliding_expiration = slidingTime,absolute_expiration_relative_to_now = maxAbsoluteTime } , sourceName);
             return data;
         }
-
-     
     }
 }
