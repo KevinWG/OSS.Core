@@ -66,7 +66,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
             }
             catch (RespException resEx)
             {
-                errorResp = new Resp().WithException(resEx);
+                errorResp = new Resp().WithResp(resEx);
                 error = resEx;
             }
             catch (Exception ex)
