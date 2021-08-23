@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.0.2</Version>
+    <Version>2.1</Version>
     <PackageReleaseNotes>更新基础类库</PackageReleaseNotes>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </PropertyGroup>
