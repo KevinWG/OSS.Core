@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.1</Version>
+    <Version>2.2</Version>
     <PackageReleaseNotes>更新基础类库</PackageReleaseNotes>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
   </PropertyGroup>
@@ -14,7 +14,7 @@
   <ItemGroup>
     <PackageReference Include="OSS.Tools.Cache" Version="1.4.0" />
     <PackageReference Include="OSS.Tools.Config" Version="1.1.1" />
-    <PackageReference Include="OSS.Tools.Log" Version="1.1.2.2" />
+    <PackageReference Include="OSS.Tools.Log" Version="1.2.1" />
   </ItemGroup>
 
   <ItemGroup>
