@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using OSS.Core.Context;
-using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web.Extensions

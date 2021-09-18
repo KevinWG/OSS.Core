@@ -33,10 +33,7 @@ namespace OSS.Core.Infrastructure.Web.Helpers
         public static string ErrorUrl { get; } = ConfigHelper.GetSection("AppWebConfig:ErrorUrl")?.Value;
 
 
-        /// <summary>
-        ///   应用服务端签名模式，对应的票据信息的请求头名称
-        /// </summary>
-        public const string ServerSignModeHeaderName = "at-id";
+
 
         /// <summary>
         ///  浏览器模式，附加应用信息的请求头名称  
@@ -60,14 +57,12 @@ namespace OSS.Core.Infrastructure.Web.Helpers
             var sysInfo = CoreAppContext.Identity;
             if (sysInfo != null) return sysInfo;
 
-            sysInfo = new AppIdentity {SourceMode = GetAppSourceMode(context)};
+            sysInfo = new AppIdentity();
 
             CoreAppContext.SetIdentity(sysInfo);
             return sysInfo;
         }
-
-
-
+        
         /// <summary>
         /// 检查是否已经是404页或异常页，排除防止死循环
         /// </summary>
@@ -80,28 +75,7 @@ namespace OSS.Core.Infrastructure.Web.Helpers
 
             return isUnUrl;
         }
-
-        /// <summary>
-        /// 获取应用的来源模式
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static AppSourceMode GetAppSourceMode(HttpContext context)
-        {
-            if (context.Request.Headers.ContainsKey(ServerSignModeHeaderName))
-            {
-                return AppSourceMode.ServerSign;
-            }
-
-            var path = context.Request.Path.ToString();
-            if (path.StartsWith("/partner/"))
-                return AppSourceMode.PartnerServer;
-
-            return context.Request.IsAjaxApi() ?
-               AppSourceMode.BrowserWithHeader :
-               AppSourceMode.Browser;
-        }
-
+        
         #endregion
 
         private static string GetReqReferer(HttpRequest req)

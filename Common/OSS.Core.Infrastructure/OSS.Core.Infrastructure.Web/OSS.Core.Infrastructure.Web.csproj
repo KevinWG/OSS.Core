@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>2.2</Version>
-    <PackageReleaseNotes>更新基础类库</PackageReleaseNotes>
+    <Version>2.2.1</Version>
+    <PackageReleaseNotes>优化app全局授权信息处理</PackageReleaseNotes>
     <Description>常用的站点权限过滤器</Description>
   </PropertyGroup>
 

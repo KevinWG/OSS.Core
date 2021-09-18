@@ -31,7 +31,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             p_Order     = -10;
             _userOption = userOption;
-            //p_IsWebSite = userOption.IsWebSite;
         }
 
         /// <summary>
@@ -48,9 +47,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 return;
 
             var appInfo = CoreAppContext.Identity;
-            //_userOption.UserProvider.FormatUserToken(context.HttpContext, appInfo);
-
-            var res = await FormatUserIdentity(context, appInfo, _userOption);
+            var res     = await FormatUserIdentity(context, appInfo, _userOption);
             if (!res.IsSuccess())
             {
                 UserAuthErrorReponse(context, appInfo, res);
@@ -59,9 +56,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             res = await CheckFunc(context.HttpContext, appInfo, _userOption);
             if (!res.IsSuccess())
-            {
                 ResponseExceptionEnd(context, res);
-            }
         }
 
         private void UserAuthErrorReponse(AuthorizationFilterContext context, AppIdentity appInfo, Resp res)
@@ -79,7 +74,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 var req  = context.HttpContext.Request;
                 var rUrl = string.Concat(req.Path, req.QueryString);
 
-                var newUrl = string.Concat(AppWebInfoHelper.LoginUrl, "?rurl=" + rUrl.UrlEncode());
+                var newUrl = string.Concat(AppWebInfoHelper.LoginUrl, "?rurl=" ,rUrl.SafeEscapeUriDataString());
 
                 context.Result = new RedirectResult(newUrl);
                 return;
@@ -89,8 +84,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             return;
         }
 
-        private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context, AppIdentity appInfo,
-            UserAuthOption opt)
+        private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context, AppIdentity appInfo, UserAuthOption opt)
         {
             var identityRes = await opt.UserProvider.GetIdentity(context.HttpContext, appInfo);
             if (!identityRes.IsSuccess())
@@ -108,8 +102,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 || appInfo.ask_func == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
                 return new Resp<FuncDataLevel>(FuncDataLevel.All);
-
-
+            
             var askFunc = appInfo.ask_func;
             if (userInfo.auth_type > askFunc.auth_type)
                 return new Resp(RespTypes.NoPermission, "当前用户权限不足");

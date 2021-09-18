@@ -16,6 +16,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     public class AppAuthAttribute: BaseOrderAuthAttribute
     {
         private readonly AppAuthOption _appOption;
+        
         /// <summary>
         ///  构造函数
         /// </summary>
@@ -40,12 +41,15 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             // 0.  获取初始化app信息
-            var appInfo = CoreAppContext.Identity;
+            var appInfo = AppWebInfoHelper.GetOrSetAppIdentity(context.HttpContext); 
             if (appInfo==null)
             {
                 ResponseExceptionEnd(context, new Resp(SysRespTypes.AppConfigError, $"请使用{nameof(InitialMiddleware)}中间件初始化全局上下文信息"));
                 return;
             }
+
+            appInfo.SourceMode = GetAppSourceMode(context.HttpContext, _appOption);
+
             // 1. app验证
             var res = await FormatAndCheck(context.HttpContext, appInfo, _appOption);
             if (!res.IsSuccess())
@@ -63,9 +67,9 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         }
 
 
+
         private static async Task<Resp> FormatAndCheck(HttpContext context, AppIdentity appInfo, AppAuthOption appOption)
         {
-          
             switch (appInfo.SourceMode)
             {
                 // 第三方回调接口，直接放过
@@ -80,17 +84,12 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                     break;
 
                 case AppSourceMode.ServerSign:
-                    string authTicketStr = context.Request.Headers[AppWebInfoHelper.ServerSignModeHeaderName];
+                    string authTicketStr = context.Request.Headers[appOption.ServerSignModeHeaderName];
                     appInfo.FromTicket(authTicketStr);
                     if (!AppInfoHelper.FormatAppIdInfo(appInfo))
                     {
                         return new Resp(RespTypes.UnKnowSource, "未知应用来源！");
                     }
-                    //if (appOption?.AppProvider == null)
-                    //{
-                    //    return new Resp(RespTypes.InnerError, "服务接口并未启用服务端应用校验，请求拒绝！");
-                    //}
-                    //res = await ServerAppCheck(context, appOption.AppProvider, appInfo);
                     break;
                 default:
                     appInfo.app_id = AppInfoHelper.AppId;
@@ -102,25 +101,15 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             var res = (await appOption?.AppProvider?.CheckApp(context, appInfo)) ?? new Resp();
 
+            if (appInfo.SourceMode>=AppSourceMode.BrowserWithHeader)
+            {
+                if (context.Request.Cookies.TryGetValue(appOption.UserTokenCookieName,out string tokenVal))
+                    appInfo.token = tokenVal;
+            }
             context.CompleteAppIdentity(appInfo);
             return res;
         }
-
-        //private static async Task<Resp> ServerAppCheck(HttpContext context, IAppAuthProvider provider, AppIdentity appInfo)
-        //{
-        //    var secretKeyRes = await provider.IntialAuthAppConfig(context, appInfo);
-        //    if (!secretKeyRes.IsSuccess())
-        //        return secretKeyRes;
-
-        //    const int expireSecs = 60 * 60 * 2;
-        //    if (!appInfo.CheckSign(secretKeyRes.data.AppSecret, expireSecs).IsSuccess()
-        //        || !AppInfoHelper.FormatAppIdInfo(appInfo))
-        //        return new Resp(RespTypes.SignError, "签名错误！");
-
-        //    return secretKeyRes;
-        //}
-
-
+        
         private static async Task<Resp> TenantFormatAndCheck(HttpContext context, AppIdentity appInfo, AppAuthOption appOption)
         {
             if (appInfo.SourceMode == AppSourceMode.PartnerServer
@@ -136,6 +125,18 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             return identityRes;
         }
 
+
+        private static AppSourceMode GetAppSourceMode(HttpContext context, AppAuthOption appOption)
+        {
+            if (context.Request.Headers.ContainsKey(appOption.ServerSignModeHeaderName))
+            {
+                return AppSourceMode.ServerSign;
+            }
+
+            return context.Request.IsAjaxApi() ?
+                AppSourceMode.BrowserWithHeader :
+                AppSourceMode.Browser;
+        }
     }
 
     /// <summary>
@@ -143,6 +144,16 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     /// </summary>
     public class AppAuthOption
     {
+        /// <summary>
+        ///   应用服务端签名模式，对应的票据信息的请求头名称
+        /// </summary>
+        public string ServerSignModeHeaderName { get; set; } = "at-id";
+
+        /// <summary>
+        ///  用户token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
+        /// </summary>
+        public string UserTokenCookieName { get; set; } = "u_cn";
+
         /// <summary>
         ///  应用授权实现
         /// </summary>
