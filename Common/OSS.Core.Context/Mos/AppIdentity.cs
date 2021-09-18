@@ -55,7 +55,7 @@ namespace OSS.Core.Context
                 tenant_id = this.tenant_id,
                 timestamp = this.timestamp,
                 token = this.token,
-                trace_num = this.trace_num,
+                trace_no = this.trace_no,
 
                 UDID = this.UDID,
                 app_type = this.app_type
@@ -142,24 +142,21 @@ namespace OSS.Core.Context
     public enum AppSourceMode
     { 
         /// <summary>
-        ///  服务端模式（强签名）
+        ///  应用签名模式（强签名）
         /// </summary>
-        ServerSign = 0,
+        AppSign = 0,
+
 
         /// <summary>
-        ///  合作方的服务端模式
-        ///  （一般请求地址以“/partner/”开头，如第三方回调）
+        ///  合作方应用模式（自定义约定验证模式
         /// </summary>
-        PartnerServer = 100,
+        PartnerApp = 100,
+
 
         /// <summary>
-        /// 浏览器模式（含指定头，如前端ajax请求）
+        /// 浏览器访问模式
         /// </summary>
-        BrowserWithHeader = 200,
+        Browser = 300,
 
-        /// <summary>
-        ///  浏览器模式（泛，浏览器直接请求）
-        /// </summary>
-        Browser = 300
     }
 }

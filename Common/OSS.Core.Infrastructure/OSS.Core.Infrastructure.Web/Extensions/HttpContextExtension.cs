@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using OSS.Core.Context;
 using OSS.Core.Infrastructure.Web.Helpers;
 
-namespace OSS.Core.Infrastructure.Web.Extensions
+namespace OSS.Core.Infrastructure.Web
 {
     /// <summary>
     ///  属性扩展
@@ -31,7 +31,7 @@ namespace OSS.Core.Infrastructure.Web.Extensions
         [Obsolete("无法检测到fetch请求，使用IsAjaxApi(需要浏览器添加头信息)")]
         public static bool IsAjax(this HttpRequest req)
         {
-            return IsAjaxApi(req) || req.Headers["X-Requested-With"] == "XMLHttpRequest";
+            return IsFetchApi(req) || req.Headers["X-Requested-With"] == "XMLHttpRequest";
         }
 
         /// <summary>
@@ -40,10 +40,9 @@ namespace OSS.Core.Infrastructure.Web.Extensions
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public static bool IsAjaxApi(this HttpRequest req)
+        public static bool IsFetchApi(this HttpRequest req)
         {
-            return req.Headers.ContainsKey(AppWebInfoHelper.BrowserModeHeaderName);
-            //return req.Headers[CoreConstKeys.AppBrowserModeAppNameHeader].Count > 0;
+            return req.Headers.ContainsKey(AppWebInfoHelper.BrowserFetchHeaderName);
         }
 
         /// <summary>
@@ -67,10 +66,10 @@ namespace OSS.Core.Infrastructure.Web.Extensions
             if (string.IsNullOrEmpty(sysInfo.client_ip))
                 sysInfo.client_ip = GetIpAddress(context);
 
-            if (string.IsNullOrEmpty(sysInfo.trace_num))
-                sysInfo.trace_num = context.TraceIdentifier = Guid.NewGuid().ToString();
+            if (string.IsNullOrEmpty(sysInfo.trace_no))
+                sysInfo.trace_no = context.TraceIdentifier = Guid.NewGuid().ToString();
             else
-                context.TraceIdentifier = sysInfo.trace_num;
+                context.TraceIdentifier = sysInfo.trace_no;
 
             sysInfo.host = context.Request.Host.ToString();
         }

@@ -63,7 +63,7 @@ namespace OSS.Core.Services.Sys_Global
                     log.source_name = CoreAppContext.Identity?.module_name;
                 }
 
-                log.log_id = appIdentity.trace_num ?? Guid.NewGuid().ToString();
+                log.trace_no = appIdentity.trace_no ?? Guid.NewGuid().ToString();
             };
         }
 

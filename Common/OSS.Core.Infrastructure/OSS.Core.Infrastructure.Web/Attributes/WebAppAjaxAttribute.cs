@@ -5,9 +5,12 @@ using OSS.Core.Infrastructure.Web.Extensions;
 
 namespace OSS.Core.Infrastructure.Web.Attributes
 {
-    public class WebAppAjaxAttribute : BaseOrderAuthAttribute
+    /// <summary>
+    /// 接口请求模式验证
+    /// </summary>
+    public class WebFetchApiAttribute : BaseOrderAuthAttribute
     {
-        public WebAppAjaxAttribute()
+        public WebFetchApiAttribute()
         {
             p_Order = -99999;
             //p_IsWebSite = true;
@@ -15,8 +18,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
 
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-
-            if (!context.HttpContext.Request.IsAjaxApi())
+            if (!context.HttpContext.Request.IsFetchApi())
             {
                 var res = new Resp(RespTypes.UnKnowOperate, "未知操作!");
                 ResponseExceptionEnd(context, res);

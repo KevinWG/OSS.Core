@@ -32,13 +32,10 @@ namespace OSS.Core.Infrastructure.Web.Helpers
         /// </summary>
         public static string ErrorUrl { get; } = ConfigHelper.GetSection("AppWebConfig:ErrorUrl")?.Value;
 
-
-
-
         /// <summary>
-        ///  浏览器模式，附加应用信息的请求头名称  
+        ///  浏览器接口请求对应的头标识名称
         /// </summary>
-        public const string BrowserModeHeaderName = "x-core-app";
+        public const string BrowserFetchHeaderName = "x-core-app";
 
         ///// <summary>
         /////  获取页面缓存ETag（追加当前租户信息修改时间，防止租户信息修改后前端没有变化）

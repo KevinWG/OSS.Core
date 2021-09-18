@@ -69,7 +69,8 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             // 重定向用户登录页
             if (!string.IsNullOrEmpty(AppWebInfoHelper.LoginUrl)
-                && appInfo.SourceMode == AppSourceMode.Browser)
+                && appInfo.SourceMode == AppSourceMode.Browser 
+                && !context.HttpContext.Request.IsFetchApi())
             {
                 var req  = context.HttpContext.Request;
                 var rUrl = string.Concat(req.Path, req.QueryString);
@@ -98,8 +99,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         {
             var userInfo = CoreUserContext.Identity;
             if (userInfo == null // 非需授权认证请求
-                || opt.FuncProvider == null
-                || appInfo.ask_func == null
+                || opt.FuncProvider == null || appInfo.ask_func == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
                 return new Resp<FuncDataLevel>(FuncDataLevel.All);
             
@@ -109,9 +109,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             var checkRes = await opt.FuncProvider.CheckFunc(context, userInfo, askFunc);
             if (!checkRes.IsSuccess())
-            {
                 return checkRes;
-            }
 
             userInfo.data_level = checkRes.data;
             return checkRes;

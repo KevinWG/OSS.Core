@@ -238,7 +238,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
                 return;
             }
             var appSourceMode = CoreAppContext.Identity.SourceMode;
-            if (appSourceMode >= AppSourceMode.BrowserWithHeader)
+            if (appSourceMode >= AppSourceMode.Browser)
             {
                 PortalAuthHelper.SetCookie(Response, tokenResp.token);
             }

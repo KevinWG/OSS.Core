@@ -41,7 +41,7 @@ namespace OSS.Core.Context
         /// <summary>
         ///  请求跟踪编号 (唯一值必填)
         /// </summary>
-        public string trace_num { get; set; }
+        public string trace_no { get; set; }
 
         /// <summary>
         /// 唯一设备Id (可选)
@@ -85,7 +85,7 @@ namespace OSS.Core.Context
                 var keyValue = str.Split(new[] {'='}, 2);
                 if (keyValue.Length <= 1) continue;
 
-                var val = keyValue[1].UrlDecode();
+                var val = keyValue[1].SafeUnescapeUriString();
                 FormatProperty(keyValue[0], val);
             }
         }
@@ -99,28 +99,28 @@ namespace OSS.Core.Context
         {
             switch (key)
             {
-                case "appid":
+                case "app_id":
                     app_id = val;
                     break;
-                case "appver":
+                case "app_ver":
                     app_ver = val;
                     break;
                 //case "func":
                 //    func = val;
                 //    break;
-                case "ip":
+                case "client_ip":
                     client_ip = val;
                     break;
 
-                case "tenantid":
+                case "tenant_id":
                     tenant_id = val;
                     break;
 
                 case "token":
                     token = val;
                     break;
-                case "tracenum":
-                    trace_num = val;
+                case "trace_no":
+                    trace_no = val;
                     break;
                 case "timestamp":
                     timestamp = val.ToInt64();
@@ -151,7 +151,7 @@ namespace OSS.Core.Context
         /// <returns></returns>
         public Resp CheckSign(string secretKey, int signExpiredSeconds, string extSignData = null, char separator = ';')
         {
-            if (timestamp <= 0 || string.IsNullOrEmpty(app_id) || string.IsNullOrEmpty(trace_num))
+            if (timestamp <= 0 || string.IsNullOrEmpty(app_id) || string.IsNullOrEmpty(trace_no))
                 return new Resp(RespTypes.SignExpired, "签名数据不正确！");
 
             if (Math.Abs(DateTime.Now.ToUtcSeconds() - timestamp) > signExpiredSeconds)
@@ -206,19 +206,19 @@ namespace OSS.Core.Context
         {
             var strTicketParas = new StringBuilder();
 
-            AddTicketProperty("appid", appId, separator, strTicketParas, isForSign);
-            AddTicketProperty("appver", appVersion, separator, strTicketParas, isForSign);
+            AddTicketProperty("app_id", appId, separator, strTicketParas, isForSign);
+            AddTicketProperty("app_ver", appVersion, separator, strTicketParas, isForSign);
             //AddTicketProperty("func", func, separator, strTicketParas, isForSign);
-            AddTicketProperty("ip", client_ip, separator, strTicketParas, isForSign);
+            AddTicketProperty("client_ip", client_ip, separator, strTicketParas, isForSign);
 
             if (app_type == AppType.Proxy)
             {
-                AddTicketProperty("tenantid", tenant_id, separator, strTicketParas, isForSign);
+                AddTicketProperty("tenant_id", tenant_id, separator, strTicketParas, isForSign);
             }
           
             AddTicketProperty("token", token, separator, strTicketParas, isForSign);
 
-            AddTicketProperty("tracenum", trace_num, separator, strTicketParas, isForSign);
+            AddTicketProperty("trace_no", trace_no, separator, strTicketParas, isForSign);
             AddTicketProperty("timestamp", timestamp.ToString(), separator, strTicketParas, isForSign);
 
             AddTicketProperty("udid", UDID, separator, strTicketParas, isForSign);

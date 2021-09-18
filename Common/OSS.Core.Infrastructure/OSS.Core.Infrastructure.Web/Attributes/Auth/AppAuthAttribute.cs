@@ -73,7 +73,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             switch (appInfo.SourceMode)
             {
                 // 第三方回调接口，直接放过
-                case AppSourceMode.PartnerServer:
+                case AppSourceMode.PartnerApp:
                     if (string.IsNullOrEmpty(appInfo.app_id))
                     {
                         return new Resp(SysRespTypes.AppConfigError, $"未指定PartnerName,请使用{nameof(AppPartnerMetaAttribute)}指定");                      
@@ -83,7 +83,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                     appInfo.UDID = "WEB";
                     break;
 
-                case AppSourceMode.ServerSign:
+                case AppSourceMode.AppSign:
                     string authTicketStr = context.Request.Headers[appOption.ServerSignModeHeaderName];
                     appInfo.FromTicket(authTicketStr);
                     if (!AppInfoHelper.FormatAppIdInfo(appInfo))
@@ -101,7 +101,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             var res = (await appOption?.AppProvider?.CheckApp(context, appInfo)) ?? new Resp();
 
-            if (appInfo.SourceMode>=AppSourceMode.BrowserWithHeader)
+            if (appInfo.SourceMode>=AppSourceMode.Browser)
             {
                 if (context.Request.Cookies.TryGetValue(appOption.UserTokenCookieName,out string tokenVal))
                     appInfo.token = tokenVal;
@@ -112,7 +112,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         
         private static async Task<Resp> TenantFormatAndCheck(HttpContext context, AppIdentity appInfo, AppAuthOption appOption)
         {
-            if (appInfo.SourceMode == AppSourceMode.PartnerServer
+            if (appInfo.SourceMode == AppSourceMode.PartnerApp
                 || appOption?.TenantProvider == null
                 || CoreTenantContext.Identity != null)
                 return new Resp();
@@ -130,12 +130,9 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         {
             if (context.Request.Headers.ContainsKey(appOption.ServerSignModeHeaderName))
             {
-                return AppSourceMode.ServerSign;
+                return AppSourceMode.AppSign;
             }
-
-            return context.Request.IsAjaxApi() ?
-                AppSourceMode.BrowserWithHeader :
-                AppSourceMode.Browser;
+            return AppSourceMode.Browser ;
         }
     }
 

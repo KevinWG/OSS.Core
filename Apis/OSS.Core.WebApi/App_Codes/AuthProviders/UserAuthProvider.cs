@@ -24,7 +24,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
         public static Task<Resp<UserIdentity>> GetMyself(HttpRequest req)
         {
             var appinfo = CoreAppContext.Identity;
-            if (appinfo.SourceMode >= AppSourceMode.BrowserWithHeader)
+            if (appinfo.SourceMode >= AppSourceMode.Browser)
             {
                 appinfo.token = GetCookie(req);
             }

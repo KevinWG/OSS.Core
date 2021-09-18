@@ -54,7 +54,7 @@ namespace OSS.Core.Services.Sys_Global.Log
                             {"module_name", log.source_name},
                             {"level", log.level.ToString()},
                             {"msg_key", log.msg_key},
-                            {"log_id", log.log_id},
+                            {"log_id", log.trace_no},
                             {"msg_body", log.msg_body.ToString()}
                         },
                 msg_title = $"系统日志({log.source_name} 模块)",

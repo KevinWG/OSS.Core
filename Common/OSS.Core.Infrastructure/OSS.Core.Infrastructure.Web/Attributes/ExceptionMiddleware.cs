@@ -50,7 +50,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
         {
             Exception error;
             Resp errorResp = null;
-            AppSourceMode mode = AppSourceMode.BrowserWithHeader;
+            AppSourceMode mode = AppSourceMode.Browser;
             try
             {
                 // 需要在此初始化，否则中间件依次退出后此值为空，下方异常无法捕获APP信息
@@ -94,13 +94,13 @@ namespace OSS.Core.Infrastructure.Web.Attributes
         /// <returns></returns>
         private static async Task ExceptionResponse(HttpContext context, Resp res,AppSourceMode mode)
         {
-            if (mode == AppSourceMode.Browser
+            if (mode == AppSourceMode.Browser && !context.Request.IsFetchApi()
                 && !AppWebInfoHelper.CheckIf404OrErrorUrl(context.Request.Path.ToString()))
             {
                 var errUrl = res.IsRespType(RespTypes.ObjectNull) ? AppWebInfoHelper.NotFoundUrl : AppWebInfoHelper.ErrorUrl;
                 if (!string.IsNullOrEmpty(errUrl))
                 {
-                    string url = string.Concat(errUrl, "?ret=", res.ret, "&msg=", errUrl.UrlEncode());
+                    string url = string.Concat(errUrl, "?ret=", res.ret, "&msg=", errUrl.SafeEscapeUriDataString());
                     context.Response.Redirect(url);
                     return;
                 }

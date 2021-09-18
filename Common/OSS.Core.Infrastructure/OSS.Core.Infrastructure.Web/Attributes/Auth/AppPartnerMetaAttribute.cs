@@ -41,7 +41,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             sysInfo.app_id =
                 string.Concat(_appIdPrefix, context.HttpContext.Request.Query[_appIdQueryPara].ToString()); // _appId;
-            sysInfo.SourceMode = AppSourceMode.PartnerServer;
+            sysInfo.SourceMode = AppSourceMode.PartnerApp;
 
           
             return Task.CompletedTask;

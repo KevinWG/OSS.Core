@@ -24,7 +24,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
     {
         public Task<Resp> CheckApp(HttpContext context, AppIdentity appinfo)
         {
-            if (appinfo.SourceMode != AppSourceMode.ServerSign)
+            if (appinfo.SourceMode != AppSourceMode.AppSign)
                 return Task.FromResult(new Resp());
 
             var key = ConfigHelper.GetSection("KnockAppSecrets:" + appinfo.app_id)?.Value;
