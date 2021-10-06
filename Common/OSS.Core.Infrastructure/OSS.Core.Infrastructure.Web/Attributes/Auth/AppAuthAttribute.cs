@@ -5,7 +5,6 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
 using OSS.Core.Infrastructure.Helpers;
 using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
-using OSS.Core.Infrastructure.Web.Extensions;
 using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web.Attributes.Auth
