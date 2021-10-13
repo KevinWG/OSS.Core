@@ -177,7 +177,7 @@ namespace OSS.Core.Services.Basic.Portal
             if (!tokenDetailRes.IsSuccess())
                 return new Resp<SocialPlatform>().WithResp(tokenDetailRes);
 
-            if (tokenDetailRes.data.authType != PortalAuthorizeType.OauthTemp)
+            if (tokenDetailRes.data.authType != PortalAuthorizeType.SocialAppUser)
                 return new Resp<SocialPlatform>().WithResp(RespTypes.ObjectStateError, "未发现第三方临时授权信息！");
 
             var oauthUserId = tokenDetailRes.data.userId;
@@ -279,7 +279,7 @@ namespace OSS.Core.Services.Basic.Portal
                 avatar    = oauthUser.head_img,
                 from_plat = (int) fromPlat,
 
-                auth_type = PortalAuthorizeType.OauthTemp,
+                auth_type = PortalAuthorizeType.SocialAppUser,
             };
 
             return new Resp<UserIdentity>(identity);

@@ -42,12 +42,12 @@
     public enum PortalAuthorizeType
     {
         /// <summary>
-        ///     超级管理员
+        ///     超级管理员 - 管理端
         /// </summary>
         SuperAdmin = 100,
 
         /// <summary>
-        ///     后台普通管理员
+        ///     后台普通管理员- 管理端
         /// </summary>
         Admin = 200,
 
@@ -57,9 +57,19 @@
         User = 300,
 
         /// <summary>
-        ///     第三方临时授权用户 (页面过渡第三方和系统用户绑定时使用
+        ///    待绑定登录信息（如手机号）用户
         /// </summary>
-        OauthTemp = 400
+        UserWithEmptyLoginName = 310,
+
+        /// <summary>
+        ///   第三方临时授权用户
+        /// </summary>
+        SocialAppUser = 400,
+
+        /// <summary>
+        ///  第三方临时授权用户 ( 等待绑定系统用户
+        /// </summary>
+        SocialAppUserWaitBind = 410
     }
     
     /// <summary>

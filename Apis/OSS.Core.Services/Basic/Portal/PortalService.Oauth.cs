@@ -109,7 +109,7 @@ namespace OSS.Core.Services.Basic.Portal
             if (!tempOauthRes.IsSuccess())
                 return new PortalTokenResp().WithResp(tempOauthRes);
 
-            if (tempOauthRes.data.authType != PortalAuthorizeType.OauthTemp)
+            if (tempOauthRes.data.authType != PortalAuthorizeType.SocialAppUser)
                 return new PortalTokenResp() { ret = (int)RespTypes.ObjectNull, msg = "未能找到第三方信息！" };
 
             var oauthUserRes = await OauthUserRep.Instance.GetById(tempOauthRes.data.userId);

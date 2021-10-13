@@ -12,21 +12,21 @@
         ///     拉黑
         /// </summary>
         Locked = -100,
-        
-        /// <summary>
-        ///     第三方授权后等待选择是否绑定(否则跳过直接创建用户)
-        /// </summary>
-        WaitOauthChooseBind = -20,
 
-        /// <summary>
-        ///     等待授权后绑定
-        /// </summary>
-        WaitOauthBind = -15,
+        ///// <summary>
+        /////     第三方授权后等待选择是否绑定(否则跳过直接创建用户)
+        ///// </summary>
+        //WaitOauthChooseBind = -20,
+
+        ///// <summary>
+        /////     等待授权后绑定
+        ///// </summary>
+        //WaitOauthBind = -15,
 
         /// <summary>
         ///  等待激活
         /// </summary>
-        WaitActive=-10,
+        WaitActive = -10,
 
         /// <summary>
         ///     正常用户状态
