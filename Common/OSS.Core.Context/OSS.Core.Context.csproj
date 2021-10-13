@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>OSS.Core 全局上下文信息类库</Description>
-    <Version>2.2.2</Version>
+    <Version>2.2.3</Version>
     <PackageReleaseNotes>优化基础验证</PackageReleaseNotes>
   </PropertyGroup>
 
