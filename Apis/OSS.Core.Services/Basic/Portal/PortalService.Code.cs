@@ -98,7 +98,7 @@ namespace OSS.Core.Services.Basic.Portal
             if (userRes.IsSuccess())
                 return await LoginFinallyExecute(userRes.data, PortalAuthorizeType.User, isFromThirdBind);
 
-            if (!userRes.IsRespType(RespTypes.ObjectNull))
+            if (!userRes.IsRespType(RespTypes.OperateObjectNull))
                 return new PortalTokenResp() {ret = userRes.ret, msg = "账号密码错误！"};
 
             // 执行注册
@@ -130,7 +130,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             var res = await InsContainer<INotifyServiceProxy>.Instance.Send(notifyMsg);
             if (!res.IsSuccess())
-                return res ?? new Resp().WithResp(RespTypes.UnKnowSource, "未知类型！");
+                return res ;
 
             var key = string.Concat(CoreCacheKeys.Portal_Passcode_ByLoginName, loginName);
             await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
@@ -162,7 +162,7 @@ namespace OSS.Core.Services.Basic.Portal
             var code =await CacheHelper.GetAsync<string>(key);
 
             if (string.IsNullOrEmpty(code) || passcode != code)
-                return new Resp(RespTypes.ObjectStateError, "验证码错误");
+                return new Resp(RespTypes.OperateFailed, "验证码错误");
 
             await CacheHelper.RemoveAsync(key);
             return new Resp();

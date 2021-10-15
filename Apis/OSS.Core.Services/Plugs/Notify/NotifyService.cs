@@ -38,7 +38,7 @@ namespace OSS.Core.Services.Plugs.Notify
                 errCode = LogHelper.Error($"发送信息出错,错误信息：{ex.Message}", this.GetType().Name);
             }
 
-            return new NotifyResp().WithResp(SysRespTypes.ApplicationError, $"发送消息失败,错误码：{errCode}！");
+            return new NotifyResp().WithResp(SysRespTypes.AppError, $"发送消息失败,错误码：{errCode}！");
         }
 
 

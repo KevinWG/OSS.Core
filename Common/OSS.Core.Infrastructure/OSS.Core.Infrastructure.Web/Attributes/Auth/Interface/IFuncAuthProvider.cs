@@ -17,6 +17,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth.Interface
         /// <param name="identity"></param>
         /// <param name="funcCode"></param>
         /// <returns></returns>
-        Task<Resp<FuncDataLevel>> CheckFunc(HttpContext context, UserIdentity identity, AskUserFunc funcCode);
+        Task<Resp> FuncAuthorize(HttpContext context, UserIdentity identity, AskUserFunc funcCode);
     }
 }

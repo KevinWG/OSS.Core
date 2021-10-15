@@ -55,12 +55,12 @@ namespace OSS.Core.Infrastructure.Web.Attributes
             {
                 // 需要在此初始化，否则中间件依次退出后此值为空，下方异常无法捕获APP信息
                var appInfo= AppWebInfoHelper.GetOrSetAppIdentity(context);
-                mode = appInfo.SourceMode;
+                mode = appInfo.source_mode;
 
                 await _next.Invoke(context);
 
                 if (context.Response.StatusCode == (int)HttpStatusCode.NotFound)
-                    await ExceptionResponse(context, new Resp(RespTypes.ObjectNull, "当前请求资源不存在！"), mode);
+                    await ExceptionResponse(context, new Resp(RespTypes.OperateObjectNull, "当前请求资源不存在！"), mode);
 
                 return;
             }
@@ -81,7 +81,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
                 throw error;
             }
 #endif
-            var res = errorResp ?? new Resp(RespTypes.InnerError, string.Concat("服务暂时不可用！详情错误码：", code));
+            var res = errorResp ?? new Resp(SysRespTypes.AppError, string.Concat("服务暂时不可用！详情错误码：", code));
             await ExceptionResponse(context, res, mode);
         }
 
@@ -97,7 +97,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
             if (mode == AppSourceMode.Browser && !context.Request.IsFetchApi()
                 && !AppWebInfoHelper.CheckIf404OrErrorUrl(context.Request.Path.ToString()))
             {
-                var errUrl = res.IsRespType(RespTypes.ObjectNull) ? AppWebInfoHelper.NotFoundUrl : AppWebInfoHelper.ErrorUrl;
+                var errUrl = res.IsRespType(RespTypes.OperateObjectNull) ? AppWebInfoHelper.NotFoundUrl : AppWebInfoHelper.ErrorUrl;
                 if (!string.IsNullOrEmpty(errUrl))
                 {
                     string url = string.Concat(errUrl, "?ret=", res.ret, "&msg=", errUrl.SafeEscapeUriDataString());

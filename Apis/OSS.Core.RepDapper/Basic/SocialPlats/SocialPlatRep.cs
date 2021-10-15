@@ -19,7 +19,7 @@ namespace OSS.Core.RepDapper.Basic.SocialPlats
         public  async Task<Resp<long>> AddSocialPlatform(SocialPlatformMo mo)
         {
             var socialRes = await Get(s =>  s.social_plat == mo.social_plat);
-            if (socialRes.IsRespType(RespTypes.ObjectNull))
+            if (socialRes.IsDataNull())
                 return await Add(mo);
 
             if (!socialRes.IsSuccess())

@@ -16,6 +16,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth.Interface
         /// <param name="context"></param>
         /// <param name="appinfo"></param>
         /// <returns></returns>
-        Task<Resp> CheckApp(HttpContext context, AppIdentity appinfo);
+        Task<Resp> AppAuthorize(AppIdentity appinfo,HttpContext context);
     }
 }

@@ -22,7 +22,7 @@ namespace OSS.Core.Services.Sys_Global
                 return true;
 
             var getRes =await DirConfigRep.Instance.GetByKey(key);
-            if (getRes.IsRespType(RespTypes.ObjectNull))
+            if (getRes.IsRespType(RespTypes.OperateObjectNull))
             {
                 var mo = new DirConfigMo();
                 mo.dir_key = key;

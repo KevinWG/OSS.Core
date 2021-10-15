@@ -1,6 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using OSS.Common.Extension;
-using OSS.Common.Helpers;
 using OSS.Core.Context;
 using OSS.Tools.Config;
 
@@ -15,6 +15,7 @@ namespace OSS.Core.Infrastructure.Helpers
         ///  默认租户id
         /// </summary>
         public const string DefaultTenantId = "1001";
+
         /// <summary>
         ///  环境变量
         /// </summary>
@@ -56,7 +57,7 @@ namespace OSS.Core.Infrastructure.Helpers
         public static bool FormatAppIdInfo(AppIdentity app)
         {
             var strArr = app.app_id.Split('0');
-            if (strArr.Length != 4)
+            if (strArr.Length != 3)
                 return false;
 
             app.app_type = (AppType) strArr[0].Substring(4).ToCodeNum(_arrCodeStr);
@@ -65,8 +66,8 @@ namespace OSS.Core.Infrastructure.Helpers
                 app.tenant_id = strArr[1].ToCodeNum(_arrCodeStr).ToString();
             
 
-            if (!string.IsNullOrEmpty(strArr[2]))
-                app.app_client = (AppClientType) strArr[2].ToCodeNum(_arrCodeStr);
+            //if (!string.IsNullOrEmpty(strArr[2]))
+            //    app.client_type = (AppClientType) strArr[2].ToCodeNum(_arrCodeStr);
 
             return true;
         }
@@ -78,20 +79,17 @@ namespace OSS.Core.Infrastructure.Helpers
         /// </summary>
         /// <param name="type">应用类型</param>
         /// <param name="tenantId"></param>
-        /// <param name="client"></param>
         /// <returns></returns>
-        public static string GenerateAppId(string tenantId, AppType type, AppClientType client)
+        public static string GenerateAppId(string tenantId, AppType type)
         {
             var appId = new StringBuilder("app_");
-            var timespan = NumHelper.TimeMilSecsNum();
+            var timespan = DateTime.Now.ToUtcMilliSeconds();
 
             if (type == AppType.Proxy)
                 tenantId = string.Empty;
 
-           
             appId.Append(((long) type).ToCode(_arrCodeStr)).Append("0");
             appId.Append(tenantId.ToInt64().ToCode(_arrCodeStr)).Append("0");
-            appId.Append(((long) client).ToCode(_arrCodeStr)).Append("0");
             appId.Append(timespan.ToCode(_arrCodeStr));
 
             return appId.ToString();

@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
-using OSS.Core.Context;
 using OSS.Core.Infrastructure.Web.Helpers;
 
 namespace OSS.Core.Infrastructure.Web
@@ -45,33 +44,5 @@ namespace OSS.Core.Infrastructure.Web
             return req.Headers.ContainsKey(AppWebInfoHelper.BrowserFetchHeaderName);
         }
 
-        /// <summary>
-        ///  获取IP地址
-        /// </summary>
-        /// <param name="context"></param>
-        /// <returns></returns>
-        public static string GetIpAddress(HttpContext context)
-        {
-            string ipAddress = context.Request.Headers["X-Forwarded-For"];
-            return !string.IsNullOrEmpty(ipAddress) ? ipAddress : context.Connection.RemoteIpAddress.ToString();
-        }
-
-        /// <summary>
-        ///  补充应用授权信息
-        /// </summary>
-        /// <param name="sysInfo"></param>
-        /// <param name="context"></param>
-        internal static void CompleteAppIdentity(this HttpContext context, AppIdentity sysInfo)
-        {
-            if (string.IsNullOrEmpty(sysInfo.client_ip))
-                sysInfo.client_ip = GetIpAddress(context);
-
-            if (string.IsNullOrEmpty(sysInfo.trace_no))
-                sysInfo.trace_no = context.TraceIdentifier = Guid.NewGuid().ToString();
-            else
-                context.TraceIdentifier = sysInfo.trace_no;
-
-            sysInfo.host = context.Request.Host.ToString();
-        }
     }
 }

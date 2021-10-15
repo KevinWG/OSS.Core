@@ -20,7 +20,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         /// </summary>
         /// <param name="moduleName"></param>
         public ModuleMetaAttribute(string moduleName)
-            :this(moduleName,AppType.Outer)
+            :this(moduleName,AppType.Single)
         {
         }
 
@@ -49,7 +49,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
             var appInfo = AppWebInfoHelper.GetOrSetAppIdentity(context.HttpContext);
             if (appInfo.app_type > _appType)
             {
-                ResponseExceptionEnd(context, new Resp(RespTypes.NoPermission, "当前应用类型，无此接口权限！"));
+                ResponseExceptionEnd(context, new Resp(RespTypes.UserNoPermission, "当前应用类型，无此接口权限！"));
                 return Task.CompletedTask;
             }
             appInfo.module_name = _moduleName;

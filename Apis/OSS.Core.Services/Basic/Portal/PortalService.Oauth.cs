@@ -110,11 +110,11 @@ namespace OSS.Core.Services.Basic.Portal
                 return new PortalTokenResp().WithResp(tempOauthRes);
 
             if (tempOauthRes.data.authType != PortalAuthorizeType.SocialAppUser)
-                return new PortalTokenResp() { ret = (int)RespTypes.ObjectNull, msg = "未能找到第三方信息！" };
+                return new PortalTokenResp() { ret = (int)RespTypes.OperateObjectNull, msg = "未能找到第三方信息！" };
 
             var oauthUserRes = await OauthUserRep.Instance.GetById(tempOauthRes.data.userId);
             if (!oauthUserRes.IsSuccess())
-                return new PortalTokenResp() { ret = (int)RespTypes.ObjectNull, msg = "未能找到第三方信息！" };
+                return new PortalTokenResp() { ret = (int)RespTypes.OperateObjectNull, msg = "未能找到第三方信息！" };
 
             return await OauthReg(oauthUserRes.data);
         }
@@ -162,10 +162,10 @@ namespace OSS.Core.Services.Basic.Portal
                 return await OauthReg(oauthUser);
             }
 
-            // 执行第三方临时授权，返回临时授权后通知前端，执行绑定相关操作
-            oauthUser.status = regConfig.OauthRegisterType == OauthRegisterType.Bind
-                ? UserStatus.WaitOauthBind
-                : UserStatus.WaitOauthChooseBind;
+            //// 执行第三方临时授权，返回临时授权后通知前端，执行绑定相关操作
+            //oauthUser.status = regConfig.OauthRegisterType == OauthRegisterType.Bind
+            //    ? UserStatus.WaitOauthBind
+            //    : UserStatus.WaitOauthChooseBind;
 
             var ide = InitialOauthTempIdentity(oauthUser,plat);
 
@@ -230,7 +230,7 @@ namespace OSS.Core.Services.Basic.Portal
             }
 
             //  其他错误，直接返回
-            if (!userRes.IsRespType(RespTypes.ObjectNull))
+            if (!userRes.IsRespType(RespTypes.OperateObjectNull))
                 return userRes;
 
             // 如果是新授权用户，添加新的信息

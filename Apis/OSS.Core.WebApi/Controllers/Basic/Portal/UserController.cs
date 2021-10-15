@@ -40,7 +40,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Portal_User_Add)]
+        [UserFuncMeta(CoreFuncCodes.Portal_User_Add)]
         public Task<Resp<long>> AddUser([FromBody]AddUserReq req)
         {
             if (string.IsNullOrEmpty(req.email) && string.IsNullOrEmpty(req.mobile) || !ModelState.IsValid)
@@ -56,7 +56,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Portal_User_List)]
+        [UserFuncMeta(CoreFuncCodes.Portal_User_List)]
         public async Task<PageListResp<UserInfoBigMo>> SearchUsers([FromBody]SearchReq req)
         {
             if (req == null)
@@ -71,7 +71,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Portal_User_Lock)]
+        [UserFuncMeta(CoreFuncCodes.Portal_User_Lock)]
         public async Task<Resp> Lock(long id)
         {
             return await _service.ChangeLockStatus(id,true);
@@ -83,7 +83,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Portal
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Portal_User_UnLock)]
+        [UserFuncMeta(CoreFuncCodes.Portal_User_UnLock)]
         public async Task<Resp> UnLock(long id)
         {
             return await _service.ChangeLockStatus(id,false);

@@ -110,7 +110,7 @@ namespace OSS.Core.Infrastructure.Helpers
                 return obj;
 
             if (getFunc == null)
-                return new TRes().WithResp(RespTypes.UnKnowOperate, "未实现获取方法！");
+                return new TRes().WithResp(RespTypes.OperateObjectNull, "未实现获取方法！");
 
             var data = await getFunc.Invoke();
             if (data == null || !data.IsSuccess())

@@ -18,7 +18,7 @@ namespace OSS.Core.Tests.Basic.Permission
         public async Task GetAuthUserRolesTest() 
         {
             var res = await _perService.GetUserRoles(CoreUserContext.Identity.id.ToInt64());
-            Assert.IsTrue(res.IsSuccess()|| res.IsRespType(RespTypes.ObjectNull));
+            Assert.IsTrue(res.IsSuccess()|| res.IsRespType(RespTypes.OperateObjectNull));
         }
 
 
@@ -27,7 +27,7 @@ namespace OSS.Core.Tests.Basic.Permission
         public async Task GetAuthUserRoleFuncsTest()
         {
             var res = await _perService.GetMyFuncs();
-            Assert.IsTrue(res.IsSuccess() || res.IsRespType(RespTypes.ObjectNull));
+            Assert.IsTrue(res.IsSuccess() || res.IsRespType(RespTypes.OperateObjectNull));
         }
 
 
@@ -35,7 +35,7 @@ namespace OSS.Core.Tests.Basic.Permission
         public async Task GetUserCountByRoleIdTest()
         {
             var res = await RoleUserRep.Instance.GetUserCountByRoleId(1);
-            Assert.IsTrue(res.IsSuccess() || res.IsRespType(RespTypes.ObjectNull));
+            Assert.IsTrue(res.IsSuccess() || res.IsRespType(RespTypes.OperateObjectNull));
         }
 
 

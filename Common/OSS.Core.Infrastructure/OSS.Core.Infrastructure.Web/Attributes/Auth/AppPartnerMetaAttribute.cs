@@ -8,7 +8,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     /// <summary>
     ///  合作应用信息设置过滤器
     /// </summary>
-    public class AppPartnerMetaAttribute : BaseOrderAuthAttribute
+    public class AppOuterMetaAttribute : BaseOrderAuthAttribute
     {
         private readonly string _appIdPrefix;
         private readonly string _appIdQueryPara;
@@ -17,7 +17,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         ///  合作应用信息设置过滤器
         /// </summary>
         /// <param name="fromAppId">来源平台名称</param>
-        public AppPartnerMetaAttribute(string fromAppId) : this(fromAppId, string.Empty)
+        public AppOuterMetaAttribute(string fromAppId) : this(fromAppId, string.Empty)
         {
         }
 
@@ -26,7 +26,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         /// </summary>
         /// <param name="appIdPrefix"></param>
         /// <param name="appIdQueryPara"></param>
-        public AppPartnerMetaAttribute(string appIdPrefix, string appIdQueryPara)
+        public AppOuterMetaAttribute(string appIdPrefix, string appIdQueryPara)
         {
             _appIdPrefix    = appIdPrefix;
             _appIdQueryPara = appIdQueryPara;
@@ -41,9 +41,12 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             sysInfo.app_id =
                 string.Concat(_appIdPrefix, context.HttpContext.Request.Query[_appIdQueryPara].ToString()); // _appId;
-            sysInfo.SourceMode = AppSourceMode.PartnerApp;
 
-          
+            sysInfo.source_mode = AppSourceMode.OutApp;
+            //sysInfo.client_type = AppClientType.Server;
+            sysInfo.app_type   = AppType.Single;
+            sysInfo.UDID       = "WEB";
+
             return Task.CompletedTask;
         }
     }

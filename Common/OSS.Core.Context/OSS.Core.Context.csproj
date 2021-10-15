@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Common" Version="2.5.5.3" />
+    <PackageReference Include="OSS.Common" Version="2.6.1" />
   </ItemGroup>
 
 </Project>

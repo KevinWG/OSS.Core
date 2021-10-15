@@ -39,8 +39,8 @@ namespace OSS.Core.Services.Basic.Portal
             var exitAdminRes = await AdminInfoRep.Instance.GetAdminByUId(admin.u_id);
 
             if (exitAdminRes.IsSuccess()) 
-                return new Resp<long>().WithResp(RespTypes.ObjectExist, "当前用户已经存在绑定管理员");
-            if (!exitAdminRes.IsRespType(RespTypes.ObjectNull))
+                return new Resp<long>().WithResp(RespTypes.OperateObjectExist, "当前用户已经存在绑定管理员");
+            if (!exitAdminRes.IsRespType(RespTypes.OperateObjectNull))
                 return new Resp<long>().WithResp(exitAdminRes);
 
             // 判断用户本身是否存在问题
@@ -49,7 +49,7 @@ namespace OSS.Core.Services.Basic.Portal
                 return new Resp<long>().WithResp(userRes);
 
             if(userRes.data.status<0)
-                return new Resp<long>().WithResp(RespTypes.ObjectExist, "当前绑定用户状态异常！");
+                return new Resp<long>().WithResp(RespTypes.OperateObjectExist, "当前绑定用户状态异常！");
 
             // 执行添加
             admin.InitialBaseFromContext();

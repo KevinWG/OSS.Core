@@ -15,6 +15,6 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth.Interface
         /// <param name="context"></param>
         /// <param name="moduleName"></param>
         /// <returns></returns>
-        Task<Resp> CheckModule(HttpContext context, string moduleName);
+        Task<Resp> ModuleAuthorize(HttpContext context, string moduleName);
     }
 }

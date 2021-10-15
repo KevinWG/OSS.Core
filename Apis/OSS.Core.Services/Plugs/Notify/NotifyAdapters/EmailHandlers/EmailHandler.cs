@@ -25,7 +25,7 @@ namespace OSS.Core.Services.Plugs.Notify.NotifyAdapters.EmailHandlers
         {
             var config = await GetEmailConfig();
             if (config==null)
-                return new NotifyResp().WithResp(RespTypes.ObjectNull,"未发现邮件配置信息！");
+                return new NotifyResp().WithResp(RespTypes.OperateObjectNull, "未发现邮件配置信息！");
 
             var body = msg.body_paras.Aggregate(template.content,
                 (current, p) => current.Replace(string.Concat("{", p.Key, "}"), p.Value));

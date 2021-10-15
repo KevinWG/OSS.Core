@@ -10,18 +10,18 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
     ///  功能权限名称过滤器
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
-    public class UserFuncAttribute : BaseOrderAuthAttribute
+    public class UserFuncMetaAttribute : BaseOrderAuthAttribute
     {
         private readonly string _funcCode;
         private readonly string _sceneQueryPara;
 
         private readonly PortalAuthorizeType _auth_type;
-        
+
         /// <summary>
         ///  功能权限验证
         /// </summary>
         /// <param name="authType"></param>
-        public UserFuncAttribute(PortalAuthorizeType authType):this(authType,string.Empty,String.Empty)
+        public UserFuncMetaAttribute(PortalAuthorizeType authType) : this(authType, string.Empty, String.Empty)
         {
         }
 
@@ -30,7 +30,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         /// </summary>
         /// <param name="funcCode"></param>
         /// <param name="sceneQueryPara">业务 QueryCode 的参数 </param>
-        public UserFuncAttribute( string funcCode, string sceneQueryPara = null):this(PortalAuthorizeType.Admin,funcCode, sceneQueryPara)
+        public UserFuncMetaAttribute(string funcCode, string sceneQueryPara = null) : this(PortalAuthorizeType.Admin, funcCode, sceneQueryPara)
         {
         }
 
@@ -40,7 +40,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         /// <param name="authType"></param>
         /// <param name="funcCode"></param>
         /// <param name="sceneQueryPara">业务 QueryCode 的参数 </param>
-        public UserFuncAttribute(PortalAuthorizeType authType, string funcCode, string sceneQueryPara = null)
+        public UserFuncMetaAttribute(PortalAuthorizeType authType, string funcCode, string sceneQueryPara = null)
         {
             p_Order = -11;
 
@@ -59,13 +59,13 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
                 sceneCode = context.HttpContext.Request.Query[_sceneQueryPara].ToString();
                 if (string.IsNullOrEmpty(sceneCode))
                 {
-                    ResponseExceptionEnd(context,new Resp(RespTypes.ParaError,$"请求参数中的权限业务码({_sceneQueryPara})不能为空！"));
+                    ResponseExceptionEnd(context,
+                        new Resp(RespTypes.ParaError, $"请求参数中的权限业务码({_sceneQueryPara})不能为空！"));
                     return Task.CompletedTask;
                 }
             }
 
-            var appIdentity = CoreAppContext.Identity;
-            appIdentity.ask_func = new AskUserFunc(_auth_type,_funcCode, sceneCode);
+            CoreAppContext.Identity.ask_func = new AskUserFunc(_auth_type, _funcCode, sceneCode);
 
             return Task.CompletedTask;
         }

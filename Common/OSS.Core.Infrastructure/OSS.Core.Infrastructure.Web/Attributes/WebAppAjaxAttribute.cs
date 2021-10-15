@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Extensions;
 
 namespace OSS.Core.Infrastructure.Web.Attributes
 {
@@ -20,7 +19,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes
         {
             if (!context.HttpContext.Request.IsFetchApi())
             {
-                var res = new Resp(RespTypes.UnKnowOperate, "未知操作!");
+                var res = new Resp(RespTypes.OperateFailed, "当前请求被拒绝!");
                 ResponseExceptionEnd(context, res);
             }
             return Task.CompletedTask;

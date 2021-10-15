@@ -25,7 +25,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleList)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleList)]
         public Task<PageListResp<RoleMo>> SearchRoles([FromBody] SearchReq req)
         {
             return req == null
@@ -38,7 +38,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleAdd)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleAdd)]
         public Task<Resp<long>> RoleAdd([FromBody] AddRoleReq req)
         {
             return ModelState.IsValid
@@ -51,7 +51,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleUpdate)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleUpdate)]
         public Task<Resp> RoleUpdate([FromBody] UpdateRoleReq req)
         {
             return ModelState.IsValid
@@ -65,7 +65,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <param name="rid"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleActive)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleActive)]
         public Task<Resp> RoleActive(long rid)
         {
             return rid <= 0
@@ -79,7 +79,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <param name="rid"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleActive)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleActive)]
         public Task<Resp> RoleUnActive(long rid)
         {
             return rid <= 0
@@ -93,7 +93,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <param name="rid"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleDelete)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleDelete)]
         public Task<Resp> RoleDelete(long rid)
         {
             return rid <= 0
@@ -111,7 +111,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [UserFunc(CoreFuncCodes.Permit_RoleFuncList)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleFuncList)]
         public Task<ListResp<FuncBigItem>> GetAllFuncItems()
         {
             return _service.GetAllFuncItems();
@@ -135,7 +135,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns> 
         [HttpGet]
-        [UserFunc(CoreFuncCodes.Permit_RoleFuncList)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleFuncList)]
         public Task<ListResp<RoleFunSmallMo>> GetRoleFuncList(long rid)
         {
             return rid <= 0
@@ -149,7 +149,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleFuncChange)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleFuncChange)]
         public Task<Resp> ChangeRoleFuncItems(long rid, [FromBody] ChangeRoleFuncItemsReq items)
         {
             if (rid <= 0
@@ -170,7 +170,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <param name="req"></param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleUserBind)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleUserBind)]
         public Task<Resp<long>> AddRoleBind([FromBody] AddRoleUserReq req)
         {
             return ModelState.IsValid
@@ -188,7 +188,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// </param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleUserSearch)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleUserSearch)]
         public Task<PageListResp<RoleUserBigMo>> SearchRoleUsers([FromBody] SearchReq req)
         {
             return req == null
@@ -202,7 +202,7 @@ namespace OSS.Core.CoreApi.Controllers.Basic.Permit
         /// <param name="id">绑定关系Id</param>
         /// <returns></returns>
         [HttpPost]
-        [UserFunc(CoreFuncCodes.Permit_RoleUserDelete)]
+        [UserFuncMeta(CoreFuncCodes.Permit_RoleUserDelete)]
         public Task<Resp> DeleteRoleBind(long id)
         {
             return id <= 0

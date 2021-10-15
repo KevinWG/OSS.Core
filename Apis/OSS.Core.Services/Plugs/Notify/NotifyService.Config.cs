@@ -30,7 +30,7 @@ namespace OSS.Core.Services.Plugs.Notify
             var config = await DirConfigHelper.GetDirConfig<EmailSmtpConfig>(CoreDirConfigKeys.plugs_notify_email_defult);
             if (config == null)
             {
-                return new Resp<EmailSmtpConfig>().WithResp(RespTypes.ObjectNull, "未发现配置信息");
+                return new Resp<EmailSmtpConfig>().WithResp(RespTypes.OperateObjectNull, "未发现配置信息");
             }
             return new Resp<EmailSmtpConfig>(config);
         }
@@ -83,7 +83,7 @@ namespace OSS.Core.Services.Plugs.Notify
             var config = await DirConfigHelper.GetDirConfig<NotifyTemplateConfig>(dirKey);
             if (config == null)
             {
-                return new Resp<NotifyTemplateConfig>().WithResp(RespTypes.ObjectNull, "未发现配置信息");
+                return new Resp<NotifyTemplateConfig>().WithResp(RespTypes.OperateObjectNull, "未发现配置信息");
             }
             return new Resp<NotifyTemplateConfig>(config);
         }

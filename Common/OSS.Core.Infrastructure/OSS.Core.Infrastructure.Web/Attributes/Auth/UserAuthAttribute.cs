@@ -61,7 +61,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
         private void UserAuthErrorReponse(AuthorizationFilterContext context, AppIdentity appInfo, Resp res)
         {
-            if (!res.IsRespType(RespTypes.UnLogin))
+            if (!res.IsRespType(RespTypes.UserUnLogin))
             {
                 ResponseExceptionEnd(context, res);
                 return;
@@ -69,7 +69,7 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
 
             // 重定向用户登录页
             if (!string.IsNullOrEmpty(AppWebInfoHelper.LoginUrl)
-                && appInfo.SourceMode == AppSourceMode.Browser 
+                && appInfo.source_mode == AppSourceMode.Browser 
                 && !context.HttpContext.Request.IsFetchApi())
             {
                 var req  = context.HttpContext.Request;
@@ -99,19 +99,19 @@ namespace OSS.Core.Infrastructure.Web.Attributes.Auth
         {
             var userInfo = CoreUserContext.Identity;
             if (userInfo == null // 非需授权认证请求
-                || opt.FuncProvider == null || appInfo.ask_func == null
+                || opt.FuncProvider == null 
+                || appInfo.ask_func == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
                 return new Resp<FuncDataLevel>(FuncDataLevel.All);
             
             var askFunc = appInfo.ask_func;
             if (userInfo.auth_type > askFunc.auth_type)
-                return new Resp(RespTypes.NoPermission, "当前用户权限不足");
+                return new Resp(RespTypes.UserNoPermission, "当前用户权限不足");
 
-            var checkRes = await opt.FuncProvider.CheckFunc(context, userInfo, askFunc);
+            var checkRes = await opt.FuncProvider.FuncAuthorize(context, userInfo, askFunc);
             if (!checkRes.IsSuccess())
                 return checkRes;
-
-            userInfo.data_level = checkRes.data;
+            
             return checkRes;
         }
     }

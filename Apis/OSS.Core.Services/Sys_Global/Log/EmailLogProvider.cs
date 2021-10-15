@@ -87,7 +87,7 @@ namespace OSS.Core.Services.Sys_Global.Log
             var config = await DirConfigHelper.GetDirConfig<LogReceiverConfig>(_receiverConfigKey);
             if (config == null)
             {
-                return new ListResp<string>().WithResp(RespTypes.ObjectNull, "未发现日志相关接收人配置信息!");
+                return new ListResp<string>().WithResp(RespTypes.OperateObjectNull, "未发现日志相关接收人配置信息!");
             }
 
             string receivers = null;
@@ -114,7 +114,7 @@ namespace OSS.Core.Services.Sys_Global.Log
                 receivers = config.default_receivers;
 
             if (string.IsNullOrEmpty(receivers))
-                return new ListResp<string>().WithResp(RespTypes.ObjectNull, "未发现配置的可接收人！");
+                return new ListResp<string>().WithResp(RespTypes.OperateObjectNull, "未发现配置的可接收人！");
 
             return new ListResp<string>(receivers.Split(',').ToList());
         }

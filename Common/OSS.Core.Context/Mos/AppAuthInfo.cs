@@ -14,7 +14,7 @@ namespace OSS.Core.Context
         #region  参与签名属性
       
         /// <summary>
-        ///   【请求方】应用来源
+        ///   【请求方】应用Id
         /// </summary>
         public string app_id { get; set; }
 
@@ -59,12 +59,11 @@ namespace OSS.Core.Context
         ///  sign标识
         /// </summary>
         public string sign { get; set; }
-
-
+        
         /// <summary>
         ///   应用类型 [非外部传值，不参与签名]
         /// </summary>
-        public AppType app_type { get; set; } = AppType.Outer;
+        public AppType app_type { get; set; } = AppType.Single;
 
         #region  字符串处理
 
@@ -105,9 +104,7 @@ namespace OSS.Core.Context
                 case "app_ver":
                     app_ver = val;
                     break;
-                //case "func":
-                //    func = val;
-                //    break;
+            
                 case "client_ip":
                     client_ip = val;
                     break;
@@ -152,14 +149,14 @@ namespace OSS.Core.Context
         public Resp CheckSign(string secretKey, int signExpiredSeconds, string extSignData = null, char separator = ';')
         {
             if (timestamp <= 0 || string.IsNullOrEmpty(app_id) || string.IsNullOrEmpty(trace_no))
-                return new Resp(RespTypes.SignExpired, "签名数据不正确！");
+                return new Resp(RespTypes.ParaSignExpired, "签名数据不正确！");
 
             if (Math.Abs(DateTime.Now.ToUtcSeconds() - timestamp) > signExpiredSeconds)
-                return new Resp(RespTypes.SignExpired, "签名不在时效范围(请使用Unix Timestamp)！");
+                return new Resp(RespTypes.ParaSignExpired, "签名不在时效范围(请使用Unix Timestamp)！");
 
             var signData = CompulteSign(app_id, app_ver, secretKey, extSignData, separator);
 
-            return sign == signData ? new Resp() : new Resp(RespTypes.SignError, "签名错误！");
+            return sign == signData ? new Resp() : new Resp(RespTypes.ParaSignError, "签名错误！");
         }
 
         /// <summary>
@@ -208,7 +205,6 @@ namespace OSS.Core.Context
 
             AddTicketProperty("app_id", appId, separator, strTicketParas, isForSign);
             AddTicketProperty("app_ver", appVersion, separator, strTicketParas, isForSign);
-            //AddTicketProperty("func", func, separator, strTicketParas, isForSign);
             AddTicketProperty("client_ip", client_ip, separator, strTicketParas, isForSign);
 
             if (app_type == AppType.Proxy)
@@ -265,19 +261,14 @@ namespace OSS.Core.Context
         System = 30,
 
         /// <summary>
-        ///  多租户代理应用 
+        ///  平台上多租户代理应用 
         /// </summary>
         Proxy = 60,
 
         /// <summary>
-        ///  内部单租户应用
+        ///  平台上单租户应用
         /// </summary>
-        Inner = 90,
-
-        /// <summary>
-        ///   外部单租户应用
-        /// </summary>
-        Outer = 120
+        Single= 80
     }
 
 }

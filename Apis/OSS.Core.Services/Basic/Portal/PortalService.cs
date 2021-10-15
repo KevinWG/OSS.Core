@@ -43,13 +43,13 @@ namespace OSS.Core.Services.Basic.Portal
         {
             var userRes = await UserInfoRep.Instance.GetUserByLoginType(value, type);
 
-            if (userRes.IsRespType(RespTypes.ObjectNull))
+            if (userRes.IsRespType(RespTypes.OperateObjectNull))
             {
                 return new Resp();
             }
           
             return userRes.IsSuccess()
-                ? new Resp(RespTypes.ObjectExist, "账号已存在，无法注册！")
+                ? new Resp(RespTypes.OperateObjectExist, "账号已存在，无法注册！")
                 : new Resp().WithResp(userRes);
         }
 
@@ -177,7 +177,7 @@ namespace OSS.Core.Services.Basic.Portal
                 return new Resp<SocialPlatform>().WithResp(tokenDetailRes);
 
             if (tokenDetailRes.data.authType != PortalAuthorizeType.SocialAppUser)
-                return new Resp<SocialPlatform>().WithResp(RespTypes.ObjectStateError, "未发现第三方临时授权信息！");
+                return new Resp<SocialPlatform>().WithResp(RespTypes.OperateFailed, "未发现第三方临时授权信息！");
 
             var oauthUserId = tokenDetailRes.data.userId;
             var bindRes     = await OauthUserRep.Instance.BindUserIdByOauthId(oauthUserId, userId);
@@ -203,19 +203,19 @@ namespace OSS.Core.Services.Basic.Portal
                 case PortalAuthorizeType.SuperAdmin:
                     var adminRes = await AdminInfoRep.Instance.GetAdminByUId(userId);
                     if (!adminRes.IsSuccess())
-                        return new Resp<UserIdentity>().WithResp(RespTypes.UnLogin, "用户未登录!");
+                        return new Resp<UserIdentity>().WithResp(RespTypes.UserUnLogin, "用户未登录!");
 
                     identityRes = InitialAdminIdentity(adminRes.data, fromPlat);
                     break;
                 case PortalAuthorizeType.User:
                     var userRes = await UserInfoRep.Instance.GetById(userId);
                     if (!userRes.IsSuccess())
-                        return new Resp<UserIdentity>().WithResp(RespTypes.UnLogin, "用户未登录!");
+                        return new Resp<UserIdentity>().WithResp(RespTypes.UserUnLogin, "用户未登录!");
 
                     identityRes = InitialUserIdentity(userRes.data, fromPlat);
                     break;
                 default:
-                    identityRes = new Resp<UserIdentity>().WithResp(RespTypes.UnLogin, "用户未登录!");
+                    identityRes = new Resp<UserIdentity>().WithResp(RespTypes.UserUnLogin, "用户未登录!");
                     break;
             }
 
@@ -289,7 +289,7 @@ namespace OSS.Core.Services.Basic.Portal
         private static Resp CheckIdentityStatus(UserStatus state)
         {
             return state < 0
-                ? new Resp().WithResp(RespTypes.AuthFreezed, "此账号异常！")
+                ? new Resp().WithResp(RespTypes.UserUnActive, "此账号异常！")
                 : new Resp();
         }
 
@@ -297,7 +297,7 @@ namespace OSS.Core.Services.Basic.Portal
         public static Resp CheckIdentityStatus(AdminStatus state)
         {
             return state < 0
-                ? new Resp().WithResp(RespTypes.AuthFreezed, "此账号异常！")
+                ? new Resp().WithResp(RespTypes.UserUnActive, "此账号异常！")
                 : new Resp();
         }
 
@@ -335,13 +335,13 @@ namespace OSS.Core.Services.Basic.Portal
         {
             var appInfo = CoreAppContext.Identity;
             if (string.IsNullOrEmpty(appInfo.token))
-                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnLogin,
+                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UserUnLogin,
                     "用户未登录");
 
             var tokenDetail = CoreUserContext.GetTokenDetail(_portalTokenSecret, appInfo.token);
             var tokenSplit = tokenDetail.Split('|');
             if (tokenSplit.Length != 5)
-                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,
+                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.OperateFailed,
                     "非合法授权来源!");
 
             var tenantId = tokenSplit[1];
@@ -349,7 +349,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             if ( !string.IsNullOrEmpty(appInfo.tenant_id) && tenantId != appInfo.tenant_id 
                 || userId<=0)
-                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.UnKnowSource,
+                return new Resp<(long, PortalAuthorizeType, SocialPlatform plat)>().WithResp(RespTypes.OperateFailed,
                     "非合法授权来源!");
 
             var authType = (PortalAuthorizeType) tokenSplit[2].ToInt32();

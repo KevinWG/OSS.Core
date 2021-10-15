@@ -93,7 +93,7 @@ namespace OSS.Core.Services.Basic.Permit
             {
                 return await RoleRep.Instance.UpdateStatus(rid, CommonStatus.UnActived);
             }
-            return new Resp(RespTypes.ObjectStateError, "当前角色已绑定用户，请取消用户绑定后再操作！");
+            return new Resp(RespTypes.OperateFailed, "当前角色已绑定用户，请取消用户绑定后再操作！");
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace OSS.Core.Services.Basic.Permit
                     ? (f.func_code == funcCode && f.query_code == queryCode)
                     : (f.func_code == funcCode && string.IsNullOrEmpty(queryCode)));
             if (func == null)
-                return new Resp<FuncDataLevel>().WithResp(RespTypes.NoPermission, "无操作权限!");
+                return new Resp<FuncDataLevel>().WithResp(RespTypes.UserNoPermission, "无操作权限!");
 
             return new Resp<FuncDataLevel>(func.data_level);
         }

@@ -18,56 +18,24 @@ namespace OSS.Core.Context
     public class AppIdentity : AppAuthInfo
     {
         /// <summary>
-        /// 应用客户端类型[非外部传值，不参与签名]
-        /// </summary>
-        public AppClientType app_client { get; set; }
-
-        /// <summary>
         ///  请求模块名称
         /// </summary>
         public string module_name { get; set; }
 
         /// <summary>
+        ///  当前请求主机信息 [非外部传值，不参与签名]
+        /// </summary>
+        public string host { get; set; }
+
+        /// <summary>
         /// 来源模式
         /// </summary> 
-        public AppSourceMode SourceMode { get; set; }
+        public AppSourceMode source_mode { get; set; }
 
         /// <summary>
         ///  请求验证对应功能权限信息
         /// </summary>
-        public AskUserFunc ask_func { get; set; } 
-
-        /// <summary>
-        /// 复制新的授权信息实体
-        /// </summary>
-        /// <returns></returns>
-        public AppAuthInfo Copy()
-        {
-            var newOne = new AppIdentity
-            {
-                ask_func = this.ask_func,
-                app_client = this.app_client,
-                app_id = this.app_id,
-                app_ver = this.app_ver,
-                client_ip = this.client_ip,
-
-                sign = this.sign,
-                tenant_id = this.tenant_id,
-                timestamp = this.timestamp,
-                token = this.token,
-                trace_no = this.trace_no,
-
-                UDID = this.UDID,
-                app_type = this.app_type
-            };
-
-            return newOne;
-        }
-        
-        /// <summary>
-        ///  当前请求主机信息 [非外部传值，不参与签名]
-        /// </summary>
-        public string host { get; set; }
+        public AskUserFunc ask_func { get; set; }
     }
 
     /// <summary>
@@ -104,37 +72,6 @@ namespace OSS.Core.Context
         public PortalAuthorizeType auth_type { get; } 
     }
 
-    /// <summary>
-    /// 应用客户端类型
-    /// </summary>
-    public enum AppClientType
-    {
-        /// <summary>
-        ///  未知
-        /// </summary>
-        UnknowClient = 10,
-
-        /// <summary>
-        /// 苹果客户端应用
-        /// </summary>
-        iOS = 20,
-
-        /// <summary>
-        /// 安卓客户端应用
-        /// </summary>
-        Android = 30,
-
-        /// <summary>
-        ///  windows客户端应用
-        /// </summary>
-        WindowStore = 40,
-
-        /// <summary>
-        ///  服务器端（如：站点，WindowsService）
-        /// </summary>
-        Server = 60
-    }
-
  
     /// <summary>
     ///  app的来源处理模式
@@ -150,13 +87,12 @@ namespace OSS.Core.Context
         /// <summary>
         ///  合作方应用模式（自定义约定验证模式
         /// </summary>
-        PartnerApp = 100,
+        OutApp = 100,
 
 
         /// <summary>
         /// 浏览器访问模式
         /// </summary>
-        Browser = 300,
-
+        Browser = 300
     }
 }

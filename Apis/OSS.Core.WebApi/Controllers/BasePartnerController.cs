@@ -5,7 +5,7 @@ using OSS.Core.Infrastructure.Web.Attributes.Auth;
 namespace OSS.Core.CoreApi.Controllers
 {
     [AllowAnonymous]
-    [AppPartnerMeta("Test")]
+    [AppOuterMeta("Test")]
     [Route("[controller]/[action]/{id?}")]
     public class BasePartnerController : BaseController
     {

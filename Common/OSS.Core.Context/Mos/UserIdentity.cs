@@ -57,19 +57,14 @@
         User = 300,
 
         /// <summary>
-        ///    待绑定登录信息（如手机号）用户
+        ///   空白用户（关键信息缺失，如手机号）
         /// </summary>
-        UserWithEmptyLoginName = 310,
+        UserWithEmpty = 310,
 
         /// <summary>
-        ///   第三方临时授权用户
+        ///  临时授权的第三方用户
         /// </summary>
-        SocialAppUser = 400,
-
-        /// <summary>
-        ///  第三方临时授权用户 ( 等待绑定系统用户
-        /// </summary>
-        SocialAppUserWaitBind = 410
+        SocialAppUser = 400
     }
     
     /// <summary>
