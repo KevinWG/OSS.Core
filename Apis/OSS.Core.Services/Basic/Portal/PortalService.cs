@@ -235,7 +235,7 @@ namespace OSS.Core.Services.Basic.Portal
                 id        = user.id.ToString(),
                 name      = user.nick_name??user.mobile??user.email,
                 avatar    = user.avatar,
-                from_plat = (int) fromPlat,
+                //from_plat = (int) fromPlat,
 
                 auth_type = PortalAuthorizeType.User
             };
@@ -254,7 +254,7 @@ namespace OSS.Core.Services.Basic.Portal
                 id        = admin.u_id.ToString(), // 使用用户表的Id
                 name      = admin.admin_name,
                 avatar    = admin.avatar,
-                from_plat = (int) fromPlat,
+                //from_plat = (int) fromPlat,
 
                 auth_type = admin.admin_type == AdminType.Supper
                     ? PortalAuthorizeType.SuperAdmin
@@ -276,7 +276,7 @@ namespace OSS.Core.Services.Basic.Portal
                 id        = oauthUser.id.ToString(),
                 name      = oauthUser.nick_name,
                 avatar    = oauthUser.head_img,
-                from_plat = (int) fromPlat,
+                //from_plat = (int) fromPlat,
 
                 auth_type = PortalAuthorizeType.SocialAppUser,
             };
