@@ -5,10 +5,10 @@
     /// </summary>
     public class UserIdentity
     {
-        /// <summary>
-        ///    授权账号来源
-        /// </summary>
-        public int from_plat { get; set; }
+        ///// <summary>
+        /////    授权账号来源
+        ///// </summary>
+        //public int from_plat { get; set; }
 
         /// <summary>
         /// 授权类型
