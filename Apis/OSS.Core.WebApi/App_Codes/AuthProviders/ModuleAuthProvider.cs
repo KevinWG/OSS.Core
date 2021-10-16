@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
+using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {

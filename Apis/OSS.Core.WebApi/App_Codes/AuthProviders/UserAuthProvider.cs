@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
+using OSS.Core.Context.Attributes;
 using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
 using OSS.Core.Services.Basic.Portal.IProxies;
 
 namespace OSS.Core.WebApi.App_Codes.AuthProviders

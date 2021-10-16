@@ -10,7 +10,7 @@ using OSS.Core.Context;
 using OSS.Core.AdminSite.Apis.Permit.Helpers;
 using OSS.Core.AdminSite.Apis.Permit.Reqs;
 using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Extensions;
+using OSS.Core.Infrastructure;
 using OSS.Core.RepDapper.Basic.Permit;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 using OSS.Core.Services.Basic.Permit.Proxy;

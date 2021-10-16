@@ -3,14 +3,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using OSS.Core.Infrastructure.Helpers;
-using OSS.Core.Infrastructure.Web.Attributes;
-using OSS.Core.Infrastructure.Web.Attributes.Auth;
+using OSS.Core.Infrastructure;
 using OSS.Core.Services.Sys_Global;
 using OSS.Tools.Config;
 using OSS.Tools.Http;
 using System.Net.Http;
 using OSS.Core.WebApi.App_Codes.AuthProviders;
+using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.WebApi
 {
@@ -27,6 +26,7 @@ namespace OSS.Core.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
+
             var appOption = new AppAuthOption()
             {
                 AppProvider = new AppAuthProvider(),
@@ -36,6 +36,7 @@ namespace OSS.Core.WebApi
                 UserProvider = new UserAuthProvider(),
                 FuncProvider = new FuncAuthProvider()
             };
+          
             services.AddControllers(opt =>
             {
                 opt.Filters.Add(new AppAuthAttribute(appOption));
@@ -45,6 +46,8 @@ namespace OSS.Core.WebApi
                 jsonOpt.JsonSerializerOptions.IgnoreNullValues = true;
                 jsonOpt.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
+
+            services.AddCoreContextOption(new CoreContextOption() { JSRequestHeaderName = "x-core-app" });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

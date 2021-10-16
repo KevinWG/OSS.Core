@@ -16,11 +16,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.Services.Basic.Portal;
 using OSS.Core.CoreApi.Controllers.Basic.Portal.Reqs;
 using OSS.Core.Infrastructure.Const;
+using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.CoreApi.Controllers.Basic.Portal
 {

@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Plugs.File;
 using OSS.Core.Services.Plugs.File.Reqs;
-using Microsoft.AspNetCore.Authorization;
+using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.CoreApi.Controllers.Plugs.File
 {

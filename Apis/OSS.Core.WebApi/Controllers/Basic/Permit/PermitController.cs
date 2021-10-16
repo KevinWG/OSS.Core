@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using OSS.Core.AdminSite.Apis.Permit.Reqs;
+using OSS.Core.Context.Attributes;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 using OSS.Core.Services.Basic.Permit;

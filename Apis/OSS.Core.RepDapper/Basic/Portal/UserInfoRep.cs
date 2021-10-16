@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Extensions;
+using OSS.Core.Infrastructure;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using UserStatus = OSS.Core.RepDapper.Basic.Portal.Mos.UserStatus;
 

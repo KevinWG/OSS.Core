@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Description>OSS.Core 全局上下文基础类库</Description>
+    <Version>2.4</Version>
+    <PackageReleaseNotes>优化基础验证</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\OSS.Core.Context.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin/OSS.Core.Context.xml</DocumentationFile>
+  </PropertyGroup>
+
+	<ItemGroup>
+    <PackageReference Include="OSS.Common" Version="2.6.1.1" />
+  </ItemGroup>
+
+</Project>

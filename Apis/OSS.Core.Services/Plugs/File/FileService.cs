@@ -4,7 +4,7 @@ using System.Text;
 using OSS.Common.BasicMos.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
-using OSS.Core.Infrastructure.Helpers;
+using OSS.Core.Infrastructure;
 using OSS.Core.Services.Plugs.File.Reqs;
 
 namespace OSS.Core.Services.Plugs.File

@@ -7,7 +7,7 @@ using OSS.Common.BasicMos.Resp;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 using OSS.Tools.Cache;
 using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Extensions;
+using OSS.Core.Infrastructure;
 
 namespace OSS.Core.RepDapper.Basic.Permit
 {

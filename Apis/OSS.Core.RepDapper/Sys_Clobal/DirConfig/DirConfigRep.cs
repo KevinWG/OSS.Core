@@ -3,7 +3,7 @@ using OSS.Common.BasicMos.Resp;
 using System;
 using System.Threading.Tasks;
 using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Extensions;
+using OSS.Core.Infrastructure;
 using OSS.Core.RepDapper.Sys_Clobal.DirConfig.Mos;
 
 namespace OSS.Core.RepDapper.Sys_Clobal.DirConfig

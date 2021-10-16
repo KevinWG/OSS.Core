@@ -6,7 +6,7 @@ using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Infrastructure.Const;
-using OSS.Core.Infrastructure.Extensions;
+using OSS.Core.Infrastructure;
 using OSS.Core.RepDapper.Basic.Permit.Mos;
 
 namespace OSS.Core.RepDapper.Basic.Permit

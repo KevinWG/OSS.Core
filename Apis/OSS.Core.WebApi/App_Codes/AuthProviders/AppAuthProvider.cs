@@ -15,8 +15,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OSS.Common.BasicMos.Resp;
 using OSS.Core.Context;
-using OSS.Core.Infrastructure.Helpers;
-using OSS.Core.Infrastructure.Web.Attributes.Auth.Interface;
+using OSS.Core.Context.Attributes;
+using OSS.Core.Infrastructure;
 using OSS.Tools.Config;
 
 namespace OSS.Core.WebApi.App_Codes.AuthProviders
@@ -33,7 +33,8 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
         /// </summary>
         public static string UserTokenCookieName { get; set; } = "u_cn";
         
-        public async Task<Resp> AppAuthorize(AppIdentity appInfo, HttpContext context)
+
+        public Task<Resp> AppAuthorize(AppIdentity appInfo, HttpContext context)
         {
             if (appInfo.source_mode != AppSourceMode.OutApp)
             {
@@ -47,7 +48,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
                 case AppSourceMode.AppSign:
                     var res = CheckAppSign(appInfo,context);
                     if (!res.IsSuccess())
-                        return res;
+                        return Task.FromResult(res);
 
                     break;
                 default:
@@ -62,7 +63,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
                 if (context.Request.Cookies.TryGetValue(UserTokenCookieName, out string tokenVal))
                     appInfo.token = tokenVal;
             }
-            return new Resp();
+            return Task.FromResult(new Resp());
         }
 
         public static Resp CheckAppSign(AppIdentity appInfo,HttpContext context)

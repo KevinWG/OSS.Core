@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Infrastructure.Web.Attributes.Auth;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Plugs.Notify;
 using OSS.Core.Services.Plugs.Notify.Mos;
 using OSS.Core.Services.Plugs.Notify.NotifyAdapters.EmailHandlers.Mos;
+using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.CoreApi.Controllers.Plugs.Notify
 {
