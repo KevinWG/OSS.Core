@@ -149,10 +149,10 @@ namespace OSS.Core.Context
         public Resp CheckSign(string secretKey, int signExpiredSeconds, string extSignData = null, char separator = ';')
         {
             if (timestamp <= 0 || string.IsNullOrEmpty(app_id) || string.IsNullOrEmpty(trace_no))
-                return new Resp(RespTypes.ParaSignExpired, "签名数据不正确！");
+                return new Resp(RespTypes.ParaError, "参数错误！");
 
             if (Math.Abs(DateTime.Now.ToUtcSeconds() - timestamp) > signExpiredSeconds)
-                return new Resp(RespTypes.ParaSignExpired, "签名不在时效范围(请使用Unix Timestamp)！");
+                return new Resp(RespTypes.ParaExpired, "签名不在时效范围(请使用Unix Timestamp)！");
 
             var signData = CompulteSign(app_id, app_ver, secretKey, extSignData, separator);
 
