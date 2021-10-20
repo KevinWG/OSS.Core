@@ -63,8 +63,7 @@ namespace OSS.Core.WebApi
 
             app.UseStaticFiles();
             app.UseRouting();
-
-            app.UseInitialMiddleware();
+            
             if (!env.IsDevelopment())
             {
                 app.UseExceptionMiddleware();

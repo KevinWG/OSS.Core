@@ -26,6 +26,7 @@ using OSS.Tools.Cache;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
+using OSS.Common;
 
 namespace OSS.Core.Services.Basic.Portal
 {

@@ -13,9 +13,9 @@ namespace OSS.Core.Context.Attributes
         ///  校验功能权限
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="identity"></param>
+        /// <param name="userIdentity"></param>
         /// <param name="funcCode"></param>
         /// <returns></returns>
-        Task<Resp> FuncAuthorize(HttpContext context, UserIdentity identity, AskUserFunc funcCode);
+        Task<Resp> FuncAuthorize(HttpContext context, UserIdentity userIdentity, AskUserFunc funcCode);
     }
 }

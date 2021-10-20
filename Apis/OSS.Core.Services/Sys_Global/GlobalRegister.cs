@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Net;
-using OSS.Common.BasicImpls;
-using OSS.Common.Helpers;
 using OSS.Core.Context;
 using OSS.Core.Services.Basic.Portal;
 using OSS.Core.Services.Basic.Portal.IProxies;
@@ -13,6 +11,7 @@ using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Sys_Global.Log;
 using OSS.Core.Services.Basic.Permit.Proxy;
 using OSS.Core.Services.Basic.Permit;
+using OSS.Common;
 
 namespace OSS.Core.Services.Sys_Global
 {

@@ -12,62 +12,66 @@ namespace OSS.Core.Context.Attributes
     public class UserFuncMetaAttribute : BaseOrderAuthAttribute
     {
         private readonly string _funcCode;
-        private readonly string _sceneQueryPara;
-
-        private readonly PortalAuthorizeType _auth_type;
 
         /// <summary>
-        ///  功能权限验证
+        /// 业务请求中场景值对应的参数
+        ///  设置后将从请求参数中获取对应的参数值，记录在上下文的 scene_code 中，方便权限验证处理
         /// </summary>
-        /// <param name="authType"></param>
-        public UserFuncMetaAttribute(PortalAuthorizeType authType) : this(authType, string.Empty, String.Empty)
+        public string SceneQueryPara { get; set; }
+
+        /// <summary>
+        ///   要求的授权类型
+        ///         默认为管理员类型
+        /// </summary>
+        public PortalAuthorizeType AuthType { get; set; }
+
+        /// <summary>
+        /// 功能权限验证
+        /// </summary>
+        /// <param name="funcCode"></param>
+        public UserFuncMetaAttribute(string funcCode)
+            : this(PortalAuthorizeType.Admin, funcCode)
+        {
+        }
+
+        /// <summary>
+        /// 功能权限验证
+        /// 默认管理员权限
+        /// </summary>
+        public UserFuncMetaAttribute()
+            : this(PortalAuthorizeType.Admin, string.Empty)
         {
         }
 
         /// <summary>
         /// 功能权限验证
         /// </summary>
+        /// <param name="authType">默认管理员权限</param>
         /// <param name="funcCode"></param>
-        /// <param name="sceneQueryPara">业务 QueryCode 的参数 </param>
-        public UserFuncMetaAttribute(string funcCode, string sceneQueryPara = null) : this(PortalAuthorizeType.Admin, funcCode, sceneQueryPara)
+        public UserFuncMetaAttribute(PortalAuthorizeType authType, string funcCode)
         {
-        }
-
-        /// <summary>
-        /// 功能权限验证
-        /// </summary>
-        /// <param name="authType"></param>
-        /// <param name="funcCode"></param>
-        /// <param name="sceneQueryPara">业务 QueryCode 的参数 </param>
-        public UserFuncMetaAttribute(PortalAuthorizeType authType, string funcCode, string sceneQueryPara = null)
-        {
-            p_Order = -11;
-
-            _funcCode  = funcCode;
-            _auth_type = authType;
-
-            _sceneQueryPara = sceneQueryPara;
+            p_Order   = -11;
+            _funcCode = funcCode;
+            AuthType  = authType;
         }
 
         /// <inheritdoc />
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var sceneCode = string.Empty;
-            if (!string.IsNullOrEmpty(_sceneQueryPara))
+            var appInfo   = context.HttpContext.InitialContextAppIdentity();
+
+            if (!string.IsNullOrEmpty(SceneQueryPara))
             {
-                sceneCode = context.HttpContext.Request.Query[_sceneQueryPara].ToString();
+                sceneCode = context.HttpContext.Request.Query[SceneQueryPara].ToString();
                 if (string.IsNullOrEmpty(sceneCode))
                 {
-                    var appInfo = context.HttpContext.InitialContextAppIdentity();
-
-                    ResponseExceptionEnd(context, appInfo,
-                        new Resp(RespTypes.ParaError, $"请求参数中的权限业务码({_sceneQueryPara})不能为空！"));
+                    ResponseExceptionEnd(context, appInfo, new Resp(RespTypes.ParaError, $"请求要求{SceneQueryPara}对应的参数！"));
                     return Task.CompletedTask;
                 }
             }
 
-            CoreAppContext.Identity.ask_func = new AskUserFunc(_auth_type, _funcCode, sceneCode);
-
+            appInfo.ask_func = new AskUserFunc(AuthType, _funcCode, sceneCode);
             return Task.CompletedTask;
         }
 

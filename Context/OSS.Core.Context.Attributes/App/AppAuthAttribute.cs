@@ -38,18 +38,12 @@ namespace OSS.Core.Context.Attributes
         {
             // 0.  获取初始化app信息
             var appInfo = context.HttpContext.InitialContextAppIdentity();
-            if (appInfo==null)
-            {
-                ResponseExceptionEnd(context, appInfo, new Resp(SysRespTypes.AppError, $"请使用{nameof(InitialMiddleware)}中间件初始化全局上下文信息"));
-                return;
-            }
-            
+         
             // 1. app 内容格式化
             var res = (await _appOption?.AppProvider?.AppAuthorize(appInfo, context.HttpContext)) ?? new Resp();
             if (!res.IsSuccess())
-            {
                 ResponseExceptionEnd(context, appInfo, res);
-            }
+            
             CompleteAppIdentity(context.HttpContext,appInfo);
 
             //2. Tenant 验证

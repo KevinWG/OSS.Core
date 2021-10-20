@@ -2,6 +2,9 @@
 
 namespace OSS.Core.Context.Attributes
 {
+    /// <summary>
+    ///  应用上下文的扩展方法
+    /// </summary>
     public static class AppIdentityExtension
     {
         /// <summary>
@@ -12,7 +15,8 @@ namespace OSS.Core.Context.Attributes
         public static AppIdentity InitialContextAppIdentity(this HttpContext context)
         {
             var sysInfo = CoreAppContext.Identity;
-            if (sysInfo != null) return sysInfo;
+            if (sysInfo != null)
+                return sysInfo;
 
             sysInfo = new AppIdentity();
 

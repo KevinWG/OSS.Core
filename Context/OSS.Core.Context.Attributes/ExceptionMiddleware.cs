@@ -8,26 +8,6 @@ using OSS.Tools.Log;
 
 namespace OSS.Core.Context.Attributes
 {
-    /// <inheritdoc />
-    public class InitialMiddleware : BaseMiddleware
-    {
-        /// <summary>
-        ///  异常处理中间件
-        /// </summary>
-        public InitialMiddleware(RequestDelegate next) : base(next)
-        {
-        }
-
-        /// <inheritdoc />
-        public override Task Invoke(HttpContext context)
-        {
-            // 防止忘记，独立初始化处理
-            context.InitialContextAppIdentity();
-            return _next.Invoke(context);
-
-        }
-    }
-
     /// <summary>
     ///  异常处理中间件
     /// </summary>

@@ -19,15 +19,7 @@ namespace OSS.Core.Context.Attributes
             return app.UseMiddleware<ExceptionMiddleware>();
         }
 
-        /// <summary>
-        /// 全局上下文初始化中间件
-        /// </summary>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        public static IApplicationBuilder UseInitialMiddleware(this IApplicationBuilder app)
-        {
-            return app.UseMiddleware<InitialMiddleware>();
-        }
+      
 
 
         /// <summary>

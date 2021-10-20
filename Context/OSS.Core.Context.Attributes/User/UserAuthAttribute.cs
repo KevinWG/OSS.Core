@@ -65,24 +65,16 @@ namespace OSS.Core.Context.Attributes
             return identityRes;
         }
 
-        private static async Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
+        private static Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
         {
             var userInfo = CoreUserContext.Identity;
             if (userInfo == null // 非需授权认证请求
-                || opt.FuncProvider == null 
-                || appInfo.ask_func == null
+                || opt.FuncProvider == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
-                return new Resp<FuncDataLevel>(FuncDataLevel.All);
+                return Task.FromResult(new Resp());
             
-            var askFunc = appInfo.ask_func;
-            if (userInfo.auth_type > askFunc.auth_type)
-                return new Resp(RespTypes.UserNoPermission, "当前用户权限不足");
-
-            var checkRes = await opt.FuncProvider.FuncAuthorize(context, userInfo, askFunc);
-            if (!checkRes.IsSuccess())
-                return checkRes;
-            
-            return checkRes;
+            var askFunc  = appInfo.ask_func;
+            return opt.FuncProvider.FuncAuthorize(context, userInfo, askFunc);
         }
     }
 

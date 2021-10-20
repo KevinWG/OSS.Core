@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <Description>OSS.Core 全局上下文扩展中间价类库</Description>
-	  <Version>1.1</Version>
+	  <Version>1.2</Version>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
