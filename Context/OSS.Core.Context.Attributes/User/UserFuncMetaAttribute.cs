@@ -20,40 +20,41 @@ namespace OSS.Core.Context.Attributes
         public string SceneQueryPara { get; set; }
 
         /// <summary>
-        ///   要求的授权类型
-        ///         默认为管理员类型
+        ///   要求的授权类型，默认为管理员类型
         /// </summary>
         public PortalAuthorizeType AuthType { get; set; }
 
-        /// <summary>
-        /// 功能权限验证
-        /// </summary>
-        /// <param name="funcCode"></param>
-        public UserFuncMetaAttribute(string funcCode)
-            : this(PortalAuthorizeType.Admin, funcCode)
-        {
-        }
 
         /// <summary>
         /// 功能权限验证
-        /// 默认管理员权限
         /// </summary>
-        public UserFuncMetaAttribute()
-            : this(PortalAuthorizeType.Admin, string.Empty)
+        /// <param name="authType"> 要求的授权类型</param>
+        public UserFuncMetaAttribute(PortalAuthorizeType authType)
+            : this(string.Empty, authType)
         {
         }
 
         /// <summary>
         /// 功能权限验证
         /// </summary>
-        /// <param name="authType">默认管理员权限</param>
         /// <param name="funcCode"></param>
-        public UserFuncMetaAttribute(PortalAuthorizeType authType, string funcCode)
+        /// <param name="authType">  要求的授权类型，默认为管理员类型 </param>
+        public UserFuncMetaAttribute(string funcCode, PortalAuthorizeType authType = PortalAuthorizeType.Admin)
         {
             p_Order   = -11;
             _funcCode = funcCode;
             AuthType  = authType;
         }
+
+        /// <summary>
+        /// 功能权限验证
+        ///     默认验证是否管理员
+        /// </summary>
+        public UserFuncMetaAttribute() : this(string.Empty, PortalAuthorizeType.Admin)
+        {
+        }
+
+
 
         /// <inheritdoc />
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
@@ -66,7 +67,8 @@ namespace OSS.Core.Context.Attributes
                 sceneCode = context.HttpContext.Request.Query[SceneQueryPara].ToString();
                 if (string.IsNullOrEmpty(sceneCode))
                 {
-                    ResponseExceptionEnd(context, appInfo, new Resp(RespTypes.ParaError, $"请求要求{SceneQueryPara}对应的参数！"));
+                    ResponseExceptionEnd(context, appInfo,
+                        new Resp(RespTypes.ParaError, $"请求要求{SceneQueryPara}对应的参数！"));
                     return Task.CompletedTask;
                 }
             }
