@@ -26,8 +26,8 @@ namespace OSS.Core.Context.Attributes
         ///  中间件初始化用户信息
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="appinfo"></param>
+        /// <param name="appInfo"></param>
         /// <returns></returns>
-        Task<Resp<UserIdentity>> GetIdentity(HttpContext context, AppIdentity appinfo);
+        Task<Resp<UserIdentity>> GetIdentity(HttpContext context, AppIdentity appInfo);
     }
 }

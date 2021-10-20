@@ -32,6 +32,7 @@ namespace OSS.Core.Context.Attributes
         ///  清理Response缓存
         /// </summary>
         /// <param name="httpResponse"></param>
+        /// <param name="res"></param>
         protected static Task ResponseJsonError(HttpResponse httpResponse,Resp res)
         {
             httpResponse.Clear();

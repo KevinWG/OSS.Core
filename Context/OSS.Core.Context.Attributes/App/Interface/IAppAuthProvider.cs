@@ -13,8 +13,8 @@ namespace OSS.Core.Context.Attributes
         ///  应用授权检验
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="appinfo"></param>
+        /// <param name="appInfo"></param>
         /// <returns></returns>
-        Task<Resp> AppAuthorize(AppIdentity appinfo,HttpContext context);
+        Task<Resp> AppAuthorize(AppIdentity appInfo,HttpContext context);
     }
 }

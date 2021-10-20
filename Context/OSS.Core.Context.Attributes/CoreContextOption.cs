@@ -1,5 +1,8 @@
 ﻿namespace OSS.Core.Context.Attributes
 {
+    /// <summary>
+    /// 选项
+    /// </summary>
     public class CoreContextOption
     {
         /// <summary>

@@ -3,10 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.BasicMos.Resp;
-using OSS.Core.Context.Attributes.Helper;
 
 namespace OSS.Core.Context.Attributes
 {
@@ -47,32 +45,15 @@ namespace OSS.Core.Context.Attributes
             var res     = await FormatUserIdentity(context, appInfo, _userOption);
             if (!res.IsSuccess())
             {
-                UserAuthErrorReponse(context, appInfo, res);
+                ResponseExceptionEnd(context, appInfo, res);
                 return;
             }
 
             res = await CheckFunc(context.HttpContext, appInfo, _userOption);
             if (!res.IsSuccess())
-                UserAuthErrorReponse(context, appInfo, res);
+                ResponseExceptionEnd(context, appInfo, res);
         }
 
-        private void UserAuthErrorReponse(AuthorizationFilterContext context, AppIdentity appInfo, Resp res)
-        {
-            if (res.IsRespType(RespTypes.UserUnLogin))
-            {
-                var rUrl = InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res);
-
-                if (string.IsNullOrEmpty(rUrl))
-                {
-                    context.Result = new JsonResult(res);
-                    return;
-                }
-
-                context.Result = new RedirectResult(rUrl);
-                return;
-            }
-            ResponseExceptionEnd(context,appInfo,res);
-        }
 
         private static async Task<Resp> FormatUserIdentity(AuthorizationFilterContext context, AppIdentity appInfo, UserAuthOption opt)
         {

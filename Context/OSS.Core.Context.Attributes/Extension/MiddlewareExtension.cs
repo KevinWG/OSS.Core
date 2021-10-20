@@ -33,7 +33,6 @@ namespace OSS.Core.Context.Attributes
         /// <summary>
         /// 添加OSS.Core对应的配置信息
         /// </summary>
-        /// <param name="app"></param>
         /// <returns></returns>
         public static IServiceCollection AddCoreContextOption(this IServiceCollection services, CoreContextOption option)
         {

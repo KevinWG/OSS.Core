@@ -16,6 +16,7 @@ namespace OSS.Core.Context.Attributes
             //p_IsWebSite = true;
         }
 
+        /// <inheritdoc />
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             if (!context.HttpContext.Request.IsFetchApi())

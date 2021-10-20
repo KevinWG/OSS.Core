@@ -22,20 +22,32 @@ namespace OSS.Core.Context.Attributes
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public abstract class BaseAuthAttribute : Attribute, IAsyncAuthorizationFilter
     {
+        /// <summary>
+        /// 授权方法
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public abstract Task OnAuthorizationAsync(AuthorizationFilterContext context);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="appInfo"></param>
         /// <param name="res"></param>
         protected void ResponseExceptionEnd(AuthorizationFilterContext context, AppIdentity appInfo, Resp res)
         {
-            var rUrl = InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res);
-
+            string rUrl = res.IsRespType(RespTypes.UserUnLogin) 
+                ? InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res) 
+                : InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res);
+            
             if (string.IsNullOrEmpty(rUrl))
             {
-                context.Result = new JsonResult(res);
+                context.Result = new ContentResult()
+                {
+                    ContentType = "application/json; charset=utf-8",
+                    Content = $"{{\"ret\":{res.ret},\"msg\":\"{res.msg}\"}}"
+                };
                 return;
             }
 

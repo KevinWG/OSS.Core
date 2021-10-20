@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using OSS.Common;
 using OSS.Common.BasicMos.Resp;
-using OSS.Common.Helpers;
 using OSS.Core.Context;
 using OSS.Core.Context.Attributes;
 using OSS.Core.Infrastructure.Const;
@@ -12,7 +12,7 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 {
     public class UserAuthProvider : IUserAuthProvider
     {
-        public Task<Resp<UserIdentity>> GetIdentity(HttpContext context, AppIdentity appinfo)
+        public Task<Resp<UserIdentity>> GetIdentity(HttpContext context, AppIdentity appInfo)
         {
             return PortalAuthHelper.GetMyself(context.Request);
         }       
@@ -23,10 +23,10 @@ namespace OSS.Core.WebApi.App_Codes.AuthProviders
 
         public static Task<Resp<UserIdentity>> GetMyself(HttpRequest req)
         {
-            var appinfo = CoreAppContext.Identity;
-            if (appinfo.source_mode >= AppSourceMode.Browser)
+            var appInfo = CoreAppContext.Identity;
+            if (appInfo.source_mode >= AppSourceMode.Browser)
             {
-                appinfo.token = GetCookie(req);
+                appInfo.token = GetCookie(req);
             }
             return InsContainer<IPortalServiceProxy>.Instance.GetMyself();
         }

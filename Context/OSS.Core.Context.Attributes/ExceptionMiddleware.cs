@@ -8,6 +8,7 @@ using OSS.Tools.Log;
 
 namespace OSS.Core.Context.Attributes
 {
+    /// <inheritdoc />
     public class InitialMiddleware : BaseMiddleware
     {
         /// <summary>
@@ -17,6 +18,7 @@ namespace OSS.Core.Context.Attributes
         {
         }
 
+        /// <inheritdoc />
         public override Task Invoke(HttpContext context)
         {
             // 防止忘记，独立初始化处理
@@ -84,8 +86,8 @@ namespace OSS.Core.Context.Attributes
         ///  异常响应处理
         /// </summary>
         /// <param name="context"></param>
+        /// <param name="appInfo"></param>
         /// <param name="res"></param>
-        /// <param name="mode"></param>
         /// <returns></returns>
         private static Task ExceptionResponse(HttpContext context, AppIdentity appInfo, Resp res)
         {
