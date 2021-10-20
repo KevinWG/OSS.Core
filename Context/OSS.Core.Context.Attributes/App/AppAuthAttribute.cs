@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
 using OSS.Common.BasicMos.Resp;
+using OSS.Core.Context.Attributes.Helper;
 
 namespace OSS.Core.Context.Attributes
 {
@@ -40,7 +41,7 @@ namespace OSS.Core.Context.Attributes
             var appInfo = context.HttpContext.InitialContextAppIdentity();
          
             // 1. app 内容格式化
-            var res = (await _appOption?.AppProvider?.AppAuthorize(appInfo, context.HttpContext)) ?? new Resp();
+            var res = (await _appOption?.AppProvider?.AppAuthorize(appInfo, context.HttpContext)) ?? InterReqHelper.SuccessResp;
             if (!res.IsSuccess())
                 ResponseExceptionEnd(context, appInfo, res);
             
@@ -62,7 +63,7 @@ namespace OSS.Core.Context.Attributes
             if (appInfo.source_mode == AppSourceMode.OutApp
                 || appOption?.TenantProvider == null
                 || CoreTenantContext.Identity != null)
-                return new Resp();
+                return InterReqHelper.SuccessResp;
 
             var identityRes = await appOption.TenantProvider.GetIdentity(context, appInfo);
             if (!identityRes.IsSuccess())

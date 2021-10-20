@@ -6,7 +6,7 @@ namespace OSS.Core.Context.Attributes.Helper
 {
     internal static class InterReqHelper
     {
-        
+        internal static readonly Resp SuccessResp = new Resp();
 
         internal static CoreContextOption Option { get; set; }
 

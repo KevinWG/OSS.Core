@@ -65,13 +65,15 @@ namespace OSS.Core.Context.Attributes
             return identityRes;
         }
 
+
+        private static readonly Task<Resp> _successResp = Task.FromResult(new Resp());
         private static Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
         {
             var userInfo = CoreUserContext.Identity;
             if (userInfo == null // 非需授权认证请求
                 || opt.FuncProvider == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)
-                return Task.FromResult(new Resp());
+                return _successResp;
             
             var askFunc  = appInfo.ask_func;
             return opt.FuncProvider.FuncAuthorize(context, userInfo, askFunc);

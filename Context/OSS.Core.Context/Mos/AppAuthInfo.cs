@@ -137,7 +137,7 @@ namespace OSS.Core.Context
 
         #region  签名相关
 
-
+        internal static readonly Resp _successResp = new Resp();
         /// <summary>
         ///   检验是否合法
         /// </summary>
@@ -156,7 +156,7 @@ namespace OSS.Core.Context
 
             var signData = CompulteSign(app_id, app_ver, secretKey, extSignData, separator);
 
-            return sign == signData ? new Resp() : new Resp(RespTypes.ParaSignError, "签名错误！");
+            return sign == signData ? _successResp : new Resp(RespTypes.ParaSignError, "签名错误！");
         }
 
         /// <summary>
@@ -239,7 +239,7 @@ namespace OSS.Core.Context
             if (strTicketParas.Length > 0)
                 strTicketParas.Append(separator);
 
-            strTicketParas.Append(name).Append("=").Append(isForSign ? value : value.UrlEncode());
+            strTicketParas.Append(name).Append("=").Append(isForSign ? value : value.SafeEscapeUriDataString());
         }
         #endregion
 
