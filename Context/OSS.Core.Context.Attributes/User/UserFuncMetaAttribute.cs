@@ -41,7 +41,7 @@ namespace OSS.Core.Context.Attributes
         /// <param name="authType">  要求的授权类型，默认为管理员类型 </param>
         public UserFuncMetaAttribute(string funcCode, PortalAuthorizeType authType = PortalAuthorizeType.Admin)
         {
-            p_Order   = -11;
+            Order   = -11;
             _funcCode = funcCode;
             AuthType  = authType;
         }
@@ -54,13 +54,11 @@ namespace OSS.Core.Context.Attributes
         {
         }
 
-
-
         /// <inheritdoc />
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             var sceneCode = string.Empty;
-            var appInfo   = context.HttpContext.InitialContextAppIdentity();
+            var appInfo   = context.HttpContext.GetAppIdentity();
 
             if (!string.IsNullOrEmpty(SceneQueryPara))
             {

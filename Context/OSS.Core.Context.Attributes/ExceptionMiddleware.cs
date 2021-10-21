@@ -11,12 +11,12 @@ namespace OSS.Core.Context.Attributes
     /// <summary>
     ///  异常处理中间件
     /// </summary>
-    public class ExceptionMiddleware : BaseMiddleware
+    public class CoreExceptionMiddleware : BaseMiddleware
     {
         /// <summary>
         ///  异常处理中间件
         /// </summary>
-        public ExceptionMiddleware(RequestDelegate next) : base(next)
+        public CoreExceptionMiddleware(RequestDelegate next) : base(next)
         {
         }
 
@@ -27,10 +27,11 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         public override async Task Invoke(HttpContext context)
         {
-            Exception error     = null;
-            Resp      errorResp = null;
+            Exception     error     = null;
+            IReadonlyResp errorResp = null;
+
             // 需要在此初始化，否则中间件依次退出后此值为空，下方异常无法捕获APP信息
-            var appInfo = context.InitialContextAppIdentity();
+            var appInfo = context.InitialCoreAppIdentity();
             try
             {
                 await _next.Invoke(context);
@@ -42,7 +43,7 @@ namespace OSS.Core.Context.Attributes
             }
             catch (RespException resEx)
             {
-                errorResp = new Resp().WithResp(resEx);
+                errorResp = resEx;
                 error     = resEx;
             }
             catch (Exception ex)
@@ -51,7 +52,7 @@ namespace OSS.Core.Context.Attributes
             }
 
             var code = LogHelper.Error(string.Concat("请求地址:", context.Request.Path, "错误信息：", error.Message, "详细信息：", error.StackTrace),
-                nameof(ExceptionMiddleware));
+                nameof(CoreExceptionMiddleware));
 #if DEBUG
             if (error != null)
             {
@@ -69,7 +70,7 @@ namespace OSS.Core.Context.Attributes
         /// <param name="appInfo"></param>
         /// <param name="res"></param>
         /// <returns></returns>
-        private static Task ExceptionResponse(HttpContext context, AppIdentity appInfo, Resp res)
+        private static Task ExceptionResponse(HttpContext context, AppIdentity appInfo, IReadonlyResp res)
         {
             var url = InterReqHelper.GetNotFoundOrErrorPage(context, appInfo, res);
             if (string.IsNullOrEmpty(url))

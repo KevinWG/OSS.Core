@@ -47,7 +47,6 @@ namespace OSS.Core.WebApi
                 jsonOpt.JsonSerializerOptions.PropertyNamingPolicy = null;
             });
 
-            services.AddCoreContextOption(new CoreContextOption() { JSRequestHeaderName = "x-core-app" });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,10 +62,15 @@ namespace OSS.Core.WebApi
 
             app.UseStaticFiles();
             app.UseRouting();
-            
+
+            app.UseCoreContext(new CoreContextOption()
+            {
+                JSRequestHeaderName = "x-core-app"
+            });
+
             if (!env.IsDevelopment())
             {
-                app.UseExceptionMiddleware();
+                app.UseCoreException();
             }
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

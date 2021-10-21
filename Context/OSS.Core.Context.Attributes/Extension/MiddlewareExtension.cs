@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using OSS.Core.Context.Attributes.Helper;
 
 namespace OSS.Core.Context.Attributes
@@ -10,28 +9,27 @@ namespace OSS.Core.Context.Attributes
     public static class MiddlewareExtension
     {
         /// <summary>
-        /// 异常处理中间件
+        /// 初始化异常处理中间件
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseExceptionMiddleware(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCoreException(this IApplicationBuilder app)
         {
-            return app.UseMiddleware<ExceptionMiddleware>();
+            return app.UseMiddleware<CoreExceptionMiddleware>();
         }
-
-      
 
 
         /// <summary>
-        /// 添加OSS.Core对应的配置信息
+        /// 初始化 Core 全局上下文初始化中间件
         /// </summary>
+        /// <param name="app"></param>
+        /// <param name="option"></param>
         /// <returns></returns>
-        public static IServiceCollection AddCoreContextOption(this IServiceCollection services, CoreContextOption option)
+        public static IApplicationBuilder UseCoreContext(this IApplicationBuilder app, CoreContextOption option=null)
         {
             InterReqHelper.Option = option;
-            return services;
+            return app.UseMiddleware<CoreContextMiddleware>();
         }
-
-        //
+        
     }
 }

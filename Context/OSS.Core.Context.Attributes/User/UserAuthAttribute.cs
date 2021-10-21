@@ -24,7 +24,7 @@ namespace OSS.Core.Context.Attributes
             if (userOption?.UserProvider == null)
                 throw new Exception("UserAuthOption 中 UserProvider 接口对象必须提供！");
 
-            p_Order     = -10;
+            Order     = -10;
             _userOption = userOption;
         }
 
@@ -41,7 +41,7 @@ namespace OSS.Core.Context.Attributes
             if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
                 return;
 
-            var appInfo = context.HttpContext.InitialContextAppIdentity();
+            var appInfo = context.HttpContext.GetAppIdentity();
             var res     = await FormatUserIdentity(context, appInfo, _userOption);
             if (!res.IsSuccess())
             {

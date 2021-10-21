@@ -27,16 +27,13 @@ namespace OSS.Core.Context.Attributes
             //_appIdPrefix    = appIdPrefix;
             //_appIdQueryPara = appIdQueryPara;
 
-            p_Order = -1001;
+            Order = -1001;
         }
 
         /// <inheritdoc />
         public override Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var sysInfo = context.HttpContext.InitialContextAppIdentity();
-
-            //sysInfo.app_id =
-            //    string.Concat(_appIdPrefix, context.HttpContext.Request.Query[_appIdQueryPara].ToString()); // _appId;
+            var sysInfo = context.HttpContext.GetAppIdentity();
 
             sysInfo.source_mode = AppSourceMode.OutApp;
             sysInfo.app_type   = AppType.Single;

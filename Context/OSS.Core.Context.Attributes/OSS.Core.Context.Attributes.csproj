@@ -3,7 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
 	  <Description>OSS.Core 全局上下文扩展中间价类库</Description>
-	  <Version>1.2.1.1</Version>
+	  <Version>1.3</Version>
+	  <PackageIcon>logo.png</PackageIcon>
+	  <PackageIconUrl />
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -17,6 +19,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\OSS.Core.Context\OSS.Core.Context.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Docs\logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

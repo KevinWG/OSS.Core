@@ -8,12 +8,14 @@ using OSS.Core.Context.Attributes.Helper;
 namespace OSS.Core.Context.Attributes
 {
     /// <summary>
-    /// 
+    /// 授权基类
     /// </summary>
     public abstract class BaseOrderAuthAttribute : BaseAuthAttribute, IOrderedFilter
     {
-        protected int p_Order=0;
-        public int Order => p_Order;
+        /// <summary>
+        ///  执行顺序
+        /// </summary>
+        public int Order { get; set; }
     }
 
     /// <summary>
@@ -38,7 +40,7 @@ namespace OSS.Core.Context.Attributes
         protected void ResponseExceptionEnd(AuthorizationFilterContext context, AppIdentity appInfo, Resp res)
         {
             string rUrl = res.IsRespType(RespTypes.UserUnLogin) 
-                ? InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res) 
+                ? InterReqHelper.GetNotUnloginPage(context.HttpContext, appInfo) 
                 : InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res);
             
             if (string.IsNullOrEmpty(rUrl))

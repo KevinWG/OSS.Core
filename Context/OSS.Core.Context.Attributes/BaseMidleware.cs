@@ -33,7 +33,7 @@ namespace OSS.Core.Context.Attributes
         /// </summary>
         /// <param name="httpResponse"></param>
         /// <param name="res"></param>
-        protected static Task ResponseJsonError(HttpResponse httpResponse,Resp res)
+        protected static Task ResponseJsonError(HttpResponse httpResponse, IReadonlyResp res)
         {
             httpResponse.Clear();
             httpResponse.Headers.Remove("ETag");
@@ -47,6 +47,4 @@ namespace OSS.Core.Context.Attributes
             return httpResponse.WriteAsync($"{{\"ret\":{res.ret},\"msg\":\"{res.msg}\"}}");
         } 
     }
-
-
 }

@@ -10,7 +10,7 @@ namespace OSS.Core.Context.Attributes.Helper
 
         internal static CoreContextOption Option { get; set; }
 
-        internal static string GetNotFoundOrErrorPage(HttpContext context, AppIdentity appInfo, Resp res)
+        internal static string GetNotFoundOrErrorPage(HttpContext context, AppIdentity appInfo, IReadonlyResp res)
         {
             if (appInfo.source_mode != AppSourceMode.Browser || context.Request.IsFetchApi())
                 return string.Empty;
@@ -18,17 +18,18 @@ namespace OSS.Core.Context.Attributes.Helper
             if (CheckIf404OrErrorUrl(context.Request.Path.ToString()))
                 return string.Empty;
 
-            var errUrl = res.IsRespType(RespTypes.OperateObjectNull) ? Option.NotFoundPage : Option.ErrorPage;
+            var errUrl = res.IsRespType(RespTypes.OperateObjectNull) ? Option?.NotFoundPage : Option?.ErrorPage;
             return string.IsNullOrEmpty(errUrl)
                 ? string.Empty
                 : string.Concat(errUrl, "?ret=", res.ret, "&msg=", errUrl.SafeEscapeUriDataString());
         }
 
-        internal static string GetNotUnloginPage(HttpContext context, AppIdentity appInfo, Resp res,string loginUrl)
+        internal static string GetNotUnloginPage(HttpContext context, AppIdentity appInfo)
         {
             if (appInfo.source_mode != AppSourceMode.Browser || context.Request.IsFetchApi())
                 return string.Empty;
 
+            var loginUrl = Option?.LoginPage;
             if (string.IsNullOrEmpty(loginUrl)) 
                 return string.Empty;
 
@@ -36,7 +37,6 @@ namespace OSS.Core.Context.Attributes.Helper
             var rUrl = string.Concat(req.Path, req.QueryString);
 
             return string.Concat(loginUrl, "?rurl=", rUrl.SafeEscapeUriDataString());
-
         }
 
         /// <summary>

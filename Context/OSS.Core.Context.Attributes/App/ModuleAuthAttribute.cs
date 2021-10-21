@@ -14,7 +14,7 @@ namespace OSS.Core.Context.Attributes
 
         public ModuleAuthAttribute(ModuleAuthOption option)
         {
-            p_Order = -100;
+            Order = -100;
             _option = option;
             //p_IsWebSite = option.IsWebSite;
         }

@@ -19,7 +19,7 @@ namespace OSS.Core.Context.Attributes
         /// </summary>
         public AppAuthAttribute()
         {
-            p_Order = -1000;
+            Order = -1000;
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace OSS.Core.Context.Attributes
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
             // 0.  获取初始化app信息
-            var appInfo = context.HttpContext.InitialContextAppIdentity();
+            var appInfo = context.HttpContext.GetAppIdentity();
          
             // 1. app 内容格式化
             var res = (await _appOption?.AppProvider?.AppAuthorize(appInfo, context.HttpContext)) ?? InterReqHelper.SuccessResp;
