@@ -1,5 +1,5 @@
 ﻿
-using OSS.Common.BasicImpls;
+using OSS.Common;
 using OSS.Core.Services.Plugs.Notify.Mos;
 using OSS.Core.Services.Plugs.Notify.NotifyAdapters.EmailHandlers;
 using OSS.Core.Services.Plugs.Notify.SmsAdapters.Handlers;

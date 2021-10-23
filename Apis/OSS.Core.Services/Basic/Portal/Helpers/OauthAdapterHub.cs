@@ -2,7 +2,7 @@
 using OSS.Adapter.Oauth.Interface;
 using OSS.Adapter.Oauth.Interface.Mos.Enums;
 using OSS.Adapter.Oauth.WX;
-using OSS.Common.BasicImpls;
+using OSS.Common;
 using OSS.Common.BasicMos;
 
 namespace OSS.Core.Services.Basic.Portal.Helpers
