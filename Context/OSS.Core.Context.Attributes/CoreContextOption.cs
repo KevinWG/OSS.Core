@@ -20,7 +20,6 @@
         /// </summary>
         public string LoginPage { get; set; }
 
-
         /// <summary>
         /// JS请求接口（Fetch或者AJAX形式）附带的头标识名称
         ///    附带此标识的接口，返回JSON（即使服务端渲染也不会跳转）

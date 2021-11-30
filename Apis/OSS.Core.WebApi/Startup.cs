@@ -63,14 +63,14 @@ namespace OSS.Core.WebApi
             app.UseStaticFiles();
             app.UseRouting();
 
-            app.UseCoreContext(new CoreContextOption()
+            app.UseOssCore(new CoreContextOption()
             {
                 JSRequestHeaderName = "x-core-app"
             });
 
             if (!env.IsDevelopment())
             {
-                app.UseCoreException();
+                app.UseOssCoreException();
             }
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });

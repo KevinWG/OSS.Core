@@ -13,11 +13,10 @@ namespace OSS.Core.Context.Attributes
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseCoreException(this IApplicationBuilder app)
+        public static IApplicationBuilder UseOssCoreException(this IApplicationBuilder app)
         {
             return app.UseMiddleware<CoreExceptionMiddleware>();
         }
-
 
         /// <summary>
         /// 初始化 Core 全局上下文初始化中间件
@@ -25,7 +24,7 @@ namespace OSS.Core.Context.Attributes
         /// <param name="app"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseCoreContext(this IApplicationBuilder app, CoreContextOption option=null)
+        public static IApplicationBuilder UseOssCore(this IApplicationBuilder app, CoreContextOption option=null)
         {
             InterReqHelper.Option = option;
             return app.UseMiddleware<CoreContextMiddleware>();
