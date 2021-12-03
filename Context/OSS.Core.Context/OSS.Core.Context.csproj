@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <Description>OSS.Core 全局上下文基础类库</Description>
-    <Version>2.4.2.2</Version>
+    <Version>2.4.2.3</Version>
     <PackageReleaseNotes>优化结果实例</PackageReleaseNotes>
   </PropertyGroup>
 
@@ -16,7 +16,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-    <PackageReference Include="OSS.Common" Version="3.0.3" />
+    <PackageReference Include="OSS.Common" Version="3.0.3.5" />
   </ItemGroup>
 
 </Project>
