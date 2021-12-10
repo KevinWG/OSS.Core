@@ -28,7 +28,7 @@ namespace OSS.Core.Context.Attributes
         /// <summary>
         ///  将请求URL参数转化搜索请求对象
         /// </summary>
-        /// <param name="reqQuery"></param>
+        /// <param name="reqQuery">排除"sort"字段，或者 '_' 开头</param>
         /// <returns></returns>
         public static SearchReq ToSearchReq(this IQueryCollection reqQuery)
         {
@@ -45,7 +45,7 @@ namespace OSS.Core.Context.Attributes
                     {
                         searchReq.page = para.Value.ToString().ToInt32();
                     }
-                    else
+                    else if (para.Key != "sort" || !para.Key.StartsWith("_"))
                     {
                         searchReq.filter[para.Key] = para.Value.ToString();
                     }
@@ -53,34 +53,6 @@ namespace OSS.Core.Context.Attributes
             }
             return searchReq;
         }
-        
-        ///// <summary>
-        /////  Form表单请求转化搜索请求对象
-        ///// </summary>
-        ///// <param name="reqForm"></param>
-        ///// <returns></returns>
-        //public static SearchReq ToSearchReq(this IFormCollection reqForm)
-        //{
-        //    var searchReq = new SearchReq();
-        //    foreach (var para in reqForm)
-        //    {
-        //        if (!string.IsNullOrEmpty(para.Value))
-        //        {
-        //            if (para.Key == "size")
-        //            {
-        //                searchReq.size = para.Value.ToString().ToInt32();
-        //            }
-        //            else if (para.Key == "page")
-        //            {
-        //                searchReq.page = para.Value.ToString().ToInt32();
-        //            }
-        //            else
-        //            {
-        //                searchReq.filter[para.Key] = para.Value.ToString();
-        //            }
-        //        }
-        //    }
-        //    return searchReq;
-        //}
+
     }
 }
