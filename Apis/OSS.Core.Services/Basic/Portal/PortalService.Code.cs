@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
 using OSS.Core.Services.Basic.Portal.Mos;

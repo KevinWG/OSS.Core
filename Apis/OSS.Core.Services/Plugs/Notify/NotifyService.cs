@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Services.Plugs.Notify.IProxies;
 using OSS.Core.Services.Plugs.Notify.Mos;
 using OSS.Tools.Log;

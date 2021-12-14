@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 
 namespace OSS.Core.Services.Basic.Portal.IProxies

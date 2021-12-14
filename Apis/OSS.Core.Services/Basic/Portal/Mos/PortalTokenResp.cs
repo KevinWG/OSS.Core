@@ -1,4 +1,4 @@
-﻿using OSS.Common.BasicMos.Resp;
+﻿using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 

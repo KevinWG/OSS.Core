@@ -1,5 +1,5 @@
 ﻿
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Tools.DirConfig;
 using System.Linq;
 using System.Net;

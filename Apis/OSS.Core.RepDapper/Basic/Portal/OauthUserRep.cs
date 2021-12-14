@@ -13,7 +13,7 @@
 
 using System;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Extension;
 using OSS.Core.RepDapper.Basic.Portal.Mos;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;

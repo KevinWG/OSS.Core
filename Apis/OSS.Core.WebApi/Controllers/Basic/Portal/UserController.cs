@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.RepDapper.Basic.Portal.Mos; 
 

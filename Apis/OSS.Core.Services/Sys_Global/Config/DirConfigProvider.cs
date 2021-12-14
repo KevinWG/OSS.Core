@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 using OSS.Tools.DirConfig;
 using Newtonsoft.Json;

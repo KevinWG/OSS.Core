@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using MySql.Data.MySqlClient;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Tools.Config;
 using System.Data;
 using OSS.Core.ORM.Dapper;

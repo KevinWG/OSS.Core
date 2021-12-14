@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

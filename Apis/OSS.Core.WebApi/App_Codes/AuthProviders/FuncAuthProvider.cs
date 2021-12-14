@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using OSS.Common;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Context.Attributes;
 using OSS.Core.Infrastructure.Const;

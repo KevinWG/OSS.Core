@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.Infrastructure;

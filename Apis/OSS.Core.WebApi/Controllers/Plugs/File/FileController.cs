@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Plugs.File;
 using OSS.Core.Services.Plugs.File.Reqs;

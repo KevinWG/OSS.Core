@@ -14,7 +14,7 @@
 using System.Threading.Tasks;
 using OSS.Common;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.RepDapper;

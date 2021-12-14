@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
 
 namespace OSS.Core.RepDapper.Basic.SocialPlats
@@ -19,7 +19,7 @@ namespace OSS.Core.RepDapper.Basic.SocialPlats
         public  async Task<Resp<long>> AddSocialPlatform(SocialPlatformMo mo)
         {
             var socialRes = await Get(s =>  s.social_plat == mo.social_plat);
-            if (socialRes.IsDataNull())
+            if (socialRes.IsSuccessOrDataNull())
                 return await Add(mo);
 
             if (!socialRes.IsSuccess())

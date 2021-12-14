@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using OSS.Adapter.Oauth.Interface;
 using OSS.Adapter.Oauth.Interface.Mos;
 using OSS.Adapter.Oauth.Interface.Mos.Enums;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.RepDapper.Basic.Portal;

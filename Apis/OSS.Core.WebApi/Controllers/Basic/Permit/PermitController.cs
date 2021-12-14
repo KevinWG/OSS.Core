@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Common.BasicMos;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.AdminSite.Apis.Permit.Reqs;
 using OSS.Core.Context.Attributes;
 using OSS.Core.Infrastructure.Const;

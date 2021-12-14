@@ -1,4 +1,4 @@
-﻿using OSS.Common.BasicMos.Resp;
+﻿using OSS.Common.Resp;
 using System.Threading.Tasks;
 using OSS.Core.Context;
 

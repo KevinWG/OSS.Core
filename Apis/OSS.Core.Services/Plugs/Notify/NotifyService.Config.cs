@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Tools.DirConfig;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Services.Plugs.Notify.Mos;

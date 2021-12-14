@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Context;
 using OSS.Core.AdminSite.Apis.Permit.Helpers;

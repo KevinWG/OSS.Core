@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OSS.Common.BasicMos;
 using OSS.Common.BasicMos.Enums;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Infrastructure.Const;
 using OSS.Core.Infrastructure;
 using OSS.Core.RepDapper.Basic.Permit.Mos;

@@ -13,7 +13,7 @@
 
 using System.Collections.Generic;
 using OSS.Clients.SMS.Ali.Reqs;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 namespace OSS.Core.Services.Plugs.Notify.Mos
 {

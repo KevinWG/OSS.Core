@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using OSS.Core.Infrastructure.Const;

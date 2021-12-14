@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using OSS.Adapter.Oauth.Interface.Mos.Enums;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 using OSS.Core.Context;
 using OSS.Core.RepDapper.Basic.SocialPlats.Mos;
