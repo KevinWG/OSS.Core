@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Context.Attributes.Helper;
 
 namespace OSS.Core.Context.Attributes
@@ -40,8 +40,8 @@ namespace OSS.Core.Context.Attributes
         protected void ResponseExceptionEnd(AuthorizationFilterContext context, AppIdentity appInfo, Resp res)
         {
             string rUrl = res.IsRespType(RespTypes.UserUnLogin) 
-                ? InterReqHelper.GetNotUnloginPage(context.HttpContext, appInfo) 
-                : InterReqHelper.GetNotFoundOrErrorPage(context.HttpContext, appInfo, res);
+                ? InterReqHelper.GetUnloginPage(context.HttpContext, appInfo) 
+                : InterReqHelper.GetErrorPage(context.HttpContext, appInfo, res);
             
             if (string.IsNullOrEmpty(rUrl))
             {

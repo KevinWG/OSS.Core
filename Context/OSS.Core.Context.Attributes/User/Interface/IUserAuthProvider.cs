@@ -13,7 +13,7 @@
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 namespace OSS.Core.Context.Attributes
 {

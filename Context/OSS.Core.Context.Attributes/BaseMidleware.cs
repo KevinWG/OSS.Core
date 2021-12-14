@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 
 namespace OSS.Core.Context.Attributes
 {
@@ -33,7 +33,7 @@ namespace OSS.Core.Context.Attributes
         /// </summary>
         /// <param name="httpResponse"></param>
         /// <param name="res"></param>
-        protected static Task ResponseJsonError(HttpResponse httpResponse, IReadonlyResp res)
+        protected static Task ResponseJsonError(HttpResponse httpResponse, IResp res)
         {
             httpResponse.Clear();
             httpResponse.Headers.Remove("ETag");

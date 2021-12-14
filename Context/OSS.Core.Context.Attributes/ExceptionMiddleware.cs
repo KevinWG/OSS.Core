@@ -2,7 +2,7 @@
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Context.Attributes.Helper;
 using OSS.Tools.Log;
 
@@ -28,7 +28,7 @@ namespace OSS.Core.Context.Attributes
         public override async Task Invoke(HttpContext context)
         {
             Exception     error     = null;
-            IReadonlyResp errorResp = null;
+            IResp errorResp = null;
 
             // 需要在此初始化，否则中间件依次退出后此值为空，下方异常无法捕获APP信息
             var appInfo = context.InitialCoreAppIdentity();
@@ -70,9 +70,9 @@ namespace OSS.Core.Context.Attributes
         /// <param name="appInfo"></param>
         /// <param name="res"></param>
         /// <returns></returns>
-        private static Task ExceptionResponse(HttpContext context, AppIdentity appInfo, IReadonlyResp res)
+        private static Task ExceptionResponse(HttpContext context, AppIdentity appInfo, IResp res)
         {
-            var url = InterReqHelper.GetNotFoundOrErrorPage(context, appInfo, res);
+            var url = InterReqHelper.GetErrorPage(context, appInfo, res);
             if (string.IsNullOrEmpty(url))
             {
                 return ResponseJsonError(context.Response, res);

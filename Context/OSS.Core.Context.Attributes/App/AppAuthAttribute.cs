@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Core.Context.Attributes.Helper;
 
 namespace OSS.Core.Context.Attributes
