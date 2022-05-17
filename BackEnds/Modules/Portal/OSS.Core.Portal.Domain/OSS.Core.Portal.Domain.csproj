@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OSS.Tools.Config" Version="1.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Domain\OSS.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Rep.Mysql\OSS.Core.Rep.Mysql.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
+    <ProjectReference Include="..\Shared\OSS.Core.Portal.Shared.Domain\OSS.Core.Portal.Shared.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
