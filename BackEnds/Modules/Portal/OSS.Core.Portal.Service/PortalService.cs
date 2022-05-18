@@ -11,27 +11,23 @@
 
 #endregion
 
-using OSS.Common.Resp;
 using OSS.Common.Encrypt;
 using OSS.Common.Helpers;
+using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Common;
-using OSS.Tools.Cache;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using OSS.Core.Common.Const;
+using OSS.Core.Extension;
+using OSS.Core.Portal.Domain;
+using OSS.Core.Portal.Service;
+using OSS.Core.Portal.Shared.IService.Portal;
+using OSS.Core.Portal.Shared.IService.Portal.DTO;
 using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Reps.Basic.Portal.Mos;
 using OSS.Core.Services.Basic.Portal.Helpers;
-using OSS.Core.Services.Basic.Portal.IProxies;
 using OSS.Core.Services.Basic.Portal.Reqs;
-using OSS.Core.Services.Plugs.Notify;
-using OSS.Core.Services.Plugs.Notify.Mos;
+using OSS.Tools.Cache;
 
 namespace OSS.Core.Services.Basic.Portal
 {
-    public partial class PortalService : BasePortalService, IPortalServiceProxy
+    public partial class PortalService : BasePortalService, IPortalService
     {
         #region 获取登录认证信息
 
@@ -41,7 +37,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp<UserIdentity>> GetIdentity()
         {
-            var cacheKey = string.Concat(CacheKeys.Portal_UserIdentity_ByToken, CoreAppContext.Identity.token);
+            var cacheKey = string.Concat(PortalConst.CacheKeys.Portal_UserIdentity_ByToken, CoreAppContext.Identity.token);
             Func<Task<Resp<UserIdentity>>> getFunc = () =>
             {
                 var infoRes = PortalTokenHelper.FormatPortalToken();
@@ -194,7 +190,7 @@ namespace OSS.Core.Services.Basic.Portal
             if (!res.IsSuccess())
                 return res;
 
-            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, req.name);
+            var key = string.Concat(PortalConst.CacheKeys.Portal_Passcode_ByLoginName, req.name);
             await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
 
             return res;
@@ -208,7 +204,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         private static async Task<Resp> CheckPasscode(string loginName, string passcode)
         {
-            var key = string.Concat(CacheKeys.Portal_Passcode_ByLoginName, loginName);
+            var key = string.Concat(PortalConst.CacheKeys.Portal_Passcode_ByLoginName, loginName);
             var code = await CacheHelper.GetAsync<string>(key);
 
             if (string.IsNullOrEmpty(code) || passcode != code)

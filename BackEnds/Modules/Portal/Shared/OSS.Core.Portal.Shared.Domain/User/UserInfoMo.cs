@@ -13,7 +13,7 @@
 
 using Newtonsoft.Json;
 
-namespace OSS.Core.Reps.Basic.Portal.Mos
+namespace OSS.Core.Portal.Domain
 {
     public class UserInfoMo : UserBasicMo
     {

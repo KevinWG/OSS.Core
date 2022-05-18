@@ -1,11 +1,10 @@
 ﻿using OSS.Common.Resp;
-using System.Threading.Tasks;
-using OSS.Core.Reps.Basic.Portal.Mos;
+using OSS.Core.Portal.Domain;
 
-namespace OSS.Core.Services.Basic.Portal.IProxies
+namespace OSS.Core.Portal.Shared.IService;
+
+
+public interface IUserService
 {
-    public interface IUserService
-    {
-        Task<Resp<UserBasicMo>> GetUserById(long userId);
-    }
+    Task<Resp<UserBasicMo>> GetUserById(long userId);
 }

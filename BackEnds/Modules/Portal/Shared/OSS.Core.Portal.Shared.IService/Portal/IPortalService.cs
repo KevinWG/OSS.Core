@@ -1,8 +1,10 @@
 ﻿using OSS.Common.Resp;
 using OSS.Core.Context;
+using OSS.Core.Portal.Shared.IService.Portal.DTO;
+using OSS.Core.Services.Basic.Portal.Reqs;
 
-namespace OSS.Core.Services.Basic.Portal.IProxies
-{
+namespace OSS.Core.Portal.Shared.IService.Portal;
+
     public interface IPortalService
     {
         /// <summary>
@@ -18,4 +20,3 @@ namespace OSS.Core.Services.Basic.Portal.IProxies
         /// <returns></returns>
         Task<Resp> CheckIfCanReg(PortalNameReq req);
     }
-}

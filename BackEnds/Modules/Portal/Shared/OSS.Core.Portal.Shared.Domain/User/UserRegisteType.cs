@@ -12,7 +12,7 @@
 #endregion
 
 
-namespace OSS.Core.Portal.Shared.Domain
+namespace OSS.Core.Portal.Domain
 {
     /// <summary>
     ///     账号类型

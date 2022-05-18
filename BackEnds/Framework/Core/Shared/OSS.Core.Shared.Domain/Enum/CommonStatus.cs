@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Shared.Domain
+﻿namespace OSS.Core.Domain
 {
     /// <summary>
     ///     通用状态码 （如果需要更多状态需要自定义枚举，此值不再新增）

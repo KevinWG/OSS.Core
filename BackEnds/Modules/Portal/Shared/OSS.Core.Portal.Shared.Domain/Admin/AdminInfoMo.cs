@@ -13,7 +13,6 @@
 #endregion
 
 using OSS.Core.Domain;
-using OSS.Core.Portal.Shared.Domain;
 
 namespace OSS.Core.Portal.Domain.Admin;
 

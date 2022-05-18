@@ -11,12 +11,11 @@
 
 #endregion
 
-using OSS.Common.Resp;
-using System;
 using System.ComponentModel.DataAnnotations;
-using OSS.Core.Reps.Basic.Portal.Mos;
+using OSS.Common.Resp;
+using OSS.Core.Portal.Domain;
 
-namespace OSS.Core.Services.Basic.Portal.Reqs
+namespace OSS.Core.Portal.Shared.IService.Portal.DTO
 {
     public class PortalNameReq
     {

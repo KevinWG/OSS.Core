@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Portal.Shared.Domain
+﻿namespace OSS.Core.Portal.Domain
 {
     /// <summary>
     ///     成员状态

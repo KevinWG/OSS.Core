@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Shared.Domain;
+﻿namespace OSS.Core.Domain;
 
 /// <summary>
 ///   应用平台

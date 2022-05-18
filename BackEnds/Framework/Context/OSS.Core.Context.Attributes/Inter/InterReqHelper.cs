@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Extension;
 
 namespace OSS.Core.Context.Attributes.Helper
@@ -10,21 +10,21 @@ namespace OSS.Core.Context.Attributes.Helper
 
         internal static CoreContextOption Option { get; set; }
 
-        internal static string GetNotFoundOrErrorPage(HttpContext context, AppIdentity appInfo, IReadonlyResp res)
+        internal static string GetErrorPage(HttpContext context, AppIdentity appInfo, IResp res)
         {
             if (appInfo.source_mode != AppSourceMode.Browser || context.Request.IsFetchApi())
                 return string.Empty;
 
-            if (CheckIf404OrErrorUrl(context.Request.Path.ToString()))
+            if (CheckIfErrorUrl(context.Request.Path.ToString()))
                 return string.Empty;
 
-            var errUrl = res.IsRespType(RespTypes.OperateObjectNull) ? Option?.NotFoundPage : Option?.ErrorPage;
+            var errUrl = Option?.ErrorPage;
             return string.IsNullOrEmpty(errUrl)
                 ? string.Empty
                 : string.Concat(errUrl, "?ret=", res.ret, "&msg=", errUrl.SafeEscapeUriDataString());
         }
 
-        internal static string GetNotUnloginPage(HttpContext context, AppIdentity appInfo)
+        internal static string GetUnloginPage(HttpContext context, AppIdentity appInfo)
         {
             if (appInfo.source_mode != AppSourceMode.Browser || context.Request.IsFetchApi())
                 return string.Empty;
@@ -44,12 +44,9 @@ namespace OSS.Core.Context.Attributes.Helper
         /// </summary>
         /// <param name="requestPath"></param>
         /// <returns></returns>
-        private static bool CheckIf404OrErrorUrl(string requestPath)
+        private static bool CheckIfErrorUrl(string requestPath)
         {
-            var isUnUrl = (!string.IsNullOrEmpty(Option.NotFoundPage) && requestPath.StartsWith(Option.NotFoundPage))
-                          || (!string.IsNullOrEmpty(Option.ErrorPage) && requestPath.StartsWith(Option.ErrorPage));
-
-            return isUnUrl;
+            return !string.IsNullOrEmpty(Option.ErrorPage) && requestPath.StartsWith(Option.ErrorPage);         
         }
 
       

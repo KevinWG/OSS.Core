@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using OSS.Common.BasicMos.Resp;
+using OSS.Common.Resp;
 using OSS.Common.Encrypt;
 using OSS.Common.Extension;
 

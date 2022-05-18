@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Framework\Core\Shared\OSS.Core.Shared.Domain\OSS.Core.Shared.Domain.csproj" />
+    <ProjectReference Include="..\OSS.Core.Domain\OSS.Core.Domain.csproj" />
   </ItemGroup>
 
 </Project>

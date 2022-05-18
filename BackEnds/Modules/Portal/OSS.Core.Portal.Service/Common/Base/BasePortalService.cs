@@ -1,16 +1,15 @@
-﻿using OSS.Common.Resp;
-using OSS.Common.Encrypt;
+﻿using OSS.Common.Encrypt;
+using OSS.Common.Resp;
 using OSS.Core.Context;
-using System.Threading.Tasks;
-using OSS.DataFlow;
-using OSS.Core.Common.Const;
-using OSS.Core.Reps;
+using OSS.Core.Domain.Extension;
+using OSS.Core.Portal.Domain;
 using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Reps.Basic.Portal.Mos;
+using OSS.Core.Service;
 using OSS.Core.Services.Basic.Portal.Helpers;
 using OSS.Core.Services.Basic.Portal.Reqs;
+using OSS.DataFlow;
 
-namespace OSS.Core.Services.Basic.Portal
+namespace OSS.Core.Portal.Service
 {
     /// <summary>
     ///  登录授权服务
@@ -30,12 +29,12 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         protected static async Task<PortalTokenResp> LoginFinallyExecute(UserInfoMo user, bool isAdmin = false, int isSocialBind=0)
         {
-            if (!isAdmin&&isSocialBind > 0)
-            {
-                var bindRes = await BindAuthSocialUserWithSysUser(user.id);
-                if (!bindRes.IsSuccess())
-                    return new PortalTokenResp().WithResp(bindRes);
-            }
+            //if (!isAdmin&&isSocialBind > 0)
+            //{
+            //    var bindRes = await BindAuthSocialUserWithSysUser(user.id);
+            //    if (!bindRes.IsSuccess())
+            //        return new PortalTokenResp().WithResp(bindRes);
+            //}
 
             var identityRes = isAdmin
                 ? await PortalIdentityHelper.GetAdminIdentity(user.id)
@@ -44,7 +43,7 @@ namespace OSS.Core.Services.Basic.Portal
             if (!identityRes.IsSuccess())
                 return new PortalTokenResp().WithResp(identityRes);
             
-            await _publisher.Publish(DataFlowMsgKeys.Portal_UserReg, identityRes.data);
+            await _publisher.Publish(  PortalConst.DataFlowMsgKeys.Portal_UserReg, identityRes.data);
             return PortalTokenHelper.GeneratePortalToken(identityRes.data);
         }
 
@@ -59,16 +58,16 @@ namespace OSS.Core.Services.Basic.Portal
             user.InitialBaseFromContext();
             user.owner_uid = 0; // 防止第三方账号临时登录污染
 
-            if (isSocialBind >0)
-            {
-                var bindRes = await BindAuthSocialUserWithSysUser(user.id);
-                if (!bindRes.IsSuccess())
-                    return new PortalTokenResp().WithResp(bindRes);
+            //if (isSocialBind >0)
+            //{
+            //    var bindRes = await BindAuthSocialUserWithSysUser(user.id);
+            //    if (!bindRes.IsSuccess())
+            //        return new PortalTokenResp().WithResp(bindRes);
 
-                var socialUser = bindRes.data;
-                user.nick_name = socialUser.nick_name;
-                user.avatar    = socialUser.head_img;
-            }
+            //    var socialUser = bindRes.data;
+            //    user.nick_name = socialUser.nick_name;
+            //    user.avatar    = socialUser.head_img;
+            //}
 
             if (string.IsNullOrEmpty(user.nick_name))
                 user.nick_name = string.Concat("会员-", user.mobile ?? user.email);
@@ -106,29 +105,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             return userInfo;
         }
-
-        private static async Task<Resp<SocialUserMo>> BindAuthSocialUserWithSysUser(long userId)
-        {
-            var tokenDetailRes = PortalTokenHelper.FormatPortalToken();
-            if (!tokenDetailRes.IsSuccess())
-                return new Resp<SocialUserMo>().WithResp(tokenDetailRes);
-
-            if (tokenDetailRes.data.authType != PortalAuthorizeType.SocialAppUser)
-                return new Resp<SocialUserMo>().WithResp(RespTypes.OperateFailed, "第三方账号绑定失败！");
-
-            var socialUserId  = tokenDetailRes.data.userId;
-            var socialUserRes = await SocialUserRep.Instance.GetById(socialUserId);
-            if (!socialUserRes.IsSuccess())
-                return new Resp<SocialUserMo>().WithResp(socialUserRes, "第三方账号信息异常！");
-
-            var bindRes = await SocialUserRep.Instance.BindUserIdById(socialUserId, userId);
-            if (!bindRes.IsSuccess())
-                return new Resp<SocialUserMo>().WithResp(bindRes, "绑定系统账号异常！");
-
-            socialUserRes.data.owner_uid = userId;
-            return new Resp<SocialUserMo>(socialUserRes.data);
-        }
-
+        
         #endregion
     }
 }

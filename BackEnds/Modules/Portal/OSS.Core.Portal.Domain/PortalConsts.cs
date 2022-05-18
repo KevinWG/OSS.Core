@@ -1,7 +1,7 @@
 ﻿
 namespace OSS.Core.Portal.Domain
 {
-    internal static class PortalConst
+    public static class PortalConst
     {
         public static class CacheKeys
         {
@@ -42,5 +42,34 @@ namespace OSS.Core.Portal.Domain
             public const string Portal_UserId_ByQRCode = "Portal_UserId_";
             
         }
+
+        public static class DataFlowMsgKeys
+        {
+            /// <summary>
+            ///  用户注册成功事件
+            /// </summary>
+            public const string Portal_UserReg = "Portal_UserReg";
+        }
+
+
+        public static class DirConfigKeys
+        {
+            /// <summary>
+            ///  通知模块- 邮件日志模板code
+            /// </summary>
+            public const string plugs_notify_email_log_tcode = "email_log";
+
+            /// <summary>
+            ///  通知模块- 邮件验证码登录模板code
+            /// </summary>
+            public const string plugs_notify_email_portal_tcode = "email_portal";
+
+
+            /// <summary>
+            ///  通知模块- 短信验证码登录模板code
+            /// </summary>
+            public const string plugs_notify_sms_portal_tcode = "sms_portal";
+        }
+
     }
-}
+    }

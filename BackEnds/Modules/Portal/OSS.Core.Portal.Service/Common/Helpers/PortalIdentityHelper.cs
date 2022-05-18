@@ -1,8 +1,7 @@
 ﻿using OSS.Common.Resp;
 using OSS.Core.Context;
-using System.Threading.Tasks;
+using OSS.Core.Portal.Domain;
 using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Reps.Basic.Portal.Mos;
 
 namespace OSS.Core.Services.Basic.Portal.Helpers
 {
@@ -92,32 +91,6 @@ namespace OSS.Core.Services.Basic.Portal.Helpers
 
         #endregion
 
-        #region 第三方社交平台
-
-        internal static async Task<Resp<UserIdentity>> GetSocialIdentity(long socialUserId)
-        {
-            var socialRes = await SocialUserRep.Instance.GetById(socialUserId);
-            if (!socialRes.IsSuccess())
-                return new Resp<UserIdentity>().WithResp(socialRes, "获取第三方信息异常!");
-
-            return new Resp<UserIdentity>(GetLoginSocialIdentity(socialRes.data));
-        }
-
-        internal static UserIdentity GetLoginSocialIdentity(SocialUserMo socialUser)
-        {
-            // 当前是临时第三方信息，【Id】是第三方授权表的oauthId
-            //  此场景是给用户授权后选择是否绑定已有账户页面使用
-            return new UserIdentity
-            {
-                id = socialUser.id.ToString(),
-                name = socialUser.nick_name,
-                avatar = socialUser.head_img,
-                //from_plat = (int)socialUser.social_plat,
-
-                auth_type = PortalAuthorizeType.SocialAppUser,
-            };
-        }
-
-        #endregion
+    
     }
 }

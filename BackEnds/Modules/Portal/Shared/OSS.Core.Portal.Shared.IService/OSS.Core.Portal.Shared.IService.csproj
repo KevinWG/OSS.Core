@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,12 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Portal\DTO\" />
-    <Folder Include="User\DTO\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\..\..\Framework\Context\OSS.Core.Context\OSS.Core.Context.csproj" />
+    <ProjectReference Include="..\OSS.Core.Portal.Shared.Domain\OSS.Core.Portal.Shared.Domain.csproj" />
   </ItemGroup>
 
 </Project>

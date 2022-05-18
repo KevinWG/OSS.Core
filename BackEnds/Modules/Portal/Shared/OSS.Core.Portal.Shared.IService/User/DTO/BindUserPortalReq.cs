@@ -1,4 +1,6 @@
 ﻿
+using OSS.Core.Portal.Shared.IService.Portal.DTO;
+
 namespace OSS.Core.Services.Basic.Portal.Reqs
 {
     public class BindUserPortalReq : PortalPasscodeReq

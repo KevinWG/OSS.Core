@@ -1,15 +1,14 @@
 ﻿
 using OSS.Core.Domain;
-using OSS.Core.Portal.Shared.Domain;
 
-namespace OSS.Core.Reps.Basic.Portal.Mos
+namespace OSS.Core.Portal.Domain
 {
     public class UserBasicMo : BaseOwnerMo<long>
     {
         /// <summary>
         ///  昵称
         /// </summary>
-        public string nick_name { get; set; }
+        public string? nick_name { get; set; }
 
         ///// <summary>
         /////  注册类型
@@ -19,17 +18,17 @@ namespace OSS.Core.Reps.Basic.Portal.Mos
         /// <summary>
         ///  头像信息
         /// </summary>
-        public string avatar { get; set; }
+        public string? avatar { get; set; }
 
         /// <summary>
         ///  邮件地址
         /// </summary>
-        public string email { get; set; }
+        public string? email { get; set; }
 
         /// <summary> 
         ///  手机号
         /// </summary>
-        public string mobile { get; set; }
+        public string? mobile { get; set; }
 
         /// <summary>
         ///  用户状态

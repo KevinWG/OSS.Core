@@ -20,7 +20,6 @@ using OSS.Common;
 using OSS.Common.Resp;
 
 using OSS.Core.Domain;
-using OSS.Core.Shared.Domain;
 using OSS.Core.ORM.Dapper.OrmExtension;
 
 namespace OSS.Core.ORM.Dapper

@@ -16,11 +16,11 @@ using OSS.Common.BasicMos;
 using OSS.Common.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
-using System.Threading.Tasks;
+using OSS.Core.Portal.Domain;
+using OSS.Core.Portal.Shared.IService;
+using OSS.Core.Portal.Shared.IService.Portal.DTO;
 using OSS.Core.Reps;
 using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Reps.Basic.Portal.Mos;
-using OSS.Core.Services.Basic.Portal.IProxies;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
 namespace OSS.Core.Services.Basic.Portal
@@ -28,7 +28,7 @@ namespace OSS.Core.Services.Basic.Portal
     /// <summary>
     ///  用户服务
     /// </summary>
-    public partial class UserService : BaseService, IUserServiceProxy
+    public partial class UserService : BaseService, IUserService
     {
         /// <summary>
         ///  直接添加用户（管理员权限

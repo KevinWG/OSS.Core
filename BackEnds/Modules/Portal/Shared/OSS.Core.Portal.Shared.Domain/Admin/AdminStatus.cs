@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Portal.Shared.Domain
+﻿namespace OSS.Core.Portal.Domain
 {
     public enum AdminStatus
     {

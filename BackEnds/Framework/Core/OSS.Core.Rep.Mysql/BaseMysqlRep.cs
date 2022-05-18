@@ -10,7 +10,6 @@ using OSS.Common.Extension;
 
 using OSS.Core.Domain;
 using OSS.Core.ORM.Dapper;
-using OSS.Core.Shared.Domain;
 
 namespace OSS.Core.Rep.Mysql
 {
