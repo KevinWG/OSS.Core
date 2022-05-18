@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Context\OSS.Core.Context\OSS.Core.Context.csproj" />
     <ProjectReference Include="..\Shared\OSS.Core.Shared.Domain\OSS.Core.Shared.Domain.csproj" />
   </ItemGroup>
 

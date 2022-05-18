@@ -7,8 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OSS.Core.Portal.Domain\OSS.Core.Portal.Domain.csproj" />
-    <ProjectReference Include="..\Shared\OSS.Core.Portal.Shared.IService\OSS.Core.Portal.Shared.IService.csproj" />
+    <Folder Include="Portal\DTO\" />
+    <Folder Include="User\DTO\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Framework\Context\OSS.Core.Context\OSS.Core.Context.csproj" />
   </ItemGroup>
 
 </Project>
