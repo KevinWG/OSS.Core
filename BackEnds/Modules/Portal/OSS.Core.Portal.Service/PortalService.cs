@@ -182,8 +182,8 @@ namespace OSS.Core.Services.Basic.Portal
                 body_paras = new Dictionary<string, string> { { "code", code } },
 
                 t_code = req.type == PortalCodeType.Mobile
-                    ? DirConfigKeys.plugs_notify_sms_portal_tcode
-                    : DirConfigKeys.plugs_notify_email_portal_tcode
+                    ? PortalConst.DirConfigKeys.plugs_notify_sms_portal_tcode
+                    : PortalConst.DirConfigKeys.plugs_notify_email_portal_tcode
             };
 
             var res = await OSS.Common.InsContainer<INotifyService>.Instance.Send(notifyMsg);

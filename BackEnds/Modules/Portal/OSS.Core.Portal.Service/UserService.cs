@@ -12,15 +12,16 @@
 #endregion
 
 using OSS.Common;
-using OSS.Common.BasicMos;
 using OSS.Common.Resp;
 using OSS.Common.Extension;
 using OSS.Core.Context;
+using OSS.Core.Domain.Extension;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Shared.IService;
+using OSS.Core.Portal.Shared.IService.Portal;
 using OSS.Core.Portal.Shared.IService.Portal.DTO;
-using OSS.Core.Reps;
 using OSS.Core.Reps.Basic.Portal;
+using OSS.Core.Service;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
 namespace OSS.Core.Services.Basic.Portal
@@ -39,7 +40,7 @@ namespace OSS.Core.Services.Basic.Portal
         {
             if (!string.IsNullOrEmpty(user.email))
             {
-                var checkEmailRes = await InsContainer<IPortalServiceProxy>.Instance.CheckIfCanReg(new PortalNameReq()
+                var checkEmailRes = await InsContainer<IPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
                 {
                     type = PortalCodeType.Email,
                     name = user.email
@@ -50,7 +51,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             if (!string.IsNullOrEmpty(user.mobile))
             {
-                var checkMobileRes = await InsContainer<IPortalServiceProxy>.Instance.CheckIfCanReg(new PortalNameReq()
+                var checkMobileRes = await InsContainer<IPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
                 {
                     type = PortalCodeType.Mobile,
                     name = user.mobile
@@ -89,16 +90,6 @@ namespace OSS.Core.Services.Basic.Portal
         public async Task<PageListResp<UserInfoMo>> SearchUsers(SearchReq req)
         {
             return await UserInfoRep.Instance.SearchUsers(req);
-        }
-
-        /// <summary>
-        ///  获取当前租户平台下的外部平台用户列表
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        public  Task<PageListResp<SocialUserSmallMo>> SearchSocialUsers(SearchReq req)
-        {
-            return  SocialUserRep.Instance.Search(req);
         }
 
 

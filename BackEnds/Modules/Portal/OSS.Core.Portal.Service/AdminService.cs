@@ -12,14 +12,14 @@
 #endregion
 
 using OSS.Common;
-using OSS.Common.BasicMos;
 using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Core.Context;
+using OSS.Core.Domain.Extension;
+using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Domain.Admin;
-using OSS.Core.Portal.Shared.Domain;
+using OSS.Core.Portal.Shared.IService;
 using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Services.Basic.Portal.IProxies;
 
 namespace OSS.Core.Services.Basic.Portal
 {
@@ -66,7 +66,7 @@ namespace OSS.Core.Services.Basic.Portal
         public async Task<Resp<long>> AddAdmin(AdminInfoMo admin)
         {
             // 判断用户本身是否存在问题
-            var userRes = await InsContainer<IUserServiceProxy>.Instance.GetUserById(admin.id);
+            var userRes = await InsContainer<IUserService>.Instance.GetUserById(admin.id);
             if (!userRes.IsSuccess())
                 return new Resp<long>().WithResp(userRes);
 

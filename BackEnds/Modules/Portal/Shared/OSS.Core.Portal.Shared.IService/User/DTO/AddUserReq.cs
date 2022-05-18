@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using OSS.Core.Reps.Basic.Portal.Mos;
+using OSS.Core.Portal.Domain;
 
 namespace OSS.Core.Services.Basic.Portal.Reqs
 {

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using OSS.Common.Resp;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace OSS.Core.Service
 {
     public class BaseService
     {
-        protected Resp ValidateReq<T>(IList<T> listItems)
+        protected Resp ValidateReq<T>(IList<T>? listItems)
         {
             if (listItems == null)
             {
@@ -31,7 +29,7 @@ namespace OSS.Core.Service
         /// 获取验证失败列表信息
         /// </summary>
         /// <returns></returns>
-        protected Resp ValidateReq(object objectData)
+        protected Resp ValidateReq(object? objectData)
         {
             if (objectData == null)
             {
@@ -48,7 +46,7 @@ namespace OSS.Core.Service
             var strMsgBuilder = new StringBuilder();
             foreach (var vres in validationResults)
             {
-                if (vres.MemberNames.Count() > 0)
+                if (vres.MemberNames.Any())
                 {
                     strMsgBuilder.Append("[").Append(vres.MemberNames.FirstOrDefault()).Append("]")
                         .Append(vres.ErrorMessage).Append(",");
