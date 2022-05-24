@@ -15,8 +15,6 @@ using OSS.Common.Resp;
 using OSS.Common;
 using OSS.Core.Extension;
 using OSS.Core.Portal.Domain;
-using OSS.Core.Reps.Basic.Portal.Mos;
-using OSS.Core.Portal.Shared.Domain;
 using OSS.Core.Rep.Mysql;
 using OSS.Tools.Config;
 

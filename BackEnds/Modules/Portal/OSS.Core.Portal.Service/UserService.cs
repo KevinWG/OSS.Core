@@ -68,9 +68,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <summary>
         ///  修改基础信息
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="avatar"></param>
-        /// <param name="nickName"></param>
+        /// <param name="req"></param>
         /// <returns></returns>
         public Task<Resp> ChangeMyBasic(UpdateUserBasicReq req)
         {

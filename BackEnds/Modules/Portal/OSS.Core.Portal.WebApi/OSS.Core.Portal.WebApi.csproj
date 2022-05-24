@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\OSS.Core.Portal.Shared.IService\OSS.Core.Portal.Shared.IService.csproj" />
+    <ProjectReference Include="..\OSS.Core.Portal.Service\OSS.Core.Portal.Service.csproj" />
   </ItemGroup>
 
 </Project>

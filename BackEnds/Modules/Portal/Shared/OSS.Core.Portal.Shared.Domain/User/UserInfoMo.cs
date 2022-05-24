@@ -11,7 +11,8 @@
 
 #endregion
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
+
 
 namespace OSS.Core.Portal.Domain
 {

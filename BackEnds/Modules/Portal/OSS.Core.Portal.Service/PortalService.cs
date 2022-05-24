@@ -12,7 +12,6 @@
 #endregion
 
 using OSS.Common.Encrypt;
-using OSS.Common.Helpers;
 using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Extension;
@@ -23,7 +22,6 @@ using OSS.Core.Portal.Shared.IService.Portal.DTO;
 using OSS.Core.Reps.Basic.Portal;
 using OSS.Core.Services.Basic.Portal.Helpers;
 using OSS.Core.Services.Basic.Portal.Reqs;
-using OSS.Tools.Cache;
 
 namespace OSS.Core.Services.Basic.Portal
 {
@@ -63,10 +61,6 @@ namespace OSS.Core.Services.Basic.Portal
                 case PortalAuthorizeType.UserWithEmpty:
                     identityRes = await PortalIdentityHelper.GetUserIdentity(userId);
                     break;
-
-                case PortalAuthorizeType.SocialAppUser:
-                    identityRes = await PortalIdentityHelper.GetSocialIdentity(userId);
-                    break;
                 default:
                     identityRes = new Resp<UserIdentity>().WithResp(RespTypes.UserUnLogin, "用户未登录!");
                     break;
@@ -87,8 +81,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <summary>
         ///     检查账号是否可以注册
         /// </summary>
-        /// <param name="type"></param>
-        /// <param name="value"></param>
+        /// <param name="req"></param>
         /// <returns></returns>
         public async Task<Resp> CheckIfCanReg(PortalNameReq req)
         {
@@ -99,119 +92,6 @@ namespace OSS.Core.Services.Basic.Portal
             return userRes.IsSuccess()
                 ? new Resp(RespTypes.OperateObjectExist, "账号已存在，无法注册！")
                 : new Resp().WithResp(userRes);
-        }
-
-        #endregion
-
-        #region 动态验证码登录注册实现
-
-        /// <summary>
-        ///     用户动态码登录
-        /// </summary>
-        /// <returns></returns>
-        public Task<PortalTokenResp> CodeLogin(PortalPasscodeReq req)
-        {
-            return CodeLogin(req, false);
-        }
-
-        /// <summary>
-        /// 管理员动态码登录
-        /// </summary>
-        /// <returns></returns>
-        public Task<PortalTokenResp> CodeAdminLogin(PortalPasscodeReq req)
-        {
-            return CodeLogin(req, true);
-        }
-
-
-        private static readonly PortalTokenResp _codeLoginError = new PortalTokenResp(RespTypes.ParaError, "手机号未注册或验证码错误！");
-
-        /// <summary>
-        ///   用户动态码登录注册（如果不存在则直接注册
-        /// </summary>
-        /// <returns></returns>
-        public async Task<PortalTokenResp> CodeRegOrLogin(PortalPasscodeReq req)
-        {
-            var codeRes = await CheckPasscode(req.name, req.code);
-            if (!codeRes.IsSuccess())
-                return new PortalTokenResp().WithResp(codeRes);
-
-            var userRes = await UserInfoRep.Instance.GetUserByLoginType(req.name, req.type);
-            if (userRes.IsSuccess())
-                return await LoginFinallyExecute(userRes.data,false, req.is_social_bind);
-
-            if (!userRes.IsRespType(RespTypes.OperateObjectNull))
-                return _codeLoginError;
-
-            var checkRes = await CheckIfCanReg(req);
-            if (!checkRes.IsSuccess()) return new PortalTokenResp().WithResp(checkRes);
-
-            // 执行注册
-            var userInfo = GetRegisterUserInfo(req.name, string.Empty, req.type.ToPortalType());
-            return await RegFinallyExecute(userInfo, req.is_social_bind);
-        }
-
-        //  动态码验证登录
-        private async Task<PortalTokenResp> CodeLogin(PortalPasscodeReq req, bool isAdmin)
-        {
-            var codeRes = await CheckPasscode(req.name, req.code);
-            if (!codeRes.IsSuccess())
-                return new PortalTokenResp().WithResp(codeRes);
-
-            var userRes = await UserInfoRep.Instance.GetUserByLoginType(req.name, req.type);
-
-            return userRes.IsSuccess()
-                ? await LoginFinallyExecute(userRes.data, isAdmin, req.is_social_bind)
-                : _codeLoginError;
-        }
-
-
-
-
-        /// <summary>
-        ///     发送动态码
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        public async Task<Resp> SendCode(PortalLoginBaseReq req)
-        {
-            var code = NumHelper.RandomNum();
-            var notifyMsg = new NotifyReq
-            {
-                targets = new List<string>() { req.name },
-                body_paras = new Dictionary<string, string> { { "code", code } },
-
-                t_code = req.type == PortalCodeType.Mobile
-                    ? PortalConst.DirConfigKeys.plugs_notify_sms_portal_tcode
-                    : PortalConst.DirConfigKeys.plugs_notify_email_portal_tcode
-            };
-
-            var res = await OSS.Common.InsContainer<INotifyService>.Instance.Send(notifyMsg);
-            if (!res.IsSuccess())
-                return res;
-
-            var key = string.Concat(PortalConst.CacheKeys.Portal_Passcode_ByLoginName, req.name);
-            await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
-
-            return res;
-        }
-
-        /// <summary>
-        ///     验证动态码是否正确
-        /// </summary>
-        /// <param name="loginName"></param>
-        /// <param name="passcode"></param>
-        /// <returns></returns>
-        private static async Task<Resp> CheckPasscode(string loginName, string passcode)
-        {
-            var key = string.Concat(PortalConst.CacheKeys.Portal_Passcode_ByLoginName, loginName);
-            var code = await CacheHelper.GetAsync<string>(key);
-
-            if (string.IsNullOrEmpty(code) || passcode != code)
-                return new Resp(RespTypes.OperateFailed, "验证码错误");
-
-            await CacheHelper.RemoveAsync(key);
-            return new Resp();
         }
 
         #endregion

@@ -51,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Extension.PassToke
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Portal.Shared.IService", "Modules\Portal\Shared\OSS.Core.Portal.Shared.IService\OSS.Core.Portal.Shared.IService.csproj", "{1BB6A495-BDF2-4B1F-84A7-508FB6A1D257}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.Service", "Framework\Core\OSS.Core.Service\OSS.Core.Service.csproj", "{1D6F8DA0-2095-46E3-83DB-684DC33C199B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Service", "Framework\Core\OSS.Core.Service\OSS.Core.Service.csproj", "{1D6F8DA0-2095-46E3-83DB-684DC33C199B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
