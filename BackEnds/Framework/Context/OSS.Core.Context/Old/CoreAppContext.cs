@@ -1,24 +1,29 @@
-﻿using OSS.Core.Context.Helper;
+﻿
+using System;
+
 namespace OSS.Core.Context
 {
     /// <summary>
     ///  应用请求上下文
     /// </summary>
+    [Obsolete]
     public static class CoreAppContext
     {
         /// <summary>
-        ///   成员身份信息
+        ///   应用授权身份信息
         /// </summary>
         public static AppIdentity Identity
-            => ContextHelper.GetContext()?.AppIdentity;
+            => CoreContext.App.Identity;
 
         /// <summary>
-        ///   设置用户信息
+        ///   设置应用授权身份信息
         /// </summary>
         /// <param name="info"></param>
         public static void SetIdentity(AppIdentity info)
         {
-            ContextHelper.SetAppIdentity(info);
+            CoreContext.App.Identity = info;
         }
+
+
     }
 }

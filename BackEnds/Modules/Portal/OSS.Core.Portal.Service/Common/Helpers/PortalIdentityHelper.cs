@@ -3,7 +3,7 @@ using OSS.Core.Context;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Reps.Basic.Portal;
 
-namespace OSS.Core.Services.Basic.Portal.Helpers
+namespace OSS.Core.Portal.Service.Common.Helpers
 {
     internal static class PortalIdentityHelper
     {

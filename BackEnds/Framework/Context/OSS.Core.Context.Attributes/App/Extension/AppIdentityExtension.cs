@@ -15,7 +15,7 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         public static AppIdentity GetAppIdentity(this HttpContext context)
         {
-            var sysInfo = CoreAppContext.Identity;
+            var sysInfo = CoreContext.App.Identity;
             if (sysInfo == null)
                 throw new RespException(SysRespTypes.AppError,$"请先设置({nameof(CoreContextMiddleware)})中间件");
 
@@ -30,13 +30,13 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         public static AppIdentity InitialCoreAppIdentity(this HttpContext context)
         {
-            var sysInfo = CoreAppContext.Identity;
+            var sysInfo = CoreContext.App.Identity;
             if (sysInfo != null)
                 return sysInfo;
 
             sysInfo = new AppIdentity();
 
-            CoreAppContext.SetIdentity(sysInfo);
+            CoreContext.App.Identity = sysInfo;
             return sysInfo;
         }
     }

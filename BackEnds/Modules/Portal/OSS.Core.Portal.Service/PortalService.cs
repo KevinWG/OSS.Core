@@ -17,10 +17,10 @@ using OSS.Core.Context;
 using OSS.Core.Extension;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Service;
+using OSS.Core.Portal.Service.Common.Helpers;
 using OSS.Core.Portal.Shared.IService.Portal;
 using OSS.Core.Portal.Shared.IService.Portal.DTO;
 using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Services.Basic.Portal.Helpers;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
 namespace OSS.Core.Services.Basic.Portal
@@ -35,7 +35,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp<UserIdentity>> GetIdentity()
         {
-            var cacheKey = string.Concat(PortalConst.CacheKeys.Portal_UserIdentity_ByToken, CoreAppContext.Identity.token);
+            var cacheKey = string.Concat(PortalConst.CacheKeys.Portal_UserIdentity_ByToken, CoreContext.App.Identity.token);
             Func<Task<Resp<UserIdentity>>> getFunc = () =>
             {
                 var infoRes = PortalTokenHelper.FormatPortalToken();

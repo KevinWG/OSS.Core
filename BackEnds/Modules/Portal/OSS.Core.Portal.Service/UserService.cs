@@ -77,7 +77,7 @@ namespace OSS.Core.Services.Basic.Portal
             {
                 return Task.FromResult(checkRes);
             }
-            return UserInfoRep.Instance.UpdateBasicInfo(CoreUserContext.Identity.id.ToInt64(), req.avatar, req.nick_name);
+            return UserInfoRep.Instance.UpdateBasicInfo(CoreContext.User.Identity.id.ToInt64(), req.avatar, req.nick_name);
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp<UserBasicMo>> GetMyInfo()
         {
-            return GetUserById(CoreUserContext.Identity.id.ToInt64());
+            return GetUserById(CoreContext.User.Identity.id.ToInt64());
         }
 
         /// <summary>

@@ -36,7 +36,7 @@ public static class PassTokenHelper
                 randomSeed = NumHelper.RandomNum();
             }
 
-            var token = Md5.EncryptHexString(string.Concat(data, CoreAppContext.Identity.token, randomSeed));
+            var token = Md5.EncryptHexString(string.Concat(data, CoreContext.App.Identity.token, randomSeed));
             return string.Concat(token, randomSeed);
         }
 

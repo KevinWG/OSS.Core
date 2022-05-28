@@ -1,13 +1,13 @@
-﻿using OSS.Common.Resp;
-using OSS.Common.Extension;
+﻿using OSS.Common.Extension;
 using OSS.Common.Helpers;
+using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Tools.Config;
 using OSS.Core.Services.Basic.Portal.Reqs;
+using OSS.Tools.Config;
 
-namespace OSS.Core.Services.Basic.Portal.Helpers
+namespace OSS.Core.Portal.Service.Common.Helpers
 {
-    static internal class PortalTokenHelper
+    internal static class PortalTokenHelper
     {
         /// <summary>
         ///  应用内部Token加密秘钥
@@ -23,7 +23,7 @@ namespace OSS.Core.Services.Basic.Portal.Helpers
         /// <returns></returns>
         internal static PortalTokenResp GeneratePortalToken(UserIdentity newIdentity)
         {
-            var tenantId = CoreAppContext.Identity.tenant_id;
+            var tenantId = CoreContext.App.Identity.tenant_id;
             var tokenStr = string.Concat(newIdentity.id, "|", tenantId, "|", (int)newIdentity.auth_type, "|", NumHelper.RandomNum(6));
 
             var token = CoreUserContext.GetToken(PortalTokenSecret, tokenStr);
@@ -34,7 +34,7 @@ namespace OSS.Core.Services.Basic.Portal.Helpers
         {
             try
             {
-                var appInfo = CoreAppContext.Identity;
+                var appInfo = CoreContext.App.Identity;
                 if (string.IsNullOrEmpty(appInfo.token))
                     return new Resp<(long, PortalAuthorizeType)>().WithResp(RespTypes.UserUnLogin, "用户未登录");
 

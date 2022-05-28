@@ -35,7 +35,7 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         public override async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            if (CoreUserContext.IsAuthenticated)
+            if (CoreContext.User.IsAuthenticated)
                 return;
 
             if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
@@ -61,7 +61,7 @@ namespace OSS.Core.Context.Attributes
             if (!identityRes.IsSuccess())
                 return identityRes;
 
-            CoreUserContext.SetIdentity(identityRes.data);
+            CoreContext.User.Identity=identityRes.data;
             return identityRes;
         }
 
@@ -69,7 +69,7 @@ namespace OSS.Core.Context.Attributes
         private static readonly Task<Resp> _successResp = Task.FromResult(new Resp());
         private static Task<Resp> CheckFunc(HttpContext context, AppIdentity appInfo, UserAuthOption opt)
         {
-            var userInfo = CoreUserContext.Identity;
+            var userInfo = CoreContext.User.Identity;
             if (userInfo == null // 非需授权认证请求
                 || opt.FuncProvider == null
                 || userInfo.auth_type == PortalAuthorizeType.SuperAdmin)

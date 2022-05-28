@@ -62,14 +62,14 @@ namespace OSS.Core.Context.Attributes
         {
             if (appInfo.source_mode == AppSourceMode.OutApp
                 || appOption?.TenantProvider == null
-                || CoreTenantContext.Identity != null)
+                || CoreContext.Tenant.Identity != null)
                 return InterReqHelper.SuccessResp;
 
             var identityRes = await appOption.TenantProvider.GetIdentity(context, appInfo);
             if (!identityRes.IsSuccess())
                 return identityRes;
 
-            CoreTenantContext.SetIdentity(identityRes.data);
+            CoreContext.Tenant.Identity = identityRes.data;
             return identityRes;
         }
 

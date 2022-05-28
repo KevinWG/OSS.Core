@@ -1,16 +1,19 @@
 ﻿using System.Threading;
 
-namespace OSS.Core.Context.Helper
+namespace OSS.Core.Context
 {
-    internal class CoreContext
-    {
-        public AppIdentity AppIdentity { get; set; }
-        public TenantIdentity TenantIdentity { get; set; }
-        public UserIdentity MemberIdentity { get; set; }
-    }
+ 
 
     internal static class ContextHelper
     {
+        internal class CoreContext
+        {
+            public AppIdentity AppIdentity { get; set; }
+            public TenantIdentity TenantIdentity { get; set; }
+            public UserIdentity MemberIdentity { get; set; }
+        }
+
+
         private static readonly AsyncLocal<CoreContext> _items = new AsyncLocal<CoreContext>();
 
         public static void SetAppIdentity(AppIdentity identity)

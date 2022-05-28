@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
 	  <Description>OSS.Core 全局上下文扩展中间价类库</Description>
 	  <Version>1.4.1</Version>
 	  <PackageIcon>logo.png</PackageIcon>
@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+    <PackageReference Include="OSS.Tools.Config" Version="1.1.1" />
     <PackageReference Include="OSS.Tools.Log" Version="1.2.1" />
   </ItemGroup>
 

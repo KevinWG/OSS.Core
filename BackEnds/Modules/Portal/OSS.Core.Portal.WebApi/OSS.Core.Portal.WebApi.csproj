@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <ProjectReference Include="..\..\..\Framework\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
+    <ProjectReference Include="..\OSS.Core.Portal.Service\OSS.Core.Portal.Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OSS.Core.Portal.Service\OSS.Core.Portal.Service.csproj" />
+    <Folder Include="Controllers\" />
   </ItemGroup>
 
 </Project>

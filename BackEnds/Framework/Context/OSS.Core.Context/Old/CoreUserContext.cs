@@ -13,13 +13,13 @@
 using System;
 using OSS.Common.Encrypt;
 using OSS.Common.Extension;
-using OSS.Core.Context.Helper;
 
 namespace OSS.Core.Context
 {
     /// <summary>
     /// 当前系统访问上下文信息
     /// </summary>
+    [Obsolete]
     public static class CoreUserContext
     {
         /// <summary>
@@ -33,7 +33,7 @@ namespace OSS.Core.Context
         ///   成员身份信息
         /// </summary>
         public static UserIdentity Identity
-            => ContextHelper.GetContext()?.MemberIdentity;
+            => CoreContext.User.Identity;
 
         /// <summary>
         ///   设置用户信息
@@ -41,7 +41,7 @@ namespace OSS.Core.Context
         /// <param name="info"></param>
         public static void SetIdentity(UserIdentity info)
         {
-            ContextHelper.SetMemberIdentity(info);
+            CoreContext.User.Identity = info;
         }
 
         ///// <summary>

@@ -18,7 +18,7 @@ namespace OSS.Core.Domain.Extension
 
             if (t.owner_uid <= 0)
             {
-                var userIdentity = CoreUserContext.Identity;
+                var userIdentity = CoreContext.User.Identity;
                 if (userIdentity != null)
                 {
                     t.owner_uid = userIdentity.id.ToInt64();

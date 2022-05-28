@@ -38,6 +38,8 @@ namespace OSS.Core.Context
         public AskUserFunc ask_func { get; set; }
     }
 
+
+
     /// <summary>
     ///  要求的功能权限信息
     /// </summary>

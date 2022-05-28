@@ -1,17 +1,19 @@
-﻿using OSS.Core.Context.Helper;
+﻿
+using System;
 
 namespace OSS.Core.Context
 {
     /// <summary>
     ///   全局应用租户信息
     /// </summary>
+    [Obsolete]
     public static class CoreTenantContext
     {
         /// <summary>
         ///   成员身份信息
         /// </summary>
         public static TenantIdentity Identity
-            => ContextHelper.GetContext()?.TenantIdentity;
+            => CoreContext.Tenant.Identity;
 
         /// <summary>
         ///   设置用户信息
@@ -19,7 +21,7 @@ namespace OSS.Core.Context
         /// <param name="info"></param>
         public static void SetIdentity(TenantIdentity info)
         {
-            ContextHelper.SetTenantIdentity(info);
+            CoreContext.Tenant.Identity= info;
         }
 
         ///// <summary>

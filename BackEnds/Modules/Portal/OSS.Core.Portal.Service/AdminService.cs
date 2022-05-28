@@ -37,7 +37,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeMyAvatar(string avatar)
         {
-            return AdminInfoRep.Instance.ChangeAvatar(CoreUserContext.Identity.id.ToInt64(), avatar);
+            return AdminInfoRep.Instance.ChangeAvatar(CoreContext.User.Identity.id.ToInt64(), avatar);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeMyName(string name)
         {
-            return AdminInfoRep.Instance.ChangeMyName(CoreUserContext.Identity.id.ToInt64(), name);
+            return AdminInfoRep.Instance.ChangeMyName(CoreContext.User.Identity.id.ToInt64(), name);
         }
 
 
