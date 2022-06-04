@@ -14,7 +14,7 @@
 
 using OSS.Core.Domain;
 
-namespace OSS.Core.Portal.Domain.Admin;
+namespace OSS.Core.Portal.Domain;
 
 /// <summary>
 ///  后台管理员实体 
@@ -25,12 +25,12 @@ public class AdminInfoMo : BaseOwnerMo<long>
     /// <summary>
     /// 管理员名称
     /// </summary>
-    public string admin_name { get; set; }
+    public string? admin_name { get; set; }
 
     /// <summary>
     /// 管理员图片
     /// </summary>
-    public string avatar { get; set; }
+    public string? avatar { get; set; }
 
     /// <summary>
     ///  管理员类型   100.  超级管理员   0. 普通管理员

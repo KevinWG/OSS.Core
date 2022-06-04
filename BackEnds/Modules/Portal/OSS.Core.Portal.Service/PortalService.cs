@@ -11,6 +11,7 @@
 
 #endregion
 
+using OSS.Common;
 using OSS.Common.Encrypt;
 using OSS.Common.Resp;
 using OSS.Core.Context;
@@ -18,14 +19,11 @@ using OSS.Core.Extension;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Service;
 using OSS.Core.Portal.Service.Common.Helpers;
-using OSS.Core.Portal.Shared.IService.Portal;
-using OSS.Core.Portal.Shared.IService.Portal.DTO;
-using OSS.Core.Reps.Basic.Portal;
-using OSS.Core.Services.Basic.Portal.Reqs;
+using OSS.Core.Portal.Shared.IService;
 
 namespace OSS.Core.Services.Basic.Portal
 {
-    public partial class PortalService : BasePortalService, IPortalService
+    public partial class PortalService : BasePortalService, ISharedPortalService
     {
         #region 获取登录认证信息
 
@@ -85,7 +83,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public async Task<Resp> CheckIfCanReg(PortalNameReq req)
         {
-            var userRes = await UserInfoRep.Instance.GetUserByLoginType(req.name, req.type);
+            var userRes = await  InsContainer<IUserInfoRep>.Instance.GetUserByLoginType(req.name, req.type);
             if (userRes.IsRespType(RespTypes.OperateObjectNull))
                 return new Resp();
 
@@ -136,7 +134,7 @@ namespace OSS.Core.Services.Basic.Portal
 
         private async Task<PortalTokenResp> PwdLogin(PortalPasswordReq req, bool isAdmin)
         {
-            var userRes = await UserInfoRep.Instance.GetUserByLoginType(req.name, req.type);
+            var userRes = await InsContainer<IUserInfoRep>.Instance.GetUserByLoginType(req.name, req.type);
             if (userRes.IsSuccess())
             {
                 var user = userRes.data;

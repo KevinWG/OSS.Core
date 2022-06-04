@@ -18,9 +18,6 @@ using OSS.Core.Context;
 using OSS.Core.Domain.Extension;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Shared.IService;
-using OSS.Core.Portal.Shared.IService.Portal;
-using OSS.Core.Portal.Shared.IService.Portal.DTO;
-using OSS.Core.Reps.Basic.Portal;
 using OSS.Core.Service;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
@@ -29,8 +26,11 @@ namespace OSS.Core.Services.Basic.Portal
     /// <summary>
     ///  用户服务
     /// </summary>
-    public partial class UserService : BaseService, IUserService
+    public class UserService : BaseService, ISharedUserService
     {
+
+        private static readonly IUserInfoRep _userRep = InsContainer<IUserInfoRep>.Instance;
+        
         /// <summary>
         ///  直接添加用户（管理员权限
         /// </summary>
@@ -40,7 +40,7 @@ namespace OSS.Core.Services.Basic.Portal
         {
             if (!string.IsNullOrEmpty(user.email))
             {
-                var checkEmailRes = await InsContainer<IPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
+                var checkEmailRes = await InsContainer<ISharedPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
                 {
                     type = PortalCodeType.Email,
                     name = user.email
@@ -51,7 +51,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             if (!string.IsNullOrEmpty(user.mobile))
             {
-                var checkMobileRes = await InsContainer<IPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
+                var checkMobileRes = await InsContainer<ISharedPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
                 {
                     type = PortalCodeType.Mobile,
                     name = user.mobile
@@ -62,7 +62,7 @@ namespace OSS.Core.Services.Basic.Portal
 
             user.InitialBaseFromContext();
 
-            return await UserInfoRep.Instance.Add(user);
+            return await _userRep.Add(user);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace OSS.Core.Services.Basic.Portal
             {
                 return Task.FromResult(checkRes);
             }
-            return UserInfoRep.Instance.UpdateBasicInfo(CoreContext.User.Identity.id.ToInt64(), req.avatar, req.nick_name);
+            return _userRep.UpdateBasicInfo(CoreContext.User.Identity.id.ToInt64(), req.avatar, req.nick_name);
         }
 
         /// <summary>
@@ -87,7 +87,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public async Task<PageListResp<UserInfoMo>> SearchUsers(SearchReq req)
         {
-            return await UserInfoRep.Instance.SearchUsers(req);
+            return await _userRep.SearchUsers(req);
         }
 
 
@@ -106,7 +106,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public async Task<Resp<UserBasicMo>> GetUserById(long userId)
         {
-            var getRes = await UserInfoRep.Instance.GetById(userId);
+            var getRes = await _userRep.GetById(userId);
             return new Resp<UserBasicMo>().WithResp(getRes, UserInfoMoMaps.ConvertToMo, "获取用户信息失败！");
         }
 
@@ -118,7 +118,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public async Task<Resp> ChangeLockStatus(long uId, bool makeLock)
         {
-            return await UserInfoRep.Instance.UpdateStatus(uId, makeLock ? UserStatus.Locked : UserStatus.Normal);
+            return await _userRep.UpdateStatus(uId, makeLock ? UserStatus.Locked : UserStatus.Normal);
         }
 
     }

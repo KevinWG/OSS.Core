@@ -21,7 +21,7 @@ namespace OSS.Core.Context.Attributes.Helper
             var errUrl = Option?.ErrorPage;
             return string.IsNullOrEmpty(errUrl)
                 ? string.Empty
-                : string.Concat(errUrl, "?ret=", res.ret, "&msg=", errUrl.SafeEscapeUriDataString());
+                : string.Concat(errUrl, "?ret=", res.code, "&msg=", errUrl.SafeEscapeUriDataString());
         }
 
         internal static string GetUnloginPage(HttpContext context, AppIdentity appInfo)

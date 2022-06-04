@@ -37,6 +37,7 @@ namespace OSS.Core.Context.Attributes
             ConfigHelper.Configuration = app.ApplicationServices.GetService<IConfiguration>();
 
             CoreContext.ServiceProvider = app.ApplicationServices;
+
             CoreContext.App.Self = InitialSelfAppInfo();
 
             return app.UseMiddleware<CoreContextMiddleware>();

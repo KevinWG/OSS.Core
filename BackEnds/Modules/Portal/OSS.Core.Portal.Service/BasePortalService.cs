@@ -1,11 +1,11 @@
-﻿using OSS.Common.Encrypt;
+﻿using OSS.Common;
+using OSS.Common.Encrypt;
 using OSS.Common.Resp;
 using OSS.Core.Domain.Extension;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Service.Common.Helpers;
-using OSS.Core.Reps.Basic.Portal;
+using OSS.Core.Portal.Shared.IService;
 using OSS.Core.Service;
-using OSS.Core.Services.Basic.Portal.Reqs;
 using OSS.DataFlow;
 
 namespace OSS.Core.Portal.Service
@@ -71,7 +71,7 @@ namespace OSS.Core.Portal.Service
             if (string.IsNullOrEmpty(user.nick_name))
                 user.nick_name = string.Concat("会员-", user.mobile ?? user.email);
 
-            var idRes = await UserInfoRep.Instance.Add(user);
+            var idRes = await InsContainer<IUserInfoRep>.Instance.Add(user);
             if (!idRes.IsSuccess())
                 return new PortalTokenResp().WithResp(idRes, "创建注册用户失败!");
 

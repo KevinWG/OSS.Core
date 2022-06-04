@@ -17,9 +17,7 @@ using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Domain.Extension;
 using OSS.Core.Portal.Domain;
-using OSS.Core.Portal.Domain.Admin;
 using OSS.Core.Portal.Shared.IService;
-using OSS.Core.Reps.Basic.Portal;
 
 namespace OSS.Core.Services.Basic.Portal
 {
@@ -28,6 +26,8 @@ namespace OSS.Core.Services.Basic.Portal
     /// </summary>
     public class AdminService
     {
+        private static readonly IAdminInfoRep _adminRep = InsContainer<IAdminInfoRep>.Instance;
+
         #region 管理员修改自己的信息
 
         /// <summary>
@@ -37,27 +37,22 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeMyAvatar(string avatar)
         {
-            return AdminInfoRep.Instance.ChangeAvatar(CoreContext.User.Identity.id.ToInt64(), avatar);
+            return _adminRep.ChangeAvatar(CoreContext.User.Identity.id.ToInt64(), avatar);
         }
 
         /// <summary>
         ///   管理员修改自己的名称
         /// </summary>
-        /// <param name="avatar"></param>
+        /// <param name="name"></param>
         /// <returns></returns>
         public Task<Resp> ChangeMyName(string name)
         {
-            return AdminInfoRep.Instance.ChangeMyName(CoreContext.User.Identity.id.ToInt64(), name);
+            return _adminRep.ChangeMyName(CoreContext.User.Identity.id.ToInt64(), name);
         }
 
 
         #endregion
-
-
-
-
-
-
+        
         /// <summary>
         ///  添加管理员
         /// </summary>
@@ -66,7 +61,7 @@ namespace OSS.Core.Services.Basic.Portal
         public async Task<Resp<long>> AddAdmin(AdminInfoMo admin)
         {
             // 判断用户本身是否存在问题
-            var userRes = await InsContainer<IUserService>.Instance.GetUserById(admin.id);
+            var userRes = await InsContainer<ISharedUserService>.Instance.GetUserById(admin.id);
             if (!userRes.IsSuccess())
                 return new Resp<long>().WithResp(userRes);
 
@@ -74,7 +69,7 @@ namespace OSS.Core.Services.Basic.Portal
                 return new Resp<long>().WithResp(RespTypes.OperateObjectExist, "当前绑定用户状态异常！");
 
             // 判断是否已经绑定
-            var exitAdminRes = await AdminInfoRep.Instance.GetAdminByUId(admin.id);
+            var exitAdminRes = await _adminRep.GetAdminByUId(admin.id);
 
             if (exitAdminRes.IsSuccess())
                 return new Resp<long>().WithResp(RespTypes.OperateObjectExist, "当前用户已经存在绑定管理员");
@@ -85,8 +80,9 @@ namespace OSS.Core.Services.Basic.Portal
             admin.InitialBaseFromContext();
             admin.avatar = userRes.data.avatar;
 
-            return await AdminInfoRep.Instance.Add(admin);
+            return await _adminRep.Add(admin);
         }
+
 
         /// <summary>
         ///  管理员查询
@@ -95,11 +91,9 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<PageListResp<AdminInfoMo>> SearchAdmins(SearchReq req)
         {
-            return AdminInfoRep.Instance.SearchAdmins(req);
+            return _adminRep.SearchAdmins(req);
         }
-
-
-
+        
         /// <summary>
         /// 修改锁定状态
         /// </summary>
@@ -108,10 +102,8 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> ChangeLockStatus(long uId, bool makeLock)
         {
-            return AdminInfoRep.Instance.UpdateStatus(uId, makeLock ? AdminStatus.Locked : AdminStatus.Normal);
+            return _adminRep.UpdateStatus(uId, makeLock ? AdminStatus.Locked : AdminStatus.Normal);
         }
-
-
 
         /// <summary>
         /// 修改锁定状态
@@ -121,10 +113,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public Task<Resp> SetAdminType(long uId, AdminType adminType)
         {
-            return AdminInfoRep.Instance.SetAdminType(uId, adminType);
+            return _adminRep.SetAdminType(uId, adminType);
         }
-
-
-
     }
 }

@@ -119,7 +119,7 @@ namespace OSS.Core.ORM.Dapper
             {
                 var sql = string.Concat("UPDATE ", TableName, " SET ", updateColNamesSql, " ", whereSql);
                 var row = await con.ExecuteAsync(sql, para);
-                return row > 0 ? new Resp() : new Resp().WithResp(ret: RespTypes.OperateFailed, "更新失败");
+                return row > 0 ? new Resp() : new Resp().WithResp( RespTypes.OperateFailed, "更新失败");
             });
 
         #endregion

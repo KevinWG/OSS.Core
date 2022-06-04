@@ -12,8 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Domain\OSS.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Rep.Mysql\OSS.Core.Rep.Mysql.csproj" />
-    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
     <ProjectReference Include="..\Shared\OSS.Core.Portal.Shared.Domain\OSS.Core.Portal.Shared.Domain.csproj" />
   </ItemGroup>
 

@@ -44,14 +44,6 @@ namespace OSS.Core.Context
             CoreContext.User.Identity = info;
         }
 
-        ///// <summary>
-        ///// 获取成员扩展详情
-        ///// </summary>
-        ///// <typeparam name="TMInfo"></typeparam>
-        ///// <returns></returns>
-        //public static TMInfo GetMemberInfo<TMInfo>()
-        //    where TMInfo : class => Identity?.MemberInfo as TMInfo;
-
         #endregion
 
         #region    token  处理

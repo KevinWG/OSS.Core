@@ -154,7 +154,7 @@ namespace OSS.Core.Context
             if (Math.Abs(DateTime.Now.ToUtcSeconds() - timestamp) > signExpiredSeconds)
                 return new Resp(RespTypes.ParaExpired, "签名不在时效范围(请使用Unix Timestamp)！");
 
-            var signData = CompulteSign(app_id, app_ver, secretKey, extSignData, separator);
+            var signData = ComputeSign(app_id, app_ver, secretKey, extSignData, separator);
 
             return sign == signData ? _successResp : new Resp(RespTypes.ParaSignError, "签名错误！");
         }
@@ -173,7 +173,7 @@ namespace OSS.Core.Context
         {
             timestamp = DateTime.Now.ToUtcSeconds();
 
-            sign = CompulteSign(appId, appVersion, secretKey, extSignData, separator);
+            sign = ComputeSign(appId, appVersion, secretKey, extSignData, separator);
 
             var ticket = GetContent(appId, appVersion, separator, false);
             AddTicketProperty("sign", sign, separator, ticket, false);
@@ -181,7 +181,7 @@ namespace OSS.Core.Context
             return ticket.ToString();
         }
 
-        private string CompulteSign(string appId, string appVersion, string secretKey, string extSignData, char separator)
+        private string ComputeSign(string appId, string appVersion, string secretKey, string extSignData, char separator)
         {
             var signContent = GetContent(appId, appVersion, separator, true);
             if (!string.IsNullOrEmpty(extSignData))

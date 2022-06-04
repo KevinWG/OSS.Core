@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="OSS.Tools.Config" Version="1.1.1" />
+    <PackageReference Include="OSS.Tools.Config" Version="1.2.0" />
     <PackageReference Include="OSS.Tools.Log" Version="1.2.1" />
   </ItemGroup>
 

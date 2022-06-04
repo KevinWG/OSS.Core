@@ -1,10 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using OSS.Common.Resp;
 using OSS.Core.Context.Attributes.Helper;
 using OSS.Tools.Log;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace OSS.Core.Context.Attributes
 {
@@ -43,12 +43,25 @@ namespace OSS.Core.Context.Attributes
             }
             catch (RespException resEx)
             {
-                errorResp = resEx;
+                errorResp = resEx.ErrorResp;
                 error     = resEx;
+            }
+            catch (ArgumentNullException ex)
+            {
+                errorResp = new Resp((int) SysRespTypes.AppError, (int) RespTypes.ParaError,
+                    $"({ex.ParamName}){ex.Message}");
+                error = ex;
+            }
+            catch (ArgumentException ex)
+            {
+                errorResp = new Resp((int) SysRespTypes.AppError, (int) RespTypes.ParaError,
+                    $"({ex.ParamName}){ex.Message}");
+                error = ex;
             }
             catch (Exception ex)
             {
-                error = ex;
+                errorResp = new Resp(SysRespTypes.AppError, $"当前服务异常！");
+                error     = ex;
             }
 
             var code = LogHelper.Error(string.Concat("请求地址:", context.Request.Path, "错误信息：", error.Message, "详细信息：", error.StackTrace),
@@ -59,7 +72,7 @@ namespace OSS.Core.Context.Attributes
                 throw error;
             }
 #endif
-            var res = errorResp ?? new Resp(SysRespTypes.AppError, $"当前服务异常（{ error.Message}）！");
+            var res = errorResp;
             await ExceptionResponse(context, appInfo, res);
         }
 

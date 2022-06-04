@@ -44,7 +44,7 @@ namespace OSS.Core.Context.Attributes
 
             httpResponse.ContentType = "application/json; charset=utf-8";
             httpResponse.StatusCode  = (int)HttpStatusCode.OK;
-            return httpResponse.WriteAsync($"{{\"ret\":{res.ret},\"msg\":\"{res.msg}\"}}");
+            return httpResponse.WriteAsync($"{{\"ret\":{res.code},\"msg\":\"{res.msg}\"}}");
         } 
     }
 }

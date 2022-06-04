@@ -1,6 +1,5 @@
 ﻿using OSS.Common;
 using OSS.Core.Portal.Shared.IService;
-using OSS.Core.Portal.Shared.IService.Portal;
 using OSS.Core.Services.Basic.Portal;
 
 namespace OSS.Core.Portal.Service
@@ -14,8 +13,8 @@ namespace OSS.Core.Portal.Service
 
         private static void RegisterServiceInstance()
         {
-            InsContainer<IPortalService>.Set<PortalService>();
-            InsContainer<IUserService>.Set<UserService>();
+            InsContainer<ISharedPortalService>.Set<PortalService>();
+            InsContainer<ISharedUserService>.Set<UserService>();
         }
     }
 }

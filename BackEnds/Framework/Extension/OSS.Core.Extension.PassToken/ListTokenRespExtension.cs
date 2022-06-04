@@ -1,5 +1,6 @@
-﻿using OSS.Common.BasicMos;
+﻿
 using OSS.Common.Resp;
+using OSS.Core.Domain;
 
 namespace OSS.Core.Extension;
 

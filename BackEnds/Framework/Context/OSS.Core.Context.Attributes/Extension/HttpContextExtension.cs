@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using OSS.Common.BasicMos;
+using OSS.Common;
 using OSS.Common.Extension;
 using OSS.Core.Context.Attributes.Helper;
 

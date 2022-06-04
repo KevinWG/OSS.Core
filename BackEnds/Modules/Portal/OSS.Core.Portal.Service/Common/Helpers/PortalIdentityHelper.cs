@@ -1,7 +1,7 @@
-﻿using OSS.Common.Resp;
+﻿using OSS.Common;
+using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Portal.Domain;
-using OSS.Core.Reps.Basic.Portal;
 
 namespace OSS.Core.Portal.Service.Common.Helpers
 {
@@ -11,16 +11,15 @@ namespace OSS.Core.Portal.Service.Common.Helpers
 
         internal static async Task<Resp<UserIdentity>> GetUserIdentity(long userId)
         {
-            var userRes = await UserInfoRep.Instance.GetById(userId);
-            if (!userRes.IsSuccess())
-                return new Resp<UserIdentity>().WithResp(userRes, "获取用户信息异常!");
-
-            return GetRegLoginUserIdentity(userRes.data);
+            var userRes = await InsContainer<IUserInfoRep>.Instance.GetById(userId);
+            return !userRes.IsSuccess() 
+                ? new Resp<UserIdentity>().WithResp(userRes, "获取用户信息异常!") 
+                : GetRegLoginUserIdentity(userRes.data);
         }
 
         internal static Resp<UserIdentity> GetRegLoginUserIdentity(UserInfoMo user)
         {
-            user.pass_word = null; //  不可传出
+            user.pass_word = string.Empty; //  不可传出
 
             var checkRes = CheckIdentityStatus(user.status);
             if (!checkRes.IsSuccess())
@@ -57,9 +56,9 @@ namespace OSS.Core.Portal.Service.Common.Helpers
 
         internal static async Task<Resp<UserIdentity>> GetAdminIdentity(long userId)
         {
-            var adminRes = await AdminInfoRep.Instance.GetAdminByUId(userId);
+            var adminRes = await InsContainer<IAdminInfoRep>.Instance.GetAdminByUId(userId);
             if (!adminRes.IsSuccess())
-                return new Resp<UserIdentity>() {ret = adminRes.ret, msg = "管理员账号/密码错误!"};
+                return new Resp<UserIdentity>().WithResp(adminRes, "管理员账号/密码错误!");
 
             var admin = adminRes.data;
 
