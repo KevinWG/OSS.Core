@@ -16,7 +16,7 @@ using OSS.Common.Resp;
 using OSS.Core.Extension;
 using OSS.Core.Portal.Domain;
 
-namespace OSS.Core.Portal.Repository.Admin;
+namespace OSS.Core.Portal.Repository;
 
 /// <summary>
 ///  后台管理员仓储实现

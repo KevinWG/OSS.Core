@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
+    <ProjectReference Include="..\OSS.Core.Portal.Repository\OSS.Core.Portal.Repository.csproj" />
     <ProjectReference Include="..\OSS.Core.Portal.Service\OSS.Core.Portal.Service.csproj" />
   </ItemGroup>
 

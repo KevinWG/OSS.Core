@@ -1,8 +1,17 @@
 using OSS.Core.Context.Attributes;
 
+using OSS.Core.Portal.Repository;
+using OSS.Core.Portal.Service;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
+builder.Services.Register<PortalRepositoryStarter>();
+builder.Services.Register<PortalServiceStarter>();
+
+
 
 
 var app = builder.Build();

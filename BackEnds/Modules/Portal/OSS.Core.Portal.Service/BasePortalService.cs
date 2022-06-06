@@ -1,7 +1,7 @@
 ﻿using OSS.Common;
 using OSS.Common.Encrypt;
 using OSS.Common.Resp;
-using OSS.Core.Domain.Extension;
+using OSS.Core.Domain;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Service.Common.Helpers;
 using OSS.Core.Portal.Shared.IService;
@@ -54,7 +54,8 @@ namespace OSS.Core.Portal.Service
         /// <returns></returns>
         protected static async Task<PortalTokenResp> RegFinallyExecute(UserInfoMo user, int isSocialBind)
         {
-            user.InitialBaseFromContext();
+            user.FormatBaseByContext();
+
             user.owner_uid = 0; // 防止第三方账号临时登录污染
 
             //if (isSocialBind >0)

@@ -38,7 +38,7 @@ namespace OSS.Core.WebApis.App_Codes.AuthProviders
             
             if (appInfo.source_mode >= AppSourceMode.Browser)
             {
-                if (context.Request.Cookies.TryGetValue(UserTokenCookieName, out string tokenVal))
+                if (context.Request.Cookies.TryGetValue(UserTokenCookieName, out var tokenVal))
                     appInfo.token = tokenVal;
             }
 

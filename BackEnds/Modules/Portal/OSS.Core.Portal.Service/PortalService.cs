@@ -34,7 +34,7 @@ namespace OSS.Core.Services.Basic.Portal
         public Task<Resp<UserIdentity>> GetIdentity()
         {
             var cacheKey = string.Concat(PortalConst.CacheKeys.Portal_UserIdentity_ByToken, CoreContext.App.Identity.token);
-            Func<Task<Resp<UserIdentity>>> getFunc = () =>
+            var getFunc = () =>
             {
                 var infoRes = PortalTokenHelper.FormatPortalToken();
                 if (!infoRes.IsSuccess())

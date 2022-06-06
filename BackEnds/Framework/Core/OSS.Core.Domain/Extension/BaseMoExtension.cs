@@ -3,15 +3,18 @@ using OSS.Common.Extension;
 using OSS.Common.Helpers;
 using OSS.Core.Context;
 
-namespace OSS.Core.Domain.Extension
+namespace OSS.Core.Domain
 {
+    /// <summary>
+    ///  基类扩展方法
+    /// </summary>
     public static class BaseMoExtension
     {
         /// <summary>
         ///  从上下文中初始化基础信息
         /// </summary>
         /// <param name="t"></param>
-        public static void InitialBaseFromContext(this BaseOwnerMo<long> t)
+        public static void FormatBaseByContext(this BaseOwnerMo<long> t)
         {
             if (t.id <= 0)
                 t.id = NumHelper.SmallSnowNum();
@@ -24,10 +27,7 @@ namespace OSS.Core.Domain.Extension
                     t.owner_uid = userIdentity.id.ToInt64();
                 }
             }
-            //t.owner_tid   = appIdentity.tenant_id.ToInt64();
             t.add_time = DateTime.Now.ToUtcSeconds();
-            //t.from_app_id = appIdentity.app_id;
-
         }
     }
 }

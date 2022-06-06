@@ -12,25 +12,25 @@
 #endregion
 
 using OSS.Common;
-using OSS.Common.Resp;
 using OSS.Common.Extension;
+using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Domain.Extension;
+using OSS.Core.Domain;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Shared.IService;
 using OSS.Core.Service;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
-namespace OSS.Core.Services.Basic.Portal
+namespace OSS.Core.Portal.Service.User
 {
     /// <summary>
     ///  用户服务
     /// </summary>
-    public class UserService : BaseService, ISharedUserService
+    public class UserService : BaseService, IUserService
     {
 
         private static readonly IUserInfoRep _userRep = InsContainer<IUserInfoRep>.Instance;
-        
+
         /// <summary>
         ///  直接添加用户（管理员权限
         /// </summary>
@@ -60,7 +60,7 @@ namespace OSS.Core.Services.Basic.Portal
                     return new Resp<long>().WithResp(checkMobileRes);
             }
 
-            user.InitialBaseFromContext();
+            user.FormatBaseByContext();
 
             return await _userRep.Add(user);
         }

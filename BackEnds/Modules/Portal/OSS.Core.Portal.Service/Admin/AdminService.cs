@@ -15,11 +15,11 @@ using OSS.Common;
 using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Domain.Extension;
+using OSS.Core.Domain;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Shared.IService;
 
-namespace OSS.Core.Services.Basic.Portal
+namespace OSS.Core.Portal.Service.Admin
 {
     /// <summary>
     ///  管理员服务
@@ -52,7 +52,7 @@ namespace OSS.Core.Services.Basic.Portal
 
 
         #endregion
-        
+
         /// <summary>
         ///  添加管理员
         /// </summary>
@@ -77,7 +77,8 @@ namespace OSS.Core.Services.Basic.Portal
                 return new Resp<long>().WithResp(exitAdminRes);
 
             // 执行添加
-            admin.InitialBaseFromContext();
+            admin.FormatBaseByContext();
+
             admin.avatar = userRes.data.avatar;
 
             return await _adminRep.Add(admin);
@@ -93,7 +94,7 @@ namespace OSS.Core.Services.Basic.Portal
         {
             return _adminRep.SearchAdmins(req);
         }
-        
+
         /// <summary>
         /// 修改锁定状态
         /// </summary>
