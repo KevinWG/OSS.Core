@@ -21,39 +21,36 @@ using OSS.Core.Portal.Shared.IService;
 using OSS.Core.Service;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
-namespace OSS.Core.Portal.Service.User
+namespace OSS.Core.Portal.Service
 {
     /// <summary>
     ///  用户服务
     /// </summary>
     public class UserService : BaseService, IUserService
     {
-
         private static readonly IUserInfoRep _userRep = InsContainer<IUserInfoRep>.Instance;
 
-        /// <summary>
-        ///  直接添加用户（管理员权限
-        /// </summary>
-        /// <param name="user"></param>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public async Task<Resp<long>> AddUser(UserInfoMo user)
         {
+            // todo 修改直接调用 Auth接口 完成逻辑（不需要验证码但判断重复）注册处理
             if (!string.IsNullOrEmpty(user.email))
             {
-                var checkEmailRes = await InsContainer<ISharedPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
+                var checkEmailRes = await InsContainer<IAuthService>.Instance.CheckIfCanReg(new PortalNameReq()
                 {
-                    type = PortalCodeType.Email,
+                    type = PortalType.Email,
                     name = user.email
                 });
+
                 if (!checkEmailRes.IsSuccess())
                     return new Resp<long>().WithResp(checkEmailRes);
             }
 
             if (!string.IsNullOrEmpty(user.mobile))
             {
-                var checkMobileRes = await InsContainer<ISharedPortalService>.Instance.CheckIfCanReg(new PortalNameReq()
+                var checkMobileRes = await InsContainer<IAuthService>.Instance.CheckIfCanReg(new PortalNameReq()
                 {
-                    type = PortalCodeType.Mobile,
+                    type = PortalType.Mobile,
                     name = user.mobile
                 });
                 if (!checkMobileRes.IsSuccess())
@@ -65,57 +62,44 @@ namespace OSS.Core.Portal.Service.User
             return await _userRep.Add(user);
         }
 
-        /// <summary>
-        ///  修改基础信息
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public Task<Resp> ChangeMyBasic(UpdateUserBasicReq req)
         {
             var checkRes = ValidateReq(req);
+
             if (!checkRes.IsSuccess())
-            {
                 return Task.FromResult(checkRes);
-            }
+            
             return _userRep.UpdateBasicInfo(CoreContext.User.Identity.id.ToInt64(), req.avatar, req.nick_name);
         }
 
-        /// <summary>
-        ///  获取租户平台下的用户列表
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public async Task<PageListResp<UserInfoMo>> SearchUsers(SearchReq req)
         {
             return await _userRep.SearchUsers(req);
         }
 
 
-        /// <summary>
-        /// 获取我的用户信息
-        /// </summary>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public Task<Resp<UserBasicMo>> GetMyInfo()
         {
             return GetUserById(CoreContext.User.Identity.id.ToInt64());
         }
 
-        /// <summary>
-        ///   获取用户信息（管理员权限
-        /// </summary>
-        /// <returns></returns>
+        ///<inheritdoc/>
         public async Task<Resp<UserBasicMo>> GetUserById(long userId)
         {
             var getRes = await _userRep.GetById(userId);
-            return new Resp<UserBasicMo>().WithResp(getRes, UserInfoMoMaps.ConvertToMo, "获取用户信息失败！");
+
+            if (!getRes.IsSuccess())
+                return new Resp<UserBasicMo>().WithResp(getRes, "获取用户信息失败！");
+
+            getRes.data.pass_word = string.Empty;
+            return new Resp<UserBasicMo>(getRes.data);
         }
 
-        /// <summary>
-        ///  修改锁定状态
-        /// </summary>
-        /// <param name="uId"></param>
-        /// <param name="makeLock"></param>
-        /// <returns></returns>
+
+        ///<inheritdoc/>
         public async Task<Resp> ChangeLockStatus(long uId, bool makeLock)
         {
             return await _userRep.UpdateStatus(uId, makeLock ? UserStatus.Locked : UserStatus.Normal);

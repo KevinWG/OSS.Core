@@ -25,11 +25,7 @@ public class UserInfoRep : BasePortalRep<UserInfoRep, UserInfoMo,long>, IUserInf
         return "b_portal_user";
     }
 
-    /// <summary>
-    ///  获取平台列表
-    /// </summary>
-    /// <param name="search"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<PageListResp<UserInfoMo>> SearchUsers(SearchReq search)
     {
         return SimpleSearch(search);
@@ -52,26 +48,15 @@ public class UserInfoRep : BasePortalRep<UserInfoRep, UserInfoMo,long>, IUserInf
         return base.BuildSimpleSearch_FilterItemSql(key, value, sqlParas);
     }
         
-    /// <summary>
-    ///  获取用户信息
-    /// </summary>
-    /// <param name="name"></param>
-    /// <param name="type"></param>
-    /// <returns></returns>
-    public Task<Resp<UserInfoMo>> GetUserByLoginType(string name, PortalCodeType type)
+    /// <inheritdoc />
+    public Task<Resp<UserInfoMo>> GetUserByLoginType(string name, PortalType type)
     {
-        return type == PortalCodeType.Mobile
+        return type == PortalType.Mobile
             ? Get(u => u.mobile == name && u.status >= UserStatus.Locked)
             : Get(u => u.email == name && u.status >= UserStatus.Locked);
     }
-        
-    /// <summary>
-    ///  修改用户登录信息
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="type"></param>
-    /// <param name="name"></param>
-    /// <returns></returns>
+
+    /// <inheritdoc />
     public Task<Resp> UpdatePortalByType(long id, PortalCodeType type, string name)
     {
         var userKey = string.Concat(PortalConst.CacheKeys.Portal_User_ById, id);
@@ -94,12 +79,7 @@ public class UserInfoRep : BasePortalRep<UserInfoRep, UserInfoMo,long>, IUserInf
     }
 
 
-    /// <summary>
-    ///  修改用户状态
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="state"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<Resp> UpdateStatus(long id, UserStatus state)
     {
         var userKey = string.Concat(PortalConst.CacheKeys.Portal_User_ById, id);
@@ -108,13 +88,7 @@ public class UserInfoRep : BasePortalRep<UserInfoRep, UserInfoMo,long>, IUserInf
     }
 
 
-    /// <summary>
-    ///  修改基础信息
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="avatar"></param>
-    /// <param name="nickName"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<Resp> UpdateBasicInfo(long id, string avatar, string nickName)
     {
         var userKey = string.Concat(PortalConst.CacheKeys.Portal_User_ById, id);

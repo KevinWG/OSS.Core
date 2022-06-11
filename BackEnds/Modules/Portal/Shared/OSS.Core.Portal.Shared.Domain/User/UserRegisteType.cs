@@ -39,9 +39,7 @@ namespace OSS.Core.Portal.Domain
         /// </summary>
         ThirdFollow = 50,
     }
-
-
-
+    
     /// <summary>
     ///  可发送code类型
     /// </summary>

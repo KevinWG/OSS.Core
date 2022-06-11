@@ -1,11 +1,12 @@
 ﻿using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Portal.Domain;
+using OSS.Core.Portal.Shared.IService;
 using OSS.Core.Services.Basic.Portal.Reqs;
 
-namespace OSS.Core.Portal.Service.User;
+namespace OSS.Core.Portal.Service;
 
-public interface IUserService
+public interface IUserService : ISharedUserService
 {
     /// <summary>
     ///  直接添加用户（管理员权限
@@ -33,13 +34,7 @@ public interface IUserService
     /// </summary>
     /// <returns></returns>
     Task<Resp<UserBasicMo>> GetMyInfo();
-
-    /// <summary>
-    ///   获取用户信息（管理员权限
-    /// </summary>
-    /// <returns></returns>
-    Task<Resp<UserBasicMo>> GetUserById(long userId);
-
+    
     /// <summary>
     ///  修改锁定状态
     /// </summary>
@@ -47,4 +42,5 @@ public interface IUserService
     /// <param name="makeLock"></param>
     /// <returns></returns>
     Task<Resp> ChangeLockStatus(long uId, bool makeLock);
+
 }

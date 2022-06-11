@@ -19,12 +19,12 @@ using OSS.Core.Domain;
 using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Shared.IService;
 
-namespace OSS.Core.Portal.Service.Admin
+namespace OSS.Core.Portal.Service
 {
     /// <summary>
     ///  管理员服务
     /// </summary>
-    public class AdminService
+    public class AdminService: IAdminService
     {
         private static readonly IAdminInfoRep _adminRep = InsContainer<IAdminInfoRep>.Instance;
 
@@ -52,7 +52,7 @@ namespace OSS.Core.Portal.Service.Admin
 
 
         #endregion
-
+        
         /// <summary>
         ///  添加管理员
         /// </summary>
@@ -116,5 +116,13 @@ namespace OSS.Core.Portal.Service.Admin
         {
             return _adminRep.SetAdminType(uId, adminType);
         }
+
+        /// <inheritdoc/>
+        public Task<Resp<AdminInfoMo>> GetAdminByUId(long userId)
+        {
+            return _adminRep.GetAdminByUId(userId);
+        }
+        
+
     }
 }

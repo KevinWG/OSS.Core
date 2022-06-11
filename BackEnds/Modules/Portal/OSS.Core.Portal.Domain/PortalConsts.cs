@@ -29,5 +29,14 @@ namespace OSS.Core.Portal.Domain
             public const string Portal_UserReg = "Portal_UserReg";
         }
 
+
+        public  static class CookieKeys
+        {
+            /// <summary>
+            ///     用户验证cookie名称
+            /// </summary>
+            public const string UserCookieName = "u_cn";
+        }
+
     }
 }

@@ -12,8 +12,4 @@
     <ProjectReference Include="..\OSS.Core.Portal.Service\OSS.Core.Portal.Service.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

@@ -11,19 +11,20 @@
 
 #endregion
 
-using OSS.Common;
 using OSS.Common.Encrypt;
 using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Extension;
 using OSS.Core.Portal.Domain;
-using OSS.Core.Portal.Service;
 using OSS.Core.Portal.Service.Common.Helpers;
 using OSS.Core.Portal.Shared.IService;
 
-namespace OSS.Core.Services.Basic.Portal
+namespace OSS.Core.Portal.Service
 {
-    public partial class PortalService : BasePortalService, ISharedPortalService
+    /// <summary>
+    ///  授权验证服务
+    /// </summary>
+    public class AuthService : BaseAuthService, IAuthService
     {
         #region 获取登录认证信息
 
@@ -83,7 +84,7 @@ namespace OSS.Core.Services.Basic.Portal
         /// <returns></returns>
         public async Task<Resp> CheckIfCanReg(PortalNameReq req)
         {
-            var userRes = await  InsContainer<IUserInfoRep>.Instance.GetUserByLoginType(req.name, req.type);
+            var userRes = await m_PortalRep.GetUserByLoginType(req.name, req.type);
             if (userRes.IsRespType(RespTypes.OperateObjectNull))
                 return new Resp();
 
@@ -106,7 +107,7 @@ namespace OSS.Core.Services.Basic.Portal
             var checkRes = await CheckIfCanReg(req);
             if (!checkRes.IsSuccess()) return new PortalTokenResp().WithResp(checkRes); // checkRes.ConvertToResultInherit<PortalTokenResp>();
 
-            var userInfo = GetRegisterUserInfo(req.name, req.password, req.type.ToPortalType());
+            var userInfo = GetRegisterUserInfo(req.name, req.password, req.type);
 
             userInfo.status = UserStatus.WaitActive;//  默认待激活状态
             return await RegFinallyExecute(userInfo, req.is_social_bind);
@@ -134,7 +135,7 @@ namespace OSS.Core.Services.Basic.Portal
 
         private async Task<PortalTokenResp> PwdLogin(PortalPasswordReq req, bool isAdmin)
         {
-            var userRes = await InsContainer<IUserInfoRep>.Instance.GetUserByLoginType(req.name, req.type);
+            var userRes = await m_PortalRep.GetUserByLoginType(req.name, req.type);
             if (userRes.IsSuccess())
             {
                 var user = userRes.data;
@@ -143,6 +144,7 @@ namespace OSS.Core.Services.Basic.Portal
                     return await LoginFinallyExecute(user, isAdmin, req.is_social_bind);
                 }
             }
+
             return new PortalTokenResp(RespTypes.ParaError, "账号密码不正确！");
         }
 

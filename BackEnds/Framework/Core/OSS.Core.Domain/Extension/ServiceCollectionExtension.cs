@@ -12,7 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </summary>
         /// <typeparam name="TR"></typeparam>
         /// <param name="serviceCollection"></param>
-        public static void Register<TR>(this IServiceCollection serviceCollection) where TR : ModuleStarter, new()
+        public static void Register<TR>(this IServiceCollection serviceCollection) where TR : AppStarter, new()
         {
             new TR().Start(serviceCollection);
         }

@@ -23,13 +23,13 @@ namespace OSS.Core.Portal.Shared.IService
         /// <summary>
         /// 登录注册类型
         /// </summary>
-        public PortalCodeType type { get; set; }
+        public PortalType type { get; set; }
 
         /// <summary>
         /// 手机号 或者 邮箱
         /// </summary>
         [Required(ErrorMessage = "请填写账号信息!")]
-        public string? name { get; set; }
+        public string name { get; set; } =string.Empty;
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ namespace OSS.Core.Portal.Shared.IService
                 return new Resp(RespTypes.ParaError, "未知的账号类型！");
 
             var validator = new DataTypeAttribute(
-                req.type == PortalCodeType.Mobile
+                req.type == PortalType.Mobile
                     ? DataType.PhoneNumber
                     : DataType.EmailAddress);
 
@@ -105,13 +105,13 @@ namespace OSS.Core.Portal.Shared.IService
 
         public PortalTokenResp(RespTypes result, string message)
         {
-            ret = (int)result;
+            code = (int)result;
             msg = message;
         }
 
         /// <summary>
         ///  用户Token信息
         /// </summary>
-        public string? token { get; set; }
+        public string token { get; set; } = string.Empty;
     }
 }

@@ -3,7 +3,7 @@ using OSS.Core.Context;
 
 namespace OSS.Core.Portal.Shared.IService;
 
-    public interface ISharedPortalService
+    public interface ISharedAuthService
     {
         /// <summary>
         ///  获取登录用户自己信息

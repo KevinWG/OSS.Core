@@ -23,7 +23,7 @@ namespace OSS.Core.Portal.Domain
         /// <summary>
         ///  修改管理员状态
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="uId"></param>
         /// <param name="adminStatus"></param>
         /// <returns></returns>
         Task<Resp> UpdateStatus(long uId, AdminStatus adminStatus);

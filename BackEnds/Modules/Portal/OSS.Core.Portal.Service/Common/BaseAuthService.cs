@@ -6,18 +6,18 @@ using OSS.Core.Portal.Domain;
 using OSS.Core.Portal.Service.Common.Helpers;
 using OSS.Core.Portal.Shared.IService;
 using OSS.Core.Service;
-using OSS.DataFlow;
 
 namespace OSS.Core.Portal.Service
 {
     /// <summary>
     ///  登录授权服务
     /// </summary>
-    public class BasePortalService : BaseService
+    public class BaseAuthService : BaseService
     {
-        #region 注册登录辅助方法
+        // 当前Service管理 user 表特定登录字段在，后期可拆分独立表处理
+        protected static readonly IUserInfoRep m_PortalRep = InsContainer<IUserInfoRep>.Instance;
         
-        private static readonly IDataPublisher _publisher = DataFlowFactory.CreatePublisher();
+        #region 注册登录辅助方法
 
         /// <summary>
         ///  登录最终执行方法
@@ -42,7 +42,6 @@ namespace OSS.Core.Portal.Service
             if (!identityRes.IsSuccess())
                 return new PortalTokenResp().WithResp(identityRes);
             
-            await _publisher.Publish(  PortalConst.DataFlowMsgKeys.Portal_UserReg, identityRes.data);
             return PortalTokenHelper.GeneratePortalToken(identityRes.data);
         }
 
@@ -72,7 +71,7 @@ namespace OSS.Core.Portal.Service
             if (string.IsNullOrEmpty(user.nick_name))
                 user.nick_name = string.Concat("会员-", user.mobile ?? user.email);
 
-            var idRes = await InsContainer<IUserInfoRep>.Instance.Add(user);
+            var idRes = await m_PortalRep.Add(user);
             if (!idRes.IsSuccess())
                 return new PortalTokenResp().WithResp(idRes, "创建注册用户失败!");
 
@@ -82,10 +81,11 @@ namespace OSS.Core.Portal.Service
                 : new PortalTokenResp().WithResp(identityRes);
         }
 
-        protected static UserInfoMo GetRegisterUserInfo(string value, string passWord, PortalType type)
+        protected static UserInfoMo GetRegisterUserInfo(string? value, string? passWord, PortalType type)
         {
             var userInfo = new UserInfoMo();
-            userInfo.InitialBaseFromContext();
+
+            userInfo.FormatBaseByContext();
 
             switch (type)
             {

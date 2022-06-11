@@ -19,7 +19,7 @@ namespace OSS.Core.Portal.Domain
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        Task<Resp<UserInfoMo>> GetUserByLoginType(string name, PortalCodeType type);
+        Task<Resp<UserInfoMo>> GetUserByLoginType(string name, PortalType type);
 
         /// <summary>
         ///  修改用户登录信息

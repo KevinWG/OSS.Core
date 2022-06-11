@@ -22,8 +22,6 @@ namespace OSS.Core.Context.Attributes
             return app.UseMiddleware<CoreExceptionMiddleware>();
         }
 
-
-
         /// <summary>
         /// 初始化 Core 全局上下文初始化中间件
         /// </summary>

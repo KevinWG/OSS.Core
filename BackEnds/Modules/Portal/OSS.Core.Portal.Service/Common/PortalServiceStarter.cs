@@ -1,20 +1,18 @@
-﻿
-using Microsoft.Extensions.DependencyInjection;
-
+﻿using Microsoft.Extensions.DependencyInjection;
 using OSS.Common;
-
-using OSS.Core.Portal.Service.User;
-using OSS.Core.Portal.Shared.IService;
-using OSS.Core.Services.Basic.Portal;
 
 namespace OSS.Core.Portal.Service;
 
-public class PortalServiceStarter : ModuleStarter
+/// <summary>
+///   门户服务端启动注册
+/// </summary>
+public class PortalServiceStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
-        InsContainer<ISharedPortalService>.Set<PortalService>();
-        InsContainer<ISharedUserService>.Set<UserService>();
+        InsContainer<IAuthService>.Set<AuthService>();
+        InsContainer<IUserService>.Set<UserService>();
+        InsContainer<IAdminService>.Set<AdminService>();
     }
 }
-
+ 

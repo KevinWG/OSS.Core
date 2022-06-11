@@ -11,8 +11,8 @@
 
 #endregion
 
-using System.Text.Json.Serialization;
 
+using OSS.Core.Domain;
 
 namespace OSS.Core.Portal.Domain
 {
@@ -21,42 +21,38 @@ namespace OSS.Core.Portal.Domain
         /// <summary>
         /// 密码
         /// </summary>
-        [JsonIgnore]
-        public string pass_word { get; set; }
-
-        ///// <summary>
-        ///// 应用版本号
-        ///// </summary>
-        //public string app_version { get; set; }
+        public string? pass_word { get; set; }
     }
-
-
-
-    public static class UserInfoMoMaps
+    public class UserBasicMo : BaseOwnerMo<long>
     {
         /// <summary>
-        ///  BigMo转化为Mo
-        ///    主要防止直接返回BigMo附带用户密码，来源渠道等字段
+        ///  昵称
         /// </summary>
-        /// <param name="io"></param>
-        /// <returns></returns>
-        public static UserBasicMo ConvertToMo(this UserInfoMo io)
-        {
-            var userInfo = new UserBasicMo
-            {
-                email = io.email,
-                nick_name = io.nick_name,
-                avatar = io.avatar,
-                mobile = io.mobile,
-                id = io.id,
+        public string? nick_name { get; set; }
 
-                add_time = io.add_time,
-                status = io.status,
-                //from_app_id = io.from_app_id,
-            };
-            return userInfo;
-        }
+        ///// <summary>
+        /////  注册类型
+        ///// </summary>
+        //public RegLoginType reg_type { get; set; }
 
+        /// <summary>
+        ///  头像信息
+        /// </summary>
+        public string? avatar { get; set; }
 
+        /// <summary>
+        ///  邮件地址
+        /// </summary>
+        public string? email { get; set; }
+
+        /// <summary> 
+        ///  手机号
+        /// </summary>
+        public string? mobile { get; set; }
+
+        /// <summary>
+        ///  用户状态
+        /// </summary>
+        public UserStatus status { get; set; }
     }
 }

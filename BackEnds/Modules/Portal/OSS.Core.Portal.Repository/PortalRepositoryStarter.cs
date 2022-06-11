@@ -6,7 +6,7 @@ using OSS.Core.Portal.Domain;
 
 namespace OSS.Core.Portal.Repository
 {
-    public class PortalRepositoryStarter:ModuleStarter
+    public class PortalRepositoryStarter:AppStarter
     {
         public override void Start(IServiceCollection serviceCollection)
         {
