@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Core\Repository\OSS.Core.Rep.Dapper.Mysql\OSS.Core.Rep.Dapper.Mysql.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Notify.Domain.Opened\OSS.Core.Module.Notify.Domain.Opened.csproj" />
+  </ItemGroup>
+
+</Project>

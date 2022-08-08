@@ -1,8 +1,0 @@
-/lambda/
-/scripts
-/config
-.history
-build/*.js
-public
-dist
-src

@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Core\Repository\OSS.Core.Rep.Dapper.Mysql\OSS.Core.Rep.Dapper.Mysql.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Portal.Domain\OSS.Core.Module.Portal.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

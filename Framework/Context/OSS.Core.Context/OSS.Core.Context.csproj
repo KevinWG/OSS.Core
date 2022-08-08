@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <TargetFramework>net6.0</TargetFramework>
+	  <ImplicitUsings>enable</ImplicitUsings>
+	  <Nullable>enable</Nullable>
+    <Description>OSS.Core 全局上下文基础类库</Description>
+    <Version>2.5</Version>
+    <PackageReleaseNotes>优化结果实例</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\OSS.Core.Context.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin/OSS.Core.Context.xml</DocumentationFile>
+  </PropertyGroup>
+
+	<ItemGroup>
+    <PackageReference Include="OSS.Common" Version="6.1.2" />
+  </ItemGroup>
+
+</Project>

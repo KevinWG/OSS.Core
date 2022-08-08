@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Modules\Portal\OSS.Core.Module.Portal.Service.Opened\OSS.Core.Module.Portal.Service.Opened.csproj" />
+    <ProjectReference Include="..\..\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
+    <ProjectReference Include="..\..\Extension\OSS.Core.Extension.Mvc.Configuration\OSS.Core.Extension.Mvc.Configuration.csproj" />
+  </ItemGroup>
+
+</Project>
