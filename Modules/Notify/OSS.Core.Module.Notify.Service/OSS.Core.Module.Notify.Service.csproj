@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="OSS.Clients.SMS.HW" Version="1.0.0" />
+    <PackageReference Include="OSS.Tools.DirConfig" Version="1.2.0" />
+    <PackageReference Include="OSS.Tools.Http" Version="2.6.1" />
+    <PackageReference Include="OSS.Tools.Log" Version="1.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Service\OSS.Core.Service.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.PassToken\OSS.Core.Extension.PassToken.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Notify.Domain\OSS.Core.Module.Notify.Domain.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Notify.Service.Opened\OSS.Core.Module.Notify.Service.Opened.csproj" />
+  </ItemGroup>
+
+</Project>

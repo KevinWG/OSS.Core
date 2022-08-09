@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Version>0.0.1</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Extension\OSS.Core.Extension.PassToken\OSS.Core.Extension.PassToken.csproj" />
+    <ProjectReference Include="..\OSS.Core.Domain\OSS.Core.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

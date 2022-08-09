@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GenerateDocumentationFile>True</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.WebApi\OSS.Core.WebApi.csproj" />
+    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Mvc.Captcha.Ali\OSS.Core.Extension.Mvc.Captcha.Ali.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Portal.Repository\OSS.Core.Module.Portal.Repository.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Portal.Service\OSS.Core.Module.Portal.Service.csproj" />
+  </ItemGroup>
+
+</Project>
