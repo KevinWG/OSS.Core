@@ -1,7 +1,5 @@
 # OSS.Core
-一个完整的.Net Core 领域模块化框架项目。
-
-系统层级上分为：
+一个完整的.Net Core 领域模块化框架项目。系统层级上分为：
 1. 前段交互层（在 FrontEnds 文件夹），提供用户交互界面
 2. 模块服务层（在 Modules 文件夹），提供业务逻辑接口
 
@@ -70,10 +68,10 @@
 ----OSS.Core.Comp.DirConfig.Mysql 基于Mysql的字典配置管理组件。
 
 ### 独立开源组件
-	除了以上核心的解决方案框架，本系统在底层已经使用，或将来会使用：
-	1. [![OSS.Tools]](https://gitee.com/KevinW/OSS.Tools)，通用工具中间件，分别包含：缓存，配置，日志，定时器，网络请求 中间件
-	2. [OSS.DataFlow](https://gitee.com/KevinW/oss.dataflow)， 异步消息中间件
-	3. [OSS.PipeLine](https://gitee.com/KevinW/OSS.PipeLine)， 流程引擎框架
-	3. [OSS.Clients.Pay](https://gitee.com/KevinW/OSS.Clients.Pay), 支付相关客户端SDK
-	4. [OSS.Clients.SNS](https://gitee.com/KevinW/OSS.Clients.SNS), 社交相关客户端SDK
+除了以上核心的解决方案框架，本系统在底层已经使用，或将来会使用：
+1. [OSS.Tools](https://gitee.com/KevinW/OSS.Tools)，通用工具中间件，分别包含：缓存，配置，日志，定时器，网络请求 中间件
+2. [OSS.DataFlow](https://gitee.com/KevinW/oss.dataflow)， 异步消息中间件
+3. [OSS.PipeLine](https://gitee.com/KevinW/OSS.PipeLine)， 流程引擎框架
+3. [OSS.Clients.Pay](https://gitee.com/KevinW/OSS.Clients.Pay), 支付相关客户端SDK
+4. [OSS.Clients.SNS](https://gitee.com/KevinW/OSS.Clients.SNS), 社交相关客户端SDK
 
