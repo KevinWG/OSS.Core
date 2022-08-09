@@ -1,9 +1,9 @@
 # OSS.Core
-<font size=7 >
-一个完整的.Net Core 领域模块化框架项目。系统层级上分为：<br>
-1. 前段交互层（在 FrontEnds 文件夹），提供用户交互界面<br>
+
+<font size=7 >一个完整的.Net Core 领域模块化框架项目。系统层级上分为：</font><br>
+<font size=1>1. 前段交互层（在 FrontEnds 文件夹），提供用户交互界面</font><br>
 2. 模块服务层（在 Modules 文件夹），提供业务逻辑接口<br>
-</font>
+
 
 ### 实现模块
 
