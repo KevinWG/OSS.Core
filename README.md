@@ -6,21 +6,22 @@
 ### 已实现常规模块
 
 1. Portal 用户门户<br>
-	用户登录注册，支持以下方式自由组合：
->用户类型：管理员，用户
->账号类型：手机号，邮箱，第三方（待完善）
+用户登录注册，支持以下方式自由组合：<br>
+>用户类型：管理员，用户<br>
+>账号类型：手机号，邮箱，第三方（待完善）<br>
 >登录方式：密码，动态码，扫码（进行中），Oauth（待完善），小程序（待完善）
 
-	同时还包括:用户/管理员管理，权限码管理，角色管理，以及登录动态码相关模板配置。
-<br>
-2. Notify 通知服务
-	主要包含通知模板管理，通知渠道（已接通华为云短信服务，阿里云短信服务进行中，邮箱使用stmp协议，同时为方便调试，提供系统测试通道，发送后会返回具体发送内容到交互端）<br>
-	通知发送记录（待完善）
+同时还包括:用户/管理员管理，权限码管理，角色管理，以及登录动态码相关模板配置。<br>
+
+2. Notify 通知服务<br>
+	主要包含通知模板管理，通知渠道（已接通华为云短信服务，阿里云短信服务进行中，邮箱使用stmp协议）<br>
+	同时为方便调试，提供系统测试通道，发送后会返回具体发送内容到交互端
+	
 
 ### 安装调试
 
 1. 数据库脚本见 **Docs/oss.core.sql**，默认登录账号：admin@osscore.com    111111 
-2. 服务接口层 
+2. 服务接口层 <br>
 	正常微服务模块相互之间可以独立部署，为了方便学习，提供了单点入口项目 OSS.Core.Module.All.WebApi ，直接运行即可（如果需要独立模块处理的，修改对应其他模块的client通过Http访问即可。）<br>
 		在仓储层因为使用了读写分离，配置 appsettings.json 的连接串时配置如下节点（或者配合仓储层自行定义）：<br>
 ```
@@ -29,32 +30,32 @@
 	"ReadConnection": 读连接串
 }
 ```
-3. 交互层-管理端 （在 ** FrontEnds\AdminSite ** 目录）
-		本地调试请配置 /config/proxy.ts 对应的代理接口地址。当前项目使用AntDesignPro框架，不熟悉如何调试运行的需要先行学习。<br>
+3. 交互层-管理端 （在 ** FrontEnds\AdminSite ** 目录）<br>
+	本地调试请配置 /config/proxy.ts 对应的代理接口地址。当前项目使用AntDesignPro框架，不熟悉如何调试运行的需要先行学习。
 		
 ### 系统解决方案框架：
 这里主要是介绍服务层解决方案框架，在Framework文件夹。通过目录结构展示如下：
 
 >Context 上下文
->>OSS.Core.Context 	    全局上下文（App，Tenant，User），通过全局 CoreContext 静态类访问。
+>>OSS.Core.Context 	    全局上下文（App，Tenant，User），通过全局 CoreContext 静态类访问。<br>
 >>OSS.Core.Context.Attributes   	  上下文请求拦截中间件扩展处理
 
 >Extension 
->>OSS.Core.Extension.Cache      针对全局IResp接口的缓存方法扩展
->>OSS.Core.Extension.PassToken    全局行级数据安全通行码扩展方法
+>>OSS.Core.Extension.Cache      针对全局IResp接口的缓存方法扩展<br>
+>>OSS.Core.Extension.PassToken    全局行级数据安全通行码扩展方法<br>
 >>OSS.Core.Extension.Mvc.Configuration    Config配置全局扩展
 
 >>Captcha （验证码）
->>>>OSS.Core.Extension.Mvc.Captcha   验证码请求拦截中间件扩展（人机校验）
+>>>>OSS.Core.Extension.Mvc.Captcha   验证码请求拦截中间件扩展（人机校验）<br>
 >>>>OSS.Core.Extension.Mvc.Captcha.Ali   阿里云验证码请求拦截中间件扩展实现
 
 >Core  核心模块
->>OSS.Core.Domain  核心框架 - 领域实体（根）基础类库
->>OSS.Core.Service 核心框架 - 领域服务逻辑层基础类库
+>>OSS.Core.Domain  核心框架 - 领域实体（根）基础类库<br>
+>>OSS.Core.Service 核心框架 - 领域服务逻辑层基础类库<br>
 >>OSS.Core.WebApi  核心框架 - 领域协议层（WebApi）基础类库
 
 >>Repository 仓储
->>>OSS.Core.Rep.Dapper 仓储层基础封装（基于开源Dapper类库）
+>>>OSS.Core.Rep.Dapper 仓储层基础封装（基于开源Dapper类库）<br>
 >>>OSS.Core.Rep.Dapper.Mysql   基于Mysql的仓储层进一步封装
 
 >>Opened
