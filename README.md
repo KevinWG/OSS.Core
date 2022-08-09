@@ -1,72 +1,73 @@
 ## OSS.Core
-一个完整的.Net Core 领域框架项目。
-还在初级实现中，将会串通OSS.Social 和 OSS.PayCenter SDK，敬请期待！
+一个完整的.Net Core 领域模块化框架项目。
+系统层级上分为：
+1. 前段交互层（在 FrontEnds 文件夹），提供用户交互界面
+2. 模块服务层（在 Modules 文件夹），提供业务逻辑接口
 
+#### 实现模块
 
-### 架构介绍
+1. Portal 用户门户
+	用户登录注册，支持以下方式自由组合：
+		用户类型：管理员，用户
+		账号类型：手机号，邮箱，第三方（待完善）
+		登录方式：密码，动态码，扫码（进行中），Oauth（待完善），小程序（待完善）
+	同时还包括:用户/管理员管理，权限码管理，角色管理，以及登录动态码相关模板配置。
 
-整体项目划分三层
-交互层==用户交互端
-服务层==服务接口，核心业务逻辑实现及接口
-平台层==公用基础支撑，提供系统延展提升
+2. Notify 通知服务
+	主要包含通知模板管理，通知渠道（已接通华为云短信服务，阿里云短信服务进行中，邮箱使用stmp协议，同时为方便调试，提供系统测试通道，发送后会返回具体发送内容到交互端）
+	通知发送记录（待完善）
 
-#### 交互层
+#### 安装
 
- 在**FrontEnds**文件夹中
-	Admin 管理端交互界面
-		ClientApp -- 使用ant design pro搭建的后台页面，发布时挂在接口站点的ClientApp下即可。
-
-
-#### 接口服务层
-
-这一层和核心的业务逻辑层，以及对外的接口提供。
-水平业务方向：
-    以领域模型为基础，做水平层面的切割，单体解决方案下通过文件夹的形式，划分各服务领域模块，主要是两层文件结构：
-	一. 首层结构根据业务关系划分：
-		1. Basic 基础服务业务模块，也是全局业务模块，如相关的用户，权限等
-		2. Core 核心服务业务模块，比如商品，订单
-		3. Plugs 独立插件模块，和抽象后也具体业务无关的通用服务，如日志，文件等
-	二. 首层下的第二层，主要为领域服务
-		如 权限（permit），文件（File）等，领域之间相互独立。
-
-垂直系统方向结构和职能如下：
-	OSS.Core.RepDapper -- 项目的数据仓储层（当前使用的是 Dapper+Mysql 形式）。
-		为上层数据读写等提供支撑，可以替换 其他ORM+数据库 实现方式		
-	OSS.Core.Services -- 核心业务逻辑层，主要实现领域业务逻辑。
-	OSS.Core.WebApi -- 提供对外接口实现，参数验证，应用授权验证等
-
-	OSS.Core.Context -- 系统上下文管理，主要包含：
-		1. CoreAppContext  
-		   应用请求上下文管理，包含当前请求的 AppId，以及对应的相关租户Id，签名密钥等
-		2. CoreTenantContext 
-			租户上下文信息，租户的基本信息
-		3. CoreUserContext 
-			主要是当前请求的授权用户上下文信息
-
-	OSS.Core.Infrastructure
-		项目通用基础类库，主要包含基础实体，辅助类。
-
-其他文件夹：
-**Tests** -- 单元测试层
-**Docs** -- 辅助文档，初始化脚本
-
-权限列表配置文件在：/configs/sys_func_list.config
-
-#### 平台层
-
-来自于通用功能的下沉抽象，如：<https://github.com/KevinWG/OSS.Tools>
-
-#### 部署
-
-1. 数据库脚本在**Docment**文件夹下
-	InitialDataBase.txt -- 初始化数据库
-	TestDataSql.txt  --  初始化默认账号信息
-2. 接口层
-	因为使用了读写分离，需配置 appsettings.json 文件夹下：
+1. 数据库脚本见 **Docs/oss.core.sql**
+2. 服务接口层 
+	正常微服务模块相互之间可以独立部署，为了方便学习，提供了单点入口项目 OSS.Core.Module.All.WebApi ，直接运行即可（如果需要独立模块处理的，修改对应其他模块的client通过Http访问即可。）
+	在仓储层因为使用了读写分离，配置 appsettings.json 的连接串时配置如下节点：
 	 "ConnectionStrings": {
 		"WriteConnection": 写连接串,
 		"ReadConnection": 读连接串
 	  },
-3. 交互层-管理端
-	本地非模拟调试请配置/Admin/ClientApp/config/proxy.ts对应的代理接口地址。
-	默认登录账号：1@osscore.cn    111111
+3. 交互层-管理端 （在 ** FrontEnds\AdminSite ** 目录）
+	本地调试请配置 /config/proxy.ts 对应的代理接口地址。当前项目使用AntDesignPro框架，不熟悉如何调试运行的需要先行学习。
+
+默认登录账号：admin@osscore.com    111111
+
+
+#### 系统解决方案框架：
+ 这里主要是服务层解决方案框架，在Framework文件夹。通过目录结构展示如下：
+
+--Context
+----OSS.Core.Context 	全局上下文（App，Tenant，User），通过全局 CoreContext 静态类访问。
+----OSS.Core.Context.Attributes   	上下文请求拦截中间件扩展处理
+
+
+--Extension 
+----OSS.Core.Extension.Cache  针对全局IResp接口的缓存方法扩展（在OSS.Tools.Cache全局中间件的基础上完成）
+----OSS.Core.Extension.PassToken  全局行级数据安全通行码扩展方法
+----Mvc
+------OSS.Core.Extension.Mvc.Configuration   Config配置全局扩展
+------Captcha
+--------OSS.Core.Extension.Mvc.Captcha   验证码请求拦截中间件扩展（人机校验）
+--------OSS.Core.Extension.Mvc.Captcha.Ali   阿里云验证码请求拦截中间件扩展实现
+
+
+--Core
+----OSS.Core.Domain  核心框架 - 领域实体（根）基础类库
+----OSS.Core.Service 核心框架 - 领域服务逻辑层基础类库
+----OSS.Core.WebApi  核心框架 - 领域协议层（WebApi）基础类库
+----Repository 仓储
+------OSS.Core.Rep.Dapper 仓储层基础封装（基于开源Dapper类库）
+------OSS.Core.Rep.Dapper.Mysql   基于Mysql的仓储层进一步封装
+----Opened
+------OSS.Core.Domain.Opened 核心框架 - 领域实体（根）基础类库的全局公共部分类库
+--Component
+----OSS.Core.Comp.DirConfig.Mysql 基于Mysql的字典配置管理组件。
+
+#### 独立开源组件
+	除了以上核心的解决方案框架，本系统在底层已经使用，或将来会使用：
+	1. [OSS.Tools](https://gitee.com/KevinW/OSS.Tools)，通用工具中间件，分别包含：缓存，配置，日志，定时器，网络请求 中间件
+	2. [OSS.DataFlow](https://gitee.com/KevinW/oss.dataflow)， 异步消息中间件
+	3. [OSS.PipeLine](https://gitee.com/KevinW/OSS.PipeLine)， 流程引擎框架
+	3. [OSS.Clients.Pay](https://gitee.com/KevinW/OSS.Clients.Pay), 支付相关客户端SDK
+	4. [OSS.Clients.SNS](https://gitee.com/KevinW/OSS.Clients.SNS), 社交相关客户端SDK
+

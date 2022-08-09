@@ -92,6 +92,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Docs", "0.Docs", "{5FCA62E9-4FB5-408D-80AE-9B416FD3E1BC}"
 	ProjectSection(SolutionItems) = preProject
 		Docs\oss.core.sql = Docs\oss.core.sql
+		README.md = README.md
 	EndProjectSection
 EndProject
 Global
