@@ -30,10 +30,9 @@ namespace OSS.Core
         ///  用户token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
         /// </summary>
         public static string UserTokenCookieName { get; set; } = "u_cn";
-
         
         /// <inheritdoc />
-        public async Task<IResp> AppAuthorize(AppIdentity appInfo, HttpContext context)
+        public async Task<IResp> Authorize(AppIdentity appInfo, HttpContext context)
         {
             if (appInfo.source_mode != AppSourceMode.OutApp)
             {
@@ -79,8 +78,6 @@ namespace OSS.Core
 
             throw new RespNotImplementException("获取应用秘钥验证未实现");
             
-   
-
             const int expireSecs = 60 * 60 * 2;
             return appIdentity.CheckSign("xxxx秘钥（待实现）", expireSecs);
         }

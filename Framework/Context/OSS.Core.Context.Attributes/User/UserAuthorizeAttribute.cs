@@ -35,41 +35,51 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
             return Resp.DefaultSuccess;
 
-        var appInfo = CoreContext.App.Identity;
-
-        var res = await FormatUserIdentity(_userOption);
-        if (!res.IsSuccess())
+        var appInfo     = CoreContext.App.Identity;
+        var identityRes = await _userOption.UserProvider.GetIdentity();
+        if (!identityRes.IsSuccess())
         {
-            return res;
+            return identityRes;
         }
 
-        return await CheckFunc(appInfo, _userOption);
+        var userIdentity = identityRes.data;
+        CoreContext.User.Identity = userIdentity;
+
+        var funcRes      =await CheckFunc(appInfo, userIdentity, _userOption);
+        if (funcRes.IsSuccess())
+        {
+            userIdentity.data_level = FuncDataLevel.All;
+        }
+
+        return funcRes;
     }
 
-  
+    
 
-
-    private static async Task<IResp> FormatUserIdentity(UserAuthOption opt)
-    {
-        var identityRes = await opt.UserProvider.GetIdentity();
-        if (!identityRes.IsSuccess())
-            return identityRes;
-
-        CoreContext.User.Identity = identityRes.data;
-        return identityRes;
-    }
-
-
-    private static readonly Task<IResp> _successTaskResp = Task.FromResult((IResp) new Resp());
-
-    private static Task<IResp> CheckFunc(AppIdentity appInfo, UserAuthOption opt)
+    private static async Task<IResp<FuncDataLevel>> CheckFunc(AppIdentity appInfo,UserIdentity userIdentity, UserAuthOption opt)
     {
         if (opt.FuncProvider == null)
-            return _successTaskResp;
+            return new Resp<FuncDataLevel>(FuncDataLevel.All);
 
         var askFunc = appInfo.ask_func;
+        if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
+        {
+            return new Resp<FuncDataLevel>(FuncDataLevel.All);
+        }
 
-        return opt.FuncProvider.Authorize(askFunc);
+        if (userIdentity.auth_type > askFunc.auth_type)
+        {
+            switch (userIdentity.auth_type)
+            {
+                case PortalAuthorizeType.SocialAppUser:
+                    return new Resp<FuncDataLevel>().WithResp(RespCodes.UserFromSocial, "需要绑定系统账号");
+                case PortalAuthorizeType.UserWithEmpty:
+                    return new Resp<FuncDataLevel>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
+            }
+            return new Resp<FuncDataLevel>().WithResp(RespCodes.UserNoPermission, "权限不足!");
+        }
+
+        return await opt.FuncProvider.Authorize(askFunc);
     }
 }
 

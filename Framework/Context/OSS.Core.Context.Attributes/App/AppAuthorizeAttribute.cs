@@ -41,7 +41,7 @@ namespace OSS.Core.Context.Attributes
             if (checker != null)
             {
                 // 1. app 内容格式化
-                var res = await checker.AppAuthorize(appIdentity, context.HttpContext);
+                var res = await checker.Authorize(appIdentity, context.HttpContext);
                 if (!res.IsSuccess())
                     return res;
             }

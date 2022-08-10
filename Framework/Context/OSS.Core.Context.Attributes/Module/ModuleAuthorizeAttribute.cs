@@ -24,7 +24,7 @@ namespace OSS.Core.Context.Attributes
             if (appInfo.app_type == AppType.SystemManager || _option.ModuleProvider==null)
                 return AttributeConst.TaskSuccessResp;
 
-            return _option.ModuleProvider.ModuleAuthorize();
+            return _option.ModuleProvider.Authorize();
         }
     }
 

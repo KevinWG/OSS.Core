@@ -5,6 +5,7 @@ namespace OSS.Core.Context.Attributes
 {
     /// <summary>
     ///  应用授权提供者
+    ///     todo 优化Attribute排除HttpContext参数，转移到基础Context类库
     /// </summary>
     public interface IAppAuthProvider
     {
@@ -14,6 +15,6 @@ namespace OSS.Core.Context.Attributes
         /// <param name="context"></param>
         /// <param name="appInfo"></param>
         /// <returns></returns>
-        Task<IResp> AppAuthorize(AppIdentity appInfo,HttpContext context);
+        Task<IResp> Authorize(AppIdentity appInfo,HttpContext context);
     }
 }

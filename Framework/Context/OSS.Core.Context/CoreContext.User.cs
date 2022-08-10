@@ -29,7 +29,6 @@ namespace OSS.Core.Context
                     {
                         throw new RespException(RespCodes.UserUnLogin, "当前用户未登录!");
                     }
-
                     return identity;
                 }
 

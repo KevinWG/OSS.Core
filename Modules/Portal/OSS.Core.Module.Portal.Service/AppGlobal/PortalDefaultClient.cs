@@ -14,3 +14,6 @@ public class PortalDefaultClient : IPortalClient
     public IOpenedAuthService Auth { get; } = SingleInstance<AuthService>.Instance;
 
 }
+
+
+
