@@ -36,12 +36,15 @@ namespace OSS.Core.Context
             identityOwner.MemberIdentity = identity;
         }
 
-
+        /// <summary>
+        /// 获取上下文 (如果不存在，初始化加载
+        /// </summary>
+        /// <returns></returns>
         internal static CoreIdentities GetContext()
         {
             return _items.Value ?? (_items.Value = new CoreIdentities());
         }
-
+        
 
     }
 

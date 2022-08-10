@@ -15,6 +15,14 @@
             get => Provider.Provider; 
             set => Provider.Provider = value;
         }
+
+        /// <summary>
+        ///  初始化上下文容器
+        /// </summary>
+        public static void InitialContextContainer()
+        {
+            ContextHelper.GetContext();
+        }
     }
     
 }

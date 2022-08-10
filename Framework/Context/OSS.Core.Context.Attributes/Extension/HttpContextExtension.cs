@@ -2,7 +2,6 @@
 using OSS.Common;
 using OSS.Common.Extension;
 
-
 namespace OSS.Core.Context.Attributes
 {
     /// <summary>
@@ -49,21 +48,5 @@ namespace OSS.Core.Context.Attributes
             }
             return searchReq;
         }
-
-        /// <summary>
-        ///  初始化当前请求上下文的应用全局信息
-        /// </summary>
-        /// <returns></returns>
-        internal static AppIdentity GetOrInitialCoreAppIdentity(this HttpContext context)
-        {
-            if (CoreContext.App.IsInitialized)
-                return CoreContext.App.Identity;
-
-            var identity = new AppIdentity();
-            CoreContext.App.Identity = identity;
-
-            return identity;
-        }
-
     }
 }

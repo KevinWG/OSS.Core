@@ -15,8 +15,7 @@ namespace OSS.Core.Context.Attributes
         /// <inheritdoc />
         public override Task Invoke(HttpContext context)
         {
-            context.GetOrInitialCoreAppIdentity();
-
+            CoreContext.InitialContextContainer();
             return _next.Invoke(context);
         }
     }

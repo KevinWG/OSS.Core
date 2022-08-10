@@ -29,13 +29,11 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
         {
-            var appIdentity = CoreContext.App.Identity;
-
             var authRes     = await Authorize(context);
 
             if (!authRes.IsSuccess())
             {
-                ResponseExceptionEnd(context, appIdentity, authRes);
+                ResponseExceptionEnd(context,  authRes);
             }
         }
 
@@ -46,13 +44,12 @@ namespace OSS.Core.Context.Attributes
         ///   异常结束响应
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="appInfo"></param>
         /// <param name="res"></param>
-        private static void ResponseExceptionEnd(AuthorizationFilterContext context, AppIdentity appInfo, IResp res)
+        private static void ResponseExceptionEnd(AuthorizationFilterContext context,  IResp res)
         {
             var rUrl = res.IsRespCode(RespCodes.UserUnLogin) 
-                ? InterReqHelper.GetUnloginPage(context.HttpContext, appInfo) 
-                : InterReqHelper.GetErrorPage(context.HttpContext, appInfo, res);
+                ? InterReqHelper.GetUnloginPage(context.HttpContext) 
+                : InterReqHelper.GetErrorPage(context.HttpContext, res);
             
             if (string.IsNullOrEmpty(rUrl))
             {

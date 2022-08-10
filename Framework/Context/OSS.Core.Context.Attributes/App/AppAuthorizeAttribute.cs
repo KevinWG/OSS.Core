@@ -35,7 +35,8 @@ namespace OSS.Core.Context.Attributes
         public override async Task<IResp> Authorize(AuthorizationFilterContext context)
         {
             // 0.  获取初始化app信息
-            var appIdentity = context.HttpContext.GetOrInitialCoreAppIdentity(); ;
+            var appIdentity = new AppIdentity();
+            CoreContext.App.Identity = appIdentity;
             
             var checker = _appOption?.AppAuthProvider;
             if (checker != null)

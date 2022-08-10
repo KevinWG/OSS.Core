@@ -27,15 +27,12 @@ namespace OSS.Core.Context.Attributes
             Exception error;
             IResp     errorResp;
 
-            // 需要在此初始化，否则中间件依次退出后此值为空，下方异常无法捕获APP信息
-            var appInfo = context.GetOrInitialCoreAppIdentity();
-
             try
             {
                 await _next.Invoke(context);
 
                 if (context.Response.StatusCode == (int) HttpStatusCode.NotFound)
-                    await ExceptionResponse(context, appInfo, new Resp(RespCodes.OperateObjectNull, "当前请求资源不存在！"));
+                    await ExceptionResponse(context,  new Resp(RespCodes.OperateObjectNull, "当前请求资源不存在！"));
 
                 return;
             }
@@ -61,23 +58,23 @@ namespace OSS.Core.Context.Attributes
             #endif
             
             var res = errorResp;
-            await ExceptionResponse(context, appInfo, res);
+            await ExceptionResponse(context,  res);
         }
 
         /// <summary>
         ///  异常响应处理
         /// </summary>
         /// <param name="context"></param>
-        /// <param name="appInfo"></param>
         /// <param name="res"></param>
         /// <returns></returns>
-        private static Task ExceptionResponse(HttpContext context, AppIdentity appInfo, IResp res)
+        private static Task ExceptionResponse(HttpContext context,  IResp res)
         {
-            var url = InterReqHelper.GetErrorPage(context, appInfo, res);
+            var url = InterReqHelper.GetErrorPage(context,  res);
             if (string.IsNullOrEmpty(url))
             {
                 return ResponseJsonError(context.Response, res);
             }
+
             context.Response.Redirect(url);
             return Task.CompletedTask;
         }

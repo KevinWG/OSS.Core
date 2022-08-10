@@ -8,9 +8,9 @@ namespace OSS.Core.Context.Attributes
     {
         internal static CoreContextOption Option { get; set; }
 
-        internal static string GetErrorPage(HttpContext context, AppIdentity appInfo, IResp res)
+        internal static string GetErrorPage(HttpContext context,  IResp res)
         {
-            if (appInfo.source_mode != AppSourceMode.Browser || context.Request.IsFetchApi())
+            if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.source_mode != AppSourceMode.Browser) || context.Request.IsFetchApi())
                 return string.Empty;
 
             if (CheckIfErrorUrl(context.Request.Path.ToString()))
@@ -22,9 +22,9 @@ namespace OSS.Core.Context.Attributes
                 : string.Concat(errUrl, "?code=", res.code, "&msg=", errUrl.SafeEscapeUriDataString());
         }
 
-        internal static string GetUnloginPage(HttpContext context, AppIdentity appInfo)
+        internal static string GetUnloginPage(HttpContext context)
         {
-            if (appInfo.source_mode != AppSourceMode.Browser || context.Request.IsFetchApi())
+            if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.source_mode != AppSourceMode.Browser) || context.Request.IsFetchApi())
                 return string.Empty;
 
             var loginUrl = Option?.LoginPage;
