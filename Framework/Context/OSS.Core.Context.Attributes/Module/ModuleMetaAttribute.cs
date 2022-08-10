@@ -32,8 +32,7 @@ namespace OSS.Core.Context.Attributes
             _appType    = appType;
             _moduleName = moduleName;
         }
-
-
+        
         /// <summary>
         ///  校验模块信息
         /// </summary>

@@ -26,7 +26,7 @@ namespace OSS.Core.Extension.Mvc.Captcha
             var validator   = GetValidator(context.HttpContext);
             var appIdentity = CoreContext.App.Identity;
 
-            if (appIdentity.source_mode == AppSourceMode.AppSign)
+            if (appIdentity.auth_mode == AppAuthMode.AppSign)
                 return Resp.DefaultSuccess;
 
             return await validator.Validate(context.HttpContext);

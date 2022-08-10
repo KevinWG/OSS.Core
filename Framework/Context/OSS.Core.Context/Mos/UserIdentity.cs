@@ -29,6 +29,11 @@
         ///  数据权限层级
         /// </summary>
         public FuncDataLevel data_level { get; set; } = FuncDataLevel.All;
+
+        /// <summary>
+        ///  用户扩展信息
+        /// </summary>
+        public object? ext { get; set; }
     }
 
     /// <summary>

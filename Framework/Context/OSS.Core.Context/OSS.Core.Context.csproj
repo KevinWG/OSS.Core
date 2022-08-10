@@ -5,7 +5,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
     <Description>OSS.Core 全局上下文基础类库</Description>
-    <Version>2.6</Version>
+    <Version>2.7</Version>
     <PackageReleaseNotes>优化结果实例</PackageReleaseNotes>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>

@@ -11,22 +11,15 @@ namespace OSS.Core.Context.Attributes
     /// </summary>
     public class AppAuthorizeAttribute: BaseOrderAuthorizeAttribute
     {
-        private readonly AppAuthOption? _appOption;
-
+        private readonly AppAuthOption _appOption;
+        
         /// <summary>
         ///  构造函数
         /// </summary>
-        public AppAuthorizeAttribute()
-        {
-            Order = AttributeConst.Order_App_AuthAttribute;
-        }
-
-        /// <summary>
-        ///  构造函数
-        /// </summary>
-        public AppAuthorizeAttribute(AppAuthOption appOption):this()
+        public AppAuthorizeAttribute(AppAuthOption appOption)
         {
             _appOption = appOption;
+            Order      = AttributeConst.Order_App_AuthAttribute;
         }
 
         /// <summary>
@@ -37,36 +30,67 @@ namespace OSS.Core.Context.Attributes
             // 0.  获取初始化app信息
             var appIdentity = new AppIdentity();
             CoreContext.App.Identity = appIdentity;
-            
-            var checker = _appOption?.AppAuthProvider;
-            if (checker != null)
-            {
-                // 1. app 内容格式化
-                var res = await checker.Authorize(appIdentity, context.HttpContext);
-                if (!res.IsSuccess())
-                    return res;
-            }
+
+            // 1. app 内容格式化
+            var res = await AppAuthorize(appIdentity, context.HttpContext);
+            if (!res.IsSuccess())
+                return res;
 
             CompleteAppIdentity(context.HttpContext, appIdentity);
 
             //2. Tenant 验证
-            return await TenantFormatAndCheck(appIdentity, _appOption);
+            return await TenantAuthorize(appIdentity, _appOption);
         }
+
+        #region 应用验证
         
 
-        private static async Task<IResp> TenantFormatAndCheck(AppIdentity appInfo, AppAuthOption? appOption)
+        /// <inheritdoc />
+        public async Task<IResp> AppAuthorize(AppIdentity appInfo, HttpContext context)
         {
-            if (appInfo.source_mode == AppSourceMode.OutApp
-                || appOption?.TenantAuthProvider == null
-                || !CoreContext.Tenant.IsAuthenticated)
-                return Resp.DefaultSuccess;
+            if (appInfo.auth_mode != AppAuthMode.OutApp)
+            {
+                appInfo.auth_mode = context.Request.Headers.ContainsKey(_appOption.SignModeHeaderName)
+                    ? AppAuthMode.AppSign
+                    : AppAuthMode.Browser;
+            }
 
-            var identityRes = await appOption.TenantAuthProvider.GetIdentity();
-            if (!identityRes.IsSuccess())
-                return identityRes;
+            switch (appInfo.auth_mode)
+            {
+                case AppAuthMode.AppSign:
+                    var res = await CheckAppSign(appInfo, context);
+                    if (!res.IsSuccess())
+                        return res;
+                    break;
 
-            CoreContext.Tenant.Identity = identityRes.data;
-            return identityRes;
+                default:
+                    appInfo.access_key = CoreContext.App.Self.AccessKey; // AppInfoHelper.AppId;
+                    appInfo.app_ver = CoreContext.App.Self.AppVersion;
+                    appInfo.UDID = "WEB";
+                    break;
+            }
+
+            if (appInfo.auth_mode >= AppAuthMode.Browser)
+            {
+                if (context.Request.Cookies.TryGetValue(_appOption.BrowserModeCookieName, out var tokenVal))
+                    appInfo.token = tokenVal;
+            }
+            return Resp.DefaultSuccess;
+        }
+
+        private async Task<IResp> CheckAppSign(AppIdentity appIdentity, HttpContext context)
+        {
+            var authTicketStr = context.Request.Headers[_appOption.SignModeHeaderName];
+            appIdentity.FromTicket(authTicketStr);
+
+            if (_appOption.SignAccessProvider == null)
+                throw new NotImplementedException("请设置应用签名秘钥提供器(SignAccessProvider)");
+
+            var access =await _appOption.SignAccessProvider.Get();
+            appIdentity.app_type = access.app_type;
+            
+            const int expireSecs = 60 * 60 * 2;
+            return appIdentity.CheckSign(access.access_secret, expireSecs);
         }
 
         // 补充应用全局信息
@@ -89,6 +113,23 @@ namespace OSS.Core.Context.Attributes
             string ipAddress = context.Request.Headers["X-Forwarded-For"];
             return !string.IsNullOrEmpty(ipAddress) ? ipAddress : context.Connection.RemoteIpAddress.ToString();
         }
+
+        #endregion
+
+        private static async Task<IResp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
+        {
+            if (appInfo.auth_mode == AppAuthMode.OutApp
+                || appOption?.TenantAuthProvider == null
+                || !CoreContext.Tenant.IsAuthenticated)
+                return Resp.DefaultSuccess;
+
+            var identityRes = await appOption.TenantAuthProvider.GetIdentity();
+            if (!identityRes.IsSuccess())
+                return identityRes;
+
+            CoreContext.Tenant.Identity = identityRes.data;
+            return identityRes;
+        }
     }
 
     /// <summary>
@@ -97,9 +138,19 @@ namespace OSS.Core.Context.Attributes
     public class AppAuthOption
     {
         /// <summary>
-        ///  应用授权实现
+        ///   应用服务端签名模式，对应的票据信息的请求头名称
         /// </summary>
-        public IAppAuthProvider? AppAuthProvider { get; set; }
+        public  string SignModeHeaderName { get; set; } = "at-id";
+
+        /// <summary>
+        ///  用户token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
+        /// </summary>
+        public  string BrowserModeCookieName { get; set; } = "u_cn";
+
+        /// <summary>
+        ///  签名秘钥提供者
+        /// </summary>
+        public IAppSignAccessProvider? SignAccessProvider { get; set; }
 
         /// <summary>
         ///  租户授权实现

@@ -19,8 +19,8 @@ builder.Services.AddDefaultNoneCaptchaValidator();
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization(new AppAuthDefaultProvider());
-    opt.AddCoreUserAuthorization(new LocalUserAuthProvider(),new LocalFunAuthProvider());
+    opt.AddCoreAppAuthorization();
+    opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
 }).AddJsonOptions(jsonOpt =>
 {
     jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;

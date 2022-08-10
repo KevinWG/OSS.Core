@@ -95,11 +95,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0.Docs", "0.Docs", "{5FCA62
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WorkFlow", "WorkFlow", "{F0BC45B0-BC4F-44A5-93E7-C4AFBA40FE99}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.Module.WorkFlow.Domain", "Modules\WorkFlow\OSS.Core.Module.WorkFlow.Domain\OSS.Core.Module.WorkFlow.Domain.csproj", "{8AD70C05-65E6-44C7-8D43-C53C22EC1DE3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Module.WorkFlow.Domain", "Modules\WorkFlow\OSS.Core.Module.WorkFlow.Domain\OSS.Core.Module.WorkFlow.Domain.csproj", "{8AD70C05-65E6-44C7-8D43-C53C22EC1DE3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Opened", "Opened", "{3B9BF54A-07A4-4817-A730-9237FD9B5A4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.Module.WorkFlow.Domain.Opened", "Modules\WorkFlow\OSS.Core.Module.WorkFlow.Domain.Opened\OSS.Core.Module.WorkFlow.Domain.Opened.csproj", "{A31A0423-4524-4304-95E3-7C4E3EF209B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Module.WorkFlow.Domain.Opened", "Modules\WorkFlow\OSS.Core.Module.WorkFlow.Domain.Opened\OSS.Core.Module.WorkFlow.Domain.Opened.csproj", "{A31A0423-4524-4304-95E3-7C4E3EF209B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

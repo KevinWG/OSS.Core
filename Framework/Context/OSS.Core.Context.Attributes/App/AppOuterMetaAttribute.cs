@@ -24,7 +24,7 @@ namespace OSS.Core.Context.Attributes
         {
             var sysInfo = CoreContext.App.Identity;
 
-            sysInfo.source_mode = AppSourceMode.OutApp;
+            sysInfo.auth_mode = AppAuthMode.OutApp;
             sysInfo.app_type    = AppType.Single;
             sysInfo.UDID        = "WEB";
 

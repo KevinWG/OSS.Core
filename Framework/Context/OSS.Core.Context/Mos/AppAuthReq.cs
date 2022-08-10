@@ -8,7 +8,7 @@ namespace OSS.Core.Context
     /// <summary>
     /// 应用信息
     /// </summary>
-    public class AppAuthInfo
+    public class AppAuthReq
     {
         #region  参与签名属性
       
@@ -58,11 +58,7 @@ namespace OSS.Core.Context
         ///  sign标识
         /// </summary>
         public string sign { get; set; } = string.Empty;
-
-        /// <summary>
-        ///   应用类型 [非外部传值，不参与签名]
-        /// </summary>
-        public AppType app_type { get; set; } = AppType.Single;
+        
     }
 
 
@@ -79,7 +75,7 @@ namespace OSS.Core.Context
         /// <param name="appAuthInfo"></param>
         /// <param name="ticket"></param>
         /// <param name="separator">A=a  B=b 之间分隔符</param>
-        public static void FromTicket(this AppAuthInfo appAuthInfo, string ticket, char separator = ';')
+        public static void FromTicket(this AppAuthReq appAuthInfo, string ticket, char separator = ';')
         {
             if (string.IsNullOrEmpty(ticket)) return;
 
@@ -103,7 +99,7 @@ namespace OSS.Core.Context
         /// <param name="appAuthInfo"></param>
         /// <param name="key"></param>
         /// <param name="val"></param>
-        private static void FormatProperty(AppAuthInfo appAuthInfo,string key, string val)
+        private static void FormatProperty(AppAuthReq appAuthInfo,string key, string val)
         {
             switch (key)
             {
@@ -160,7 +156,7 @@ namespace OSS.Core.Context
         /// <param name="extSignData">参与签名的扩展数据（ 原签名数据 + "&amp;" + extSignData ）</param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static IResp CheckSign(this AppAuthInfo appAuthInfo,string accessSecret, int signExpiredSeconds, string extSignData = null, char separator = ';')
+        public static IResp CheckSign(this AppAuthReq appAuthInfo,string accessSecret, int signExpiredSeconds, string extSignData = null, char separator = ';')
         {
             if (appAuthInfo.timestamp <= 0 || string.IsNullOrEmpty(appAuthInfo.access_key) || string.IsNullOrEmpty(appAuthInfo.trace_no))
                 return new Resp(RespCodes.ParaError, "参数错误！");
@@ -183,7 +179,7 @@ namespace OSS.Core.Context
         /// <param name="extSignData">参与签名的扩展数据（ 原签名数据 + "&amp;" + extSignData ）</param>
         /// <param name="separator"></param>
         /// <returns></returns>
-        public static string ToTicket(this AppAuthInfo appAuthInfo, string accessKey, string accessSecret, string appVersion, string? extSignData = null, char separator = ';')
+        public static string ToTicket(this AppAuthReq appAuthInfo, string accessKey, string accessSecret, string appVersion, string? extSignData = null, char separator = ';')
         {
             appAuthInfo.timestamp = DateTime.Now.ToUtcSeconds();
 
@@ -196,7 +192,7 @@ namespace OSS.Core.Context
             return ticketStr.ToString();
         }
 
-        private static string ComputeSign(AppAuthInfo appAuthInfo, string accessKey, string accessSecret, string appVersion,  string? extSignData, char separator)
+        private static string ComputeSign(AppAuthReq appAuthInfo, string accessKey, string accessSecret, string appVersion,  string? extSignData, char separator)
         {
             var signContent = GetContent(appAuthInfo,accessKey, appVersion, separator, true);
             if (!string.IsNullOrEmpty(extSignData))
@@ -215,7 +211,8 @@ namespace OSS.Core.Context
         /// <param name="separator"></param>
         /// <param name="isForSign">是否签名校验时调用，签名校验时不进行url转义，否则需要转义</param>
         /// <returns></returns>
-        private static StringBuilder GetContent(AppAuthInfo appAuthInfo, string accessKey, string appVersion, char separator, bool isForSign)
+        private static StringBuilder GetContent(AppAuthReq appAuthInfo, string accessKey, string appVersion,
+                                                char separator, bool isForSign)
         {
             var strTicketParas = new StringBuilder();
 
@@ -223,10 +220,8 @@ namespace OSS.Core.Context
             AddTicketProperty("app_ver", appVersion, separator, strTicketParas, isForSign);
             AddTicketProperty("client_ip", appAuthInfo.client_ip, separator, strTicketParas, isForSign);
 
-            if (appAuthInfo.app_type == AppType.Proxy)
-            {
-                AddTicketProperty("tenant_id", appAuthInfo.tenant_id, separator, strTicketParas, isForSign);
-            }
+            AddTicketProperty("tenant_id", appAuthInfo.tenant_id, separator, strTicketParas, isForSign);
+
 
             AddTicketProperty("token", appAuthInfo.token, separator, strTicketParas, isForSign);
 

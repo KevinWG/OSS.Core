@@ -2,17 +2,16 @@
 
 using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Module.Portal;
 
-namespace OSS.Core;
+namespace OSS.Core.Module.Portal;
 
 /// <inheritdoc />
 public class DefaultFuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-   public  async Task<IResp<FuncDataLevel>> Authorize(AskUserFunc askFunc)
+    public async Task<IResp<FuncDataLevel>> Authorize(AskUserFunc askFunc)
     {
-        var funcCode  = askFunc?.func_code;
+        var funcCode = askFunc?.func_code;
         var sceneCode = askFunc?.scene_code;
 
         return await CheckIfHaveFunc(funcCode, sceneCode);
@@ -34,7 +33,7 @@ public class DefaultFuncAuthProvider : IFuncAuthProvider
             return new Resp<FuncDataLevel>().WithResp(userFunc);
 
         var fullFuncCode = string.IsNullOrEmpty(sceneCode) ? funcCode : string.Concat(funcCode, ":", sceneCode);
-        var func         = userFunc.data.FirstOrDefault(f => f.func_code == fullFuncCode);
+        var func = userFunc.data.FirstOrDefault(f => f.func_code == fullFuncCode);
 
         if (func == null)
             return new Resp<FuncDataLevel>().WithResp(RespCodes.UserNoPermission, "无操作权限!");

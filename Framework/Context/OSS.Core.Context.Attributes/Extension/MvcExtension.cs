@@ -7,11 +7,11 @@ namespace OSS.Core.Context.Attributes
         /// <summary>
         ///  添加应用层级授权验证过滤器
         /// </summary>
-        public static void AddCoreAppAuthorization(this MvcOptions opt, IAppAuthProvider? appAuthProvider =null, ITenantAuthProvider? tenantAuthProvider =null)
+        public static void AddCoreAppAuthorization(this MvcOptions opt, IAppSignAccessProvider? signAccessProvider =null, ITenantAuthProvider? tenantAuthProvider =null)
         {
             opt.Filters.Add(new AppAuthorizeAttribute(new AppAuthOption()
             {
-                AppAuthProvider    = appAuthProvider,
+                SignAccessProvider = signAccessProvider,
                 TenantAuthProvider = tenantAuthProvider
             }));
         }

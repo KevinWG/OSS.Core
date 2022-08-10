@@ -15,7 +15,7 @@ namespace OSS.Core.Context
     /// <summary>
     ///   应用的授权认证信息
     /// </summary>
-    public class AppIdentity : AppAuthInfo
+    public class AppIdentity : AppAuthReq
     {
         /// <summary>
         ///  请求模块名称
@@ -23,14 +23,19 @@ namespace OSS.Core.Context
         public string module_name { get; set; } = string.Empty;
 
         /// <summary>
-        ///  当前请求主机信息 [非外部传值，不参与签名]
+        ///  当前请求主机信息 
         /// </summary>
         public string host { get; set; } = string.Empty;
 
         /// <summary>
         /// 来源模式
         /// </summary> 
-        public AppSourceMode source_mode { get; set; }
+        public AppAuthMode auth_mode { get; set; }
+
+        /// <summary>
+        ///   应用类型
+        /// </summary>
+        public AppType app_type { get; set; } = AppType.Single;
 
         /// <summary>
         ///  请求验证对应功能权限信息
@@ -84,20 +89,18 @@ namespace OSS.Core.Context
     /// <summary>
     ///  app的来源处理模式
     /// </summary>
-    public enum AppSourceMode
+    public enum AppAuthMode
     { 
         /// <summary>
         ///  应用签名模式（强签名）
         /// </summary>
         AppSign = 0,
-
-
+        
         /// <summary>
         ///  第三方应用模式（如微信回调，自定义约定验证模式
         /// </summary>
         OutApp = 100,
-
-
+        
         /// <summary>
         /// 浏览器访问模式
         /// </summary>

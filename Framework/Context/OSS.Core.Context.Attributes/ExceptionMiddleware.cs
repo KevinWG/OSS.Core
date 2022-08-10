@@ -26,7 +26,7 @@ namespace OSS.Core.Context.Attributes
         {
             Exception error;
             IResp     errorResp;
-
+            
             try
             {
                 await _next.Invoke(context);

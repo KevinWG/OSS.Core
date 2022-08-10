@@ -18,8 +18,8 @@ public class PortalWebHelper
         if (string.IsNullOrEmpty(token))
             return;
 
-        var appSourceMode = CoreContext.App.Identity.source_mode;
-        if (appSourceMode >= AppSourceMode.Browser)
+        var appSourceMode = CoreContext.App.Identity.auth_mode;
+        if (appSourceMode >= AppAuthMode.Browser)
         {
             var cookieOpt = new CookieOptions()
             {

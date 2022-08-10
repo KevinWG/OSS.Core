@@ -16,6 +16,7 @@ namespace OSS.Core.Context.Attributes
         public override Task Invoke(HttpContext context)
         {
             CoreContext.InitialContextContainer();
+
             return _next.Invoke(context);
         }
     }

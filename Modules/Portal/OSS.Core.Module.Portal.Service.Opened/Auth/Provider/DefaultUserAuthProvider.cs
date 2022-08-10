@@ -1,12 +1,11 @@
 ﻿using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Module.Portal;
 
-namespace OSS.Core
+namespace OSS.Core.Module.Portal
 {
     /// <inheritdoc />
-    public class UserAuthDefaultProvider : IUserAuthProvider
+    public class DefaultUserAuthProvider : IUserAuthProvider
     {
         /// <inheritdoc />
         public Task<IResp<UserIdentity>> GetIdentity()

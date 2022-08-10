@@ -21,8 +21,8 @@ builder.Services.Register<PortalUsedClientStarter>();   // ÒòÎªÈ«¾ÖÖÐ¼ä¼þÊ¹ÓÃ£¬Ë
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization(new AppAuthDefaultProvider());
-    opt.AddCoreUserAuthorization(new UserAuthDefaultProvider());
+    opt.AddCoreAppAuthorization();
+    opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
 
 }).AddJsonOptions(jsonOpt =>
 {
