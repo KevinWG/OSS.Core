@@ -68,7 +68,6 @@ namespace OSS.Core.Context.Attributes
             }
 
             appInfo.ask_func = new AskUserFunc(AuthType, _funcCode, sceneCode);
-
             return AttributeConst.TaskSuccessResp;
         }
 

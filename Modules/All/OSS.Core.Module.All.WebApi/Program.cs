@@ -4,6 +4,7 @@ using OSS.Core.Extension.Mvc.Captcha;
 using OSS.Core.Module.All.WebApi;
 using System.Text.Json.Serialization;
 using OSS.Core.Extension.Mvc.Configuration;
+using OSS.Core.Module.Portal;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +20,7 @@ builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
     opt.AddCoreAppAuthorization(new AppAuthDefaultProvider());
-    opt.AddCoreUserAuthorization(new UserAuthDefaultProvider());
+    opt.AddCoreUserAuthorization(new LocalUserAuthProvider(),new LocalFunAuthProvider());
 }).AddJsonOptions(jsonOpt =>
 {
     jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;

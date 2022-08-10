@@ -29,21 +29,20 @@ public class AuthService : BaseAuthService, IAuthService
     ///  获取授权账号信息
     /// </summary>
     /// <returns></returns>
-    public Task<Resp<UserIdentity>> GetIdentity()
+    public Task<IResp<UserIdentity>> GetIdentity()
     {
         var cacheKey = string.Concat(PortalConst.CacheKeys.Portal_UserIdentity_ByToken, CoreContext.App.Identity.token);
         var getFunc = () =>
         {
             var infoRes = PortalTokenHelper.FormatPortalToken();
-            if (!infoRes.IsSuccess())
-                return Task.FromResult(new Resp<UserIdentity>().WithResp(infoRes));
-
-            return GetAuthIdentityById(infoRes.data.userId, infoRes.data.authType);
+            return infoRes.IsSuccess()
+                ? GetAuthIdentityById(infoRes.data.userId, infoRes.data.authType)
+                : Task.FromResult((IResp<UserIdentity>)new Resp<UserIdentity>().WithResp(infoRes));
         };
         return getFunc.WithAbsoluteCacheAsync(cacheKey, TimeSpan.FromMinutes(5));
     }
 
-    private static async Task<Resp<UserIdentity>> GetAuthIdentityById(long userId, PortalAuthorizeType authType)
+    private static async Task<IResp<UserIdentity>> GetAuthIdentityById(long userId, PortalAuthorizeType authType)
     {
         Resp<UserIdentity> identityRes;
         switch (authType)

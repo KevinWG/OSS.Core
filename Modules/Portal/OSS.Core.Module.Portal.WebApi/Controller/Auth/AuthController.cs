@@ -32,7 +32,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public Task<Resp<UserIdentity>> GetIdentity()
+        public Task<IResp<UserIdentity>> GetIdentity()
         {
             return service.GetIdentity();
         }

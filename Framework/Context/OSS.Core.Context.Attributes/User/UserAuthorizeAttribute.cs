@@ -12,10 +12,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
 {
     private readonly UserAuthOption _userOption;
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="userOption"></param>
+    /// <inheritdoc />
     public UserAuthorizeAttribute(UserAuthOption userOption)
     {
         Order       = AttributeConst.Order_User_AuthAttributeOrder;
@@ -35,51 +32,58 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
             return Resp.DefaultSuccess;
 
-        var appInfo     = CoreContext.App.Identity;
-        var identityRes = await _userOption.UserProvider.GetIdentity();
-        if (!identityRes.IsSuccess())
-        {
-            return identityRes;
-        }
+        var appInfo = CoreContext.App.Identity;
 
-        var userIdentity = identityRes.data;
-        CoreContext.User.Identity = userIdentity;
-
-        var funcRes      =await CheckFunc(appInfo, userIdentity, _userOption);
-        if (funcRes.IsSuccess())
-        {
-            userIdentity.data_level = FuncDataLevel.All;
-        }
-
-        return funcRes;
+        var userRes = await UserAuthorize(appInfo);
+        if (!userRes.IsSuccess())
+            return userRes;
+        
+        var userIdentity = userRes.data;
+        return await FuncAuthorize(appInfo, userIdentity, _userOption);
     }
 
-    
 
-    private static async Task<IResp<FuncDataLevel>> CheckFunc(AppIdentity appInfo,UserIdentity userIdentity, UserAuthOption opt)
+    private async Task<IResp<UserIdentity>> UserAuthorize(AppIdentity appIdentity)
     {
-        if (opt.FuncProvider == null)
-            return new Resp<FuncDataLevel>(FuncDataLevel.All);
-
-        var askFunc = appInfo.ask_func;
-        if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
-        {
-            return new Resp<FuncDataLevel>(FuncDataLevel.All);
-        }
-
-        if (userIdentity.auth_type > askFunc.auth_type)
+        var identityRes = await _userOption.UserProvider.GetIdentity();
+        if (!identityRes.IsSuccess())
+            return identityRes;
+        
+        var userIdentity = identityRes.data;
+        if (userIdentity.auth_type > appIdentity.ask_func.auth_type)
         {
             switch (userIdentity.auth_type)
             {
                 case PortalAuthorizeType.SocialAppUser:
-                    return new Resp<FuncDataLevel>().WithResp(RespCodes.UserFromSocial, "需要绑定系统账号");
+                    return new Resp<UserIdentity>().WithResp(RespCodes.UserFromSocial, "需要绑定系统账号");
                 case PortalAuthorizeType.UserWithEmpty:
-                    return new Resp<FuncDataLevel>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
+                    return new Resp<UserIdentity>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
             }
-            return new Resp<FuncDataLevel>().WithResp(RespCodes.UserNoPermission, "权限不足!");
+            return new Resp<UserIdentity>().WithResp(RespCodes.UserNoPermission, "权限不足!");
         }
 
-        return await opt.FuncProvider.Authorize(askFunc);
+        CoreContext.User.Identity = userIdentity;
+        return new Resp<UserIdentity>(userIdentity);
+    }
+
+
+    private static async Task<IResp> FuncAuthorize(AppIdentity appInfo,UserIdentity userIdentity, UserAuthOption opt)
+    {
+        if (opt.FuncProvider == null|| userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
+        {
+            userIdentity.data_level = FuncDataLevel.All;
+            return Resp.DefaultSuccess;
+        }
+ 
+
+        var askFunc = appInfo.ask_func;
+        var res     = await opt.FuncProvider.Authorize(askFunc);
+        if (res.IsSuccess())
+        {
+            userIdentity.data_level = FuncDataLevel.All;
+        }
+
+        return res;
     }
 }
 
@@ -88,6 +92,11 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
 /// </summary>
 public class UserAuthOption
 {
+    /// <summary>
+    ///  用户授权选项
+    /// </summary>
+    /// <param name="userProvider"></param>
+    /// <exception cref="Exception"></exception>
     public UserAuthOption(IUserAuthProvider userProvider)
     {
         UserProvider = userProvider ?? throw new Exception("UserAuthOption 中 UserProvider 接口对象必须提供！");

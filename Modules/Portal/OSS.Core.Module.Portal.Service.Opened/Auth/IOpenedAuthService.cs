@@ -9,7 +9,7 @@ public interface IOpenedAuthService
     ///  获取授权账号信息
     /// </summary>
     /// <returns></returns>
-    Task<Resp<UserIdentity>> GetIdentity();
+    Task<IResp<UserIdentity>> GetIdentity();
 
     /// <summary>
     ///     检查账号是否可以注册

@@ -5,11 +5,6 @@
     /// </summary>
     public class UserIdentity
     {
-        ///// <summary>
-        /////    授权账号来源
-        ///// </summary>
-        //public int from_plat { get; set; }
-
         /// <summary>
         /// 授权类型
         /// </summary>
@@ -32,9 +27,7 @@
 
         /// <summary>
         ///  数据权限层级
-        /// todo 运行时方法权限，转移到func模块
         /// </summary>
-        [Obsolete]
         public FuncDataLevel data_level { get; set; } = FuncDataLevel.All;
     }
 

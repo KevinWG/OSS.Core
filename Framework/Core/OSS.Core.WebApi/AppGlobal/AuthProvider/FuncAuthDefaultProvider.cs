@@ -10,7 +10,7 @@ namespace OSS.Core;
 public class DefaultFuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-    async Task<IResp<FuncDataLevel>> IFuncAuthProvider.Authorize(AskUserFunc askFunc)
+   public  async Task<IResp<FuncDataLevel>> Authorize(AskUserFunc askFunc)
     {
         var funcCode  = askFunc?.func_code;
         var sceneCode = askFunc?.scene_code;
@@ -27,9 +27,7 @@ public class DefaultFuncAuthProvider : IFuncAuthProvider
     public async Task<IResp<FuncDataLevel>> CheckIfHaveFunc(string funcCode, string sceneCode)
     {
         if (string.IsNullOrEmpty(funcCode))
-        {
             return new Resp<FuncDataLevel>(FuncDataLevel.All);
-        }
 
         var userFunc = await InsContainer<IPortalClient>.Instance.Permit.GetCurrentUserPermits();
         if (!userFunc.IsSuccess())
@@ -43,6 +41,4 @@ public class DefaultFuncAuthProvider : IFuncAuthProvider
 
         return new Resp<FuncDataLevel>(func.data_level);
     }
-
-  
 }
