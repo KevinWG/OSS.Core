@@ -47,7 +47,7 @@ namespace OSS.Core.Context
     }
 
 
-    
+
 
 
 
@@ -64,9 +64,9 @@ namespace OSS.Core.Context
         /// <param name="sceneCode"></param>
         public AskUserFunc(PortalAuthorizeType authType, string funcCode, string sceneCode)
         {
-            func_code = funcCode;
-            scene_code     = sceneCode;
-            auth_type = authType;
+            func_code  = funcCode;
+            scene_code = sceneCode;
+            auth_type  = authType;
         }
 
         /// <summary>
@@ -82,25 +82,25 @@ namespace OSS.Core.Context
         /// <summary>
         ///  要求的登录类型限制
         /// </summary>
-        public PortalAuthorizeType auth_type { get; } 
+        public PortalAuthorizeType auth_type { get; }
     }
 
- 
+
     /// <summary>
     ///  app的来源处理模式
     /// </summary>
     public enum AppAuthMode
-    { 
+    {
         /// <summary>
         ///  应用签名模式（强签名）
         /// </summary>
         AppSign = 0,
-        
+
         /// <summary>
         ///  第三方应用模式（如微信回调，自定义约定验证模式
         /// </summary>
         OutApp = 100,
-        
+
         /// <summary>
         /// 浏览器访问模式
         /// </summary>

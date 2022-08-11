@@ -28,7 +28,7 @@
         /// <summary>
         ///  数据权限层级
         /// </summary>
-        public FuncDataLevel data_level { get; set; } = FuncDataLevel.All;
+        public FuncDataLevel data_level { get; set; } = FuncDataLevel.OnlySelf;
 
         /// <summary>
         ///  用户扩展信息

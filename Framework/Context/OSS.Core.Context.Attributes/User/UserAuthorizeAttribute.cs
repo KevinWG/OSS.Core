@@ -37,7 +37,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         var userRes = await UserAuthorize(appInfo);
         if (!userRes.IsSuccess())
             return userRes;
-        
+
         var userIdentity = userRes.data;
         return await FuncAuthorize(appInfo, userIdentity, _userOption);
     }
@@ -48,7 +48,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         var identityRes = await _userOption.UserProvider.GetIdentity();
         if (!identityRes.IsSuccess())
             return identityRes;
-        
+
         var userIdentity = identityRes.data;
         if (userIdentity.auth_type > appIdentity.ask_func.auth_type)
         {
@@ -59,6 +59,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
                 case PortalAuthorizeType.UserWithEmpty:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
             }
+
             return new Resp<UserIdentity>().WithResp(RespCodes.UserNoPermission, "权限不足!");
         }
 
@@ -67,21 +68,25 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
     }
 
 
-    private static async Task<IResp> FuncAuthorize(AppIdentity appInfo,UserIdentity userIdentity, UserAuthOption opt)
+    private static async Task<IResp> FuncAuthorize(AppIdentity appInfo, UserIdentity userIdentity, UserAuthOption opt)
     {
-        if (opt.FuncProvider == null|| userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
+        var askFunc = appInfo.ask_func;
+        if (opt.FuncProvider == null)
+        {
+            if (!string.IsNullOrEmpty(askFunc.func_code))
+                throw new NotImplementedException("当前方法设置了权限码，但系统未实现权限码的判断接口！");
+            return Resp.DefaultSuccess;
+        }
+
+        if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
         {
             userIdentity.data_level = FuncDataLevel.All;
             return Resp.DefaultSuccess;
         }
- 
 
-        var askFunc = appInfo.ask_func;
-        var res     = await opt.FuncProvider.Authorize(askFunc);
+        var res = await opt.FuncProvider.Authorize(askFunc.func_code, askFunc.scene_code);
         if (res.IsSuccess())
-        {
-            userIdentity.data_level = FuncDataLevel.All;
-        }
+            userIdentity.data_level = res.data;
 
         return res;
     }

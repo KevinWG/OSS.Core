@@ -23,13 +23,12 @@ internal static class PortalTokenHelper
     
     /// <summary>
     ///  获取授权token相关授权信息
-    ///    todo 扩展每个AppId独立的加密秘钥
     /// </summary>
     /// <param name="newIdentity"></param>
     /// <returns></returns>
     internal static PortalTokenResp GeneratePortalToken(UserIdentity newIdentity)
     {
-        var tenantId = CoreContext.App.Identity.tenant_id;
+        var tenantId = CoreContext.Tenant.Identity.id;
         var tokenStr = string.Concat(newIdentity.id, "|", tenantId, "|", (int) newIdentity.auth_type, "|",
             NumHelper.RandomNum(6));
 
