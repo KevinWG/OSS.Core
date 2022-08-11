@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+		<PackAsTool>true</PackAsTool>
+		<ToolCommandName>osscore</ToolCommandName>
+		<Description>OSSCore 模块创建客户端</Description>
+		<Version>1.1</Version>
+	</PropertyGroup>
+
+</Project>
