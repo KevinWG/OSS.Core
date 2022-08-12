@@ -23,7 +23,7 @@ internal  class ServiceOpenedFilesTool : BaseProjectTool
     public override void Create_CommonFiles(SolutionStructure ss)
     {
         var project = ss.service_opened_project;
-        FileHelper.CreateDirectory(project.project_dir);
+        FileHelper.CreateDirectory(project.common_dir);
 
         var baeClientFilePath = Path.Combine(project.common_dir, $"{project.client_interface_name}.cs");
         FileHelper.CreateFileByTemplate(baeClientFilePath, ss, "Service/IModuleClient.txt");

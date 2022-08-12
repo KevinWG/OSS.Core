@@ -9,8 +9,7 @@ internal class DomainOpenedFilesTool : BaseProjectTool
     {
         var project = ss.domain_opened_project;
         FileHelper.CreateDirectory(project.project_dir);
-
-
+        
         var packageRefs = new List<string>()
         {
             "OSS.Core.Domain.Opened"
