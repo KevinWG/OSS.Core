@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 internal  class DomainFilesTool:BaseProjectTool
 {
     public override void Create_Project(SolutionStructure ss)
@@ -29,7 +29,7 @@ internal  class DomainFilesTool:BaseProjectTool
         FileHelper.CreateDirectory(project.common_dir);
 
         var baeRepFilePath = Path.Combine(project.common_dir, $"{project.const_file_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/DomainConst.txt");
+        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
     }
     
     

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal static class FileHelper
 {
@@ -34,9 +34,8 @@ internal static class FileHelper
             content.AppendLine("    <ItemGroup>");
             foreach (var packageRef in packageRefs)
             {
-                content.AppendLine($"       <PackageReference Include=\"{packageRef}\" />");
+                content.AppendLine($"       <PackageReference Include=\"{packageRef}\" Version=\"*\"/>");
             }
-
             content.AppendLine("    </ItemGroup>");
         }
 

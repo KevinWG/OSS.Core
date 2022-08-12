@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal  class WebApiFilesTool: BaseProjectTool
 {
@@ -12,7 +12,9 @@ internal  class WebApiFilesTool: BaseProjectTool
 
         var packageRefs = new List<string>()
         {
-            "Swashbuckle.AspNetCore"
+            "Swashbuckle.AspNetCore",
+            "OSS.Core.Context.Attributes",
+            "OSS.Core.Extension.Mvc.Configuration"
         };
 
         var projectRefs = new List<string>()

@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.NetCli;
+﻿namespace OSSCore;
 internal class WebApiProjectStructure: BaseProjectStructure
 {
     public WebApiProjectStructure(string solutionName, string moduleName, string basePath) : base(

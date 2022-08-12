@@ -1,5 +1,5 @@
 ﻿
-namespace OSS.Core.NetCli
+namespace OSSCore
 {
     internal abstract class BaseProjectTool
     {

@@ -18,17 +18,16 @@ builder.Services.Register<{module_name}ServiceStarter>();   // 逻辑服务层
 builder.Services.Register<{module_name}UsedClientStarter>();  
 
 builder.Services.AddControllers(opt =>
-{
-    opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization();
-
-    opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
-
-}).AddJsonOptions(jsonOpt =>
-{
-    jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition  = JsonIgnoreCondition.WhenWritingNull;
-    jsonOpt.JsonSerializerOptions.PropertyNamingPolicy    = null;
-});
+    {
+        opt.AddCoreModelValidation();
+        opt.AddCoreAppAuthorization();
+        // opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
+    })
+    .AddJsonOptions(jsonOpt =>
+    {
+        jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition  = JsonIgnoreCondition.WhenWritingNull;
+        jsonOpt.JsonSerializerOptions.PropertyNamingPolicy    = null;
+    });
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

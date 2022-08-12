@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.NetCli;
+﻿namespace OSSCore;
 
 internal class DomainOpenedProjectStructure : BaseProjectStructure
 {

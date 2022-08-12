@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 
 internal class SolutionStructure

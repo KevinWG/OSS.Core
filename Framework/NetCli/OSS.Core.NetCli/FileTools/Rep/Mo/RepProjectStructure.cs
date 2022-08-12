@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.NetCli;
+﻿namespace OSSCore;
 internal class RepProjectStructure : BaseProjectStructure
 {
     public RepProjectStructure(string solutionName, string moduleName, string basePath) : base(

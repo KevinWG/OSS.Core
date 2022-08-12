@@ -1,5 +1,5 @@
 ﻿
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 internal class DomainProjectStructure : BaseProjectStructure
 {
     public DomainProjectStructure(string solutionName,string moduleName,string basePath) : base(

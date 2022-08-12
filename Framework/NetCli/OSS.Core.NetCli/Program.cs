@@ -1,7 +1,7 @@
 ﻿
 using System;
 using System.IO;
-using OSS.Core.NetCli;
+using OSSCore;
 
 internal class Program
 {
@@ -17,9 +17,7 @@ internal class Program
         CreateFiles(paras);
         Console.WriteLine("创建完成!");
     }
-
-
-
+    
     public static void CreateFiles(CommandParas pFiles)
     {
         var basePath    = Directory.GetCurrentDirectory();

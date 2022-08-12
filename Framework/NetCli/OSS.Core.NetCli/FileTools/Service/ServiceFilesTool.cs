@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal class ServiceFilesTool : BaseProjectTool
 {
@@ -12,7 +12,10 @@ internal class ServiceFilesTool : BaseProjectTool
         
         var packageRefs = new List<string>()
         {
-            "OSS.DataFlow", "OSS.Core.Extension.Cache", "OSS.Tools.Log"
+            "OSS.DataFlow",
+            "OSS.Tools.Log",
+            "OSS.Core.Extension.Cache",
+            "OSS.Core.Extension.PassToken"
         };
 
         var projectRefs = new List<string>()

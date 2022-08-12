@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.NetCli;
+﻿namespace OSSCore;
 internal class ServiceProjectStructure : BaseProjectStructure
 {
     public ServiceProjectStructure(string solutionName, string moduleName, string basePath) : base(

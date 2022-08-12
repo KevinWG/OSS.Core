@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 internal  class RepFilesTool : BaseProjectTool
 {
     public override void Create_Project(SolutionStructure ss)

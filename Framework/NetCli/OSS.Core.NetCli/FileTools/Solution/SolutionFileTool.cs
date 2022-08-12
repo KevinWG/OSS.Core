@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal class SolutionFileTool : BaseProjectTool
 {

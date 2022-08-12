@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal class DomainOpenedFilesTool : BaseProjectTool
 {
