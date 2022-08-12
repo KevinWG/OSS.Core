@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.IO;
+using OSS.Core.NetCli;
 
 internal class Program
 {
@@ -17,28 +18,19 @@ internal class Program
         Console.WriteLine("创建完成!");
     }
 
-    public static void CreateFiles(ModuleParas mParas)
+
+
+    public static void CreateFiles(CommandParas pFiles)
     {
-        var basePath = Directory.GetCurrentDirectory();
+        var basePath    = Directory.GetCurrentDirectory();
+        var projectFiles = new SolutionStructure(pFiles, basePath);
 
-        var moduleFiles = new ProjectFileNames(mParas, basePath);
-
-        DomainFileHelper.CreateDomainOpenedFiles(moduleFiles);
-        DomainFileHelper.CreateDomainFiles(moduleFiles);
-
-        RepositoryFileHelper.CreateRepositoryFiles(moduleFiles);
-
-        ServiceFileHelper.CreateServiceOpenedFiles(moduleFiles);
-        ServiceFileHelper.CreateServiceFiles(moduleFiles);
-
-        WebApiFileHelper.CreateWebApiFiles(moduleFiles);
-
-        ClientFileHelper.CreateHttpClientFiles(moduleFiles);
+        new SolutionFileTool().Create(projectFiles);
     }
 
-    private static ModuleParas GetParas(string[] args)
+    private static CommandParas GetParas(string[] args)
     {
-        var paras = new ModuleParas();
+        var paras = new CommandParas();
         if (args == null || args.Length == 0)
             return paras;
 

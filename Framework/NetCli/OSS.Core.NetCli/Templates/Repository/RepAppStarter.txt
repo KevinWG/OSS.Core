@@ -1,0 +1,14 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using OSS.Common;
+
+namespace {solution_name};
+
+/// <summary>
+///  启动注册配置
+/// </summary>
+public class {module_name}RepStarter : AppStarter
+{
+    public override void Start(IServiceCollection serviceCollection)
+    {
+    }
+}

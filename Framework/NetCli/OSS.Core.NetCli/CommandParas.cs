@@ -1,4 +1,4 @@
-﻿internal class ModuleParas
+﻿internal class CommandParas
 {
     public string module_name { get; set; }
 
