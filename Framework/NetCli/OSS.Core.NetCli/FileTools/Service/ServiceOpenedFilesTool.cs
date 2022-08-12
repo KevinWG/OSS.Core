@@ -3,24 +3,29 @@ using System.IO;
 
 namespace OSS.Core.NetCli;
 
-internal  class ServiceOpenedFilesTool : BaseTool
+internal  class ServiceOpenedFilesTool : BaseProjectTool
 {
-    public override void Create(SolutionStructure pFiles)
+    public override void Create_Project(SolutionStructure ss)
     {
-        CreateServiceOpenedFiles(pFiles);
-    }
+        var project = ss.service_opened_project;
+        FileHelper.CreateDirectory(project.project_dir);
 
-    private static void CreateServiceOpenedFiles(SolutionStructure pFiles)
-    {
-        var projectPath = Path.Combine(pFiles.base_path, pFiles.service_opened_project.name);
-        FileHelper.CreateDirectory(projectPath);
-        
         var projectRefs = new List<string>()
         {
-            $"..\\{pFiles.domain_opened_project.name}\\{pFiles.domain_opened_project.name}.csproj"
+            $"..\\{ss.domain_opened_project.name}\\{ss.domain_opened_project.name}.csproj"
         };
 
-        var projectFilePath = Path.Combine(projectPath, pFiles.service_opened_project.name + ".csproj");
+        var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
         FileHelper.CreateProjectFile(projectFilePath, null, projectRefs);
+    }
+
+
+    public override void Create_CommonFiles(SolutionStructure ss)
+    {
+        var project = ss.service_opened_project;
+        FileHelper.CreateDirectory(project.project_dir);
+
+        var baeClientFilePath = Path.Combine(project.common_dir, $"{project.client_interface_name}.cs");
+        FileHelper.CreateFileByTemplate(baeClientFilePath, ss, "Service/IModuleClient.txt");
     }
 }

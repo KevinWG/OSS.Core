@@ -1,0 +1,5 @@
+﻿namespace {solution_name};
+
+public interface I{module_name}Client
+{
+}

@@ -14,7 +14,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="Templates\Domain\DomainConst.txt">
+	  <None Update="Templates\Domain\ModuleConst.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\Service\IModuleClient.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\Repository\BaseRep.txt">

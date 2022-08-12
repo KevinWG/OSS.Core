@@ -1,0 +1,14 @@
+﻿using OSS.Common;
+
+namespace {solution_name};
+
+/// <summary>
+///   外部依赖客户端注入
+/// </summary>
+public class {module_name}UsedClientStarter : AppStarter
+{
+    public override void Start(IServiceCollection services)
+    {
+        // 外部依赖的客户端相关启动注入
+    }
+}

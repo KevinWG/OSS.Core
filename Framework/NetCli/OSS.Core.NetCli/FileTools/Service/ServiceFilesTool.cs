@@ -3,31 +3,37 @@ using System.IO;
 
 namespace OSS.Core.NetCli;
 
-internal  class ServiceFilesTool:BaseTool
+internal class ServiceFilesTool : BaseProjectTool
 {
-    public override void Create(SolutionStructure pFiles)
+    public override void Create_Project(SolutionStructure ss)
     {
-        CreateServiceFiles(pFiles);
-    }
-    
-
-    private static void CreateServiceFiles(SolutionStructure pFiles)
-    {
-        var projectPath = Path.Combine(pFiles.base_path, pFiles.service_project.name);
-        FileHelper.CreateDirectory(projectPath);
+        var project = ss.service_project;
+        FileHelper.CreateDirectory(project.project_dir);
         
         var packageRefs = new List<string>()
         {
-            "OSS.DataFlow","OSS.Core.Extension.Cache","OSS.Tools.Log"
+            "OSS.DataFlow", "OSS.Core.Extension.Cache", "OSS.Tools.Log"
         };
 
         var projectRefs = new List<string>()
         {
-            $"..\\{pFiles.domain_project.name}\\{pFiles.domain_project.name}.csproj",
-            $"..\\{pFiles.service_opened_project.name}\\{pFiles.service_opened_project.name}.csproj"
+            $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj",
+            $"..\\{ss.service_opened_project.name}\\{ss.service_opened_project.name}.csproj"
         };
 
-        var projectFilePath = Path.Combine(projectPath, pFiles.service_project.name + ".csproj");
+        var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
         FileHelper.CreateProjectFile(projectFilePath, packageRefs, projectRefs);
+    }
+
+    public override void Create_GlobalFiles(SolutionStructure ss)
+    {
+        var project = ss.service_project;
+        FileHelper.CreateDirectory(project.global_dir);
+
+        var baeStarterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        FileHelper.CreateFileByTemplate(baeStarterFilePath, ss, "Service/ServiceAppStarter.txt");
+
+        var localClientPath = Path.Combine(project.global_dir, $"{project.local_client_name}.cs");
+        FileHelper.CreateFileByTemplate(localClientPath, ss, "Service/LocalModuleClient.txt");
     }
 }

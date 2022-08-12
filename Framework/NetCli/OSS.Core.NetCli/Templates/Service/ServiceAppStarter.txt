@@ -1,0 +1,12 @@
+﻿using Microsoft.Extensions.DependencyInjection;
+using OSS.Common;
+
+namespace {solution_name};
+
+public class {module_name}ServiceStarter : AppStarter
+{
+    public override void Start(IServiceCollection serviceCollection)
+    {
+
+    }
+}

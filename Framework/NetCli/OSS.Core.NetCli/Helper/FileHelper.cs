@@ -68,7 +68,7 @@ internal static class FileHelper
 
     public static void CreateFileByTemplate(string filePath, SolutionStructure pInfo, string templateRelativePath)
     {
-        var    templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, templateRelativePath);
+        var    templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Templates", templateRelativePath);
         string content;
 
         using (var file = new StreamReader(new FileStream(templatePath, FileMode.Open, FileAccess.Read)))

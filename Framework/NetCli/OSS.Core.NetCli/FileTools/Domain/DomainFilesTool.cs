@@ -2,20 +2,13 @@
 using System.IO;
 
 namespace OSS.Core.NetCli;
-internal  class DomainFilesTool:BaseTool
+internal  class DomainFilesTool:BaseProjectTool
 {
-    public override void Create(SolutionStructure pFiles)
+    public override void Create_Project(SolutionStructure ss)
     {
-        CreateDomainFiles(pFiles);
-    }
+        var project = ss.domain_project;
+        FileHelper.CreateDirectory(project.project_dir);
 
-    private static void CreateDomainFiles(SolutionStructure ss)
-    {
-        CreateDomain_ProjectFiles(ss);
-    }
-
-    private static void CreateDomain_ProjectFiles(SolutionStructure ss)
-    {
         var packageRefs = new List<string>()
         {
             "OSS.Core.Domain"
@@ -25,13 +18,18 @@ internal  class DomainFilesTool:BaseTool
             $"..\\{ss.domain_opened_project.name}\\{ss.domain_opened_project.name}.csproj"
         };
 
-        FileHelper.CreateProjectFile(ss.domain_project.project_file_path, packageRefs, projectRefs);
+        FileHelper.CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
 
-    private static void CreateDomain_CommonFiles(SolutionStructure ss)
+
+
+    public override void Create_CommonFiles(SolutionStructure ss)
     {
-        var baeRepFilePath = Path.Combine(ss.domain_project.common_dir, $"{ss.domain_project.const_file_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Templates/Domain/DomainConst.txt");
+        var project = ss.domain_project;
+        FileHelper.CreateDirectory(project.common_dir);
+
+        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.const_file_name}.cs");
+        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/DomainConst.txt");
     }
     
     

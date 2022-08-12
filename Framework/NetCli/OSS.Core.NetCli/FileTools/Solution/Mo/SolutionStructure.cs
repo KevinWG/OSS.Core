@@ -54,14 +54,9 @@ public class BaseProjectStructure
     {
         name = projectName;
 
-        project_dir       = Path.Combine(basePath, name);
-        FileHelper.CreateDirectory(project_dir);
-
-        common_dir = Path.Combine(project_dir, "Common");
-        FileHelper.CreateDirectory(common_dir);
-
-        global_dir = Path.Combine(project_dir, "AppGlobal");
-        FileHelper.CreateDirectory(global_dir);
+        project_dir = Path.Combine(basePath, name);
+        common_dir  = Path.Combine(project_dir, "Common");
+        global_dir  = Path.Combine(project_dir, "AppGlobal");
 
         project_file_path = Path.Combine(project_dir, name + ".csproj");
     }

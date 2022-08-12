@@ -4,7 +4,7 @@ using System.Text;
 
 namespace OSS.Core.NetCli;
 
-internal class SolutionFileTool : BaseTool
+internal class SolutionFileTool : BaseProjectTool
 {
     private static readonly WebApiFilesTool  _webapiTool  = new();
     private static readonly ServiceFilesTool _serviceTool = new();
@@ -16,8 +16,7 @@ internal class SolutionFileTool : BaseTool
 
     private static readonly ClientFilesTool _clientTool = new();
 
-
-    public override void Create(SolutionStructure ss)
+    public override void Create_Project(SolutionStructure ss)
     {
         _domainOpenedTool.Create(ss);
         _serviceOpenedTool.Create(ss);
@@ -29,12 +28,11 @@ internal class SolutionFileTool : BaseTool
 
         _clientTool.Create(ss);
 
-        CreateSolution(ss);
+        CreateSolutionFile(ss);
     }
 
-    public static void CreateSolution(SolutionStructure ss)
+    private static void CreateSolutionFile(SolutionStructure ss)
     {
-
         var slnContent = new StringBuilder();
 
         slnContent.AppendLine("Microsoft Visual Studio Solution File, Format Version 12.00");

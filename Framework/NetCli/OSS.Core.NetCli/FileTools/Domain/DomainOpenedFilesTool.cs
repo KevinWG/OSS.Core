@@ -2,20 +2,20 @@
 
 namespace OSS.Core.NetCli;
 
-internal class DomainOpenedFilesTool : BaseTool
+internal class DomainOpenedFilesTool : BaseProjectTool
 {
-    public override void Create(SolutionStructure pFiles)
+
+    public override void Create_Project(SolutionStructure ss)
     {
-        CreateDomainOpenedFiles(pFiles);
-    }
-    
-    private static void CreateDomainOpenedFiles(SolutionStructure ss)
-    {
+        var project = ss.domain_opened_project;
+        FileHelper.CreateDirectory(project.project_dir);
+
+
         var packageRefs = new List<string>()
         {
             "OSS.Core.Domain.Opened"
         };
 
-        FileHelper.CreateProjectFile(ss.domain_opened_project.project_file_path, packageRefs, null);
+        FileHelper.CreateProjectFile(project.project_file_path, packageRefs, null);
     }
 }

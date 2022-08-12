@@ -1,7 +1,7 @@
 ﻿namespace OSS.Core.NetCli;
-internal  class ClientFilesTool : BaseTool
+internal  class ClientFilesTool : BaseProjectTool
 {
-    public override void Create(SolutionStructure pFiles)
+    public override void Create_Project(SolutionStructure pFiles)
     {
 
     }
