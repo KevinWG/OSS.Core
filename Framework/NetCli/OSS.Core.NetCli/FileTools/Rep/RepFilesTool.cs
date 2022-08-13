@@ -1,9 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace OSSCore;
 internal  class RepFilesTool : BaseProjectTool
 {
+    public override void Create(SolutionStructure solution)
+    {
+        if (solution.solution_mode == SolutionMode.Simple)
+        {
+            return;
+        }
+        base.Create(solution);
+
+        Console.WriteLine($"仓储层类库 ({solution.rep_project.name}) -- done");
+    }
+
     public override void Create_Project(SolutionStructure ss)
     {
         var project = ss.rep_project;

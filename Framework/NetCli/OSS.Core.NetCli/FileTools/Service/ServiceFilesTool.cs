@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace OSSCore;
 
 internal class ServiceFilesTool : BaseProjectTool
 {
+    public override void Create(SolutionStructure solution)
+    {
+        base.Create(solution);
+        Console.WriteLine($"服务层类库 ({solution.service_project.name}) -- done");
+    }
+
     public override void Create_Project(SolutionStructure ss)
     {
         var project = ss.service_project;

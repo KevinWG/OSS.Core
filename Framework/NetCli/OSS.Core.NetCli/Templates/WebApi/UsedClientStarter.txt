@@ -1,5 +1,4 @@
-﻿using OSS.Common;
-using OSS.Core;
+﻿using OSS.Core;
 
 namespace {solution_name};
 

@@ -65,26 +65,35 @@ internal static class FileHelper
         sw.WriteLine(fileContent);
     }
 
-    public static void CreateFileByTemplate(string filePath, SolutionStructure pInfo, string templateRelativePath)
+    public static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath)
     {
-        var    templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"Templates", templateRelativePath);
+        var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         string content;
 
-        using (var file = new StreamReader(new FileStream(templatePath, FileMode.Open, FileAccess.Read)))
+        using var file = new StreamReader(new FileStream(templatePath, FileMode.Open, FileAccess.Read));
         {
             content = file.ReadToEnd();
         }
 
-        var newContent = content.Replace("{module_name}", pInfo.module_name)
-            .Replace("{solution_name}", pInfo.solution_name)
-            .Replace("{domain_project_name}", pInfo.domain_project.name)
-            .Replace("{domain_opened_project_name}", pInfo.domain_opened_project.name)
-            .Replace("{service_project_name}", pInfo.service_project.name)
-            .Replace("{service_opened_project_name}", pInfo.service_opened_project.name)
-            .Replace("{repository_project_name}", pInfo.rep_project.name)
-            .Replace("{webapi_project_name}", pInfo.webapi_project.name);
-
-        CreateFile(filePath, newContent);
+        return content.Replace("{module_name}", ss.module_name)
+            .Replace("{solution_name}", ss.solution_name)
+            .Replace("{domain_project_name}", ss.domain_project.name)
+            .Replace("{domain_opened_project_name}", ss.domain_opened_project.name)
+            .Replace("{service_project_name}", ss.service_project.name)
+            .Replace("{service_opened_project_name}", ss.service_opened_project.name)
+            .Replace("{repository_project_name}", ss.rep_project.name)
+            .Replace("{webapi_project_name}", ss.webapi_project.name);
     }
+    
+
+    public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath)
+    {
+        var content = LoadTemplateContent(ss,templateRelativePath);
+        CreateFile(filePath, content);
+    }
+
+
+
+
 
 }

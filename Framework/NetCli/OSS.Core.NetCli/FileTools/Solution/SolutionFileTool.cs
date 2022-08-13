@@ -1,4 +1,5 @@
 ﻿
+using System;
 using System.IO;
 using System.Text;
 
@@ -20,15 +21,18 @@ internal class SolutionFileTool : BaseProjectTool
     {
         _domainOpenedTool.Create(ss);
         _serviceOpenedTool.Create(ss);
+        _clientTool.Create(ss);
+
+        Console.WriteLine(" ");
 
         _domainTool.Create(ss);
         _repTool.Create(ss);
         _serviceTool.Create(ss);
         _webapiTool.Create(ss);
-
-        _clientTool.Create(ss);
-
+        
         CreateSolutionFile(ss);
+
+        Console.WriteLine("全部完成!");
     }
 
     private static void CreateSolutionFile(SolutionStructure ss)

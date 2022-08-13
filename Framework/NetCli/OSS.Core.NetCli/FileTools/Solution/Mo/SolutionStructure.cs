@@ -9,6 +9,7 @@ internal class SolutionStructure
     {
         base_path   = basePath;
         module_name = paras.module_name;
+        solution_mode = paras.solution_mode;
 
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
             ? paras.module_name
@@ -31,7 +32,7 @@ internal class SolutionStructure
 
     public string solution_name { get;  }
 
-
+    public SolutionMode solution_mode { get; }
 
     public DomainProjectStructure domain_project { get; }
 

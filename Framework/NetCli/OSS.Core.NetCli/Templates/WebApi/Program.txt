@@ -11,8 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOssCoreConfiguration(builder.Configuration); // 全局配置处理
 
 // 注册内部全局初始化
-builder.Services.Register<{module_name}RepStarter>();       // 仓储层
-builder.Services.Register<{module_name}ServiceStarter>();   // 逻辑服务层
+{RepStarterRegister}
+builder.Services.Register<{module_name}ServiceStarter>();   // 逻辑服务层启动注册
 
 // 注册依赖的外部客户端
 builder.Services.Register<{module_name}UsedClientStarter>();  

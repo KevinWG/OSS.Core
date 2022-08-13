@@ -15,7 +15,6 @@ internal class Program
         }
 
         CreateFiles(paras);
-        Console.WriteLine("创建完成!");
     }
     
     public static void CreateFiles(CommandParas pFiles)
