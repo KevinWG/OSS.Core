@@ -77,9 +77,13 @@ internal static class FileHelper
         return content;
     }
 
+    public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
+    {
+        var content = LoadTemplateContent(ss,templateRelativePath, extParas);
+        CreateFile(filePath, content);
+    }
 
-
-    private static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath,Dictionary<string,string> extParas=null)
+    private static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {
         var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         var content = LoadFile(templatePath);
@@ -94,20 +98,13 @@ internal static class FileHelper
             .Replace("{repository_project_name}", ss.rep_project.name)
             .Replace("{webapi_project_name}", ss.webapi_project.name);
 
-        return extParas == null
-            ? newContent
-            : extParas.Aggregate(newContent,
-                (eNew, kPair) => eNew.Replace(string.Concat("{", kPair.Key, "}"), kPair.Value));
+        if (extParas ==null)
+        {
+            return newContent;
+        }
+
+      
+        return  extParas.Aggregate(newContent,
+                (eNew, kPair) => eNew.Replace( kPair.Key, kPair.Value));
     }
-
-    public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
-    {
-        var content = LoadTemplateContent(ss,templateRelativePath);
-        CreateFile(filePath, content);
-    }
-
-
-
-
-
 }

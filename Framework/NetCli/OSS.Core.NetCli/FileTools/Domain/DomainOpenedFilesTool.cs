@@ -32,9 +32,9 @@ internal class DomainOpenedFilesTool : BaseProjectTool
 
     public override void AddEntity(SolutionStructure ss)
     {
-        FileHelper.CreateDirectory(ss.domain_project.entity_dir);
+        FileHelper.CreateDirectory(ss.domain_opened_project.entity_dir);
 
-        var entityFilePath = Path.Combine(ss.domain_project.entity_dir, string.Concat( ss.entity_name, "Mo.cs"));
+        var entityFilePath = Path.Combine(ss.domain_opened_project.entity_dir, $"{ss.entity_name}Mo.cs");
         FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/EntityMo.txt");
 
         AddEntity_DTO(ss);
@@ -42,7 +42,7 @@ internal class DomainOpenedFilesTool : BaseProjectTool
 
     private static void AddEntity_DTO(SolutionStructure ss)
     {
-        var dtoDir = Path.Combine(ss.domain_project.entity_dir, "DTO");
+        var dtoDir = Path.Combine(ss.domain_opened_project.entity_dir, "DTO");
         FileHelper.CreateDirectory(dtoDir);
 
         var addEntFilePath = Path.Combine(dtoDir, string.Concat("Add", ss.entity_name, "Req.cs"));

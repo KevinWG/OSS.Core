@@ -19,7 +19,7 @@ public class {entity_name}Service : IOpened{entity_name}Service
     }
 
     /// <inheritdoc />
-    public Task<IResp<TemplateMo>> Get(long id) => _{entity_name}Rep.GetById(id);
+    public Task<IResp<{entity_name}Mo>> Get(long id) => _{entity_name}Rep.GetById(id);
 
 
     /// <inheritdoc />

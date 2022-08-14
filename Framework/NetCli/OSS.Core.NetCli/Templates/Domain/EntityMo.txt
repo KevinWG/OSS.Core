@@ -11,6 +11,8 @@
 
 #endregion
 
+using OSS.Core.Domain;
+
 namespace {solution_name};
 
 /// <summary>

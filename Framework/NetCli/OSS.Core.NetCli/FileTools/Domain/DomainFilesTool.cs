@@ -61,7 +61,6 @@ internal class DomainFilesTool : BaseProjectTool
 
     #endregion
 
-
     #region 添加实体
 
     public override void AddEntity(SolutionStructure ss)

@@ -14,7 +14,6 @@ internal  class WebApiFilesTool: BaseProjectTool
         Console.WriteLine($"应用协议层（WebApi）类库({solution.webapi_project.name}) -- done");
     }
 
-
     public override void Create_Project(SolutionStructure ss)
     {
         var project = ss.webapi_project;
@@ -39,7 +38,7 @@ internal  class WebApiFilesTool: BaseProjectTool
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
         FileHelper.CreateProjectFile(projectFilePath, packageRefs, projectRefs, true);
-
+        
         CreateProgramFile(ss);
     }
 
@@ -69,7 +68,7 @@ internal  class WebApiFilesTool: BaseProjectTool
             : $"builder.Services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
 
         var extDic = new Dictionary<string,string> { { "{RepStarterRegister}", repRegisterStr } };
-
+        
         var programFilePath = Path.Combine(project.project_dir, "Program.cs");
         FileHelper.CreateFileByTemplate(programFilePath, ss, "WebApi/Program.txt", extDic);
     }
