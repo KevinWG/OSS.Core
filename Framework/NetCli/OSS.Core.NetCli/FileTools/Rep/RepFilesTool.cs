@@ -59,14 +59,19 @@ internal  class RepFilesTool : BaseProjectTool
 
     public override void AddEntity(SolutionStructure ss)
     {
-        var repDir = ss.solution_mode == SolutionMode.Simple
-            ? Path.Combine(ss.domain_project.entity_dir, "Rep")
-            : Path.Combine(ss.rep_project.project_dir, ss.entity_name);
+        var repDir = ss.solution_mode == SolutionMode.Default
+            ? Path.Combine(ss.rep_project.project_dir, ss.entity_name)
+            : Path.Combine(ss.domain_project.entity_dir, "Rep"); // 简化模式，放置在Domain文件夹
 
         FileHelper.CreateDirectory(repDir);
 
         var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
-        FileHelper.CreateFileByTemplate(repFilePath,ss, "Repository/EntityRep.txt");
+        FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt", new Dictionary<string, string>()
+        {
+            {
+                "{rep_interface}", ss.solution_mode == SolutionMode.Default ? $",I{ss.entity_name}Rep" : string.Empty
+            }
+        });
     }
 
 
