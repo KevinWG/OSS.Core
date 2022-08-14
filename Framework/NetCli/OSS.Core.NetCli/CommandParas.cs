@@ -15,7 +15,7 @@ internal class CreateParas
 
     public string solution_pre { get; set; }
 
-    public SolutionMode solution_mode { get; set; }
+    public SolutionMode solution_mode { get; set; } = SolutionMode.Default;
 }
 
 public enum SolutionMode

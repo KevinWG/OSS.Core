@@ -3,20 +3,35 @@ namespace OSSCore
 {
     internal abstract class BaseProjectTool
     {
-        public virtual void Create(SolutionStructure solution)
+        #region 创建方法
+        
+        public virtual void Create(SolutionStructure ss)
         {
-            Create_Project(solution);
-            Create_CommonFiles(solution);
-            Create_GlobalFiles(solution);
+            Create_Project(ss);
+            Create_CommonFiles(ss);
+            Create_GlobalFiles(ss);
         }
 
-        public abstract void Create_Project(SolutionStructure solution);
+
+        public abstract void Create_Project(SolutionStructure ss);
         
-        public virtual void Create_CommonFiles(SolutionStructure solution)
+        public virtual void Create_CommonFiles(SolutionStructure ss)
         {
         }
-        public virtual void Create_GlobalFiles(SolutionStructure solution)
+        public virtual void Create_GlobalFiles(SolutionStructure ss)
         {
         }
+
+        #endregion
+
+
+        #region 添加方法
+
+        public virtual void AddEntity(SolutionStructure ss, string entityName)
+        {
+
+        }
+
+        #endregion
     }
 }

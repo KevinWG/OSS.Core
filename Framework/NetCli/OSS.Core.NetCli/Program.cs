@@ -1,7 +1,8 @@
 ﻿
+using OSSCore;
 using System;
 using System.IO;
-using OSSCore;
+using System.Text.Json;
 
 internal class Program
 {
@@ -25,17 +26,55 @@ internal class Program
             case "new":
                 CreateSolution(args);
                 break;
+            case "add":
+                AddEntity(args);
+                break;
+            default:
+                ConsoleTips();
+                break;
+        }
+    }
+
+    #region 添加领域对象
+
+    private static void AddEntity(string[] args)
+    {
+        var entityName = args[1];
+        if (string.IsNullOrEmpty(entityName))
+        {
+            ConsoleTips();
+            return;
         }
 
-        ConsoleTips();
+        var basePath = Directory.GetCurrentDirectory();
+
+        var paras = GetParasFromFile(basePath);
+        var ss = new SolutionStructure(paras, basePath);
+        
+        new SolutionFileTool().AddEntity(ss,entityName);
     }
+
+    private static CreateParas GetParasFromFile(string basePath)
+    {
+        var jsonFilePath = Path.Combine(basePath, module_json_file_name);
+        if (!File.Exists(jsonFilePath))
+        {
+            throw new Exception("未能在当期目录找到模块创建记录，无法添加对象文件!");
+        }
+
+        var mJsonStr = FileHelper.LoadFile(jsonFilePath);
+        return JsonSerializer.Deserialize<CreateParas>(mJsonStr);
+    }
+
+
+
+    #endregion
+
+    private const string module_json_file_name = "module.core.json";
 
 
     #region 创建解决方案
 
-    
-
-    #endregion
 
     private static void CreateSolution(string[] args)
     {
@@ -48,9 +87,12 @@ internal class Program
         }
 
         var basePath = Directory.GetCurrentDirectory();
-        var projectFiles = new SolutionStructure(paras, basePath);
+        var ss = new SolutionStructure(paras, basePath);
 
-        new SolutionFileTool().Create(projectFiles);
+        new SolutionFileTool().Create(ss);
+
+        var moduleJsonPath = Path.Combine(basePath, module_json_file_name);
+        FileHelper.CreateFile(moduleJsonPath, JsonSerializer.Serialize(paras));
     }
     
     
@@ -78,14 +120,27 @@ internal class Program
         }
         return paras;
     }
-    
+
+
+    #endregion
+
     private static void ConsoleTips()
     {
-        Console.WriteLine("执行指令：osscore moduleA （创建名称为 moduleA 的模块解决方案）");
-        Console.WriteLine("可选参数提示：");
-        Console.WriteLine("  --pre=xxx, 指定解决方案前缀");
-        Console.WriteLine("  --mode=simple|default, 指定解决方案结构");
-        Console.WriteLine("     simple： 没有独立的仓储类库");
-        Console.WriteLine("     default：独立仓储层");
+        var commandStr =
+            @"
+可执行指令：
+
+osscore new moduleA （创建名称为 moduleA 的模块解决方案）
+
+    可选参数提示：
+        --pre=xxx, 指定解决方案前缀
+        --mode=simple|default, 指定解决方案结构
+            simple： 没有独立的仓储类库（和领域对象类库合并）
+            default：独立仓储层
+
+osscore add entityName (创建领域对象名为entityName的各模块文件)
+";
+
+        Console.WriteLine(commandStr);
     }
 }

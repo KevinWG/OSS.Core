@@ -65,15 +65,23 @@ internal static class FileHelper
         sw.WriteLine(fileContent);
     }
 
-    public static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath)
+    public static string LoadFile(string filePath)
     {
-        var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         string content;
 
-        using var file = new StreamReader(new FileStream(templatePath, FileMode.Open, FileAccess.Read));
+        using var file = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read));
         {
             content = file.ReadToEnd();
         }
+        return content;
+    }
+
+
+
+    public static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath)
+    {
+        var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
+        var content = LoadFile(templatePath);
 
         return content.Replace("{module_name}", ss.module_name)
             .Replace("{solution_name}", ss.solution_name)
@@ -84,7 +92,6 @@ internal static class FileHelper
             .Replace("{repository_project_name}", ss.rep_project.name)
             .Replace("{webapi_project_name}", ss.webapi_project.name);
     }
-    
 
     public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath)
     {

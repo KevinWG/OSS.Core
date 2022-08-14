@@ -17,6 +17,11 @@ internal class SolutionFileTool : BaseProjectTool
 
     private static readonly ClientFilesTool _clientTool = new();
 
+
+
+
+    #region 创建
+
     public override void Create_Project(SolutionStructure ss)
     {
         _domainOpenedTool.Create(ss);
@@ -83,4 +88,7 @@ internal class SolutionFileTool : BaseProjectTool
         var slnFilePath = Path.Combine(ss.base_path, ss.solution_name + ".sln");
         FileHelper.CreateFile(slnFilePath, slnContent.ToString());
     }
+
+
+    #endregion
 }
