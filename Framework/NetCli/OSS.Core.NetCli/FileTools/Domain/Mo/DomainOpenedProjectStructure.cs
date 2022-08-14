@@ -2,8 +2,8 @@
 
 internal class DomainOpenedProjectStructure : BaseProjectStructure
 {
-    public DomainOpenedProjectStructure(string solutionName, string moduleName, string basePath) : base(
-        string.Concat(solutionName, ".Domain.Opened"), basePath)
+    public DomainOpenedProjectStructure(string solutionName, string moduleName, string basePath, string entityName = "") : base(
+        string.Concat(solutionName, ".Domain.Opened"), basePath,entityName)
     {
     }
 }

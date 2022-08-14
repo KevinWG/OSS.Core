@@ -66,20 +66,19 @@ internal class DomainFilesTool : BaseProjectTool
 
     public override void AddEntity(SolutionStructure ss)
     {
-        var entityDir = Path.Combine(ss.domain_opened_project.project_dir, ss.entity_name);
-        FileHelper.CreateDirectory(entityDir);
+        FileHelper.CreateDirectory(ss.domain_project.entity_dir);
 
-        AddEntityIRep(ss,entityDir);
+        AddEntityIRep(ss);
     }
 
-    private static void AddEntityIRep(SolutionStructure ss, string entityDir)
+    private static void AddEntityIRep(SolutionStructure ss)
     {
         if (ss.solution_mode == SolutionMode.Simple)
         {
             return;
         }
 
-        var irepDir = Path.Combine(entityDir, "IRep");
+        var irepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
         FileHelper.CreateDirectory(irepDir);
 
         var irepFilePath = Path.Combine(irepDir, $"I{ss.entity_name}Rep.cs");

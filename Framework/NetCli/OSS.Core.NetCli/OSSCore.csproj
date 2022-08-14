@@ -29,7 +29,7 @@
 	  <None Update="Templates\Domain\DomainAppStarter.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Templates\Repository\Rep\EntityRep.txt">
+	  <None Update="Templates\Repository\EntityRep.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\Service\IModuleClient.txt">

@@ -51,4 +51,24 @@ internal  class RepFilesTool : BaseProjectTool
         var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
     }
+
+
+
+
+    #region 添加实体
+
+    public override void AddEntity(SolutionStructure ss)
+    {
+        var repDir = ss.solution_mode == SolutionMode.Simple
+            ? Path.Combine(ss.domain_project.entity_dir, "Rep")
+            : Path.Combine(ss.rep_project.project_dir, ss.entity_name);
+
+        FileHelper.CreateDirectory(repDir);
+
+        var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
+        FileHelper.CreateFileByTemplate(repFilePath,ss, "Repository/EntityRep.txt");
+    }
+
+
+    #endregion
 }
