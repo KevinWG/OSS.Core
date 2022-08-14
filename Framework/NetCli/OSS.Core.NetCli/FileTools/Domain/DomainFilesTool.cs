@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace OSSCore;
-internal  class DomainFilesTool:BaseProjectTool
+
+internal class DomainFilesTool : BaseProjectTool
 {
     #region 创建
 
@@ -23,7 +24,7 @@ internal  class DomainFilesTool:BaseProjectTool
             "OSS.Core.Domain"
         };
 
-        if (ss.solution_mode==SolutionMode.Simple)
+        if (ss.solution_mode == SolutionMode.Simple)
         {
             // 简单模式下 仓储和领域实体放在一起
             packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache", "OSS.Tools.Log" });
@@ -63,7 +64,29 @@ internal  class DomainFilesTool:BaseProjectTool
 
     #region 添加实体
 
-    
+    public override void AddEntity(SolutionStructure ss)
+    {
+        var entityDir = Path.Combine(ss.domain_opened_project.project_dir, ss.entity_name);
+        FileHelper.CreateDirectory(entityDir);
+
+        AddEntityIRep(ss,entityDir);
+    }
+
+    private static void AddEntityIRep(SolutionStructure ss, string entityDir)
+    {
+        if (ss.solution_mode == SolutionMode.Simple)
+        {
+            return;
+        }
+
+        var irepDir = Path.Combine(entityDir, "IRep");
+        FileHelper.CreateDirectory(irepDir);
+
+        var irepFilePath = Path.Combine(irepDir, $"I{ss.entity_name}Rep.cs");
+        FileHelper.CreateFileByTemplate(irepFilePath, ss, "Domain/IRep/IEntityRep.txt");
+    }
+
+
 
     #endregion
 }

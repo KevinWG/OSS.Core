@@ -63,6 +63,7 @@ public class BaseProjectStructure
         global_dir  = Path.Combine(project_dir, "AppGlobal");
 
         project_file_path = Path.Combine(project_dir, name + ".csproj");
+        
     }
 
     public string name { get; set; }
@@ -71,6 +72,8 @@ public class BaseProjectStructure
     ///  项目文件夹
     /// </summary>
     public string project_dir { get; set; }
+    
+
 
     /// <summary>
     ///  项目文件地址

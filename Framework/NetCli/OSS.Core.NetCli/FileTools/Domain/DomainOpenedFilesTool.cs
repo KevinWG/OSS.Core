@@ -36,15 +36,18 @@ internal class DomainOpenedFilesTool : BaseProjectTool
         FileHelper.CreateDirectory(entityDir);
 
         var entityFilePath = Path.Combine(entityDir, string.Concat( ss.entity_name, "Mo.cs"));
-        FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/DTO/EntityMo.txt");
+        FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/EntityMo.txt");
 
+        AddEntity_DTO(ss, entityDir);
+    }
 
+    private static void AddEntity_DTO(SolutionStructure ss, string entityDir)
+    {
         var dtoDir = Path.Combine(entityDir, "DTO");
         FileHelper.CreateDirectory(dtoDir);
 
         var addEntFilePath = Path.Combine(dtoDir, string.Concat("Add", ss.entity_name, "Req.cs"));
-        FileHelper.CreateFileByTemplate(addEntFilePath, ss,"Domain/DTO/AddEntityReq.txt");
-        
+        FileHelper.CreateFileByTemplate(addEntFilePath, ss, "Domain/DTO/AddEntityReq.txt");
     }
 
     #endregion

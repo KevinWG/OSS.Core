@@ -1,0 +1,34 @@
+﻿using OSS.Common;
+using OSS.Common.Extension;
+using OSS.Common.Resp;
+using OSS.Core.Domain;
+
+namespace {solution_name};
+
+public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo>
+{
+    public {entity_name}Rep() : base("{entity_name}")
+    {
+    }
+
+    /// <summary>
+    ///  查询列表
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public Task<PageList<{entity_name}Mo>> Search(SearchReq req)
+    {
+        return SimpleSearch(req);
+    }
+
+    /// <summary>
+    ///   修改状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="status"></param>
+    /// <returns></returns>
+    public Task<IResp> UpdateStatus(long id, CommonStatus status)
+    {
+        return Update(u => new {u.status}, w => w.id == id, new {status});
+    }
+}
