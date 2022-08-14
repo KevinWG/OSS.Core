@@ -49,9 +49,9 @@ internal class Program
         var basePath = Directory.GetCurrentDirectory();
 
         var paras = GetParasFromFile(basePath);
-        var ss = new SolutionStructure(paras, basePath);
+        var ss = new SolutionStructure(paras, basePath,entityName);
         
-        new SolutionFileTool().AddEntity(ss,entityName);
+        new SolutionFileTool().AddEntity(ss);
     }
 
     private static CreateParas GetParasFromFile(string basePath)

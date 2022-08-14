@@ -27,7 +27,7 @@ namespace OSSCore
 
         #region 添加方法
 
-        public virtual void AddEntity(SolutionStructure ss, string entityName)
+        public virtual void AddEntity(SolutionStructure ss)
         {
 
         }

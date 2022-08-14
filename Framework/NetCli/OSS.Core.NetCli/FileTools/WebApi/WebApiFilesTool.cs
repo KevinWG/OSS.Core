@@ -46,7 +46,7 @@ internal  class WebApiFilesTool: BaseProjectTool
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var starterFilePath = Path.Combine(project.global_dir, project.starter_file_name + ".cs");
+        var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt");
     }
     
@@ -57,7 +57,7 @@ internal  class WebApiFilesTool: BaseProjectTool
 
         var repRegisterStr = ss.solution_mode == SolutionMode.Simple
             ? string.Empty
-            : $"builder.Services.Register<{ss.rep_project.starter_file_name}>();       // 仓储层启动注入";
+            : $"builder.Services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
 
         var newContent = templateContent.Replace("{RepStarterRegister}", repRegisterStr);
 

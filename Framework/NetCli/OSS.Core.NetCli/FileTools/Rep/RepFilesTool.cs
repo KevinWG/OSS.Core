@@ -39,7 +39,7 @@ internal  class RepFilesTool : BaseProjectTool
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.common_dir);
 
-        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.base_file_name}.cs");
+        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.base_class_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
     }
 
@@ -48,7 +48,7 @@ internal  class RepFilesTool : BaseProjectTool
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
     }
 }

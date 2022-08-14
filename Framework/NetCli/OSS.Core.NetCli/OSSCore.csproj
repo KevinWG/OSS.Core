@@ -14,6 +14,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="Templates\Domain\DTO\AddEntityReq.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\Domain\EntityMo.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Templates\Domain\ModuleConst.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>

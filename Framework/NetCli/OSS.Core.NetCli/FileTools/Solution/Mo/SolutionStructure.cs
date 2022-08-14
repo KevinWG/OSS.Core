@@ -5,20 +5,21 @@ namespace OSSCore;
 
 internal class SolutionStructure
 {
-    public SolutionStructure(CreateParas paras, string basePath)
+    public SolutionStructure(CreateParas paras, string basePath, string entityName = "")
     {
-        base_path   = basePath;
+        base_path = basePath;
         module_name = paras.module_name;
         solution_mode = paras.solution_mode;
+        entity_name = entityName;
 
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
             ? paras.module_name
             : string.Concat(paras.solution_pre, ".", paras.module_name);
 
-        domain_project        = new DomainProjectStructure(solution_name, module_name, basePath);
+        domain_project = new DomainProjectStructure(solution_name, module_name, basePath);
         domain_opened_project = new DomainOpenedProjectStructure(solution_name, module_name, basePath);
 
-        service_project        = new ServiceProjectStructure(solution_name, module_name, basePath);
+        service_project = new ServiceProjectStructure(solution_name, module_name, basePath);
         service_opened_project = new ServiceOpenedProjectStructure(solution_name, module_name, basePath);
 
         rep_project = new RepProjectStructure(solution_name, module_name, basePath);
@@ -29,6 +30,8 @@ internal class SolutionStructure
     public string base_path { get;  }
 
     public string module_name { get; }
+
+    public string entity_name { get; set; }
 
     public string solution_name { get;  }
 

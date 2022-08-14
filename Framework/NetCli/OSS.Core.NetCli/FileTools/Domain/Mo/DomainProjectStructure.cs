@@ -8,11 +8,11 @@ internal class DomainProjectStructure : BaseProjectStructure
         string.Concat(solutionName, ".Domain"), basePath)
     {
         const_file_name = string.Concat(moduleName, "Const");
-        starter_file_name = string.Concat(moduleName, "DomainStarter");
+        starter_class_name = string.Concat(moduleName, "DomainStarter");
     }
 
 
-    public string starter_file_name { get; }
+    public string starter_class_name { get; }
 
     public string const_file_name { get; }
 }

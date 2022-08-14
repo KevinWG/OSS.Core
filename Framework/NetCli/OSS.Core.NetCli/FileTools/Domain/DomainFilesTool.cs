@@ -5,6 +5,8 @@ using System.IO;
 namespace OSSCore;
 internal  class DomainFilesTool:BaseProjectTool
 {
+    #region 创建
+
     public override void Create(SolutionStructure solution)
     {
         base.Create(solution);
@@ -51,7 +53,17 @@ internal  class DomainFilesTool:BaseProjectTool
         var project = solution.domain_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
         FileHelper.CreateFileByTemplate(starterFilePath, solution, "Domain/DomainAppStarter.txt");
     }
+
+
+    #endregion
+
+
+    #region 添加实体
+
+    
+
+    #endregion
 }

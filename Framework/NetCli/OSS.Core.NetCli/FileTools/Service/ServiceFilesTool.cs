@@ -40,7 +40,7 @@ internal class ServiceFilesTool : BaseProjectTool
         var project = ss.service_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var baeStarterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        var baeStarterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
         FileHelper.CreateFileByTemplate(baeStarterFilePath, ss, "Service/ServiceAppStarter.txt");
 
         var localClientPath = Path.Combine(project.global_dir, $"{project.local_client_name}.cs");
