@@ -79,7 +79,7 @@ internal static class FileHelper
 
 
 
-    public static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath,Dictionary<string,string> extParas=null)
+    private static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath,Dictionary<string,string> extParas=null)
     {
         var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         var content = LoadFile(templatePath);
@@ -100,7 +100,7 @@ internal static class FileHelper
                 (eNew, kPair) => eNew.Replace(string.Concat("{", kPair.Key, "}"), kPair.Value));
     }
 
-    public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath)
+    public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {
         var content = LoadTemplateContent(ss,templateRelativePath);
         CreateFile(filePath, content);

@@ -1,0 +1,54 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using OSS.Common;
+using OSS.Common.Resp;
+using OSS.Core.Context.Attributes;
+
+namespace {solution_name};
+
+/// <summary>
+/// 实体对外WebApi
+/// </summary>
+public class {entity_name}Controller : Base{module_name}Controller, IOpened{entity_name}Service
+{
+    public static readonly {entity_name}Service _service = new();
+
+    /// <inheritdoc />
+    [HttpPost]
+    public Task<PageListResp<TemplateMo>> Search([FromBody] SearchReq req)
+    {
+        return _service.Search(req);
+    }
+
+    /// <summary>
+    /// 获取详情
+    /// </summary>
+    /// <param name="id">id</param>
+    /// <returns></returns>
+    [HttpGet]
+    public Task<IResp<TemplateMo>> Get(long id)
+    {
+        return _service.Get(id);
+    }
+    
+    /// <summary>
+    ///  设置可用状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IResp> SetUseable(long id, ushort flag)
+    {
+        await Task.Delay(2000);
+        return await _service.SetUseable(id, flag);
+    }
+
+
+
+    /// <inheritdoc />
+    [HttpPost]
+    public Task<IResp> Add([FromBody] Add{entity_name}Req req)
+    {
+        return _service.Add(req);
+    }
+}

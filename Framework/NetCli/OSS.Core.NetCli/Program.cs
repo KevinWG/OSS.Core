@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 
-internal class Program
+public class Program
 {
     static void Main(string[] args)
     {
@@ -15,6 +15,7 @@ internal class Program
         }
 
         DispatchCommand(args);
+        
     }
     
 
@@ -46,6 +47,7 @@ internal class Program
             return;
         }
 
+
         var basePath = Directory.GetCurrentDirectory();
 
         var paras = GetParasFromFile(basePath);
@@ -63,6 +65,7 @@ internal class Program
         }
 
         var mJsonStr = FileHelper.LoadFile(jsonFilePath);
+        
         return JsonSerializer.Deserialize<CreateParas>(mJsonStr);
     }
 

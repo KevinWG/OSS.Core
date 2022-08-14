@@ -35,4 +35,17 @@ internal  class ServiceOpenedFilesTool : BaseProjectTool
         var baeClientFilePath = Path.Combine(project.common_dir, $"{project.client_interface_name}.cs");
         FileHelper.CreateFileByTemplate(baeClientFilePath, ss, "Service/IModuleClient.txt");
     }
+
+
+    #region 添加实体
+
+    public override void AddEntity(SolutionStructure ss)
+    {
+        FileHelper.CreateDirectory(ss.service_opened_project.entity_dir);
+
+        var oServiceFilePath = Path.Combine(ss.service_opened_project.entity_dir, $"IOpened{ss.entity_name}Service.cs");
+        FileHelper.CreateFileByTemplate(oServiceFilePath,ss, "Service/IOpenedEntityService.txt");
+    }
+
+    #endregion
 }
