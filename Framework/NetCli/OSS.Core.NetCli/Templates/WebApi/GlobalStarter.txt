@@ -3,12 +3,12 @@
 namespace {solution_name};
 
 /// <summary>
-///   外部依赖客户端注入
+///   全局注入
 /// </summary>
-public class {module_name}UsedClientStarter : AppStarter
+public class {module_name}GlobalStarter : AppStarter
 {
     public override void Start(IServiceCollection services)
     {
-        // 外部依赖的客户端相关启动注入
+        // 全局的注入，特别是相关外部依赖信息
     }
 }

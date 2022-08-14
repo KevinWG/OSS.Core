@@ -61,9 +61,13 @@ internal class SolutionFileTool : BaseProjectTool
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_project.name}\", \"{ss.service_project.name}\\{ss.service_project.name}.csproj\", \"{{91D0F8AB-E5D0-41E8-8C40-2D270B12878F}}\"");
         slnContent.AppendLine("EndProject");
 
-        slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{{27898B9F-7BCD-4221-BA1C-822C9D4574F9}}\"");
-        slnContent.AppendLine("EndProject");
+        if (ss.solution_mode == SolutionMode.Default)
+        {
+            slnContent.AppendLine(
+                $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{{27898B9F-7BCD-4221-BA1C-822C9D4574F9}}\"");
+            slnContent.AppendLine("EndProject");
+
+        }
 
         slnContent.AppendLine(
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.webapi_project.name}\", \"{ss.webapi_project.name}\\{ss.webapi_project.name}.csproj\", \"{{A0D11BA9-C5C1-44A5-8EB1-038A0DAA6423}}\"");

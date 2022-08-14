@@ -4,11 +4,12 @@ using OSS.Core;
 namespace {solution_name};
 
 /// <summary>
-///  启动注册配置
+///  仓储层启动注入
 /// </summary>
 public class {module_name}RepStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
+        //  仓储层内部启动注入相关，外部启动注入项请在全局注入
     }
 }

@@ -45,6 +45,13 @@ internal  class DomainFilesTool:BaseProjectTool
         var baeRepFilePath = Path.Combine(project.common_dir, $"{project.const_file_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
     }
-    
-    
+
+    public override void Create_GlobalFiles(SolutionStructure solution)
+    {
+        var project = solution.domain_project;
+        FileHelper.CreateDirectory(project.global_dir);
+
+        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        FileHelper.CreateFileByTemplate(starterFilePath, solution, "Domain/DomainAppStarter.txt");
+    }
 }

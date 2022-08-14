@@ -5,7 +5,7 @@ namespace OSSCore;
 
 internal class SolutionStructure
 {
-    public SolutionStructure(CommandParas paras, string basePath)
+    public SolutionStructure(CreateParas paras, string basePath)
     {
         base_path   = basePath;
         module_name = paras.module_name;

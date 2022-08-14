@@ -48,7 +48,7 @@ internal  class RepFilesTool : BaseProjectTool
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var baeRepFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/RepAppStarter.txt");
+        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
     }
 }

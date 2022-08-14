@@ -7,32 +7,61 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        var paras = GetParas(args);
+        if (args==null || args.Length <1)
+        {
+            ConsoleTips();
+            return;
+        }
+
+        DispatchCommand(args);
+    }
+    
+
+    private static void DispatchCommand(string[] args)
+    {
+        var commandName = args[0].ToLower();
+        switch (commandName)
+        {
+            case "new":
+                CreateSolution(args);
+                break;
+        }
+
+        ConsoleTips();
+    }
+
+
+    #region 创建解决方案
+
+    
+
+    #endregion
+
+    private static void CreateSolution(string[] args)
+    {
+        var paras = GetCreateParas(args);
+
         if (string.IsNullOrEmpty(paras.module_name))
         {
             ConsoleTips();
             return;
         }
 
-        CreateFiles(paras);
-    }
-    
-    public static void CreateFiles(CommandParas pFiles)
-    {
-        var basePath    = Directory.GetCurrentDirectory();
-        var projectFiles = new SolutionStructure(pFiles, basePath);
+        var basePath = Directory.GetCurrentDirectory();
+        var projectFiles = new SolutionStructure(paras, basePath);
 
         new SolutionFileTool().Create(projectFiles);
     }
-
-    private static CommandParas GetParas(string[] args)
+    
+    
+    private static CreateParas GetCreateParas(string[] args)
     {
-        var paras = new CommandParas();
-        if (args == null || args.Length == 0)
-            return paras;
+        var paras = new CreateParas();
 
-        foreach (var p in args)
+        for (var i=1;i<args.Length;i++)
         {
+            var p= args[i];
+
             if (p.StartsWith("--pre="))
             {
                 paras.solution_pre = p.Replace("--pre=", "").TrimEnd();

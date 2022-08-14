@@ -1,4 +1,15 @@
-﻿internal class CommandParas
+﻿
+internal class Command
+{
+    public string name { get; set; }
+
+    public CreateParas create_paras { get; set; }
+
+}
+
+
+
+internal class CreateParas
 {
     public string module_name { get; set; }
 
