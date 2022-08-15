@@ -9,10 +9,11 @@ internal  class RepFilesTool : BaseProjectTool
     {
         if (solution.solution_mode == SolutionMode.Simple)
         {
+            Create_CommonFiles(solution);
             return;
         }
-        base.Create(solution);
 
+        base.Create(solution);
         Console.WriteLine($"仓储层类库 ({solution.rep_project.name}) -- done");
     }
 
@@ -39,7 +40,11 @@ internal  class RepFilesTool : BaseProjectTool
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.common_dir);
 
-        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.base_class_name}.cs");
+        var baseRepDir = ss.solution_mode == SolutionMode.Default
+            ? project.common_dir
+            : ss.domain_project.common_dir;
+
+        var baeRepFilePath = Path.Combine(baseRepDir, $"{project.base_class_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
     }
 

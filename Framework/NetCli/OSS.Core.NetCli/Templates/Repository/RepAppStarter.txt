@@ -11,6 +11,6 @@ public class {module_name}RepStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
-        //  仓储层内部启动注入相关，外部启动注入项请在全局注入
+        //  仓储层启动注入（内部）相关，注入外部引用项请在全局注入
     }
 }

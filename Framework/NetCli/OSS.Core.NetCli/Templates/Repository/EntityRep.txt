@@ -7,7 +7,7 @@ namespace {solution_name};
 
 public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo,long> {rep_interface}
 {
-    protected {entity_name}Rep() : base("{entity_name}")
+    public {entity_name}Rep() : base("{entity_name}")
     {
     }
 

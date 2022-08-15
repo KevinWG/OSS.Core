@@ -10,5 +10,6 @@ public class {module_name}DomainStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
+        //  领域层启动注入（内部）相关，注入外部引用项请在全局注入
     }
 }

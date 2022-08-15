@@ -11,6 +11,6 @@ public class {module_name}ServiceStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
-        // 主要服务层内部的启动注入使用管理，外部启动注入项请在全局注入
+        // 服务层的启动注入（内部）相关，注入外部引用项请在全局注入
     }
 }
