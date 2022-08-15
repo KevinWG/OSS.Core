@@ -55,7 +55,6 @@ public class TemplateController : BaseNotifyController, IOpenedTemplateService
     [UserFuncMeta(NotifyConst.FuncCodes.Notify_Template_Update)]
     public async Task<IResp> SetUseable(long id, ushort flag)
     {
-        await Task.Delay(2000);
         return await _service.SetUseable(id, flag);
     }
 

@@ -12,7 +12,6 @@ public class AllWebUsedClientStarter : AppStarter
     public override void Start(IServiceCollection services)
     {
         InsContainer<INotifyClient>.Set<NotifyDefaultClient>();
-
         InsContainer<IPortalClient>.Set<LocalPortalClient>();
     }
 }
