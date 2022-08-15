@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.RegularExpressions;
 
 namespace OSSCore;
 internal  class RepFilesTool : BaseProjectTool
@@ -39,11 +38,11 @@ internal  class RepFilesTool : BaseProjectTool
     public override void Create_CommonFiles(SolutionStructure ss)
     {
         var project = ss.rep_project;
-        FileHelper.CreateDirectory(project.common_dir);
-
         var baseRepDir = ss.solution_mode == SolutionMode.Default
             ? project.common_dir
             : ss.domain_project.common_dir;
+
+        FileHelper.CreateDirectory(baseRepDir);
 
         var baeRepFilePath = Path.Combine(baseRepDir, $"{project.base_class_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
