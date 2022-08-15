@@ -15,46 +15,7 @@ internal static class FileHelper
             Directory.CreateDirectory(projectPath);
         }
     }
-
-    public static void CreateProjectFile(string filePath, List<string> packageRefs, List<string> projectRefs,
-                                         bool isWeb = false)
-    {
-        var content = new StringBuilder();
-
-        content.AppendLine(isWeb ? "<Project Sdk=\"Microsoft.NET.Sdk.Web\">" : "<Project Sdk=\"Microsoft.NET.Sdk\">");
-
-        content.AppendLine(@"
-     <PropertyGroup>
-         <TargetFramework>net6.0</TargetFramework>
-         <ImplicitUsings>enable</ImplicitUsings>
-         <Nullable>enable</Nullable>
-     </PropertyGroup>");
-
-        if (packageRefs != null && packageRefs.Count > 0)
-        {
-            content.AppendLine("    <ItemGroup>");
-            foreach (var packageRef in packageRefs)
-            {
-                content.AppendLine($"       <PackageReference Include=\"{packageRef}\" Version=\"*\"/>");
-            }
-            content.AppendLine("    </ItemGroup>");
-        }
-
-        if (projectRefs is {Count: > 0})
-        {
-            content.AppendLine("    <ItemGroup>");
-            foreach (var item in projectRefs)
-            {
-                content.AppendLine($"       <ProjectReference Include=\"{item}\" />");
-            }
-
-            content.AppendLine("    </ItemGroup>");
-        }
-
-        content.AppendLine("</Project>");
-
-        CreateFile(filePath, content.ToString());
-    }
+    
 
     public static void CreateFile(string filePath, string fileContent)
     {
@@ -68,14 +29,30 @@ internal static class FileHelper
 
     public static string LoadFile(string filePath)
     {
-        string content;
-
+        string    content;
         using var file = new StreamReader(new FileStream(filePath, FileMode.Open, FileAccess.Read));
         {
             content = file.ReadToEnd();
         }
         return content;
     }
+
+    public static void InsertFileFuncContent(string filePath, string insertContent, string flag)
+    {
+        if (!File.Exists(filePath))
+        {
+            return;
+        }
+
+        var content = FileHelper.LoadFile(filePath);
+
+        var index = content.IndexOf('{', content.IndexOf(flag))+1;
+
+        var newContent = content.Contains(insertContent) ? content : content.Insert(index, insertContent);
+
+        FileHelper.CreateFile(filePath, newContent);
+    }
+
 
     public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {

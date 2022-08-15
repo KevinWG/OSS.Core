@@ -37,7 +37,7 @@ internal  class WebApiFilesTool: BaseProjectTool
         }
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
-        FileHelper.CreateProjectFile(projectFilePath, packageRefs, projectRefs, true);
+        CreateProjectFile(projectFilePath, packageRefs, projectRefs, true);
         
         CreateProgramFile(ss);
     }

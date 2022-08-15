@@ -35,7 +35,7 @@ internal class DomainFilesTool : BaseProjectTool
             $"..\\{ss.domain_opened_project.name}\\{ss.domain_opened_project.name}.csproj"
         };
 
-        FileHelper.CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
+        CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
 
 

@@ -23,7 +23,7 @@ internal  class ServiceOpenedFilesTool : BaseProjectTool
         };
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
-        FileHelper.CreateProjectFile(projectFilePath, null, projectRefs);
+        CreateProjectFile(projectFilePath, null, projectRefs);
     }
 
 

@@ -22,7 +22,7 @@ internal class DomainOpenedFilesTool : BaseProjectTool
             "OSS.Core.Domain.Opened"
         };
 
-        FileHelper.CreateProjectFile(project.project_file_path, packageRefs, null);
+        CreateProjectFile(project.project_file_path, packageRefs, null);
     }
 
 

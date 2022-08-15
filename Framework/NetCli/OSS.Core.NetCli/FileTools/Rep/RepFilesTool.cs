@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace OSSCore;
 internal  class RepFilesTool : BaseProjectTool
@@ -32,7 +33,7 @@ internal  class RepFilesTool : BaseProjectTool
             $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj"
         };
         
-        FileHelper.CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
+        CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
 
     public override void Create_CommonFiles(SolutionStructure ss)
@@ -58,11 +59,15 @@ internal  class RepFilesTool : BaseProjectTool
     }
 
 
-
-
     #region 添加实体
 
     public override void AddEntity(SolutionStructure ss)
+    {
+        AddEntity_Rep(ss);
+        AddEntity_ChangeStarter(ss);
+    }
+
+    private static void AddEntity_Rep(SolutionStructure ss)
     {
         var repDir = ss.solution_mode == SolutionMode.Default
             ? Path.Combine(ss.rep_project.project_dir, ss.entity_name)
@@ -79,6 +84,18 @@ internal  class RepFilesTool : BaseProjectTool
         });
     }
 
+    private static void AddEntity_ChangeStarter(SolutionStructure ss)
+    {
+        if (ss.solution_mode != SolutionMode.Default) 
+            return;
+
+        var project         = ss.rep_project;
+        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
+        
+        var injectRepStr = $"\r\n        InsContainer<I{ss.entity_name}Rep>.Set<{ss.entity_name}Rep>();";
+        
+        FileHelper.InsertFileFuncContent(starterFilePath, injectRepStr, "Start(IServiceCollection");
+    }
 
     #endregion
 }
