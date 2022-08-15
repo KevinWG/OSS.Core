@@ -31,24 +31,21 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+var app   = builder.Build();
 
-app.UseOssCore(new CoreContextOption()
-{
-    JSRequestHeaderName = "x-core-app"
-});
+var isDev = app.Environment.IsDevelopment();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (isDev)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-else
+
+app.UseOssCore();
+if (!isDev)
 {
     app.UseOssCoreException();
 }
-
 
 app.MapControllers();
 app.Run();

@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace OSS.Core.NetCli;
 namespace OSSCore;
 
 internal static class FileHelper

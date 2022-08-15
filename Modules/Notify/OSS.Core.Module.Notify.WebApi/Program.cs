@@ -14,10 +14,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
-
-
-
 var app = builder.Build();
 
 app.UseOssCore(new CoreContextOption()
@@ -37,5 +33,4 @@ else
 }
 
 app.MapControllers();
-
 app.Run();

@@ -13,6 +13,6 @@ public class AllWebUsedClientStarter : AppStarter
     {
         InsContainer<INotifyClient>.Set<NotifyDefaultClient>();
 
-        InsContainer<IPortalClient>.Set<PortalDefaultClient>();
+        InsContainer<IPortalClient>.Set<LocalPortalClient>();
     }
 }

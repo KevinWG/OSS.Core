@@ -1,4 +1,4 @@
-﻿namespace OSS.Core.Module.WorkFlow.Domain.Opened
+﻿namespace OSS.Core.Module.WorkFlow
 {
     public class Class1
     {

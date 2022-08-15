@@ -9,12 +9,9 @@ namespace OSS.Core.Module.Portal;
 public class DefaultFuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-    public async Task<IResp<FuncDataLevel>> Authorize(AskUserFunc askFunc)
+    public  Task<IResp<FuncDataLevel>> Authorize(string funcCode, string sceneCode)
     {
-        var funcCode = askFunc?.func_code;
-        var sceneCode = askFunc?.scene_code;
-
-        return await CheckIfHaveFunc(funcCode, sceneCode);
+        return  CheckIfHaveFunc(funcCode, sceneCode);
     }
 
     /// <summary>

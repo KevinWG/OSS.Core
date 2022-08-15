@@ -2,7 +2,7 @@
 
 namespace OSS.Core.Module.Portal;
 
-public class PortalDefaultClient : IPortalClient
+public class LocalPortalClient : IPortalClient
 {
     /// <inheritdoc />
     public IOpenedPermitService Permit { get; } = SingleInstance<PermitService>.Instance;
@@ -14,6 +14,3 @@ public class PortalDefaultClient : IPortalClient
     public IOpenedAuthService Auth { get; } = SingleInstance<AuthService>.Instance;
 
 }
-
-
-
