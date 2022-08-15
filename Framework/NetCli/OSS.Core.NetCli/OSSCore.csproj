@@ -6,7 +6,7 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>osscore</ToolCommandName>
 		<Description>OSSCore 模块创建客户端</Description>
-		<Version>0.3</Version>
+		<Version>0.3.1</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
