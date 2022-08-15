@@ -10,11 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOssCoreConfiguration(builder.Configuration); // 全局配置处理
 
-
-builder.Services.Register<WorkFlowDomainStarter>();    // 领域层启动注入
-
-builder.Services.Register<WorkFlowServiceStarter>();   // 逻辑服务层启动注入
-builder.Services.Register<WorkFlowGlobalStarter>();    // 应用层全局注入 
+builder.Services.Register<WorkFlowDomainStarter>();  // 领域层启动注入
+builder.Services.Register<WorkFlowServiceStarter>(); // 逻辑服务层启动注入
+builder.Services.Register<WorkFlowGlobalStarter>();  // 应用层全局注入 
 
 builder.Services.AddControllers(opt =>
     {
