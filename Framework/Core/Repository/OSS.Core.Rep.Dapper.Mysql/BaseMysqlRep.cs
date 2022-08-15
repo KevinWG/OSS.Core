@@ -14,7 +14,7 @@ using OSS.Core.Rep.Dapper;
 namespace OSS.Core.Rep.Mysql;
 
 public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
-    where TType : BaseMo<IdType>, new()
+    where TType : BaseMo<IdType>
 {
     private readonly string _writeConnection;
     private readonly string _readConnection;
@@ -30,9 +30,6 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
         _writeConnection = writableConnection;
         _readConnection  = readableConnection;
     }
-
-
-
 
     /// <inheritdoc />
     protected override IDbConnection GetDbConnection(bool isWriteOperate)

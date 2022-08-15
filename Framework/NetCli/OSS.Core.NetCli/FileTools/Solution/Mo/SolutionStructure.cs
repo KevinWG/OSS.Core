@@ -1,37 +1,42 @@
 ﻿using System.IO;
+using System.Text;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 
 internal class SolutionStructure
 {
-    public SolutionStructure(CommandParas paras, string basePath)
+    public SolutionStructure(CreateParas paras, string basePath, string entityName = "")
     {
-        base_path   = basePath;
+        base_path = basePath;
         module_name = paras.module_name;
+        solution_mode = paras.solution_mode;
+        entity_name = entityName;
 
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
             ? paras.module_name
             : string.Concat(paras.solution_pre, ".", paras.module_name);
 
-        domain_project        = new DomainProjectStructure(solution_name, module_name, basePath);
-        domain_opened_project = new DomainOpenedProjectStructure(solution_name, module_name, basePath);
+        domain_project = new DomainProjectStructure(solution_name, module_name, basePath, entityName);
+        domain_opened_project = new DomainOpenedProjectStructure(solution_name, module_name, basePath, entityName);
 
-        service_project        = new ServiceProjectStructure(solution_name, module_name, basePath);
-        service_opened_project = new ServiceOpenedProjectStructure(solution_name, module_name, basePath);
+        service_project = new ServiceProjectStructure(solution_name, module_name, basePath, entityName);
+        service_opened_project = new ServiceOpenedProjectStructure(solution_name, module_name, basePath, entityName);
 
-        rep_project = new RepProjectStructure(solution_name, module_name, basePath);
+        rep_project = new RepProjectStructure(solution_name, module_name, basePath, entityName);
 
-        webapi_project = new WebApiProjectStructure(solution_name, module_name, basePath);
+        webapi_project = new WebApiProjectStructure(solution_name, module_name, basePath, entityName);
     }
 
     public string base_path { get;  }
 
     public string module_name { get; }
 
+    public string entity_name { get; set; }
+
     public string solution_name { get;  }
 
-
+    public SolutionMode solution_mode { get; }
 
     public DomainProjectStructure domain_project { get; }
 
@@ -50,7 +55,7 @@ internal class SolutionStructure
 
 public class BaseProjectStructure
 {
-    public BaseProjectStructure(string projectName, string basePath)
+    public BaseProjectStructure(string projectName, string basePath,string entityName )
     {
         name = projectName;
 
@@ -59,15 +64,20 @@ public class BaseProjectStructure
         global_dir  = Path.Combine(project_dir, "AppGlobal");
 
         project_file_path = Path.Combine(project_dir, name + ".csproj");
+
+        if (!string.IsNullOrEmpty(entityName))
+        {
+            entity_dir = Path.Combine(project_dir, entityName);
+        }
     }
 
     public string name { get; set; }
-
+    
     /// <summary>
     ///  项目文件夹
     /// </summary>
     public string project_dir { get; set; }
-
+    
     /// <summary>
     ///  项目文件地址
     /// </summary>
@@ -83,4 +93,10 @@ public class BaseProjectStructure
     ///  全局文件夹
     /// </summary>
     public string global_dir { get; set; }
+
+
+
+
+    public string entity_name { get; set; }
+    public string entity_dir { get; set; }
 }

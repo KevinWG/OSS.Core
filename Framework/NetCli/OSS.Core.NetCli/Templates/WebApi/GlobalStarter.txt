@@ -1,0 +1,14 @@
+﻿using OSS.Core;
+
+namespace {solution_name};
+
+/// <summary>
+///   全局注入
+/// </summary>
+public class {module_name}GlobalStarter : AppStarter
+{
+    public override void Start(IServiceCollection services)
+    {
+        // 全局的注入，特别是相关外部依赖信息
+    }
+}

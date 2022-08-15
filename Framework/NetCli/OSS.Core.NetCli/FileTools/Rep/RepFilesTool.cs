@@ -1,9 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 internal  class RepFilesTool : BaseProjectTool
 {
+    public override void Create(SolutionStructure solution)
+    {
+        if (solution.solution_mode == SolutionMode.Simple)
+        {
+            return;
+        }
+        base.Create(solution);
+
+        Console.WriteLine($"仓储层类库 ({solution.rep_project.name}) -- done");
+    }
+
     public override void Create_Project(SolutionStructure ss)
     {
         var project = ss.rep_project;
@@ -27,7 +39,7 @@ internal  class RepFilesTool : BaseProjectTool
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.common_dir);
 
-        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.base_file_name}.cs");
+        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.base_class_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
     }
 
@@ -36,7 +48,27 @@ internal  class RepFilesTool : BaseProjectTool
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var baeRepFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/RepAppStarter.txt");
+        var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
     }
+
+
+
+
+    #region 添加实体
+
+    public override void AddEntity(SolutionStructure ss)
+    {
+        var repDir = ss.solution_mode == SolutionMode.Simple
+            ? Path.Combine(ss.domain_project.entity_dir, "Rep")
+            : Path.Combine(ss.rep_project.project_dir, ss.entity_name);
+
+        FileHelper.CreateDirectory(repDir);
+
+        var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
+        FileHelper.CreateFileByTemplate(repFilePath,ss, "Repository/EntityRep.txt");
+    }
+
+
+    #endregion
 }

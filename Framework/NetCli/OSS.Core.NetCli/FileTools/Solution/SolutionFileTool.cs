@@ -1,8 +1,9 @@
 ﻿
+using System;
 using System.IO;
 using System.Text;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal class SolutionFileTool : BaseProjectTool
 {
@@ -16,19 +17,27 @@ internal class SolutionFileTool : BaseProjectTool
 
     private static readonly ClientFilesTool _clientTool = new();
 
+
+
+
+    #region 创建
+
     public override void Create_Project(SolutionStructure ss)
     {
         _domainOpenedTool.Create(ss);
         _serviceOpenedTool.Create(ss);
+        _clientTool.Create(ss);
+
+        Console.WriteLine(" ");
 
         _domainTool.Create(ss);
         _repTool.Create(ss);
         _serviceTool.Create(ss);
         _webapiTool.Create(ss);
-
-        _clientTool.Create(ss);
-
+        
         CreateSolutionFile(ss);
+
+        Console.WriteLine("全部完成!");
     }
 
     private static void CreateSolutionFile(SolutionStructure ss)
@@ -57,9 +66,13 @@ internal class SolutionFileTool : BaseProjectTool
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_project.name}\", \"{ss.service_project.name}\\{ss.service_project.name}.csproj\", \"{{91D0F8AB-E5D0-41E8-8C40-2D270B12878F}}\"");
         slnContent.AppendLine("EndProject");
 
-        slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{{27898B9F-7BCD-4221-BA1C-822C9D4574F9}}\"");
-        slnContent.AppendLine("EndProject");
+        if (ss.solution_mode == SolutionMode.Default)
+        {
+            slnContent.AppendLine(
+                $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{{27898B9F-7BCD-4221-BA1C-822C9D4574F9}}\"");
+            slnContent.AppendLine("EndProject");
+
+        }
 
         slnContent.AppendLine(
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.webapi_project.name}\", \"{ss.webapi_project.name}\\{ss.webapi_project.name}.csproj\", \"{{A0D11BA9-C5C1-44A5-8EB1-038A0DAA6423}}\"");
@@ -75,4 +88,7 @@ internal class SolutionFileTool : BaseProjectTool
         var slnFilePath = Path.Combine(ss.base_path, ss.solution_name + ".sln");
         FileHelper.CreateFile(slnFilePath, slnContent.ToString());
     }
+
+
+    #endregion
 }

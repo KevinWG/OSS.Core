@@ -1,14 +1,14 @@
-﻿namespace OSS.Core.NetCli;
+﻿namespace OSSCore;
 internal class RepProjectStructure : BaseProjectStructure
 {
-    public RepProjectStructure(string solutionName, string moduleName, string basePath) : base(
-            string.Concat(solutionName, ".Repository"), basePath)
+    public RepProjectStructure(string solutionName, string moduleName, string basePath, string entityName = "") : base(
+            string.Concat(solutionName, ".Repository"), basePath,entityName)
     {
-        base_file_name    = string.Concat("Base", moduleName, "Rep");
-        starter_file_name = string.Concat(moduleName, "RepStarter");
+        base_class_name    = string.Concat("Base", moduleName, "Rep");
+        starter_class_name = string.Concat(moduleName, "RepStarter");
     }
 
-    public string base_file_name { get; }
+    public string base_class_name { get; }
 
-    public string starter_file_name { get; }
+    public string starter_class_name { get; }
 }

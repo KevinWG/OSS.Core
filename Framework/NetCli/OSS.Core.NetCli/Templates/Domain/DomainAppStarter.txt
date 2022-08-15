@@ -1,16 +1,14 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OSS.Core;
-using OSS.Core;
 
 namespace {solution_name};
 
 /// <summary>
-///  服务层启动注入
+///  启动注册配置
 /// </summary>
-public class {module_name}ServiceStarter : AppStarter
+public class {module_name}DomainStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
-        // 主要服务层内部的启动注入使用管理，外部启动注入项请在全局注入
     }
 }

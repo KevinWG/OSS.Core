@@ -9,16 +9,16 @@ namespace OSS.Core.Context.Attributes
     /// </summary>
     public static class HttpContextExtension
     {
-        /// <summary>
-        ///  当站点使用服务端页面渲染，如果配置了   异常时会跳转
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        public static bool IsFetchApi(this HttpRequest req)
-        {
-            var headerName = InterReqHelper.Option.JSRequestHeaderName;
-            return !string.IsNullOrEmpty(headerName) && req.Headers.ContainsKey(headerName);
-        }
+        ///// <summary>
+        /////  当站点使用服务端页面渲染，如果配置了   异常时会跳转
+        ///// </summary>
+        ///// <param name="req"></param>
+        ///// <returns></returns>
+        //public static bool IsFetchApi(this HttpRequest req)
+        //{
+        //    var headerName = InterReqHelper.Option.JSRequestHeaderName;
+        //    return !string.IsNullOrEmpty(headerName) && req.Headers.ContainsKey(headerName);
+        //}
 
         /// <summary>
         ///  将请求URL参数转化搜索请求对象

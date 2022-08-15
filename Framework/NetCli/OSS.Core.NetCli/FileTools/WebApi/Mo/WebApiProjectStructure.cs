@@ -1,11 +1,12 @@
-﻿namespace OSS.Core.NetCli;
+﻿namespace OSSCore;
 internal class WebApiProjectStructure: BaseProjectStructure
 {
-    public WebApiProjectStructure(string solutionName, string moduleName, string basePath) : base(
-        string.Concat(solutionName, ".WebApi"), basePath)
+    public WebApiProjectStructure(string solutionName, string moduleName, string basePath, string entityName = "") : base(
+        string.Concat(solutionName, ".WebApi"), basePath,entityName)
     {
-        used_client_file = string.Concat(moduleName, "UsedClientStarter");
+        starter_class_name = string.Concat(moduleName, "GlobalStarter");
     }
 
-    public string used_client_file { get; }
+
+    public string starter_class_name { get; }
 }

@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal  class ServiceOpenedFilesTool : BaseProjectTool
 {
+    public override void Create(SolutionStructure solution)
+    {
+        base.Create(solution);
+        Console.WriteLine($"服务层类库（共享） ({solution.service_opened_project.name}) -- done");
+    }
+
     public override void Create_Project(SolutionStructure ss)
     {
         var project = ss.service_opened_project;

@@ -1,10 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
-namespace OSS.Core.NetCli;
+namespace OSSCore;
 
 internal class ServiceFilesTool : BaseProjectTool
 {
+    public override void Create(SolutionStructure solution)
+    {
+        base.Create(solution);
+        Console.WriteLine($"服务层类库 ({solution.service_project.name}) -- done");
+    }
+
     public override void Create_Project(SolutionStructure ss)
     {
         var project = ss.service_project;
@@ -12,7 +19,10 @@ internal class ServiceFilesTool : BaseProjectTool
         
         var packageRefs = new List<string>()
         {
-            "OSS.DataFlow", "OSS.Core.Extension.Cache", "OSS.Tools.Log"
+            "OSS.DataFlow",
+            "OSS.Tools.Log",
+            "OSS.Core.Extension.Cache",
+            "OSS.Core.Extension.PassToken"
         };
 
         var projectRefs = new List<string>()
@@ -30,7 +40,7 @@ internal class ServiceFilesTool : BaseProjectTool
         var project = ss.service_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var baeStarterFilePath = Path.Combine(project.global_dir, $"{project.starter_file_name}.cs");
+        var baeStarterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
         FileHelper.CreateFileByTemplate(baeStarterFilePath, ss, "Service/ServiceAppStarter.txt");
 
         var localClientPath = Path.Combine(project.global_dir, $"{project.local_client_name}.cs");

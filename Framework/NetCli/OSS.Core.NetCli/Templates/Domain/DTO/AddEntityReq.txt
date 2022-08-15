@@ -1,0 +1,21 @@
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace {solution_name};
+
+public class Add{entity_name}Req
+{
+    // [Required]
+    // public string name { get; set; }
+}
+
+
+public static class Add{entity_name}ReqMap
+{
+    public static {entity_name}Mo MapTo{entity_name}Mo(this Add{entity_name}Req req)
+    {
+        var mo = new {entity_name}Mo
+        {
+        };
+        return mo;
+    }
+}

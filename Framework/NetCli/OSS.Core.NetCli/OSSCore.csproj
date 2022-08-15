@@ -6,7 +6,7 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>osscore</ToolCommandName>
 		<Description>OSSCore 模块创建客户端</Description>
-		<Version>1.1</Version>
+		<Version>0.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -14,7 +14,22 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="Templates\Domain\DTO\AddEntityReq.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\Domain\EntityMo.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\Domain\IRep\IEntityRep.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Templates\Domain\ModuleConst.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\Domain\DomainAppStarter.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\Repository\EntityRep.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\Service\IModuleClient.txt">
@@ -35,7 +50,7 @@
 	  <None Update="Templates\WebApi\Program.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Templates\WebApi\UsedClientStarter.txt">
+	  <None Update="Templates\WebApi\GlobalStarter.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>
