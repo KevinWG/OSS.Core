@@ -37,6 +37,8 @@ internal class DomainOpenedFilesTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/EntityMo.txt");
 
         AddEntity_DTO(ss);
+
+        Console.WriteLine("领域层实体（共享） -- done");
     }
 
     private static void AddEntity_DTO(SolutionStructure ss)

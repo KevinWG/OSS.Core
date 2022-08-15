@@ -65,6 +65,7 @@ internal  class RepFilesTool : BaseProjectTool
     {
         AddEntity_Rep(ss);
         AddEntity_ChangeStarter(ss);
+        Console.WriteLine("仓储层实体 -- done");
     }
 
     private static void AddEntity_Rep(SolutionStructure ss)

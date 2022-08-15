@@ -68,6 +68,8 @@ internal class DomainFilesTool : BaseProjectTool
         FileHelper.CreateDirectory(ss.domain_project.entity_dir);
 
         AddEntityIRep(ss);
+
+        Console.WriteLine("领域层实体 -- done");
     }
 
     private static void AddEntityIRep(SolutionStructure ss)

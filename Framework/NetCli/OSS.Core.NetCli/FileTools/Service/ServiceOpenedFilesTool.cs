@@ -45,6 +45,8 @@ internal  class ServiceOpenedFilesTool : BaseProjectTool
 
         var oServiceFilePath = Path.Combine(ss.service_opened_project.entity_dir, $"IOpened{ss.entity_name}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath,ss, "Service/IOpenedEntityService.txt");
+
+        Console.WriteLine("服务层实体 -- done");
     }
 
     #endregion

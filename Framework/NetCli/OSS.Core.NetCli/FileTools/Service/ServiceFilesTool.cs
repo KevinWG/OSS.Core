@@ -61,6 +61,8 @@ internal class ServiceFilesTool : BaseProjectTool
         var oServiceFilePath = Path.Combine(ss.service_project.entity_dir, $"{ss.entity_name}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt",
             new Dictionary<string, string>() { { "{rep_define}", repDefine } });
+
+        Console.WriteLine("服务层实体 -- done");
     }
 
     #endregion

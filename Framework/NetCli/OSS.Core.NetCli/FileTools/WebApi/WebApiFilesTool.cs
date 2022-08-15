@@ -86,6 +86,8 @@ internal  class WebApiFilesTool: BaseProjectTool
 
         var entityControllerFilePath = Path.Combine(controllerDir, $"{ss.entity_name}Controller.cs");
         FileHelper.CreateFileByTemplate(entityControllerFilePath, ss,"WebApi/EntityController.txt");
+
+        Console.WriteLine("应用接口层实体 -- done");
     }
 
     #endregion
