@@ -1,9 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
+     <PropertyGroup>
+         <TargetFramework>net6.0</TargetFramework>
+         <ImplicitUsings>enable</ImplicitUsings>
+         <Nullable>enable</Nullable>
+     </PropertyGroup>
+    <ItemGroup>
+       <PackageReference Include="OSS.Core.Domain" Version="*"/>
+       <PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="*"/>
+       <PackageReference Include="OSS.Core.Extension.Cache" Version="*"/>
+       <PackageReference Include="OSS.Tools.Log" Version="*"/>
+    </ItemGroup>
+    <ItemGroup>
+       <ProjectReference Include="..\OSS.Core.Module.WorkFlow.Domain.Opened\OSS.Core.Module.WorkFlow.Domain.Opened.csproj" />
+    </ItemGroup>
 </Project>
+

@@ -6,7 +6,7 @@
          <Nullable>enable</Nullable>
      </PropertyGroup>
     <ItemGroup>
-       <PackageReference Include="OSS.Core.Domain.Opened" Version="*"/>
+       <ProjectReference Include="..\OSS.Core.Module.WorkFlow.Domain.Opened\OSS.Core.Module.WorkFlow.Domain.Opened.csproj" />
     </ItemGroup>
 </Project>
 
