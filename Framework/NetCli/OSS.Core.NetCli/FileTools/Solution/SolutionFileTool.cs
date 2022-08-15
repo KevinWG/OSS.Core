@@ -16,10 +16,7 @@ internal class SolutionFileTool : BaseProjectTool
     private static readonly DomainOpenedFilesTool  _domainOpenedTool  = new();
 
     private static readonly ClientFilesTool _clientTool = new();
-
-
-
-
+    
     #region 创建
 
     public override void Create_Project(SolutionStructure ss)
@@ -27,9 +24,7 @@ internal class SolutionFileTool : BaseProjectTool
         _domainOpenedTool.Create(ss);
         _serviceOpenedTool.Create(ss);
         _clientTool.Create(ss);
-
-        Console.WriteLine(" ");
-
+        
         _domainTool.Create(ss);
         _repTool.Create(ss);
         _serviceTool.Create(ss);
@@ -89,6 +84,24 @@ internal class SolutionFileTool : BaseProjectTool
         FileHelper.CreateFile(slnFilePath, slnContent.ToString());
     }
 
+
+    #endregion
+
+    #region 添加实体
+
+    public override void AddEntity(SolutionStructure ss)
+    {
+        _domainOpenedTool.AddEntity(ss);
+        _serviceOpenedTool.AddEntity(ss);
+        _clientTool.AddEntity(ss);
+
+        _domainTool.AddEntity(ss);
+        _repTool.AddEntity(ss);
+        _serviceTool.AddEntity(ss);
+        _webapiTool.AddEntity(ss);
+        
+        Console.WriteLine("全部完成!");
+    }
 
     #endregion
 }

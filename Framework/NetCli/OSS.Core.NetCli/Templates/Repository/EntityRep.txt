@@ -5,9 +5,9 @@ using OSS.Core.Domain;
 
 namespace {solution_name};
 
-public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo>
+public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo,long> {rep_interface}
 {
-    public {entity_name}Rep() : base("{entity_name}")
+    protected {entity_name}Rep() : base("{entity_name}")
     {
     }
 

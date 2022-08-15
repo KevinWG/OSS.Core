@@ -1,0 +1,40 @@
+﻿using OSS.Common;
+using OSS.Common.Resp;
+using OSS.Core.Domain;
+
+namespace {solution_name};
+
+/// <summary>
+///  服务
+/// </summary>
+public class {entity_name}Service : IOpened{entity_name}Service
+{
+    private static readonly {rep_define};
+
+
+    /// <inheritdoc />
+    public async Task<PageListResp<{entity_name}Mo>> Search(SearchReq req)
+    {
+        return new PageListResp<{entity_name}Mo>(await _{entity_name}Rep.Search(req));
+    }
+
+    /// <inheritdoc />
+    public Task<IResp<{entity_name}Mo>> Get(long id) => _{entity_name}Rep.GetById(id);
+
+
+    /// <inheritdoc />
+    public Task<IResp> SetUseable(long id, ushort flag)
+    {
+        return _{entity_name}Rep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
+    }
+
+    /// <inheritdoc />
+    public async Task<IResp> Add(Add{entity_name}Req req)
+    {
+        var mo = req.MapTo{entity_name}Mo();
+        mo.FormatBaseByContext();
+
+        await _{entity_name}Rep.Add(mo);
+        return Resp.DefaultSuccess;
+    }
+}

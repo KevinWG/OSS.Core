@@ -61,7 +61,6 @@ internal class DomainFilesTool : BaseProjectTool
 
     #endregion
 
-
     #region 添加实体
 
     public override void AddEntity(SolutionStructure ss)
@@ -78,11 +77,11 @@ internal class DomainFilesTool : BaseProjectTool
             return;
         }
 
-        var irepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
-        FileHelper.CreateDirectory(irepDir);
+        var iRepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
+        FileHelper.CreateDirectory(iRepDir);
 
-        var irepFilePath = Path.Combine(irepDir, $"I{ss.entity_name}Rep.cs");
-        FileHelper.CreateFileByTemplate(irepFilePath, ss, "Domain/IRep/IEntityRep.txt");
+        var iRepFilePath = Path.Combine(iRepDir, $"I{ss.entity_name}Rep.cs");
+        FileHelper.CreateFileByTemplate(iRepFilePath, ss, "Domain/IRep/IEntityRep.txt");
     }
 
 
