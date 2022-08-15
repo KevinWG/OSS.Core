@@ -2,18 +2,18 @@
 
 namespace OSS.Core.Module.WorkFlow;
 
-public class AddNodeMetaReq
+public class AddNodeRecordReq
 {
     // [Required]
     // public string name { get; set; }
 }
 
 
-public static class AddNodeMetaReqMap
+public static class AddNodeRecordReqMap
 {
-    public static NodeMetaMo MapToNodeMetaMo(this AddNodeMetaReq req)
+    public static NodeRecordMo MapToNodeRecordMo(this AddNodeRecordReq req)
     {
-        var mo = new NodeMetaMo
+        var mo = new NodeRecordMo
         {
         };
         return mo;

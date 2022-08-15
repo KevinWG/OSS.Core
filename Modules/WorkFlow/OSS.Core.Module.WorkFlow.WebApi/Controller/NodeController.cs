@@ -8,13 +8,13 @@ namespace OSS.Core.Module.WorkFlow;
 /// <summary>
 /// 实体对外WebApi
 /// </summary>
-public class NodeMetaController : BaseWorkFlowController, IOpenedNodeMetaService
+public class NodeController : BaseWorkFlowController, IOpenedNodeService
 {
-    public static readonly NodeMetaService _service = new();
+    public static readonly NodeService _service = new();
 
     /// <inheritdoc />
     [HttpPost]
-    public Task<PageListResp<NodeMetaMo>> Search([FromBody] SearchReq req)
+    public Task<PageListResp<NodeMo>> Search([FromBody] SearchReq req)
     {
         return _service.Search(req);
     }
@@ -25,7 +25,7 @@ public class NodeMetaController : BaseWorkFlowController, IOpenedNodeMetaService
     /// <param name="id">id</param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<NodeMetaMo>> Get(long id)
+    public Task<IResp<NodeMo>> Get(long id)
     {
         return _service.Get(id);
     }
@@ -47,7 +47,7 @@ public class NodeMetaController : BaseWorkFlowController, IOpenedNodeMetaService
 
     /// <inheritdoc />
     [HttpPost]
-    public Task<IResp> Add([FromBody] AddNodeMetaReq req)
+    public Task<IResp> Add([FromBody] AddNodeReq req)
     {
         return _service.Add(req);
     }

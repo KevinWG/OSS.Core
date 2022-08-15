@@ -3,20 +3,20 @@ using OSS.Common.Resp;
 
 namespace OSS.Core.Module.WorkFlow;
 
-public interface IOpenedNodeMetaService
+public interface IOpenedNodeService
 {
     /// <summary>
     ///  查询列表
     /// </summary>
     /// <returns></returns>
-    Task<PageListResp<NodeMetaMo>> Search(SearchReq req);
+    Task<PageListResp<NodeMo>> Search(SearchReq req);
 
     /// <summary>
     ///  通过id获取模板信息
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<NodeMetaMo>> Get(long id);
+    Task<IResp<NodeMo>> Get(long id);
 
     /// <summary>
     ///  设置可用状态
@@ -31,5 +31,5 @@ public interface IOpenedNodeMetaService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(AddNodeMetaReq req);
+    Task<IResp> Add(AddNodeReq req);
 }

@@ -5,9 +5,9 @@ using OSS.Core.Domain;
 
 namespace OSS.Core.Module.WorkFlow;
 
-public class NodeMetaRep : BaseWorkFlowRep<NodeMetaMo,long> 
+public class NodeRecordRep : BaseWorkFlowRep<NodeRecordMo,long> 
 {
-    public NodeMetaRep() : base("flow_node_meta")
+    public NodeRecordRep() : base("NodeRecord")
     {
     }
 
@@ -16,7 +16,7 @@ public class NodeMetaRep : BaseWorkFlowRep<NodeMetaMo,long>
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public Task<PageList<NodeMetaMo>> Search(SearchReq req)
+    public Task<PageList<NodeRecordMo>> Search(SearchReq req)
     {
         return SimpleSearch(req);
     }

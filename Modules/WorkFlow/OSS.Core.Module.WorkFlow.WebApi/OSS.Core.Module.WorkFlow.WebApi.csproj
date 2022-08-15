@@ -6,12 +6,15 @@
          <Nullable>enable</Nullable>
      </PropertyGroup>
     <ItemGroup>
-       <PackageReference Include="Swashbuckle.AspNetCore" Version="*"/>
-       <PackageReference Include="OSS.Core.Context.Attributes" Version="*"/>
-       <PackageReference Include="OSS.Core.Extension.Mvc.Configuration" Version="*"/>
+       <PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
+       <PackageReference Include="OSS.Core.Context.Attributes" Version="*" />
+       <PackageReference Include="OSS.Core.Extension.Mvc.Configuration" Version="*" />
     </ItemGroup>
     <ItemGroup>
        <ProjectReference Include="..\OSS.Core.Module.WorkFlow.Service\OSS.Core.Module.WorkFlow.Service.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Controller\" />
     </ItemGroup>
 </Project>
 
