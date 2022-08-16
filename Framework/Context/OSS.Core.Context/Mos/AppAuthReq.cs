@@ -47,18 +47,17 @@ namespace OSS.Core.Context
         /// </summary>
         public string? UDID { get; set; }
 
+        #endregion
+
         /// <summary>
-        ///  租户ID  (内部使用，外部无效)
+        ///  租户ID  （不参与签名）
         /// </summary>
         public string? tenant_id { get; set; }
 
-        #endregion
-        
         /// <summary>
         ///  sign标识
         /// </summary>
         public string sign { get; set; } = string.Empty;
-        
     }
 
 
@@ -75,7 +74,7 @@ namespace OSS.Core.Context
         /// <param name="appAuthInfo"></param>
         /// <param name="ticket"></param>
         /// <param name="separator">A=a  B=b 之间分隔符</param>
-        public static void FromTicket(this AppAuthReq appAuthInfo, string ticket, char separator = ';')
+        public static void FormatFromTicket(this AppAuthReq appAuthInfo, string ticket, char separator = ';')
         {
             if (string.IsNullOrEmpty(ticket)) return;
 
@@ -91,6 +90,8 @@ namespace OSS.Core.Context
 
                 FormatProperty(appAuthInfo,keyValue[0], val);
             }
+
+
         }
 
         /// <summary>
@@ -220,9 +221,8 @@ namespace OSS.Core.Context
             AddTicketProperty("app_ver", appVersion, separator, strTicketParas, isForSign);
             AddTicketProperty("client_ip", appAuthInfo.client_ip, separator, strTicketParas, isForSign);
 
-            AddTicketProperty("tenant_id", appAuthInfo.tenant_id, separator, strTicketParas, isForSign);
-
-
+            //AddTicketProperty("tenant_id", appAuthInfo.tenant_id, separator, strTicketParas, isForSign);
+            
             AddTicketProperty("token", appAuthInfo.token, separator, strTicketParas, isForSign);
 
             AddTicketProperty("trace_no", appAuthInfo.trace_no, separator, strTicketParas, isForSign);

@@ -44,9 +44,8 @@ namespace OSS.Core.Context.Attributes
 
         #region 应用验证
         
-
-        /// <inheritdoc />
-        public async Task<IResp> AppAuthorize(AppIdentity appInfo, HttpContext context)
+        
+        private async Task<IResp> AppAuthorize(AppIdentity appInfo, HttpContext context)
         {
             if (appInfo.auth_mode != AppAuthMode.OutApp)
             {
@@ -81,12 +80,12 @@ namespace OSS.Core.Context.Attributes
         private async Task<IResp> CheckAppSign(AppIdentity appIdentity, HttpContext context)
         {
             var authTicketStr = context.Request.Headers[_appOption.SignModeHeaderName];
-            appIdentity.FromTicket(authTicketStr);
+            appIdentity.FormatFromTicket(authTicketStr);
 
             if (_appOption.SignAccessProvider == null)
                 throw new NotImplementedException("请设置应用签名秘钥提供器(SignAccessProvider)");
 
-            var access =await _appOption.SignAccessProvider.Get();
+            var access =await _appOption.SignAccessProvider.GetByKey(appIdentity.access_key);
             appIdentity.app_type = access.app_type;
             
             const int expireSecs = 60 * 60 * 2;
@@ -115,6 +114,9 @@ namespace OSS.Core.Context.Attributes
         }
 
         #endregion
+
+
+
 
         private static async Task<IResp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
         {

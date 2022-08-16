@@ -7,7 +7,12 @@ namespace OSS.Core.Context.Attributes
     /// </summary>
     public interface IAppSignAccessProvider
     {
-        public Task<AppSignAccess>
+        /// <summary>
+        ///  通过Key值获取应用签名信息
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public Task<AppSignAccess> GetByKey(string key);
     }
 
     /// <summary>
