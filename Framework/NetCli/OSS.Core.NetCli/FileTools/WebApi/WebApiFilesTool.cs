@@ -40,6 +40,7 @@ internal  class WebApiFilesTool: BaseProjectTool
         CreateProjectFile(projectFilePath, packageRefs, projectRefs, true);
         
         CreateProgramFile(ss);
+        Create_AppSettingFile(ss);
     }
 
     public override void Create_CommonFiles(SolutionStructure ss)
@@ -73,6 +74,14 @@ internal  class WebApiFilesTool: BaseProjectTool
         FileHelper.CreateFileByTemplate(programFilePath, ss, "WebApi/Program.txt", extDic);
     }
 
+
+    private static void Create_AppSettingFile(SolutionStructure ss)
+    {
+        var project = ss.webapi_project;
+        
+        var appSettingPath = Path.Combine(project.project_dir, "appsettings.json");
+        FileHelper.CreateFileByTemplate(appSettingPath, ss, "WebApi/AppSetting.txt");
+    }
 
     #endregion
 

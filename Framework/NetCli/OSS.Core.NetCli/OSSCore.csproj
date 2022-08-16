@@ -6,7 +6,7 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>osscore</ToolCommandName>
 		<Description>OSSCore 模块创建客户端</Description>
-		<Version>0.3.1</Version>
+		<Version>0.3.2</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -51,6 +51,9 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\Service\ServiceAppStarter.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Templates\WebApi\AppSetting.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\WebApi\BaseModuleController.txt">

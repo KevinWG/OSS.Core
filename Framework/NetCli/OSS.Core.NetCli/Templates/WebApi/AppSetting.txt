@@ -1,0 +1,23 @@
+﻿{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+
+  "AppConfig": {
+    "AppWorkerId": "1",
+    "AppVersion": "1.0"
+  },
+
+  "Module": {
+    "{module_name}": {      
+    }
+  },
+  "ConnectionStrings": {
+    "WriteConnection": "",
+    "ReadConnection": ""
+  }
+}

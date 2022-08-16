@@ -4,7 +4,7 @@ using OSS.Core.Context.Attributes;
 namespace {solution_name};
 
 [ModuleMeta({module_name}Const.ModuleName)]
-[Route($"{module_name}Const.ModuleName/[controller]/[action]")]
+[Route($"{{module_name}Const.ModuleName}/[controller]/[action]")]
 public class Base{module_name}Controller : ControllerBase
 {
 }
