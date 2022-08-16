@@ -20,7 +20,7 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<{entity_name}Mo>> Get(long id)
+    public Task<IResp<{entity_name}Mo>> Get(long id)
     {
           return new CoreRequest($"/{entity_name}/Get?id={id}")
             .GetAsync<IResp<{entity_name}Mo>>();
@@ -32,7 +32,7 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// <param name="id"></param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
-    Task<IResp> SetUseable(long id, ushort flag)
+    public Task<IResp> SetUseable(long id, ushort flag)
     {
           return new CoreRequest($"/{entity_name}/SetUseable?id={id}&flag={flag}")
             .PostAsync<IResp>();
@@ -43,7 +43,7 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(Add{entity_name}Req req)
+    public Task<IResp> Add(Add{entity_name}Req req)
     {
           return new CoreRequest("/{entity_name}/Add")
             .PostAsync<IResp>(req);

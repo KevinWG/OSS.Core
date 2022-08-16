@@ -27,5 +27,7 @@ internal  class HttpClientFilesTool : BaseProjectTool
         };
 
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
+
+
     }
 }
