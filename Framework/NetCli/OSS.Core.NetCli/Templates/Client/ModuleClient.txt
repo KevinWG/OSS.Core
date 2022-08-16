@@ -1,0 +1,8 @@
+﻿using OSS.Common;
+
+namespace {solution_name}.Client.Http;
+
+public class Http{module_name}Client : I{module_name}Client
+{
+
+}

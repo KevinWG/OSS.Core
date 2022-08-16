@@ -9,5 +9,8 @@ public static class CoreClientHelper
     /// </summary>
     public static string HeaderName { get; set; } = "at-id";
 
+    /// <summary>
+    ///  客户端接口请求访问秘钥
+    /// </summary>
     public static IAccessProvider<CoreAccessSecret> AccessProvider { get; set; } = SingleInstance<CoreAccessProvider>.Instance;
 }

@@ -49,6 +49,7 @@ namespace OSSCore
          <TargetFramework>net6.0</TargetFramework>
          <ImplicitUsings>enable</ImplicitUsings>
          <Nullable>enable</Nullable>
+         <GenerateDocumentationFile>True</GenerateDocumentationFile>
      </PropertyGroup>");
 
             if (packageRefs != null && packageRefs.Count > 0)

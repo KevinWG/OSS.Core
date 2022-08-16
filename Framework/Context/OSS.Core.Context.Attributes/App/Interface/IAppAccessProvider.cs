@@ -5,8 +5,9 @@ namespace OSS.Core.Context.Attributes
     /// <summary>
     ///  签名秘钥提供者
     /// </summary>
-    public interface IAppSignAccessProvider:IAccessProvider<AppSignAccess>
+    public interface IAppSignAccessProvider
     {
+        public Task<AppSignAccess>
     }
 
     /// <summary>
@@ -15,6 +16,7 @@ namespace OSS.Core.Context.Attributes
     public class AppSignAccess : IAccessSecret
     {
         public string access_key { get; set; }
+
         public string access_secret { get; set; }
 
         /// <summary>

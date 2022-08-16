@@ -21,10 +21,7 @@ namespace OSS.Core.Module.All.Test
             _webAppBuilder.Services.Register<AllWebApiStarter>();
             _webAppBuilder.Services.Register<AllWebUsedClientStarter>();
             
-            _webApp.UseOssCore(new CoreContextOption()
-            {
-                JSRequestHeaderName = "x-core-app"
-            });
+            _webApp.UseOssCore();
             
             CoreContext.App.Identity = new AppIdentity()
             {

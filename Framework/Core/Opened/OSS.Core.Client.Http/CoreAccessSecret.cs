@@ -2,6 +2,9 @@
 
 namespace OSS.Core.Client.Http;
 
+/// <summary>
+///  接口请求秘钥配置信息
+/// </summary>
 public class CoreAccessSecret : AccessSecret
 {
     /// <summary>

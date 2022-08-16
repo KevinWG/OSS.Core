@@ -1,11 +1,4 @@
-﻿using System.Data;
-using System.Net.Http.Headers;
-using System.Text.Json;
-using Microsoft.Extensions.Configuration;
-using OSS.Common;
-using OSS.Core.Context;
-using OSS.Tools.Config;
-using OSS.Tools.Http;
+﻿using OSS.Common;
 
 namespace OSS.Core.Module.Portal.Client.Http;
 

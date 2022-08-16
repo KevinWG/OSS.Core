@@ -5,7 +5,10 @@ using System.Data;
 
 namespace OSS.Core.Client.Http;
 
-public class CoreAccessProvider : IAccessProvider<CoreAccessSecret>
+/// <summary>
+///  接口请求秘钥提供者
+/// </summary>
+internal class CoreAccessProvider : IAccessProvider<CoreAccessSecret>
 {
     public Task<CoreAccessSecret> Get()
     {

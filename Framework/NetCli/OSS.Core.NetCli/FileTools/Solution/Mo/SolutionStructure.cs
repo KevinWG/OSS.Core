@@ -26,6 +26,8 @@ internal class SolutionStructure
         rep_project = new RepProjectStructure(solution_name, module_name, basePath, entityName);
 
         webapi_project = new WebApiProjectStructure(solution_name, module_name, basePath, entityName);
+
+        http_client_project = new HttpClientProject(solution_name, module_name, basePath, entityName);
     }
 
     public string base_path { get;  }
@@ -37,6 +39,8 @@ internal class SolutionStructure
     public string solution_name { get;  }
 
     public SolutionMode solution_mode { get; }
+
+    public HttpClientProject http_client_project { get; }
 
     public DomainProjectStructure domain_project { get; }
 

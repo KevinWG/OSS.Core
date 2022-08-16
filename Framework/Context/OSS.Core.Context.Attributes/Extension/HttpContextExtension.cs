@@ -20,6 +20,12 @@ namespace OSS.Core.Context.Attributes
         //    return !string.IsNullOrEmpty(headerName) && req.Headers.ContainsKey(headerName);
         //}
 
+        public static bool IsFetchReq(this HttpRequest req)
+        {
+            return false;// todo  判断是否ajax
+        }
+
+
         /// <summary>
         ///  将请求URL参数转化搜索请求对象
         /// </summary>

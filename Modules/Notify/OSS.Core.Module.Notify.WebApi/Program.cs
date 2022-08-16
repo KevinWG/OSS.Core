@@ -16,10 +16,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseOssCore(new CoreContextOption()
-{
-    JSRequestHeaderName = "x-core-app"
-});
+app.UseOssCore();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

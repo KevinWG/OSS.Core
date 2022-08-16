@@ -15,7 +15,7 @@ internal class SolutionFileTool : BaseProjectTool
     private static readonly ServiceOpenedFilesTool _serviceOpenedTool = new();
     private static readonly DomainOpenedFilesTool  _domainOpenedTool  = new();
 
-    private static readonly ClientFilesTool _clientTool = new();
+    private static readonly HttpClientFilesTool _clientTool = new();
     
     #region 创建
 

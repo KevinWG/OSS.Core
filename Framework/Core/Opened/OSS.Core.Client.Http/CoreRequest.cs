@@ -4,11 +4,16 @@ using OSS.Tools.Http;
 
 namespace OSS.Core.Client.Http;
 
+/// <summary>
+///  客户端接口请求
+/// </summary>
 public class CoreRequest : OssHttpRequest
 {
+
     public CoreRequest(string apiPath) : base(apiPath)
     {
     }
+
 
     protected override async Task OnSendingAsync(HttpRequestMessage r)
     {
