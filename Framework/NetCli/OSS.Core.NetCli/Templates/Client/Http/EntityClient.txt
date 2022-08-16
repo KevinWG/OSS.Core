@@ -1,9 +1,10 @@
-﻿using OSS.Common.Resp;
+﻿using OSS.Common;
+using OSS.Common.Resp;
 using OSS.Core.Client.Http;
 
 namespace {solution_name}.Client.Http;
 
-internal class {entity_name}Client : IOpened{entity_name}Service
+internal class {entity_name}HttpClient : IOpened{entity_name}Service
 {
     /// <summary>
     ///  查询列表
@@ -11,7 +12,7 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<PageListResp<{entity_name}Mo>> Search(SearchReq req)
     {
-          return new CoreRequest("/{entity_name}/Search")
+          return new {module_req}("/{entity_name}/Search")
             .PostAsync<PageListResp<{entity_name}Mo>>(req);
     }
 
@@ -22,10 +23,11 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<IResp<{entity_name}Mo>> Get(long id)
     {
-          return new CoreRequest($"/{entity_name}/Get?id={id}")
+          return new {module_req}($"/{entity_name}/Get?id={id}")
             .GetAsync<IResp<{entity_name}Mo>>();
     }
 
+    
     /// <summary>
     ///  设置可用状态
     /// </summary>
@@ -34,7 +36,7 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<IResp> SetUseable(long id, ushort flag)
     {
-          return new CoreRequest($"/{entity_name}/SetUseable?id={id}&flag={flag}")
+          return new {module_req}($"/{entity_name}/SetUseable?id={id}&flag={flag}")
             .PostAsync<IResp>();
     }
 
@@ -45,7 +47,7 @@ internal class {entity_name}Client : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<IResp> Add(Add{entity_name}Req req)
     {
-          return new CoreRequest("/{entity_name}/Add")
+          return new {module_req}($"/{entity_name}/Add")
             .PostAsync<IResp>(req);
     }
 }

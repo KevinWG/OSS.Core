@@ -1,0 +1,10 @@
+﻿
+using OSS.Core.Client.Http;
+
+
+internal class {module_req}: BaseCoreRequest
+{
+    public {module_req}(string apiPath) : base("{module_name}", apiPath)
+    {
+    }
+}

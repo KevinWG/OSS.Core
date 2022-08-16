@@ -26,13 +26,12 @@ internal  class ServiceOpenedFilesTool : BaseProjectTool
         CreateProjectFile(projectFilePath, null, projectRefs);
     }
 
-
-    public override void Create_CommonFiles(SolutionStructure ss)
+    public override void Create_GlobalFiles(SolutionStructure ss)
     {
         var project = ss.service_opened_project;
-        FileHelper.CreateDirectory(project.common_dir);
+        FileHelper.CreateDirectory(project.global_dir);
 
-        var baeClientFilePath = Path.Combine(project.common_dir, $"{project.client_interface_name}.cs");
+        var baeClientFilePath = Path.Combine(project.global_dir, $"{project.client_interface_name}.cs");
         FileHelper.CreateFileByTemplate(baeClientFilePath, ss, "Service/IModuleClient.txt");
     }
 
@@ -46,8 +45,23 @@ internal  class ServiceOpenedFilesTool : BaseProjectTool
         var oServiceFilePath = Path.Combine(ss.service_opened_project.entity_dir, $"IOpened{ss.entity_name}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath,ss, "Service/IOpenedEntityService.txt");
 
-        Console.WriteLine("服务层实体 -- done");
+        AddEntity_ChangeModuleClient(ss);
+
+        Console.WriteLine("服务层实体（共享） -- done");
     }
 
+    private static void AddEntity_ChangeModuleClient(SolutionStructure ss)
+    {
+        var project = ss.service_opened_project;
+        
+        var moduleClientPath = Path.Combine(project.global_dir, $"{project.client_interface_name}.cs");
+        var injectStr = @$"
+    /// <summary>
+    ///  {ss.entity_name} 开放服务接口
+    /// </summary>
+    public IOpened{ss.entity_name}Service {ss.entity_name} {{get; }}";
+
+        FileHelper.InsertFileFuncContent(moduleClientPath, injectStr, project.client_interface_name);
+    }
     #endregion
 }

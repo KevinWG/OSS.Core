@@ -61,8 +61,22 @@ internal class ServiceFilesTool : BaseProjectTool
         var oServiceFilePath = Path.Combine(ss.service_project.entity_dir, $"{ss.entity_name}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt",
             new Dictionary<string, string>() { { "{rep_define}", repDefine } });
+        
+        AddEntity_ChangeLocalClient(ss);
 
         Console.WriteLine("服务层实体 -- done");
+    }
+
+    private static void AddEntity_ChangeLocalClient(SolutionStructure ss)
+    {
+        var project = ss.service_project;
+
+        var localClientPath = Path.Combine(project.global_dir, $"{project.local_client_name}.cs");
+        var injectStr = @$"
+    /// <inheritdoc />
+    public IOpened{ss.entity_name}Service {ss.entity_name} {{ get; }} = SingleInstance<{ss.entity_name}Service>.Instance;";
+
+        FileHelper.InsertFileFuncContent(localClientPath, injectStr, project.local_client_name);
     }
 
     #endregion
