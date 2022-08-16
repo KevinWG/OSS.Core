@@ -9,7 +9,7 @@ namespace OSS.Core.Client.Http;
 /// </summary>
 public class BaseCoreRequest : OssHttpRequest
 {
-    private readonly string _moduleName;
+    internal readonly string module_name;
 
     /// <summary>
     /// 客户端接口请求
@@ -18,14 +18,14 @@ public class BaseCoreRequest : OssHttpRequest
     /// <param name="apiPath"></param>
     public BaseCoreRequest(string moduleName, string apiPath) : base(apiPath)
     {
-        _moduleName = moduleName;
+        module_name = moduleName;
     }
 
 
     /// <inheritdoc />
     protected override async Task OnSendingAsync(HttpRequestMessage r)
     {
-        var accessSecret = await CoreClientHelper.AccessProvider.Get(_moduleName);
+        var accessSecret = await CoreClientHelper.AccessProvider.Get(module_name);
 
         address_url = string.Concat(accessSecret.api_domain, address_url);
 

@@ -11,10 +11,10 @@ public static class CoreRequestExtension
     /// <typeparam name="TRes"></typeparam>
     /// <param name="req"></param>
     /// <returns></returns>
-    public static async Task<TRes> GetAsync<TRes>(this BaseCoreRequest req)
+    public static Task<TRes> GetAsync<TRes>(this BaseCoreRequest req)
     {
-        var strRes = await req.GetAsync().ReadContentAsStringAsync();
-        return JsonSerializer.Deserialize<TRes>(strRes);
+        req.http_method = HttpMethod.Get;
+        return SendAsync<TRes>(req);
     }
 
     /// <summary>
@@ -24,11 +24,25 @@ public static class CoreRequestExtension
     /// <param name="req"></param>
     /// <param name="reqBody"></param>
     /// <returns></returns>
-    public static async Task<TRes> PostAsync<TRes>(this BaseCoreRequest req, object reqBody=null)
+    public static Task<TRes> PostAsync<TRes>(this BaseCoreRequest req, object? reqBody=null)
     {
         var content = reqBody == null ? string.Empty : JsonSerializer.Serialize(reqBody);
 
-        var strRes  = await req.PostAsync(content).ReadContentAsStringAsync();
+        req.custom_body = content;
+        req.http_method = HttpMethod.Post;
+
+        return SendAsync<TRes>(req);
+    }
+    
+    /// <summary>
+    ///  发送请求
+    /// </summary>
+    /// <typeparam name="TRes"></typeparam>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public static async Task<TRes> SendAsync<TRes>(this BaseCoreRequest req)
+    {
+        var strRes = await req.SendAsync(req.module_name).ReadContentAsStringAsync();
         return JsonSerializer.Deserialize<TRes>(strRes);
     }
 }
