@@ -2,7 +2,7 @@
 
 namespace OSS.Core.Module.Notify;
 
-public class NotifyDefaultClient : INotifyClient
+public class LocalNotifyClient : INotifyClient
 {
     public IOpenedNotifyService NotifyService { get; } = InsContainer<INotifyService>.Instance;
 }
