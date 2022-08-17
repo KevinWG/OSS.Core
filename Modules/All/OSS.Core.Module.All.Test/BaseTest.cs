@@ -15,11 +15,9 @@ namespace OSS.Core.Module.All.Test
         [TestInitialize]
         public virtual void InitialTestContext()
         {
-
             _webAppBuilder.Services.AddOssCoreConfiguration(_webAppBuilder.Configuration);
-
             _webAppBuilder.Services.Register<AllWebApiGlobalStarter>();
-            
+
             _webApp.UseOssCore();
             
             CoreContext.App.Identity = new AppIdentity()

@@ -33,13 +33,14 @@
     },
     "IIS": {
       "commandName": "IIS",
-      "workingDirectory": "D:\\Codes\\Core\\OSS.Core.Pro\\Modules\\All\\OSS.Core.Module.All.WebApi",
+      "workingDirectory": "D:\\Codes\\Core\\OSS.Core\\Modules\\All\\OSS.Core.Module.All.WebApi",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "ancmHostingModel": "OutOfProcess"
+      "ancmHostingModel": "OutOfProcess",
+      "nativeDebugging": false
     }
   }
 }
