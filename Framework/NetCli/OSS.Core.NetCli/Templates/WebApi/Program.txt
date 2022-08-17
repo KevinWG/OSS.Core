@@ -1,8 +1,9 @@
 ﻿using OSS.Core;
 using OSS.Core.Context.Attributes;
+using OSS.Core.Extension.Mvc.Configuration;
+
 using {solution_name};
 using System.Text.Json.Serialization;
-using OSS.Core.Extension.Mvc.Configuration;
 
 // ========================================  容器依赖注入   ========================================
 
@@ -20,7 +21,7 @@ builder.Services.AddControllers(opt =>
     {
         opt.AddCoreModelValidation();
         opt.AddCoreAppAuthorization();
-        // opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
+        opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
     })
     .AddJsonOptions(jsonOpt =>
     {
@@ -36,7 +37,6 @@ builder.Services.AddSwaggerGen();
 // ========================================  中间件部分处理   ========================================
 
 var app   = builder.Build();
-
 var isDev = app.Environment.IsDevelopment();
 
 if (isDev)

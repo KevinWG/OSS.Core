@@ -17,7 +17,7 @@ public class AllWebApiStarter : AppStarter
         #region Notify（通知服务模块）
 
         services.Register<NotifyServiceStarter>(); // 通知服务
-        services.Register<NotifyAccessConfigStarter>();   //  注册对应配置信息
+        services.Register<NotifyGlobalStarter>();   //  注册对应配置信息
 
         #endregion
 

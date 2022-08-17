@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.WebApi\OSS.Core.WebApi.csproj" />
+    <ProjectReference Include="..\..\Portal\OSS.Core.Module.Portal.Client.Http\OSS.Core.Module.Portal.Client.Http.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.Notify.Service\OSS.Core.Module.Notify.Service.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common.Resp;
+using OSS.Core.Context;
 using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.Module.Portal;
@@ -20,6 +21,18 @@ public class GrantController : BasePortalController, IOpenedPermitService
     public Task<ListResp<GrantedPermit>> GetCurrentUserPermits()
     {
         return _service.GetCurrentUserPermits();
+    }
+
+    /// <summary>
+    ///  判断登录用户是否具有某权限
+    /// </summary>
+    /// <param name="funcCode"></param>
+    /// <param name="sceneCode"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode)
+    {
+        return _service.CheckPermit(funcCode, sceneCode);
     }
 
 

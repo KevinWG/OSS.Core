@@ -58,6 +58,9 @@ internal  class WebApiFilesTool: BaseProjectTool
 
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt");
+
+        var authProPath = Path.Combine(project.global_dir, "AuthProvider.cs");
+        FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AuthProvider.txt");
     }
 
     private static void CreateProgramFile(SolutionStructure ss)

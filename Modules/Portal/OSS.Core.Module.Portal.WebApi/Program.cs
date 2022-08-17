@@ -12,17 +12,15 @@ builder.Services.AddDefaultNoneCaptchaValidator();
 
 // 注册内部使用服务
 builder.Services.Register<PortalRepositoryStarter>(); // 仓储层
-builder.Services.Register<PortalServiceStarter>();      // 逻辑服务层
-
-// 注册外部客户端
-builder.Services.Register<PortalUsedClientStarter>();   // 因为全局中间件使用，虽然在模块内部，但作为外部客户端来看
+builder.Services.Register<PortalServiceStarter>();    // 逻辑服务层
+builder.Services.Register<PortalGlobalStarter>();     // 全局注入 
 
 
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
     opt.AddCoreAppAuthorization();
-    opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
+    opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
 
 }).AddJsonOptions(jsonOpt =>
 {

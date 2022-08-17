@@ -20,7 +20,7 @@ builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
     opt.AddCoreAppAuthorization();
-    opt.AddCoreUserAuthorization(new DefaultUserAuthProvider(),new DefaultFuncAuthProvider());
+    opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
 }).AddJsonOptions(jsonOpt =>
 {
     jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;

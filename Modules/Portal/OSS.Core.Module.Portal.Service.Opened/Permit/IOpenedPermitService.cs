@@ -1,5 +1,6 @@
 ﻿using OSS.Common;
 using OSS.Common.Resp;
+using OSS.Core.Context;
 
 namespace OSS.Core.Module.Portal;
 
@@ -11,7 +12,20 @@ public interface IOpenedPermitService
     /// </summary>
     /// <returns></returns>
     Task<ListResp<GrantedPermit>> GetCurrentUserPermits();
-    
+
+
+    /// <summary>
+    ///  判断登录用户是否具有某权限
+    /// </summary>
+    /// <param name="funcCode"></param>
+    /// <param name="sceneCode"></param>
+    /// <returns></returns>
+    Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode);
+
+
+
+
+
     /// <summary>
     ///  获取当前角色下权限项列表
     /// </summary>
@@ -23,8 +37,4 @@ public interface IOpenedPermitService
     /// </summary>
     /// <returns></returns>
     Task<IResp> ChangeRolePermits(long rid, ChangeRolePermitReq req);
-
-
-
-
 }

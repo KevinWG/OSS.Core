@@ -66,6 +66,32 @@ public class PermitService : IOpenedPermitService
         return new ListResp<GrantedPermit>(dir.Select(d => d.Value).ToList());
     }
 
+    
+    /// <summary>
+    ///  判断登录用户是否具有某权限
+    /// </summary>
+    /// <param name="funcCode"></param>
+    /// <param name="sceneCode"></param>
+    /// <returns></returns>
+    public async Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode)
+    {
+        if (string.IsNullOrEmpty(funcCode))
+            return new Resp<FuncDataLevel>(FuncDataLevel.All);
+
+        var userFunc = await GetCurrentUserPermits();
+        if (!userFunc.IsSuccess())
+            return new Resp<FuncDataLevel>().WithResp(userFunc);
+
+        var fullFuncCode = string.IsNullOrEmpty(sceneCode) ? funcCode : string.Concat(funcCode, ":", sceneCode);
+        var func         = userFunc.data.FirstOrDefault(f => f.func_code == fullFuncCode);
+
+        if (func == null)
+            return new Resp<FuncDataLevel>().WithResp(RespCodes.UserNoPermission, "无操作权限!");
+
+        return new Resp<FuncDataLevel>(func.data_level);
+    }
+
+
     #endregion
 
 
