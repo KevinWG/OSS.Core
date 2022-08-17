@@ -15,13 +15,12 @@ using OSS.Common;
 using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Service;
 
 namespace OSS.Core.Module.Portal;
     /// <summary>
     ///  用户服务
     /// </summary>
-    public class UserService : BaseService, IUserService
+    public class UserService :  IUserService
     {
         private static readonly IUserInfoRep _userRep = InsContainer<IUserInfoRep>.Instance;
 
@@ -29,11 +28,6 @@ namespace OSS.Core.Module.Portal;
         /// <inheritdoc />
         public Task<IResp> ChangeMyBasic(UpdateUserBasicReq req)
         {
-            var checkRes = ValidateReq(req);
-            if (!checkRes.IsSuccess())
-            {
-                return Task.FromResult(checkRes);
-            }
             return _userRep.UpdateBasicInfo(CoreContext.User.Identity.id.ToInt64(), req.avatar, req.nick_name);
         }
 

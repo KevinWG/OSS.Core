@@ -5,10 +5,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
+	<ItemGroup>
+		<PackageReference Include="OSS.Tools.Log" Version="*" />
+	</ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Core\Repository\OSS.Core.Rep.Dapper.Mysql\OSS.Core.Rep.Dapper.Mysql.csproj" />
-    <ProjectReference Include="..\OSS.Core.Module.Notify.Domain.Opened\OSS.Core.Module.Notify.Domain.Opened.csproj" />
+	  <ProjectReference Include="..\..\..\Framework\Core\Repository\OSS.Core.Rep.Dapper.Mysql\OSS.Core.Rep.Dapper.Mysql.csproj" />
+	  <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
+	  <ProjectReference Include="..\OSS.Core.Module.Notify.Domain.Opened\OSS.Core.Module.Notify.Domain.Opened.csproj" />
   </ItemGroup>
-
 </Project>

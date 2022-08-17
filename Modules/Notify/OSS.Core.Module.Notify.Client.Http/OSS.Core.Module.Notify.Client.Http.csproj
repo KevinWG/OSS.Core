@@ -6,6 +6,7 @@
          <Nullable>enable</Nullable>
          <GenerateDocumentationFile>True</GenerateDocumentationFile>
      </PropertyGroup>
+
     <ItemGroup>
        <ProjectReference Include="..\..\..\Framework\Core\Opened\OSS.Core.Client.Http\OSS.Core.Client.Http.csproj" />
        <ProjectReference Include="..\OSS.Core.Module.Notify.Domain.Opened\OSS.Core.Module.Notify.Domain.Opened.csproj" />

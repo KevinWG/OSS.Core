@@ -3,14 +3,13 @@ using OSS.Common.Encrypt;
 using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Domain;
-using OSS.Core.Service;
 
 namespace OSS.Core.Module.Portal
 {
     /// <summary>
     ///  登录授权服务
     /// </summary>
-    public class BaseAuthService : BaseService
+    public class BaseAuthService 
     {
         /// <summary>
         ///  授权仓储（虚构表 - 物理层面在用户表中的特殊字段）
