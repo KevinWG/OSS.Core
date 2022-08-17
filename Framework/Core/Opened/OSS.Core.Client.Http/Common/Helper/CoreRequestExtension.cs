@@ -42,7 +42,7 @@ public static class CoreRequestExtension
     /// <returns></returns>
     public static async Task<TRes> SendAsync<TRes>(this BaseRemoteRequest req)
     {
-        var strRes = await req.SendAsync(req.module_name).ReadContentAsStringAsync();
+        var strRes = await req.SendAsync(req.target_module).ReadContentAsStringAsync();
         return JsonSerializer.Deserialize<TRes>(strRes);
     }
 }

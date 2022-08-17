@@ -15,7 +15,6 @@ public static class CoreClientHelper
     public static ICoreAccessProvider AccessProvider { get; set; } = SingleInstance<CoreAccessProvider>.Instance;
 }
 
-
 /// <summary>
 /// 访问信息提供者
 /// </summary>
@@ -24,6 +23,7 @@ public interface ICoreAccessProvider
     /// <summary>
     /// 获取访问配置信息
     /// </summary>
+    /// <param name="targetModuleName">目标模块名称</param>
     /// <returns></returns>
-    Task<CoreAccessSecret> Get(string moduleName);
+    Task<CoreAccessSecret> Get(string targetModuleName);
 }
