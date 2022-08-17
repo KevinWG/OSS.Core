@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
 namespace OSSCore;
 
@@ -62,7 +60,6 @@ public class BaseProjectStructure
 {
     public BaseProjectStructure(string projectName, string basePath,string entityName )
     {
-        guid = Guid.NewGuid().ToString();
         name = projectName;
 
         project_dir = Path.Combine(basePath, name);
@@ -77,8 +74,6 @@ public class BaseProjectStructure
         }
     }
 
-
-    public string guid { get; }
 
     public string name { get; set; }
     
