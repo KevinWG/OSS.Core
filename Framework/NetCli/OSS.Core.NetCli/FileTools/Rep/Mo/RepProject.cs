@@ -1,7 +1,7 @@
 ﻿namespace OSSCore;
-internal class RepProjectStructure : BaseProjectStructure
+internal class RepProject : BaseProjectStructure
 {
-    public RepProjectStructure(string solutionName, string moduleName, string basePath, string entityName = "") : base(
+    public RepProject(string solutionName, string moduleName, string basePath, string entityName = "") : base(
             string.Concat(solutionName, ".Repository"), basePath,entityName)
     {
         base_class_name    = string.Concat("Base", moduleName, "Rep");

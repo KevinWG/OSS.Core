@@ -1,7 +1,6 @@
-﻿using OSS.Common;
-using OSS.Common.Resp;
+﻿using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Module.Portal;
+using OSS.Core.Module.Portal.Client;
 
 namespace OSS.Core.Module.Notify;
 
@@ -14,7 +13,7 @@ public class UserAuthProvider : IUserAuthProvider
     public Task<IResp<UserIdentity>> GetIdentity()
     {
         // 引用 Portal 接口客户端SDK
-        return InsContainer<IPortalClient>.Instance.Auth.GetIdentity();
+        return PortalRemoteClient.Auth.GetIdentity();
     }
 }
 
@@ -27,6 +26,6 @@ public class FuncAuthProvider : IFuncAuthProvider
     public Task<IResp<FuncDataLevel>> Authorize(string funcCode, string sceneCode)
     {
         // 引用 Portal 接口客户端SDK
-        return InsContainer<IPortalClient>.Instance.Permit.CheckPermit(funcCode, sceneCode);
+        return PortalRemoteClient.Permit.CheckPermit(funcCode, sceneCode);
     }
 }

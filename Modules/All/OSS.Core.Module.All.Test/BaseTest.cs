@@ -18,8 +18,7 @@ namespace OSS.Core.Module.All.Test
 
             _webAppBuilder.Services.AddOssCoreConfiguration(_webAppBuilder.Configuration);
 
-            _webAppBuilder.Services.Register<AllWebApiStarter>();
-            _webAppBuilder.Services.Register<AllWebUsedClientStarter>();
+            _webAppBuilder.Services.Register<AllWebApiGlobalStarter>();
             
             _webApp.UseOssCore();
             

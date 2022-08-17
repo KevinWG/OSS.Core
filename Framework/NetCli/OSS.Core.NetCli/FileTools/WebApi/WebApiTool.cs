@@ -4,17 +4,17 @@ using System.IO;
 
 namespace OSSCore;
 
-internal  class WebApiFilesTool: BaseProjectTool
+internal  class WebApiTool: BaseProjectTool
 {
     #region 创建
 
-    public override void Create(SolutionStructure solution)
+    public override void Create(Solution solution)
     {
         base.Create(solution);
         Console.WriteLine($"应用协议层（WebApi）类库({solution.webapi_project.name}) -- done");
     }
 
-    public override void Create_Project(SolutionStructure ss)
+    public override void Create_Project(Solution ss)
     {
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.project_dir);
@@ -43,7 +43,7 @@ internal  class WebApiFilesTool: BaseProjectTool
         Create_AppSettingFile(ss);
     }
 
-    public override void Create_CommonFiles(SolutionStructure ss)
+    public override void Create_CommonFiles(Solution ss)
     {
         FileHelper.CreateDirectory(ss.webapi_project.common_dir);
 
@@ -51,7 +51,7 @@ internal  class WebApiFilesTool: BaseProjectTool
         FileHelper.CreateFileByTemplate(baseFilePath, ss, "WebApi/BaseModuleController.txt");
     }
 
-    public override void Create_GlobalFiles(SolutionStructure ss)
+    public override void Create_GlobalFiles(Solution ss)
     {
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.global_dir);
@@ -63,7 +63,7 @@ internal  class WebApiFilesTool: BaseProjectTool
         FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AuthProvider.txt");
     }
 
-    private static void CreateProgramFile(SolutionStructure ss)
+    private static void CreateProgramFile(Solution ss)
     {
         var project = ss.webapi_project;
 
@@ -78,7 +78,7 @@ internal  class WebApiFilesTool: BaseProjectTool
     }
 
 
-    private static void Create_AppSettingFile(SolutionStructure ss)
+    private static void Create_AppSettingFile(Solution ss)
     {
         var project = ss.webapi_project;
         
@@ -91,7 +91,7 @@ internal  class WebApiFilesTool: BaseProjectTool
 
     #region 添加实体
 
-    public override void AddEntity(SolutionStructure ss)
+    public override void AddEntity(Solution ss)
     {
        var controllerDir =  Path.Combine(ss.webapi_project.project_dir, "Controller");
         FileHelper.CreateDirectory(controllerDir);

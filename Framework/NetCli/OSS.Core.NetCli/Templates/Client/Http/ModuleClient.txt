@@ -1,7 +1,10 @@
 ﻿using OSS.Common;
 
-namespace {solution_name}.Client.Http;
+namespace {solution_name}.Client;
 
-public class Http{module_name}Client : I{module_name}Client
+/// <summary>
+/// {module_name} 模块接口客户端
+/// </summary>
+public static class {module_name}RemoteClient //: I{module_name}Client
 {
 }

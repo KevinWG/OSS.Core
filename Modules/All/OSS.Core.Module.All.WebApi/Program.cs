@@ -11,8 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOssCoreConfiguration(builder.Configuration);
 
 // ÏµÍ³×¢²áÏî
-builder.Services.Register<AllWebApiStarter>();
-builder.Services.Register<AllWebUsedClientStarter>();
+builder.Services.Register<AllWebApiGlobalStarter>();
 builder.Services.AddDefaultNoneCaptchaValidator();
 
 // mvc 

@@ -2,7 +2,7 @@
 using OSS.Common.Resp;
 using OSS.Core.Client.Http;
 
-namespace {solution_name}.Client.Http;
+namespace {solution_name}.Client;
 
 internal class {entity_name}HttpClient : IOpened{entity_name}Service
 {
@@ -17,7 +17,7 @@ internal class {entity_name}HttpClient : IOpened{entity_name}Service
     }
 
     /// <summary>
-    ///  通过id获取模板信息
+    ///  通过id获取详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

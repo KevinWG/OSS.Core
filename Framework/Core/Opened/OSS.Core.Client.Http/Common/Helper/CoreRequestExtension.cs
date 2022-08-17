@@ -11,7 +11,7 @@ public static class CoreRequestExtension
     /// <typeparam name="TRes"></typeparam>
     /// <param name="req"></param>
     /// <returns></returns>
-    public static Task<TRes> GetAsync<TRes>(this BaseCoreRequest req)
+    public static Task<TRes> GetAsync<TRes>(this BaseRemoteRequest req)
     {
         req.http_method = HttpMethod.Get;
         return SendAsync<TRes>(req);
@@ -24,7 +24,7 @@ public static class CoreRequestExtension
     /// <param name="req"></param>
     /// <param name="reqBody"></param>
     /// <returns></returns>
-    public static Task<TRes> PostAsync<TRes>(this BaseCoreRequest req, object? reqBody=null)
+    public static Task<TRes> PostAsync<TRes>(this BaseRemoteRequest req, object? reqBody=null)
     {
         var content = reqBody == null ? string.Empty : JsonSerializer.Serialize(reqBody);
 
@@ -40,7 +40,7 @@ public static class CoreRequestExtension
     /// <typeparam name="TRes"></typeparam>
     /// <param name="req"></param>
     /// <returns></returns>
-    public static async Task<TRes> SendAsync<TRes>(this BaseCoreRequest req)
+    public static async Task<TRes> SendAsync<TRes>(this BaseRemoteRequest req)
     {
         var strRes = await req.SendAsync(req.module_name).ReadContentAsStringAsync();
         return JsonSerializer.Deserialize<TRes>(strRes);

@@ -1,7 +1,7 @@
 ﻿namespace OSSCore;
-internal class WebApiProjectStructure: BaseProjectStructure
+internal class WebApiProject: BaseProjectStructure
 {
-    public WebApiProjectStructure(string solutionName, string moduleName, string basePath, string entityName = "") : base(
+    public WebApiProject(string solutionName, string moduleName, string basePath, string entityName = "") : base(
         string.Concat(solutionName, ".WebApi"), basePath,entityName)
     {
         starter_class_name = string.Concat(moduleName, "GlobalStarter");

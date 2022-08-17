@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 
 namespace OSSCore;
-internal  class RepFilesTool : BaseProjectTool
+internal  class RepTool : BaseProjectTool
 {
-    public override void Create(SolutionStructure solution)
+    public override void Create(Solution solution)
     {
         if (solution.solution_mode == SolutionMode.Simple)
         {
@@ -17,7 +17,7 @@ internal  class RepFilesTool : BaseProjectTool
         Console.WriteLine($"仓储层类库 ({solution.rep_project.name}) -- done");
     }
 
-    public override void Create_Project(SolutionStructure ss)
+    public override void Create_Project(Solution ss)
     {
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.project_dir);
@@ -35,7 +35,7 @@ internal  class RepFilesTool : BaseProjectTool
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
 
-    public override void Create_CommonFiles(SolutionStructure ss)
+    public override void Create_CommonFiles(Solution ss)
     {
         var project = ss.rep_project;
         var baseRepDir = ss.solution_mode == SolutionMode.Default
@@ -48,7 +48,7 @@ internal  class RepFilesTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
     }
 
-    public override void Create_GlobalFiles(SolutionStructure ss)
+    public override void Create_GlobalFiles(Solution ss)
     {
         var project = ss.rep_project;
         FileHelper.CreateDirectory(project.global_dir);
@@ -60,14 +60,14 @@ internal  class RepFilesTool : BaseProjectTool
 
     #region 添加实体
 
-    public override void AddEntity(SolutionStructure ss)
+    public override void AddEntity(Solution ss)
     {
         AddEntity_Rep(ss);
         AddEntity_ChangeStarter(ss);
         Console.WriteLine("仓储层实体 -- done");
     }
 
-    private static void AddEntity_Rep(SolutionStructure ss)
+    private static void AddEntity_Rep(Solution ss)
     {
         var repDir = ss.solution_mode == SolutionMode.Default
             ? Path.Combine(ss.rep_project.project_dir, ss.entity_name)
@@ -84,7 +84,7 @@ internal  class RepFilesTool : BaseProjectTool
         });
     }
 
-    private static void AddEntity_ChangeStarter(SolutionStructure ss)
+    private static void AddEntity_ChangeStarter(Solution ss)
     {
         if (ss.solution_mode != SolutionMode.Default) 
             return;

@@ -18,6 +18,7 @@ using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Domain;
 using OSS.Core.Module.Notify;
+using OSS.Core.Module.Notify.Client;
 using OSS.Tools.Cache;
 
 namespace OSS.Core.Module.Portal
@@ -209,7 +210,7 @@ namespace OSS.Core.Module.Portal
                 body_paras = new Dictionary<string, string> {{"code", code}}
             };
 
-            return await InsContainer<INotifyClient>.Instance.NotifyService.Send(notifyMsg);
+            return await NotifyRemoteClient.Notify.Send(notifyMsg);
         }
 
         #endregion

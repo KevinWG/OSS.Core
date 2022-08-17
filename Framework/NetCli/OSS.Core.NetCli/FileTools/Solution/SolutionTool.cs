@@ -5,21 +5,21 @@ using System.Text;
 
 namespace OSSCore;
 
-internal class SolutionFileTool : BaseProjectTool
+internal class SolutionTool : BaseProjectTool
 {
-    private static readonly WebApiFilesTool  _webapiTool  = new();
-    private static readonly ServiceFilesTool _serviceTool = new();
-    private static readonly RepFilesTool     _repTool = new();
-    private static readonly DomainFilesTool  _domainTool  = new();
+    private static readonly WebApiTool  _webapiTool  = new();
+    private static readonly ServiceTool _serviceTool = new();
+    private static readonly RepTool     _repTool = new();
+    private static readonly DomainTool  _domainTool  = new();
 
-    private static readonly ServiceOpenedFilesTool _serviceOpenedTool = new();
-    private static readonly DomainOpenedFilesTool  _domainOpenedTool  = new();
+    private static readonly ServiceOpenedTool _serviceOpenedTool = new();
+    private static readonly DomainOpenedTool  _domainOpenedTool  = new();
 
-    private static readonly HttpClientFilesTool _clientTool = new();
+    private static readonly ClientTool _clientTool = new();
     
     #region 创建
 
-    public override void Create_Project(SolutionStructure ss)
+    public override void Create_Project(Solution ss)
     {
         _domainOpenedTool.Create(ss);
         _serviceOpenedTool.Create(ss);
@@ -35,7 +35,7 @@ internal class SolutionFileTool : BaseProjectTool
         Console.WriteLine("全部完成!");
     }
 
-    private static void CreateSolutionFile(SolutionStructure ss)
+    private static void CreateSolutionFile(Solution ss)
     {
         var domainOpenedId  = Guid.NewGuid().ToString();
         var serviceOpenedId = Guid.NewGuid().ToString();
@@ -101,7 +101,7 @@ internal class SolutionFileTool : BaseProjectTool
 
     #region 添加实体
 
-    public override void AddEntity(SolutionStructure ss)
+    public override void AddEntity(Solution ss)
     {
         _domainOpenedTool.AddEntity(ss);
         _serviceOpenedTool.AddEntity(ss);

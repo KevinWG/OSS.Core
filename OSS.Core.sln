@@ -97,6 +97,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Module.Portal.Clie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Client.Http", "Framework\Core\Opened\OSS.Core.Client.Http\OSS.Core.Client.Http.csproj", "{CBA3BE37-8E3C-402E-96E2-C1BA1FDB79D1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Module.Notify.Client.Http", "Modules\Notify\OSS.Core.Module.Notify.Client.Http\OSS.Core.Module.Notify.Client.Http.csproj", "{E53EF344-1F53-40F6-A45E-A2229A1E057A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -219,6 +221,10 @@ Global
 		{CBA3BE37-8E3C-402E-96E2-C1BA1FDB79D1}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{CBA3BE37-8E3C-402E-96E2-C1BA1FDB79D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBA3BE37-8E3C-402E-96E2-C1BA1FDB79D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E53EF344-1F53-40F6-A45E-A2229A1E057A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E53EF344-1F53-40F6-A45E-A2229A1E057A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E53EF344-1F53-40F6-A45E-A2229A1E057A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E53EF344-1F53-40F6-A45E-A2229A1E057A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -265,6 +271,7 @@ Global
 		{951F95D4-69E6-457E-98BB-54461033C1C5} = {C9205A0F-0B18-439B-82A7-26351EC26968}
 		{9B603010-8CAE-4C72-93AE-815EB277F66D} = {77C70B84-7F0C-4B68-A201-AF182B4807C3}
 		{CBA3BE37-8E3C-402E-96E2-C1BA1FDB79D1} = {D753B7BF-6CE2-40B1-98A0-B2182F823E98}
+		{E53EF344-1F53-40F6-A45E-A2229A1E057A} = {130F34D0-8441-4135-AE92-BC5593F23C52}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0319E437-EDB9-4B71-99E8-5182FF43C454}

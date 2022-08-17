@@ -17,6 +17,7 @@ using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Core.Context;
 using OSS.Core.Module.Notify;
+using OSS.Core.Module.Notify.Client;
 using OSS.Tools.Cache;
 
 namespace OSS.Core.Module.Portal;
@@ -117,7 +118,7 @@ public class AuthService : BaseAuthService, IAuthService
             body_paras = new Dictionary<string, string> { { "code", code } }
         };
 
-        var res = await InsContainer<INotifyClient>.Instance.NotifyService.Send(notifyMsg);
+        var res = await NotifyRemoteClient.Notify.Send(notifyMsg);
         if (!res.IsSuccess())
             return res;
 

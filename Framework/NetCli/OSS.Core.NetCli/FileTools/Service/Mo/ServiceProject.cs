@@ -1,7 +1,7 @@
 ﻿namespace OSSCore;
-internal class ServiceProjectStructure : BaseProjectStructure
+internal class ServiceProject : BaseProjectStructure
 {
-    public ServiceProjectStructure(string solutionName, string moduleName, string basePath, string entityName = "") : base(
+    public ServiceProject(string solutionName, string moduleName, string basePath, string entityName = "") : base(
         string.Concat(solutionName, ".Service"), basePath,entityName)
     {
         starter_class_name = string.Concat(moduleName, "ServiceStarter");

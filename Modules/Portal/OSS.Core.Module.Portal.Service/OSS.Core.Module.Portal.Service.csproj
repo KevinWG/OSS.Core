@@ -19,6 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Service\OSS.Core.Service.csproj" />
     <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
+    <ProjectReference Include="..\..\Notify\OSS.Core.Module.Notify.Client.Http\OSS.Core.Module.Notify.Client.Http.csproj" />
     <ProjectReference Include="..\..\Notify\OSS.Core.Module.Notify.Service.Opened\OSS.Core.Module.Notify.Service.Opened.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.Portal.Domain\OSS.Core.Module.Portal.Domain.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.Portal.Service.Opened\OSS.Core.Module.Portal.Service.Opened.csproj" />

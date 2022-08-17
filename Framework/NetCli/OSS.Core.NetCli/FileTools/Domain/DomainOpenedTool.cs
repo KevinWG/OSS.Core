@@ -4,15 +4,15 @@ using System.IO;
 
 namespace OSSCore;
 
-internal class DomainOpenedFilesTool : BaseProjectTool
+internal class DomainOpenedTool : BaseProjectTool
 {
-    public override void Create(SolutionStructure solution)
+    public override void Create(Solution solution)
     {
         base.Create(solution);
         Console.WriteLine($"领域层类库（共享）({solution.domain_opened_project.name}) -- done");
     }
 
-    public override void Create_Project(SolutionStructure ss)
+    public override void Create_Project(Solution ss)
     {
         var project = ss.domain_opened_project;
         FileHelper.CreateDirectory(project.project_dir);
@@ -29,7 +29,7 @@ internal class DomainOpenedFilesTool : BaseProjectTool
 
     #region 添加实体
 
-    public override void AddEntity(SolutionStructure ss)
+    public override void AddEntity(Solution ss)
     {
         FileHelper.CreateDirectory(ss.domain_opened_project.entity_dir);
 
@@ -41,7 +41,7 @@ internal class DomainOpenedFilesTool : BaseProjectTool
         Console.WriteLine("领域层实体（共享） -- done");
     }
 
-    private static void AddEntity_DTO(SolutionStructure ss)
+    private static void AddEntity_DTO(Solution ss)
     {
         var dtoDir = Path.Combine(ss.domain_opened_project.entity_dir, "DTO");
         FileHelper.CreateDirectory(dtoDir);

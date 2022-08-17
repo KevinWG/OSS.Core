@@ -7,7 +7,7 @@ namespace OSS.Core.Client.Http;
 /// <summary>
 ///  客户端接口请求
 /// </summary>
-public class BaseCoreRequest : OssHttpRequest
+public class BaseRemoteRequest : OssHttpRequest
 {
     internal readonly string module_name;
 
@@ -16,7 +16,7 @@ public class BaseCoreRequest : OssHttpRequest
     /// </summary>
     /// <param name="moduleName"></param>
     /// <param name="apiPath"></param>
-    public BaseCoreRequest(string moduleName, string apiPath) : base(apiPath)
+    public BaseRemoteRequest(string moduleName, string apiPath) : base(apiPath)
     {
         module_name = moduleName;
     }

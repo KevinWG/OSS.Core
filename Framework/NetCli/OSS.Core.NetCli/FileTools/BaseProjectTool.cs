@@ -8,7 +8,7 @@ namespace OSSCore
     {
         #region 创建方法
         
-        public virtual void Create(SolutionStructure ss)
+        public virtual void Create(Solution ss)
         {
             Create_Project(ss);
             Create_CommonFiles(ss);
@@ -16,12 +16,12 @@ namespace OSSCore
         }
 
 
-        public abstract void Create_Project(SolutionStructure ss);
+        public abstract void Create_Project(Solution ss);
         
-        public virtual void Create_CommonFiles(SolutionStructure ss)
+        public virtual void Create_CommonFiles(Solution ss)
         {
         }
-        public virtual void Create_GlobalFiles(SolutionStructure ss)
+        public virtual void Create_GlobalFiles(Solution ss)
         {
         }
 
@@ -30,7 +30,7 @@ namespace OSSCore
 
         #region 添加方法
 
-        public virtual void AddEntity(SolutionStructure ss)
+        public virtual void AddEntity(Solution ss)
         {
 
         }

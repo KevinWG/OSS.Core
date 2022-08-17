@@ -2,7 +2,7 @@
 using OSS.Core.Client.Http;
 using OSS.Core.Context;
 
-namespace OSS.Core.Module.Portal.Client.Http;
+namespace OSS.Core.Module.Portal.Client;
 
 /// <inheritdoc />
 internal class AuthClient : IOpenedAuthService

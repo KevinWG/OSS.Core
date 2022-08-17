@@ -54,13 +54,13 @@ internal static class FileHelper
     }
 
 
-    public static void CreateFileByTemplate(string filePath, SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
+    public static void CreateFileByTemplate(string filePath, Solution ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {
         var content = LoadTemplateContent(ss,templateRelativePath, extParas);
         CreateFile(filePath, content);
     }
 
-    private static string LoadTemplateContent(SolutionStructure ss, string templateRelativePath, Dictionary<string, string> extParas = null)
+    private static string LoadTemplateContent(Solution ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {
         var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         var content = LoadFile(templatePath);

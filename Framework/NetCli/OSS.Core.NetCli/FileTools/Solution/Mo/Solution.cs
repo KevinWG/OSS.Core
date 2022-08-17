@@ -3,9 +3,9 @@
 namespace OSSCore;
 
 
-internal class SolutionStructure
+internal class Solution
 {
-    public SolutionStructure(CreateParas paras, string basePath, string entityName = "")
+    public Solution(CreateParas paras, string basePath, string entityName = "")
     {
         base_path = basePath;
         module_name = paras.module_name;
@@ -16,17 +16,17 @@ internal class SolutionStructure
             ? paras.module_name
             : string.Concat(paras.solution_pre, ".", paras.module_name);
 
-        domain_project = new DomainProjectStructure(solution_name, module_name, basePath, entityName);
-        domain_opened_project = new DomainOpenedProjectStructure(solution_name, module_name, basePath, entityName);
+        domain_project = new DomainProject(solution_name, module_name, basePath, entityName);
+        domain_opened_project = new DomainOpenedProject(solution_name, module_name, basePath, entityName);
 
-        service_project = new ServiceProjectStructure(solution_name, module_name, basePath, entityName);
-        service_opened_project = new ServiceOpenedProjectStructure(solution_name, module_name, basePath, entityName);
+        service_project = new ServiceProject(solution_name, module_name, basePath, entityName);
+        service_opened_project = new ServiceOpenedProject(solution_name, module_name, basePath, entityName);
 
-        rep_project = new RepProjectStructure(solution_name, module_name, basePath, entityName);
+        rep_project = new RepProject(solution_name, module_name, basePath, entityName);
 
-        webapi_project = new WebApiProjectStructure(solution_name, module_name, basePath, entityName);
+        webapi_project = new WebApiProject(solution_name, module_name, basePath, entityName);
 
-        http_client_project = new HttpClientProject(solution_name, module_name, basePath, entityName);
+        http_client_project = new ClientProject(solution_name, module_name, basePath, entityName);
     }
 
     public string base_path { get;  }
@@ -39,19 +39,19 @@ internal class SolutionStructure
 
     public SolutionMode solution_mode { get; }
 
-    public HttpClientProject http_client_project { get; }
+    public ClientProject http_client_project { get; }
 
-    public DomainProjectStructure domain_project { get; }
+    public DomainProject domain_project { get; }
 
-    public DomainOpenedProjectStructure domain_opened_project { get; }
+    public DomainOpenedProject domain_opened_project { get; }
 
-    public ServiceProjectStructure service_project { get; }
+    public ServiceProject service_project { get; }
 
-    public ServiceOpenedProjectStructure service_opened_project { get; }
+    public ServiceOpenedProject service_opened_project { get; }
 
-    public RepProjectStructure rep_project { get; }
+    public RepProject rep_project { get; }
 
-    public WebApiProjectStructure webapi_project { get; }
+    public WebApiProject webapi_project { get; }
 
 }
 

@@ -12,7 +12,7 @@ public interface IOpened{entity_name}Service
     Task<PageListResp<{entity_name}Mo>> Search(SearchReq req);
 
     /// <summary>
-    ///  通过id获取模板信息
+    ///  通过id获取详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>

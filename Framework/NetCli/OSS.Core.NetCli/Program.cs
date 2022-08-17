@@ -51,9 +51,9 @@ public class Program
         var basePath = Directory.GetCurrentDirectory();
 
         var paras = GetParasFromFile(basePath);
-        var ss = new SolutionStructure(paras, basePath,entityName);
+        var ss = new Solution(paras, basePath,entityName);
         
-        new SolutionFileTool().AddEntity(ss);
+        new SolutionTool().AddEntity(ss);
     }
 
     private static CreateParas GetParasFromFile(string basePath)
@@ -90,9 +90,9 @@ public class Program
         }
 
         var basePath = Directory.GetCurrentDirectory();
-        var ss = new SolutionStructure(paras, basePath);
+        var ss = new Solution(paras, basePath);
 
-        new SolutionFileTool().Create(ss);
+        new SolutionTool().Create(ss);
 
         var moduleJsonPath = Path.Combine(basePath, module_json_file_name);
         FileHelper.CreateFile(moduleJsonPath, JsonSerializer.Serialize(paras));

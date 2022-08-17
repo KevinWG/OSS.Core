@@ -1,10 +1,10 @@
 ﻿
 namespace OSSCore;
-internal class DomainProjectStructure : BaseProjectStructure
+internal class DomainProject : BaseProjectStructure
 {
    
 
-    public DomainProjectStructure(string solutionName,string moduleName,string basePath, string entityName = "") : base(
+    public DomainProject(string solutionName,string moduleName,string basePath, string entityName = "") : base(
         string.Concat(solutionName, ".Domain"), basePath, entityName)
     {
         const_file_name = string.Concat(moduleName, "Const");
