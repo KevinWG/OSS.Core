@@ -3,6 +3,9 @@ using OSS.Core.Context.Attributes;
 
 namespace {solution_name};
 
+/// <summary>
+///  {module_name} WebApi基类
+/// </summary>
 [ModuleMeta({module_name}Const.ModuleName)]
 [Route($"{{module_name}Const.ModuleName}/[controller]/[action]")]
 public class Base{module_name}Controller : ControllerBase

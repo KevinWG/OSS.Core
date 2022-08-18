@@ -13,7 +13,7 @@ internal class SolutionTool : BaseProjectTool
     private static readonly DomainTool  _domainTool  = new();
 
     private static readonly ServiceOpenedTool _serviceOpenedTool = new();
-    private static readonly DomainOpenedTool  _domainOpenedTool  = new();
+    private static readonly DomainOpenTool  _domainOpenedTool  = new();
 
     private static readonly ClientTool _clientTool = new();
     
@@ -37,8 +37,8 @@ internal class SolutionTool : BaseProjectTool
 
     private static void CreateSolutionFile(Solution ss)
     {
-        var domainOpenedId  = Guid.NewGuid().ToString();
-        var serviceOpenedId = Guid.NewGuid().ToString();
+        var domainOpenId  = Guid.NewGuid().ToString();
+        var serviceOpenId = Guid.NewGuid().ToString();
         var clientId = Guid.NewGuid().ToString();
 
         var domainId  = Guid.NewGuid().ToString();
@@ -50,18 +50,18 @@ internal class SolutionTool : BaseProjectTool
         slnContent.AppendLine("Microsoft Visual Studio Solution File, Format Version 12.00");
 
         slnContent.AppendLine(
-            "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"Opened\", \"Opened\", \"{77C70B84-7F0C-4B68-A201-AF182B4807C3}\"");
+            "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"Open\", \"Open\", \"{77C70B84-7F0C-4B68-A201-AF182B4807C3}\"");
         slnContent.AppendLine("EndProject");
 
         slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.domain_opened_project.name}\", \"{ss.domain_opened_project.name}\\{ss.domain_opened_project.name}.csproj\", \"{domainOpenedId}\"");
+            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.domain_open_project.name}\", \"Open\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj\", \"{domainOpenId}\"");
         slnContent.AppendLine("EndProject");
 
         slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_opened_project.name}\", \"{ss.service_opened_project.name}\\{ss.service_opened_project.name}.csproj\", \"{serviceOpenedId}\"");
+            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_open_project.name}\", \"Open\\{ss.service_open_project.name}\\{ss.service_open_project.name}.csproj\", \"{serviceOpenId}\"");
         slnContent.AppendLine("EndProject");
         slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.http_client_project.name}\", \"{ss.http_client_project.name}\\{ss.http_client_project.name}.csproj\", \"{clientId}\"");
+            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.http_client_project.name}\", \"Open\\{ss.http_client_project.name}\\{ss.http_client_project.name}.csproj\", \"{clientId}\"");
         slnContent.AppendLine("EndProject");
 
         slnContent.AppendLine(
@@ -86,8 +86,8 @@ internal class SolutionTool : BaseProjectTool
 
         slnContent.AppendLine("Global");
         slnContent.AppendLine("	GlobalSection(NestedProjects) = preSolution");
-        slnContent.AppendLine($"		{domainOpenedId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
-        slnContent.AppendLine($"		{serviceOpenedId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
+        slnContent.AppendLine($"		{domainOpenId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
+        slnContent.AppendLine($"		{serviceOpenId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
         slnContent.AppendLine($"		{clientId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
         slnContent.AppendLine("	EndGlobalSection");
         slnContent.AppendLine("EndGlobal");

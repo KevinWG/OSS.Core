@@ -69,9 +69,9 @@ internal static class FileHelper
             .Replace("{solution_name}", ss.solution_name)
             .Replace("{entity_name}", ss.entity_name)
             .Replace("{domain_project_name}", ss.domain_project.name)
-            .Replace("{domain_opened_project_name}", ss.domain_opened_project.name)
+            .Replace("{domain_opened_project_name}", ss.domain_open_project.name)
             .Replace("{service_project_name}", ss.service_project.name)
-            .Replace("{service_opened_project_name}", ss.service_opened_project.name)
+            .Replace("{service_opened_project_name}", ss.service_open_project.name)
             .Replace("{repository_project_name}", ss.rep_project.name)
             .Replace("{webapi_project_name}", ss.webapi_project.name);
 

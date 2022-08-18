@@ -25,8 +25,7 @@ internal  class ClientTool : BaseProjectTool
 
         var projectRefs = new List<string>()
         {
-            $"..\\{ss.domain_opened_project.name}\\{ss.domain_opened_project.name}.csproj",
-            $"..\\{ss.service_opened_project.name}\\{ss.service_opened_project.name}.csproj"
+            $"..\\{ss.service_open_project.name}\\{ss.service_open_project.name}.csproj"
         };
 
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
@@ -73,7 +72,7 @@ internal  class ClientTool : BaseProjectTool
     /// <summary>
     ///  {ss.entity_name} 接口
     /// </summary>
-    public static IOpened{ss.entity_name}Service {ss.entity_name} {{get; }} = SingleInstance<{ss.entity_name}HttpClient>.Instance;";
+    public static I{ss.entity_name}OpenService {ss.entity_name} {{get; }} = SingleInstance<{ss.entity_name}HttpClient>.Instance;";
 
         FileHelper.InsertFileFuncContent(moduleClientPath, injectStr, project.module_client_name);
     }

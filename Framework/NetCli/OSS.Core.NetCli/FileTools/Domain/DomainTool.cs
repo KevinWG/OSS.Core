@@ -32,7 +32,7 @@ internal class DomainTool : BaseProjectTool
 
         var projectRefs = new List<string>()
         {
-            $"..\\{ss.domain_opened_project.name}\\{ss.domain_opened_project.name}.csproj"
+            $"..\\Open\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj"
         };
 
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);

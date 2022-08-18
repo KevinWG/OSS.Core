@@ -19,10 +19,10 @@ internal class Solution
             : string.Concat(paras.solution_pre, ".", paras.module_name);
 
         domain_project = new DomainProject(solution_name, module_name, basePath, entityName);
-        domain_opened_project = new DomainOpenedProject(solution_name, module_name, basePath, entityName);
+        domain_open_project = new DomainOpenProject(solution_name, module_name, basePath, entityName);
 
         service_project = new ServiceProject(solution_name, module_name, basePath, entityName);
-        service_opened_project = new ServiceOpenedProject(solution_name, module_name, basePath, entityName);
+        service_open_project = new ServiceOpenedProject(solution_name, module_name, basePath, entityName);
 
         rep_project = new RepProject(solution_name, module_name, basePath, entityName);
 
@@ -46,11 +46,11 @@ internal class Solution
 
     public DomainProject domain_project { get; }
 
-    public DomainOpenedProject domain_opened_project { get; }
+    public DomainOpenProject domain_open_project { get; }
 
     public ServiceProject service_project { get; }
 
-    public ServiceOpenedProject service_opened_project { get; }
+    public ServiceOpenedProject service_open_project { get; }
 
     public RepProject rep_project { get; }
 

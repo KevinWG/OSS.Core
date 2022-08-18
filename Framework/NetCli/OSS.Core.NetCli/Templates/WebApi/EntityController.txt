@@ -6,11 +6,11 @@ using OSS.Core.Context.Attributes;
 namespace {solution_name};
 
 /// <summary>
-/// 实体对外WebApi
+///  {entity_name} 开放 WebApi 
 /// </summary>
-public class {entity_name}Controller : Base{module_name}Controller, IOpened{entity_name}Service
+public class {entity_name}Controller : Base{module_name}Controller, I{entity_name}OpenService
 {
-    private static readonly IOpened{entity_name}Service _service = new {entity_name}Service();
+    private static readonly I{entity_name}OpenService _service = new {entity_name}Service();
 
     /// <inheritdoc />
     [HttpPost]

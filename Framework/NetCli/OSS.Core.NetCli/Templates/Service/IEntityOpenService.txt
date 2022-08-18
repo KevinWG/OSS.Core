@@ -3,7 +3,10 @@ using OSS.Common.Resp;
 
 namespace {solution_name};
 
-public interface IOpened{entity_name}Service
+/// <summary>
+///  {entity_name} 领域对象开放接口
+/// </summary>
+public interface I{entity_name}OpenService
 {
     /// <summary>
     ///  查询列表

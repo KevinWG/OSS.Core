@@ -1,5 +1,8 @@
 ﻿namespace {solution_name};
 
+/// <summary>
+///  {module_name} 模块静态声明
+/// </summary>
 public static class {module_name}Const
 {
     public const string ModuleName = "{module_name}";

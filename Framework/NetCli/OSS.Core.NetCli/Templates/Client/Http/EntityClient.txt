@@ -4,7 +4,7 @@ using OSS.Core.Client.Http;
 
 namespace {solution_name}.Client;
 
-internal class {entity_name}HttpClient : IOpened{entity_name}Service
+internal class {entity_name}HttpClient : I{entity_name}OpenService
 {
     /// <summary>
     ///  查询列表

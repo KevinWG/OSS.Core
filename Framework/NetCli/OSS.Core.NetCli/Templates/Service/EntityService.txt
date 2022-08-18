@@ -5,9 +5,9 @@ using OSS.Core.Domain;
 namespace {solution_name};
 
 /// <summary>
-///  服务
+///  {entity_name} 服务
 /// </summary>
-public class {entity_name}Service : IOpened{entity_name}Service
+public class {entity_name}Service : I{entity_name}OpenService
 {
     private static readonly {rep_define};
 

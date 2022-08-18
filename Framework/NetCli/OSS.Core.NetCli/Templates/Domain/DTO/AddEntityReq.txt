@@ -2,6 +2,9 @@
 
 namespace {solution_name};
 
+/// <summary>
+///  {entity_name} 添加请求
+/// </summary>
 public class Add{entity_name}Req
 {
     // [Required]
