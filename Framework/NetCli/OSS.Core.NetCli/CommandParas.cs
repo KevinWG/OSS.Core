@@ -8,7 +8,6 @@ internal class Command
 }
 
 
-
 internal class CreateParas
 {
     public string module_name { get; set; }
@@ -20,6 +19,6 @@ internal class CreateParas
 
 public enum SolutionMode
 {
-    Default,
-    Simple
+    Default=0,
+    Simple =1
 }

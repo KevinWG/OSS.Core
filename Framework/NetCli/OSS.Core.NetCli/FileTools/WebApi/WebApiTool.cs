@@ -31,7 +31,7 @@ internal  class WebApiTool: BaseProjectTool
             $"..\\{ss.service_project.name}\\{ss.service_project.name}.csproj",
         };
 
-        if (ss.solution_mode == SolutionMode.Default)
+        if (!ss.no_rep_injection)
         {
             projectRefs.Add($"..\\{ss.rep_project.name}\\{ss.rep_project.name}.csproj");
         }
@@ -67,7 +67,7 @@ internal  class WebApiTool: BaseProjectTool
     {
         var project = ss.webapi_project;
 
-        var repRegisterStr = ss.solution_mode == SolutionMode.Simple
+        var repRegisterStr = ss.no_rep_injection
             ? string.Empty
             : $"builder.Services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
 

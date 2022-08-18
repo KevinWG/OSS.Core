@@ -51,9 +51,9 @@ internal class ServiceTool : BaseProjectTool
     {
         FileHelper.CreateDirectory(ss.service_project.entity_dir);
 
-        var repDefine = ss.solution_mode == SolutionMode.Default 
-            ? $"I{ss.entity_name}Rep _{ss.entity_name}Rep = InsContainer<I{ss.entity_name}Rep>.Instance" 
-            : $"{ss.entity_name}Rep _{ss.entity_name}Rep = new()";
+        var repDefine = ss.no_rep_injection
+                ? $"{ss.entity_name}Rep _{ss.entity_name}Rep = new()"
+                : $"I{ss.entity_name}Rep _{ss.entity_name}Rep = InsContainer<I{ss.entity_name}Rep>.Instance"  ;
 
         var oServiceFilePath = Path.Combine(ss.service_project.entity_dir, $"{ss.entity_name}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt",

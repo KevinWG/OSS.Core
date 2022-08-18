@@ -72,7 +72,7 @@ internal class SolutionTool : BaseProjectTool
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_project.name}\", \"{ss.service_project.name}\\{ss.service_project.name}.csproj\", \"{serviceId}\"");
         slnContent.AppendLine("EndProject");
 
-        if (ss.solution_mode == SolutionMode.Default)
+        if (!ss.no_rep_injection)
         {
             slnContent.AppendLine(
                 $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{repId}\"");

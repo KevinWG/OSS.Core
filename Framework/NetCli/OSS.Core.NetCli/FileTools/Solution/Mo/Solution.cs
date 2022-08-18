@@ -9,8 +9,10 @@ internal class Solution
     {
         base_path = basePath;
         module_name = paras.module_name;
-        solution_mode = paras.solution_mode;
+        //solution_mode = paras.solution_mode;
         entity_name = entityName;
+
+        no_rep_injection = paras.solution_mode == SolutionMode.Simple;
 
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
             ? paras.module_name
@@ -37,7 +39,8 @@ internal class Solution
 
     public string solution_name { get;  }
 
-    public SolutionMode solution_mode { get; }
+    public bool no_rep_injection { get; set; }
+    //public SolutionMode solution_mode { get; }
 
     public ClientProject http_client_project { get; }
 

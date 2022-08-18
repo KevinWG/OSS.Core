@@ -24,7 +24,7 @@ internal class DomainTool : BaseProjectTool
             "OSS.Core.Domain"
         };
 
-        if (ss.solution_mode == SolutionMode.Simple)
+        if (ss.no_rep_injection)
         {
             // 简单模式下 仓储和领域实体放在一起
             packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache", "OSS.Tools.Log" });
@@ -74,11 +74,9 @@ internal class DomainTool : BaseProjectTool
 
     private static void AddEntityIRep(Solution ss)
     {
-        if (ss.solution_mode == SolutionMode.Simple)
-        {
+        if (ss.no_rep_injection)
             return;
-        }
-
+        
         var iRepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
         FileHelper.CreateDirectory(iRepDir);
 

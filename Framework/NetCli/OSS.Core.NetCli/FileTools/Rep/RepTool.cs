@@ -7,7 +7,7 @@ internal  class RepTool : BaseProjectTool
 {
     public override void Create(Solution solution)
     {
-        if (solution.solution_mode == SolutionMode.Simple)
+        if (solution.no_rep_injection)
         {
             Create_CommonFiles(solution);
             return;
@@ -38,9 +38,8 @@ internal  class RepTool : BaseProjectTool
     public override void Create_CommonFiles(Solution ss)
     {
         var project = ss.rep_project;
-        var baseRepDir = ss.solution_mode == SolutionMode.Default
-            ? project.common_dir
-            : ss.domain_project.common_dir;
+        var baseRepDir = ss.no_rep_injection
+            ? ss.domain_project.common_dir : project.common_dir;
 
         FileHelper.CreateDirectory(baseRepDir);
 
@@ -69,9 +68,9 @@ internal  class RepTool : BaseProjectTool
 
     private static void AddEntity_Rep(Solution ss)
     {
-        var repDir = ss.solution_mode == SolutionMode.Default
-            ? Path.Combine(ss.rep_project.project_dir, ss.entity_name)
-            : Path.Combine(ss.domain_project.entity_dir, "Rep"); // 简化模式，放置在Domain文件夹
+        var repDir = ss.no_rep_injection
+            ? Path.Combine(ss.domain_project.entity_dir, "Rep") // 简化模式，放置在Domain文件夹
+            : Path.Combine(ss.rep_project.project_dir, ss.entity_name); 
 
         FileHelper.CreateDirectory(repDir);
 
@@ -79,14 +78,14 @@ internal  class RepTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt", new Dictionary<string, string>()
         {
             {
-                "{rep_interface}", ss.solution_mode == SolutionMode.Default ? $",I{ss.entity_name}Rep" : string.Empty
+                "{rep_interface}", ss.no_rep_injection ?  string.Empty :$",I{ss.entity_name}Rep"
             }
         });
     }
 
     private static void AddEntity_ChangeStarter(Solution ss)
     {
-        if (ss.solution_mode != SolutionMode.Default) 
+        if (ss.no_rep_injection) 
             return;
 
         var project         = ss.rep_project;
