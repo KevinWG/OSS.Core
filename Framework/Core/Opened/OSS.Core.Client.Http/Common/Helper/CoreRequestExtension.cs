@@ -1,4 +1,5 @@
 ﻿using System.Text.Json;
+using OSS.Common.Resp;
 using OSS.Tools.Http;
 
 namespace OSS.Core.Client.Http;
@@ -24,7 +25,7 @@ public static class CoreRequestExtension
     /// <param name="req"></param>
     /// <param name="reqBody"></param>
     /// <returns></returns>
-    public static Task<TRes> PostAsync<TRes>(this BaseRemoteRequest req, object? reqBody=null)
+    public static Task<TRes> PostAsync<TRes>(this BaseRemoteRequest req, object? reqBody = null)
     {
         var content = reqBody == null ? string.Empty : JsonSerializer.Serialize(reqBody);
 
@@ -33,7 +34,7 @@ public static class CoreRequestExtension
 
         return SendAsync<TRes>(req);
     }
-    
+
     /// <summary>
     ///  发送请求
     /// </summary>
@@ -42,7 +43,14 @@ public static class CoreRequestExtension
     /// <returns></returns>
     public static async Task<TRes> SendAsync<TRes>(this BaseRemoteRequest req)
     {
-        var strRes = await req.SendAsync(req.target_module).ReadContentAsStringAsync();
-        return JsonSerializer.Deserialize<TRes>(strRes);
+        var response = await req.SendAsync(req.target_module);
+        var strRes   = await response.ReadContentAsStringAsync();
+
+        if (!response.IsSuccessStatusCode){
+            throw new RespNetworkException(
+                $"接口请求失败，模块{req.target_module}，地址：{req.address_url},消息：{response.ReasonPhrase}\r\n {strRes}");
+        }
+
+        return string.IsNullOrEmpty(strRes) ? default: JsonSerializer.Deserialize<TRes>(strRes);
     }
 }

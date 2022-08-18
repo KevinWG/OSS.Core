@@ -9,10 +9,10 @@ namespace OSS.Core.Context.Attributes
     /// <summary>
     ///  应用授权过滤器
     /// </summary>
-    public class AppAuthorizeAttribute: BaseOrderAuthorizeAttribute
+    public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
     {
         private readonly AppAuthOption _appOption;
-        
+
         /// <summary>
         ///  构造函数
         /// </summary>
@@ -28,8 +28,11 @@ namespace OSS.Core.Context.Attributes
         public override async Task<IResp> Authorize(AuthorizationFilterContext context)
         {
             // 0.  获取初始化app信息
-            var appIdentity = new AppIdentity();
-            CoreContext.App.Identity = appIdentity;
+            if (!CoreContext.App.IsInitialized)
+                CoreContext.App.Identity = new AppIdentity();
+            
+            var appIdentity = CoreContext.App.Identity;
+        
 
             // 1. app 内容格式化
             var res = await AppAuthorize(appIdentity, context.HttpContext);
@@ -43,8 +46,8 @@ namespace OSS.Core.Context.Attributes
         }
 
         #region 应用验证
-        
-        
+
+
         private async Task<IResp> AppAuthorize(AppIdentity appInfo, HttpContext context)
         {
             if (appInfo.auth_mode != AppAuthMode.OutApp)
@@ -53,7 +56,7 @@ namespace OSS.Core.Context.Attributes
                     ? AppAuthMode.AppSign
                     : AppAuthMode.Browser;
             }
-
+            
             switch (appInfo.auth_mode)
             {
                 case AppAuthMode.AppSign:
@@ -63,17 +66,26 @@ namespace OSS.Core.Context.Attributes
                     break;
 
                 default:
-                    appInfo.access_key = CoreContext.App.Self.AccessKey; // AppInfoHelper.AppId;
-                    appInfo.app_ver = CoreContext.App.Self.AppVersion;
-                    appInfo.UDID = "WEB";
+                    appInfo.app_ver    = CoreContext.App.Self.AppVersion;
+                    appInfo.UDID       = "WEB";
                     break;
             }
 
+            //  验证要求的类型
+
+            if (appInfo.auth_mode > appInfo.ask_auth.app_auth_mode || appInfo.app_type > appInfo.ask_auth.app_type)
+            {
+                return new Resp(SysRespCodes.NotAllowed, "应用权限不足!");
+            }
+
+
             if (appInfo.auth_mode >= AppAuthMode.Browser)
             {
+                // 浏览器模式下，从cookie中初始化用户Token
                 if (context.Request.Cookies.TryGetValue(_appOption.BrowserModeCookieName, out var tokenVal))
                     appInfo.token = tokenVal;
             }
+
             return Resp.DefaultSuccess;
         }
 
@@ -85,9 +97,12 @@ namespace OSS.Core.Context.Attributes
             if (_appOption.SignAccessProvider == null)
                 throw new NotImplementedException("请设置应用签名秘钥提供器(SignAccessProvider)");
 
-            var access =await _appOption.SignAccessProvider.GetByKey(appIdentity.access_key);
-            appIdentity.app_type = access.app_type;
-            
+            var accessRes = await _appOption.SignAccessProvider.GetByKey(appIdentity.access_key);
+            if (!accessRes.IsSuccess())
+                return accessRes;
+
+            var access = accessRes.data;
+
             const int expireSecs = 60 * 60 * 2;
             return appIdentity.CheckSign(access.access_secret, expireSecs);
         }
@@ -142,17 +157,17 @@ namespace OSS.Core.Context.Attributes
         /// <summary>
         ///   应用服务端签名模式，对应的票据信息的请求头名称
         /// </summary>
-        public  string SignModeHeaderName { get; set; } = "at-id";
+        public string SignModeHeaderName { get; set; } = "at-id";
 
         /// <summary>
         ///  用户token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
         /// </summary>
-        public  string BrowserModeCookieName { get; set; } = "u_cn";
+        public string BrowserModeCookieName { get; set; } = "u_cn";
 
         /// <summary>
         ///  签名秘钥提供者
         /// </summary>
-        public IAppSignAccessProvider? SignAccessProvider { get; set; }
+        public IAppAccessProvider? SignAccessProvider { get; set; }
 
         /// <summary>
         ///  租户授权实现

@@ -21,14 +21,20 @@ public class BaseRemoteRequest : OssHttpRequest
         target_module = targetModuleName;
     }
 
+    private CoreAccessSecret _access;
+
+
     /// <inheritdoc />
-    protected override async Task OnSendingAsync(HttpRequestMessage r)
+    protected override async Task PrepareSendAsync()
     {
-        var accessSecret = await CoreClientHelper.AccessProvider.Get(target_module);
+        _access     = await CoreClientHelper.AccessProvider.Get(target_module);
+        address_url = string.Concat(_access.api_domain, address_url);
+    }
 
-        address_url = string.Concat(accessSecret.api_domain, address_url);
-
-        var ticket = CoreContext.App.Identity.ToTicket(accessSecret.access_key, accessSecret.access_secret,
+    /// <inheritdoc />
+    protected override Task OnSendingAsync(HttpRequestMessage r)
+    {
+        var ticket = CoreContext.App.Identity.ToTicket(_access.access_key, _access.access_secret,
             CoreContext.App.Self.AppVersion);
 
         r.Headers.Add(CoreClientHelper.HeaderName, ticket);
@@ -39,6 +45,8 @@ public class BaseRemoteRequest : OssHttpRequest
             r.Content.Headers.ContentType =
                 new MediaTypeHeaderValue("application/json") { CharSet = "UTF-8" };
         }
+
+        return Task.CompletedTask;
     }
 
     

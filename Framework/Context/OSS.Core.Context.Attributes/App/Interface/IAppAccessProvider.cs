@@ -1,32 +1,34 @@
 ﻿using OSS.Common;
+using OSS.Common.Resp;
 
 namespace OSS.Core.Context.Attributes
 {
     /// <summary>
     ///  签名秘钥提供者
     /// </summary>
-    public interface IAppSignAccessProvider
+    public interface IAppAccessProvider
     {
         /// <summary>
         ///  通过Key值获取应用签名信息
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Task<AppSignAccess> GetByKey(string key);
+        public Task<IResp<AppAccess>> GetByKey(string key);
     }
 
     /// <summary>
     /// 签名秘钥信息
     /// </summary>
-    public class AppSignAccess : IAccessSecret
+    public class AppAccess : IAccessSecret
     {
+        /// <summary>
+        /// 秘钥key
+        /// </summary>
         public string access_key { get; set; }
 
-        public string access_secret { get; set; }
-
         /// <summary>
-        ///   应用类型
+        ///  秘钥密匙
         /// </summary>
-        public AppType app_type { get; set; }
+        public string access_secret { get; set; }
     }
 }

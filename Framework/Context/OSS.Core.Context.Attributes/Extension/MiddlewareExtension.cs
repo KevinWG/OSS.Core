@@ -43,8 +43,8 @@ namespace OSS.Core.Context.Attributes
                 AppWorkerId = ConfigHelper.GetSection("AppConfig:AppWorkerId")?.Value.ToInt32() ?? 0,
                 AppVersion  = ConfigHelper.GetSection("AppConfig:AppVersion")?.Value ?? string.Empty,
 
-                AccessKey    = ConfigHelper.GetSection("AppConfig:AccessKey")?.Value ?? string.Empty,
-                AccessSecret = ConfigHelper.GetSection("AppConfig:AccessSecret")?.Value ?? string.Empty
+                //AccessKey    = ConfigHelper.GetSection("AppConfig:AccessKey")?.Value ?? string.Empty,
+                //AccessSecret = ConfigHelper.GetSection("AppConfig:AccessSecret")?.Value ?? string.Empty
             };
 
             return appInfo;

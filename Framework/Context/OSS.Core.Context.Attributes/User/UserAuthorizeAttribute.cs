@@ -50,7 +50,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return identityRes;
 
         var userIdentity = identityRes.data;
-        if (userIdentity.auth_type > appIdentity.ask_func.auth_type)
+        if (userIdentity.auth_type > appIdentity.ask_auth.portal_auth_type)
         {
             switch (userIdentity.auth_type)
             {
@@ -70,7 +70,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
     private static async Task<IResp> FuncAuthorize(AppIdentity appInfo, UserIdentity userIdentity, UserAuthOption opt)
     {
-        var askFunc = appInfo.ask_func;
+        var askFunc = appInfo.ask_auth;
         if (opt.FuncProvider == null)
         {
             if (!string.IsNullOrEmpty(askFunc.func_code))
@@ -84,7 +84,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return Resp.DefaultSuccess;
         }
 
-        var res = await opt.FuncProvider.Authorize(askFunc.func_code, askFunc.scene_code);
+        var res = await opt.FuncProvider.Authorize(askFunc.func_code, askFunc.func_scene_code);
         if (res.IsSuccess())
             userIdentity.data_level = res.data;
 

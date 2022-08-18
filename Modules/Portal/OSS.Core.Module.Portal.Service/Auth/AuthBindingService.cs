@@ -205,9 +205,11 @@ namespace OSS.Core.Module.Portal
                 ? setting.SmsTemplateId.ToInt64()
                 : setting.EmailTemplateId.ToInt64();
 
-            var notifyMsg = new NotifyReq(tagets, templateId)
+            var notifyMsg = new NotifySendReq
             {
-                body_paras = new Dictionary<string, string> {{"code", code}}
+                targets     = tagets,
+                template_id = templateId,
+                body_paras  = new Dictionary<string, string> {{"code", code}}
             };
 
             return await NotifyRemoteClient.Notify.Send(notifyMsg);

@@ -13,13 +13,13 @@ namespace OSS.Core.Module.Notify
             InsContainer<INotifyService>.Set<NotifyService>();
             InsContainer<ITemplateService>.Set<TemplateService>();
 
-            //// 华为短信配置
-            //HwSmsHelper.default_secret = new HwSecret();
-            //ConfigHelper.Configuration.GetSection("Access:SMS:HuaWeiYun").Bind(HwSmsHelper.default_secret);
+            // 华为短信配置
+            HwSmsHelper.default_secret = new HwSecret();
+            ConfigHelper.Configuration.GetSection("Client:HuaWeiYun_Sms").Bind(HwSmsHelper.default_secret);
 
-            //// 邮件配置信息
-            //EmailHelper.default_smtp_config = new EmailSmtpConfig();
-            //ConfigHelper.Configuration.GetSection("Access:Email").Bind(EmailHelper.default_smtp_config);
+            // 邮件配置信息
+            EmailHelper.default_smtp_config = new EmailSmtpConfig();
+            ConfigHelper.Configuration.GetSection("Client:Email").Bind(EmailHelper.default_smtp_config);
         }
     }
 }

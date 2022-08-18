@@ -5,7 +5,7 @@ namespace OSS.Core.Module.Notify;
 
 public class HwSmsHandler : INotifyHandler
 {
-    public async Task<NotifyResp> NotifyMsg(TemplateMo template, NotifyReq msg)
+    public async Task<NotifySendResp> NotifyMsg(TemplateMo template, NotifySendReq msg)
     {
         var req = new HWSendSmsReq()
         {
@@ -18,10 +18,10 @@ public class HwSmsHandler : INotifyHandler
         return Convert(await req.SendAsync());
     }
 
-    public static NotifyResp Convert(HwSendResp resp)
+    public static NotifySendResp Convert(HwSendResp resp)
     {
         return resp.code == "000000"
-            ? new NotifyResp()
-            : new NotifyResp().WithResp(RespCodes.OperateFailed, resp.description);
+            ? new NotifySendResp()
+            : new NotifySendResp().WithResp(RespCodes.OperateFailed, resp.description);
     }
 }

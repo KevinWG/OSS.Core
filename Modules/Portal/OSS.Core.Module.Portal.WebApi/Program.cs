@@ -19,7 +19,7 @@ builder.Services.Register<PortalGlobalStarter>();     // È«¾Ö×¢Èë
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization();
+    opt.AddCoreAppAuthorization( new AppAccessProvider());
     opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
 
 }).AddJsonOptions(jsonOpt =>

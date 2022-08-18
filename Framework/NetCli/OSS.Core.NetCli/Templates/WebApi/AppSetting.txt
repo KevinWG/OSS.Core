@@ -7,17 +7,30 @@
   },
   "AllowedHosts": "*",
 
+  "ConnectionStrings": {
+    "WriteConnection": "server=127.0.0.1;database=oss.core;uid=root;pwd=123456;charset=utf8mb4",
+    "ReadConnection": "server=127.0.0.1;database=oss.core;uid=root;pwd=123456;charset=utf8mb4"
+  },
+
   "AppConfig": {
     "AppWorkerId": "1",
     "AppVersion": "1.0"
   },
 
-  "Module": {
-    "{module_name}": {      
+  //  当前模块对外提供的秘钥信息
+  "Access": [
+    {
+      "access_key": "app_source1",
+      "access_secret": "{nonce_secret}"
+    }
+  ],
+  //  请求模块提供的秘钥信息
+  "Client": {
+    "Default": {
+      "api_domain": "http://localhost:9100",
+      "access_key": "app_source1",
+      "access_secret": "{nonce_secret}"
     }
   },
-  "ConnectionStrings": {
-    "WriteConnection": "",
-    "ReadConnection": ""
-  }
+
 }

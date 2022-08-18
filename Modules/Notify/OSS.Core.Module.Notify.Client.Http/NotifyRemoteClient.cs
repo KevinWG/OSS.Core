@@ -12,5 +12,3 @@ public static class NotifyRemoteClient //: INotifyClient
     /// </summary>
     public static IOpenedNotifyService Notify {get; } = SingleInstance<NotifyHttpClient>.Instance;
 }
-
-

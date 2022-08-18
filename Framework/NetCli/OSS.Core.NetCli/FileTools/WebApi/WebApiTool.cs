@@ -81,9 +81,12 @@ internal  class WebApiTool: BaseProjectTool
     private static void Create_AppSettingFile(Solution ss)
     {
         var project = ss.webapi_project;
-        
+
+        var secret = Guid.NewGuid().ToString().Replace("-","");
+
         var appSettingPath = Path.Combine(project.project_dir, "appsettings.json");
-        FileHelper.CreateFileByTemplate(appSettingPath, ss, "WebApi/AppSetting.txt");
+        FileHelper.CreateFileByTemplate(appSettingPath, ss, "WebApi/AppSetting.txt",
+            new Dictionary<string, string>(){{ "{nonce_secret}", secret } });
     }
 
     #endregion

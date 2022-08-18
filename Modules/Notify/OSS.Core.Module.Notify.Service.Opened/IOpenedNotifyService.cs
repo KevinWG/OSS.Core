@@ -8,6 +8,6 @@ namespace OSS.Core.Module.Notify
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        Task<NotifyResp> Send(NotifyReq msg);
+        Task<NotifySendResp> Send(NotifySendReq msg);
     }
 }

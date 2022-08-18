@@ -1,5 +1,4 @@
 ﻿using OSS.Common;
-using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Tools.Log;
 
@@ -14,14 +13,14 @@ public class NotifyService : INotifyService
     /// </summary>
     /// <param name="msg">消息实体</param>
     /// <returns></returns>
-    public async Task<NotifyResp> Send(NotifyReq msg)
+    public async Task<NotifySendResp> Send(NotifySendReq msg)
     {
         string errCode;
         try
         {
             var tRes = await channelService.Get(msg.template_id);
             if (!tRes.IsSuccess())
-                return new NotifyResp().WithResp(tRes).WithErrMsg("获取发送模板信息失败!");
+                return new NotifySendResp().WithResp(tRes).WithErrMsg("获取发送模板信息失败!");
 
             var template = tRes.data;
 
@@ -35,6 +34,6 @@ public class NotifyService : INotifyService
             errCode = LogHelper.Error($"发送信息出错,错误信息：{ex.Message}", this.GetType().Name);
         }
 
-        return new NotifyResp().WithResp(SysRespCodes.AppError, $"发送消息失败,错误码：{errCode}！");
+        return new NotifySendResp().WithResp(SysRespCodes.AppError, $"发送消息失败,错误码：{errCode}！");
     }
 }

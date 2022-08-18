@@ -10,7 +10,7 @@ namespace OSS.Core.Module.Notify;
 /// </summary>
 public class TemplateController : BaseNotifyController, IOpenedTemplateService
 {
-    public static readonly TemplateService _service = new();
+    private static readonly IOpenedTemplateService _service = new TemplateService();
 
     /// <inheritdoc />
     [HttpPost]

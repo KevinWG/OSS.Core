@@ -10,7 +10,7 @@ namespace {solution_name};
 /// </summary>
 public class {entity_name}Controller : Base{module_name}Controller, IOpened{entity_name}Service
 {
-    public static readonly {entity_name}Service _service = new();
+    private static readonly IOpened{entity_name}Service _service = new {entity_name}Service();
 
     /// <inheritdoc />
     [HttpPost]

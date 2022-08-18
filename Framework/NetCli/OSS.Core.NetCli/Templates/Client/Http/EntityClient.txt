@@ -12,7 +12,7 @@ internal class {entity_name}HttpClient : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<PageListResp<{entity_name}Mo>> Search(SearchReq req)
     {
-          return new {module_req}("/{entity_name}/Search")
+          return new {module_req}("/{module_name}/{entity_name}/Search")
             .PostAsync<PageListResp<{entity_name}Mo>>(req);
     }
 
@@ -23,7 +23,7 @@ internal class {entity_name}HttpClient : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<IResp<{entity_name}Mo>> Get(long id)
     {
-          return new {module_req}($"/{entity_name}/Get?id={id}")
+          return new {module_req}($"/{module_name}/{entity_name}/Get?id={id}")
             .GetAsync<IResp<{entity_name}Mo>>();
     }
 
@@ -36,7 +36,7 @@ internal class {entity_name}HttpClient : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<IResp> SetUseable(long id, ushort flag)
     {
-          return new {module_req}($"/{entity_name}/SetUseable?id={id}&flag={flag}")
+          return new {module_req}($"/{module_name}/{entity_name}/SetUseable?id={id}&flag={flag}")
             .PostAsync<IResp>();
     }
 
@@ -47,7 +47,7 @@ internal class {entity_name}HttpClient : IOpened{entity_name}Service
     /// <returns></returns>
     public Task<IResp> Add(Add{entity_name}Req req)
     {
-          return new {module_req}($"/{entity_name}/Add")
+          return new {module_req}($"/{module_name}/{entity_name}/Add")
             .PostAsync<IResp>(req);
     }
 }

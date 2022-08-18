@@ -14,6 +14,11 @@ internal class CoreAccessProvider : ICoreAccessProvider
         var secret = new CoreAccessSecret();
         ConfigHelper.Configuration.GetSection(string.Concat("Client:", moduleName)).Bind(secret);
 
+        if (!string.IsNullOrEmpty(secret.access_secret))
+            return Task.FromResult(secret);
+
+        ConfigHelper.Configuration.GetSection("Client:Default").Bind(secret);
+ 
         if (string.IsNullOrEmpty(secret.access_secret))
             throw new NoNullAllowedException($"未能找到 Client:{moduleName} 配置节点信息!");
 

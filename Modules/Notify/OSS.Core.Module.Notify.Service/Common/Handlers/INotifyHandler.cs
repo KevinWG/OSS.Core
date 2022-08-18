@@ -2,5 +2,5 @@
 
 internal interface INotifyHandler
 {
-    Task<NotifyResp> NotifyMsg(TemplateMo template, NotifyReq msg);
+    Task<NotifySendResp> NotifyMsg(TemplateMo template, NotifySendReq msg);
 }

@@ -62,17 +62,6 @@ namespace OSS.Core.Context
         /// </summary>
         public  string AppVersion { get; set; } = string.Empty;
 
-
-        /// <summary>
-        ///  应用访问秘钥-key
-        /// </summary>
-        public string AccessKey { get; set; } = string.Empty;
-
-        /// <summary>
-        ///  应用访问秘钥-secret
-        /// </summary>
-        public string AccessSecret { get; set; } = string.Empty;
-
     }
 
 }

@@ -5,7 +5,7 @@ namespace OSS.Core.Module.Notify
 {
     public class EmailHandler : INotifyHandler
     {
-        public async Task<NotifyResp> NotifyMsg(TemplateMo template, NotifyReq msg)
+        public async Task<NotifySendResp> NotifyMsg(TemplateMo template, NotifySendReq msg)
         {
             var body = msg.body_paras == null
                 ? template.content
@@ -26,7 +26,7 @@ namespace OSS.Core.Module.Notify
             }
 
             var eRes       = await EmailSmtpClient.SendAsync(mm);
-            var notifyResp = new NotifyResp().WithResp(eRes);
+            var notifyResp = new NotifySendResp().WithResp(eRes);
 
             notifyResp.msg_biz_id = msg.msg_Id;
 

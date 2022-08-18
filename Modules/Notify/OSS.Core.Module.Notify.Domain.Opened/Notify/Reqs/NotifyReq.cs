@@ -2,20 +2,15 @@
 
 namespace OSS.Core.Module.Notify
 {
-    public class NotifyReq
-    {
-        /// <summary>
+    public class NotifySendReq
+    {        /// <summary>
         ///  通知请求
         /// </summary>
-        /// <param name="targets"></param>
-        /// <param name="templateId"></param>
-        public NotifyReq(IList<string> targets, long templateId)
+        public NotifySendReq()
         {
-            this.targets = targets;
 
-            template_id = templateId;
         }
-        
+
         /// <summary>
         /// 目标账号
         /// </summary>
@@ -43,7 +38,7 @@ namespace OSS.Core.Module.Notify
         public Dictionary<string, string>? body_paras { get; set; }
     }
 
-    public class NotifyResp : Resp
+    public class NotifySendResp : Resp
     {
         /// <summary>
         ///  消息处理业务Id

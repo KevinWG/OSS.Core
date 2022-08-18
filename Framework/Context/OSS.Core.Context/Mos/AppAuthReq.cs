@@ -11,7 +11,7 @@ namespace OSS.Core.Context
     public class AppAuthReq
     {
         #region  参与签名属性
-      
+
         /// <summary>
         ///   【请求方】应用Id
         /// </summary>
@@ -90,8 +90,6 @@ namespace OSS.Core.Context
 
                 FormatProperty(appAuthInfo,keyValue[0], val);
             }
-
-
         }
 
         /// <summary>
@@ -107,8 +105,7 @@ namespace OSS.Core.Context
                 case "access_key":
                     appAuthInfo.access_key = val;
                     break;
-
-
+                    
                 case "app_ver":
                     appAuthInfo.app_ver = val;
                     break;

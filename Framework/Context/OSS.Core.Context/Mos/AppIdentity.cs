@@ -38,51 +38,41 @@ namespace OSS.Core.Context
         public AppType app_type { get; set; } = AppType.Single;
 
         /// <summary>
-        ///  请求验证对应功能权限信息
+        ///  当前请求要求的授权信息
         /// </summary>
-        public AskUserFunc ask_func { get; set; } = _defaultFunc;
+        public AskAuth ask_auth { get; set; } = new AskAuth();
 
-
-        private static readonly AskUserFunc _defaultFunc = new(PortalAuthorizeType.User, string.Empty, string.Empty);
     }
-
-
-
-
-
-
+    
     /// <summary>
     ///  要求的功能权限信息
     /// </summary>
-    public class AskUserFunc
+    public class AskAuth
     {
-        /// <summary>
-        /// 功能权限要求
-        /// </summary>
-        /// <param name="authType"></param>
-        /// <param name="funcCode"></param>
-        /// <param name="sceneCode"></param>
-        public AskUserFunc(PortalAuthorizeType authType, string funcCode, string sceneCode)
-        {
-            func_code  = funcCode;
-            scene_code = sceneCode;
-            auth_type  = authType;
-        }
-
         /// <summary>
         ///  权限码
         /// </summary>
-        public string func_code { get; }
+        public string func_code { get; set; } = string.Empty;
 
         /// <summary>
         ///  业务场景
         /// </summary>
-        public string scene_code { get; }
+        public string func_scene_code { get; set; } = string.Empty;
 
         /// <summary>
         ///  要求的登录类型限制
         /// </summary>
-        public PortalAuthorizeType auth_type { get; }
+        public PortalAuthorizeType portal_auth_type { get; set; } = PortalAuthorizeType.User;
+        
+        /// <summary>
+        /// 来源模式
+        /// </summary> 
+        public AppAuthMode app_auth_mode { get; set; } = AppAuthMode.Browser;
+
+        /// <summary>
+        ///   应用类型
+        /// </summary>
+        public AppType app_type { get; set; } = AppType.Single;
     }
 
 
@@ -99,11 +89,11 @@ namespace OSS.Core.Context
         /// <summary>
         ///  第三方应用模式（如微信回调，自定义约定验证模式
         /// </summary>
-        OutApp = 100,
+        OutApp = 1000,
 
         /// <summary>
         /// 浏览器访问模式
         /// </summary>
-        Browser = 300
+        Browser = 10000
     }
 }

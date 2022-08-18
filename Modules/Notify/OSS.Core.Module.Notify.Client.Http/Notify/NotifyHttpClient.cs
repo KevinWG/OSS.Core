@@ -7,10 +7,10 @@ namespace OSS.Core.Module.Notify.Client;
 internal class NotifyHttpClient : IOpenedNotifyService
 {
 
-    public Task<NotifyResp> Send(Notify.NotifyReq msg)
+    public Task<NotifySendResp> Send(NotifySendReq msg)
     {
-        return new NotifyRemoteReq($"/Notify/Send")
-            .PostAsync<NotifyResp>(msg);
+        return new NotifyRemoteReq("/notify/Notify/Send")
+            .PostAsync<NotifySendResp>(msg);
     }
 }
 

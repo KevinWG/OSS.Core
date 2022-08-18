@@ -113,9 +113,10 @@ public class AuthService : BaseAuthService, IAuthService
             ? setting.SmsTemplateId.ToInt64()
             : setting.EmailTemplateId.ToInt64();
 
-        var notifyMsg = new NotifyReq(targets, templateId)
+        var notifyMsg = new NotifySendReq()
         {
-            body_paras = new Dictionary<string, string> { { "code", code } }
+            targets    = targets, template_id = templateId,
+            body_paras = new Dictionary<string, string> {{"code", code}}
         };
 
         var res = await NotifyRemoteClient.Notify.Send(notifyMsg);
