@@ -3,6 +3,9 @@ using OSS.Common;
 
 namespace OSS.Core.Module.Portal;
 
+/// <summary>
+/// 注册内部关联调用依赖
+/// </summary>
 public class PortalServiceStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)

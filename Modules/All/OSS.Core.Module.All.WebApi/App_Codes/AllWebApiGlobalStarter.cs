@@ -11,8 +11,8 @@ public class AllWebApiGlobalStarter : AppStarter
 {
     public override void Start(IServiceCollection services)
     {
-        services.Register<MysqlDirConfigCompStarter>(); // 注册全局配置mysql存储
-        
+        services.UserMysqlDirConfigTool();
+
         #region Notify（通知服务模块）
 
         services.Register<NotifyServiceStarter>(); // 通知服务

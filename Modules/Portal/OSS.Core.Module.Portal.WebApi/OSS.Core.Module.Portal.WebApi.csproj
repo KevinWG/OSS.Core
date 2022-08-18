@@ -8,13 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="OSS.Core.Context.Attributes" Version="2.9.2" />
+    <PackageReference Include="OSS.Core.Extension.Mvc.Captcha.Ali" Version="2.0.0" />
+    <PackageReference Include="OSS.Core.Extension.Mvc.Configuration" Version="2.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
-    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Mvc.Captcha.Ali\OSS.Core.Extension.Mvc.Captcha.Ali.csproj" />
-    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Mvc.Configuration\OSS.Core.Extension.Mvc.Configuration.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.Portal.Repository\OSS.Core.Module.Portal.Repository.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.Portal.Service\OSS.Core.Module.Portal.Service.csproj" />
   </ItemGroup>

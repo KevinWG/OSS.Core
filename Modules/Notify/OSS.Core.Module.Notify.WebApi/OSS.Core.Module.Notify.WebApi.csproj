@@ -6,12 +6,12 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="OSS.Core.Context.Attributes" Version="2.9.2" />
+		<PackageReference Include="OSS.Core.Extension.Mvc.Configuration" Version="2.0.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 	</ItemGroup>
 	<ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
-    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Mvc.Configuration\OSS.Core.Extension.Mvc.Configuration.csproj" />
-    <ProjectReference Include="..\..\Portal\OSS.Core.Module.Portal.Client.Http\OSS.Core.Module.Portal.Client.Http.csproj" />
+    <ProjectReference Include="..\..\Portal\Open\OSS.Core.Module.Portal.Client.Http\OSS.Core.Module.Portal.Client.Http.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.Notify.Service\OSS.Core.Module.Notify.Service.csproj" />
   </ItemGroup>
 </Project>

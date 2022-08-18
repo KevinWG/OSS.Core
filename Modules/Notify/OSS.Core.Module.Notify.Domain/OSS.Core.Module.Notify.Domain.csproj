@@ -6,11 +6,11 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
+		<PackageReference Include="OSS.Core.Extension.Cache" Version="2.1.0" />
+		<PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="2.1.0" />
 		<PackageReference Include="OSS.Tools.Log" Version="*" />
 	</ItemGroup>
-  <ItemGroup>
-	  <ProjectReference Include="..\..\..\Framework\Core\Repository\OSS.Core.Rep.Dapper.Mysql\OSS.Core.Rep.Dapper.Mysql.csproj" />
-	  <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
-	  <ProjectReference Include="..\OSS.Core.Module.Notify.Domain.Opened\OSS.Core.Module.Notify.Domain.Opened.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\Open\OSS.Core.Module.Notify.Domain.Open\OSS.Core.Module.Notify.Domain.Open.csproj" />
+	</ItemGroup>
 </Project>

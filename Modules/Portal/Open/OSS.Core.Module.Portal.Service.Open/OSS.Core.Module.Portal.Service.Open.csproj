@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Core\Opened\OSS.Core.Domain.Opened\OSS.Core.Domain.Opened.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.Portal.Domain.Open\OSS.Core.Module.Portal.Domain.Open.csproj" />
   </ItemGroup>
 
 </Project>

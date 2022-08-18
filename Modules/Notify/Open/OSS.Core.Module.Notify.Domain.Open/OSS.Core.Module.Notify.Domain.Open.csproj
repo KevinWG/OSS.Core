@@ -1,10 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
-	<PropertyGroup>
+
+  <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-	<ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Core\Opened\OSS.Core.Domain.Opened\OSS.Core.Domain.Opened.csproj" />
+
+  <ItemGroup>
+    <PackageReference Include="OSS.Core.Domain.Opened" Version="2.1.0" />
   </ItemGroup>
+
 </Project>

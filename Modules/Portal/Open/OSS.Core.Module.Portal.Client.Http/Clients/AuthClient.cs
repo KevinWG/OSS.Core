@@ -10,35 +10,35 @@ internal class AuthClient : IOpenedAuthService
     /// <inheritdoc />
     public Task<IResp<UserIdentity>> GetIdentity()
     {
-        return new PortalRequest("/Auth/GetIdentity")
+        return new PortalRemoteRequest("/Auth/GetIdentity")
             .GetAsync<IResp<UserIdentity>>();
     }
 
     /// <inheritdoc />
     public Task<IResp> CheckIfCanReg(PortalNameReq req)
     {
-        return new PortalRequest("/Auth/CheckIfCanReg")
+        return new PortalRemoteRequest("/Auth/CheckIfCanReg")
             .PostAsync<IResp>(req);
     }
 
     /// <inheritdoc />
     public Task<PortalTokenResp> CodeLogin(PortalPasscodeReq req)
     {
-        return new PortalRequest("/Auth/CodeLogin")
+        return new PortalRemoteRequest("/Auth/CodeLogin")
             .PostAsync<PortalTokenResp>(req);
     }
 
     /// <inheritdoc />
     public Task<PortalTokenResp> CodeAdminLogin(PortalPasscodeReq req)
     {
-        return new PortalRequest("/Auth/CodeAdminLogin")
+        return new PortalRemoteRequest("/Auth/CodeAdminLogin")
             .PostAsync<PortalTokenResp>(req);
     }
 
     /// <inheritdoc />
     public Task<PortalTokenResp> CodeRegOrLogin(PortalPasscodeReq req)
     {
-        return new PortalRequest("/Auth/CodeRegOrLogin")
+        return new PortalRemoteRequest("/Auth/CodeRegOrLogin")
             .PostAsync<PortalTokenResp>(req);
     }
 
@@ -46,28 +46,28 @@ internal class AuthClient : IOpenedAuthService
     /// <inheritdoc />
     public Task<IResp> SendCode(PortalNameReq req)
     {
-        return new PortalRequest("/Auth/SendCode")
+        return new PortalRemoteRequest("/Auth/SendCode")
             .PostAsync<IResp>(req);
     }
 
     /// <inheritdoc />
     public Task<PortalTokenResp> PwdReg(PortalPasswordReq req)
     {
-        return new PortalRequest("/Auth/PwdReg")
+        return new PortalRemoteRequest("/Auth/PwdReg")
             .PostAsync<PortalTokenResp>(req);
     }
 
     /// <inheritdoc />
     public Task<PortalTokenResp> PwdLogin(PortalPasswordReq req)
     {
-        return new PortalRequest("/Auth/PwdLogin")
+        return new PortalRemoteRequest("/Auth/PwdLogin")
             .PostAsync<PortalTokenResp>(req);
     }
 
     /// <inheritdoc />
     public Task<PortalTokenResp> PwdAdminLogin(PortalPasswordReq req)
     {
-        return new PortalRequest("/Auth/PwdAdminLogin")
+        return new PortalRemoteRequest("/Auth/PwdAdminLogin")
             .PostAsync<PortalTokenResp>(req);
     }
 }

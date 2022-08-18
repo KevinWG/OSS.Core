@@ -7,13 +7,13 @@ internal class SettingClient : IOpenedSettingService
 {
     public Task<IResp> SaveAuthSetting(AuthSetting setting)
     {
-        return new PortalRequest("/Setting/SaveAuthSetting")
+        return new PortalRemoteRequest("/Setting/SaveAuthSetting")
             .PostAsync<IResp>(setting);
     }
 
     public Task<IResp<AuthSetting>> GetAuthSetting()
     {
-        return new PortalRequest("/Setting/GetAuthSetting")
+        return new PortalRemoteRequest("/Setting/GetAuthSetting")
             .GetAsync<IResp<AuthSetting>>();//<IResp>(setting);
     }
 }

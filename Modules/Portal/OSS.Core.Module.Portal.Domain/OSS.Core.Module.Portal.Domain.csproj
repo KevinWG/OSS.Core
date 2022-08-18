@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Domain\OSS.Core.Domain.csproj" />
-    <ProjectReference Include="..\OSS.Core.Module.Portal.Domain.Opened\OSS.Core.Module.Portal.Domain.Opened.csproj" />
+    <PackageReference Include="OSS.Core.Domain" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Open\OSS.Core.Module.Portal.Domain.Open\OSS.Core.Module.Portal.Domain.Open.csproj" />
   </ItemGroup>
 
 </Project>

@@ -7,8 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Core\Repository\OSS.Core.Rep.Dapper.Mysql\OSS.Core.Rep.Dapper.Mysql.csproj" />
-    <ProjectReference Include="..\..\..\Framework\Extension\OSS.Core.Extension.Cache\OSS.Core.Extension.Cache.csproj" />
+    <PackageReference Include="OSS.Core.Extension.Cache" Version="2.1.0" />
+    <PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\OSS.Core.Module.Portal.Domain\OSS.Core.Module.Portal.Domain.csproj" />
   </ItemGroup>
 

@@ -10,7 +10,7 @@ namespace OSS.Core.Module.Portal
         /// <inheritdoc />
         public override void Start(IServiceCollection serviceCollection)
         {
-            // todo 添加通知模块和应用模块 HttpClient (暂未实现)
+          
         }
     }
 }
