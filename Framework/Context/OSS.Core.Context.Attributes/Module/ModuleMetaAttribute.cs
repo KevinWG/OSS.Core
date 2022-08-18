@@ -10,26 +10,16 @@ namespace OSS.Core.Context.Attributes
     public class ModuleMetaAttribute: BaseOrderAuthorizeAttribute
     {
         private readonly string _moduleName;
-        private readonly AppType _appType;
 
-        /// <summary>
-        ///  模块配置信息属性
-        /// </summary>
-        /// <param name="moduleName"></param>
-        public ModuleMetaAttribute(string moduleName)
-            :this(moduleName,AppType.Single)
-        {
-        }
-
+   
         /// <summary>
         ///  模块配置信息属性
         /// </summary>
         /// <param name="moduleName"></param>
         /// <param name="appType">应用类型等级</param>
-        public ModuleMetaAttribute(string moduleName, AppType appType)
+        public ModuleMetaAttribute(string moduleName)
         {
             Order       = AttributeConst.Order_Module_MetaAttribute;
-            _appType    = appType;
             _moduleName = moduleName;
         }
         
@@ -42,14 +32,15 @@ namespace OSS.Core.Context.Attributes
         {
             if (string.IsNullOrEmpty(_moduleName))
                 throw new NullReferenceException("请在当前Controller或父类中使用ModuleNameAttribute标注模块名称！");
-
-            var appInfo = CoreContext.App.Identity;
-            if (appInfo.app_type > _appType)
+            
+            if (!CoreContext.App.IsInitialized)
             {
-                return Task.FromResult((IResp)new Resp(RespCodes.UserNoPermission, "当前应用类型，无此接口权限！"));
+                CoreContext.App.Identity = new AppIdentity();
             }
+            var appInfo = CoreContext.App.Identity;
 
             appInfo.module_name = _moduleName;
+
             return AttributeConst.TaskSuccessResp;
         }
 

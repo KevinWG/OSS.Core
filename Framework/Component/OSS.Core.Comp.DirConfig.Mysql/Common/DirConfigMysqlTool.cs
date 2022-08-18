@@ -26,9 +26,13 @@ namespace OSS.Core.Comp.DirConfig.Mysql
             {
                 id         = key,
                 config_val = confJson,
-                owner_uid  = CoreContext.User.Identity.id.ToInt64(),
                 add_time   = DateTime.Now.ToUtcSeconds()
             };
+
+            if (CoreContext.User.IsAuthenticated)
+            {
+                mo.owner_uid = CoreContext.User.Identity.id.ToInt64();
+            }
 
             await _configRep.Add(mo);
             return true;

@@ -1,16 +1,13 @@
 ﻿using OSS.Common.Resp;
 using OSS.Core.Rep.Mysql;
 using OSS.Tools.Cache;
-using OSS.Tools.Config;
 
 namespace OSS.Core.Comp.DirConfig.Mysql;
 
 internal class DirConfigRep : BaseMysqlRep<DirConfigMo, string>
 {
-    private static readonly string _writeConnection = ConfigHelper.GetConnectionString("WriteConnection");
-    private static readonly string _readConnection  = ConfigHelper.GetConnectionString("ReadConnection");
-
-    public DirConfigRep() : base(_writeConnection, _readConnection, "sys_dir_config")
+    internal static ConnectionOption Option;
+    public DirConfigRep() : base(Option.WriteConnectionName, Option.ReadConnectionName, Option.TableName)
     {
     }
 
