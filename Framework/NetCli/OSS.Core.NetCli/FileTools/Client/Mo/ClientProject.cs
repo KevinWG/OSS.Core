@@ -1,6 +1,6 @@
 ﻿
 
-using System;
+using System.IO;
 
 namespace OSSCore;
 internal class ClientProject : BaseProjectStructure
@@ -10,6 +10,12 @@ internal class ClientProject : BaseProjectStructure
     {
         module_req_name    = string.Concat(moduleName, "RemoteReq");
         module_client_name = string.Concat(moduleName, "RemoteClient");
+
+        if (!string.IsNullOrEmpty(entityName))
+        {
+            entity_dir = Path.Combine(project_dir, "ServiceClients");
+        }
+
     }
 
     public string module_req_name { get;  }

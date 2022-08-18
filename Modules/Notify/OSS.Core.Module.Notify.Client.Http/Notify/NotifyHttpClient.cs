@@ -9,7 +9,7 @@ internal class NotifyHttpClient : IOpenedNotifyService
 
     public Task<NotifySendResp> Send(NotifySendReq msg)
     {
-        return new NotifyRemoteReq("/notify/Notify/Send")
+        return new NotifyRemoteReq("/Notify/Send")
             .PostAsync<NotifySendResp>(msg);
     }
 }

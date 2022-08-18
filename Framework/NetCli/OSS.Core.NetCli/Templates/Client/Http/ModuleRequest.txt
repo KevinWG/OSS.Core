@@ -8,4 +8,10 @@ internal class {module_req}: BaseCoreRequest
     public {module_req}(string apiPath) : base("{module_name}", apiPath)
     {
     }
+
+    protected override Task PrepareSendAsync()
+    {
+        api_path = string.Concat("/",target_module, api_path);
+        return base.PrepareSendAsync();
+    }
 }

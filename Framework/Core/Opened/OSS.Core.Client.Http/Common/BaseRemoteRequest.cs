@@ -9,16 +9,18 @@ namespace OSS.Core.Client.Http;
 /// </summary>
 public class BaseRemoteRequest : OssHttpRequest
 {
-    internal readonly string target_module;
+    protected internal string target_module { get; set; }
+    protected string api_path { get; set; }
 
     /// <summary>
     /// 客户端接口请求
     /// </summary>
     /// <param name="targetModuleName">请求对应的模块名称</param>
     /// <param name="apiPath"></param>
-    public BaseRemoteRequest(string targetModuleName, string apiPath) : base(apiPath)
+    public BaseRemoteRequest(string targetModuleName, string apiPath) //: base(apiPath)
     {
         target_module = targetModuleName;
+        api_path = apiPath;
     }
 
     private CoreAccessSecret _access;
@@ -28,7 +30,7 @@ public class BaseRemoteRequest : OssHttpRequest
     protected override async Task PrepareSendAsync()
     {
         _access     = await CoreClientHelper.AccessProvider.Get(target_module);
-        address_url = string.Concat(_access.api_domain, address_url);
+        address_url = string.Concat(_access.api_domain, api_path);
     }
 
     /// <inheritdoc />

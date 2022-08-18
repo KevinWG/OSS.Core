@@ -57,6 +57,7 @@ internal  class ClientTool : BaseProjectTool
         FileHelper.CreateDirectory(project.entity_dir);
 
         var entityClientPath = Path.Combine(project.entity_dir, $"{ss.entity_name}HttpClient.cs");
+
         FileHelper.CreateFileByTemplate(entityClientPath,ss, "Client/Http/EntityClient.txt",
             new Dictionary<string, string>(){{ "{module_req}",project.module_req_name } });
 

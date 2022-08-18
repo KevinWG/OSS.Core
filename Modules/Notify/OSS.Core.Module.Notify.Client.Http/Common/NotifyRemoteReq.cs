@@ -8,4 +8,11 @@ internal class NotifyRemoteReq: BaseRemoteRequest
     public NotifyRemoteReq(string apiPath) : base("Notify", apiPath)
     {
     }
+
+
+    protected override Task PrepareSendAsync()
+    {
+        api_path = string.Concat("/",target_module, api_path);
+        return base.PrepareSendAsync();
+    }
 }

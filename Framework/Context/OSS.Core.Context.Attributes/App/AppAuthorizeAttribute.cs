@@ -72,7 +72,6 @@ namespace OSS.Core.Context.Attributes
             }
 
             //  验证要求的类型
-
             if (appInfo.auth_mode > appInfo.ask_auth.app_auth_mode || appInfo.app_type > appInfo.ask_auth.app_type)
             {
                 return new Resp(SysRespCodes.NotAllowed, "应用权限不足!");
@@ -129,8 +128,6 @@ namespace OSS.Core.Context.Attributes
         }
 
         #endregion
-
-
 
 
         private static async Task<IResp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
