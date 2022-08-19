@@ -15,7 +15,5 @@ public class AllWebApiGlobalStarter : AppStarter
         
         services.Register<NotifyGlobalStarter>(); //  注册对应配置信息
         services.Register<PortalGlobalStarter>(); // 认证中心服务层
-
-
     }
 }
