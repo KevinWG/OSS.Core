@@ -8,9 +8,9 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 ///  权限接口
 /// </summary>
-public class GrantController : BasePortalController, IOpenedPermitService
+public class GrantController : BasePortalController, IPermitOpenService
 {
-    private static readonly IOpenedPermitService _service = new PermitService();
+    private static readonly IPermitOpenService _service = new PermitService();
 
     /// <summary>
     ///  获取当前登录用户的权限列表

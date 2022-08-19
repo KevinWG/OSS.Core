@@ -5,7 +5,7 @@ using OSS.Core.Context;
 namespace OSS.Core.Module.Portal.Client;
 
 /// <inheritdoc />
-internal class AuthClient : IOpenedAuthService
+internal class AuthClient : IAuthOpenService
 {
     /// <inheritdoc />
     public Task<IResp<UserIdentity>> GetIdentity()

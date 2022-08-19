@@ -2,7 +2,7 @@
 
 namespace OSS.Core.Module.Portal;
 
-public interface IOpenedFuncService
+public interface IFuncOpenService
 {
     /// <summary>
     /// 检查是否已经存在FuncCode

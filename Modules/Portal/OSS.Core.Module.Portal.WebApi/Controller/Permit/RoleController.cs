@@ -8,9 +8,9 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 ///  权限接口
 /// </summary>
-public class RoleController : BasePortalController, IOpenedRoleService
+public class RoleController : BasePortalController, IRoleOpenService
 {
-    private static readonly IOpenedRoleService _service = new RoleService();
+    private static readonly IRoleOpenService _service = new RoleService();
     
     #region 角色处理
 

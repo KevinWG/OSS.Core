@@ -4,7 +4,7 @@ using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Portal
 {
-    public class RoleService : IRoleService, IOpenedRoleService
+    public class RoleService : IRoleService, IRoleOpenService
     {
         private static readonly IRoleRep _roleRep = InsContainer<IRoleRep>.Instance;
 

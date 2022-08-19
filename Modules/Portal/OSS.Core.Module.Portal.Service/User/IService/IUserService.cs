@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Module.Portal;
 
-public interface IUserService:IOpenedUserService
+public interface IUserService:IUserOpenService
 {
 
 }

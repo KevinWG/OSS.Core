@@ -8,9 +8,9 @@ namespace OSS.Core.Module.Notify;
 /// <summary>
 ///  通知模板对外WebApi
 /// </summary>
-public class NotifyController : BaseNotifyController, IOpenedNotifyService
+public class NotifyController : BaseNotifyController, INotifyOpenService
 {
-    private static readonly IOpenedNotifyService _service = new NotifyService();
+    private static readonly INotifyOpenService _service = new NotifyService();
 
     /// <summary>
     ///  发送模板消息

@@ -1,7 +1,7 @@
 ﻿
 namespace OSS.Core.Module.Notify
 {
-    public interface IOpenedNotifyService
+    public interface INotifyOpenService
     {
         /// <summary>
         ///  发送通知信息

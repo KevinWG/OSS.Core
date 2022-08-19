@@ -8,9 +8,9 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 ///  权限接口
 /// </summary>
-public class FuncController : BasePortalController, IOpenedFuncService
+public class FuncController : BasePortalController, IFuncOpenService
 {
-    private static readonly IOpenedFuncService _service = new FuncService();
+    private static readonly IFuncOpenService _service = new FuncService();
 
     #region 权限码
 

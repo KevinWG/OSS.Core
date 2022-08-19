@@ -7,7 +7,7 @@ using OSS.Tools.Cache;
 
 namespace OSS.Core.Module.Portal;
 
-public class PermitService : IOpenedPermitService
+public class PermitService : IPermitOpenService
 {
     #region 获取用户拥有的权限码
 

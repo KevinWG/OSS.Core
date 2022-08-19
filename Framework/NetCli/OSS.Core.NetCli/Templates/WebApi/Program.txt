@@ -20,7 +20,7 @@ builder.Services.Register<{module_name}GlobalStarter>();    // 应用层全局�
 builder.Services.AddControllers(opt =>
     {
         opt.AddCoreModelValidation();
-        opt.AddCoreAppAuthorization();
+        opt.AddCoreAppAuthorization(new AppAccessProvider());
         opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
     })
     .AddJsonOptions(jsonOpt =>

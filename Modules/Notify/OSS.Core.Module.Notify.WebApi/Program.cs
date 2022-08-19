@@ -17,7 +17,7 @@ builder.Services.Register<NotifyGlobalStarter>();
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization();
+    opt.AddCoreAppAuthorization(new AppAccessProvider());
     opt.AddCoreUserAuthorization(new UserAuthProvider(), new FuncAuthProvider());
 
 }).AddJsonOptions(jsonOpt =>

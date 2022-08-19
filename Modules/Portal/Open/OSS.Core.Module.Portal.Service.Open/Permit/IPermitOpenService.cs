@@ -4,7 +4,7 @@ using OSS.Core.Context;
 
 namespace OSS.Core.Module.Portal;
 
-public interface IOpenedPermitService
+public interface IPermitOpenService
 {
     /// <summary>
     ///  获取当前授权用户下所有角色对应的全部权限列表

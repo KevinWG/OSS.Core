@@ -4,7 +4,7 @@ namespace OSS.Core.Module.Portal.Client;
 
 public static class PortalRemoteClient 
 {
-    public static IOpenedPermitService Permit { get; } = SingleInstance<PermitClient>.Instance;
-    public static IOpenedAuthService Auth { get; } = SingleInstance<AuthClient>.Instance;
-    public static IOpenedSettingService Setting { get; } = SingleInstance<SettingClient>.Instance;
+    public static IPermitOpenService Permit { get; } = SingleInstance<PermitClient>.Instance;
+    public static IAuthOpenService Auth { get; } = SingleInstance<AuthClient>.Instance;
+    public static ISettingOpenService Setting { get; } = SingleInstance<SettingClient>.Instance;
 }

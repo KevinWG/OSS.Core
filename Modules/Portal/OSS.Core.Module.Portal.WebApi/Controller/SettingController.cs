@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 ///   配置管理
 /// </summary>
-public class SettingController : BasePortalController, IOpenedSettingService
+public class SettingController : BasePortalController, ISettingOpenService
 {
     private static readonly SettingService _service = new();
 

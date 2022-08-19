@@ -3,7 +3,7 @@ using OSS.Common.Resp;
 
 namespace OSS.Core.Module.Portal;
 
-public interface IOpenedUserService
+public interface IUserOpenService
 {
     /// <summary>
     ///  修改基础信息

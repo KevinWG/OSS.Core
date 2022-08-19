@@ -3,7 +3,7 @@ using OSS.Core.Context;
 
 namespace OSS.Core.Module.Portal;
 
-public interface IOpenedAuthService
+public interface IAuthOpenService
 {
     /// <summary>
     ///  获取授权账号信息

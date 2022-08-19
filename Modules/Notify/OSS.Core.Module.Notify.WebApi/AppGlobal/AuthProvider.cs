@@ -30,8 +30,6 @@ public class AppAccessProvider : IAppAccessProvider
 
         return new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求");
     }
-
-
 }
 
 

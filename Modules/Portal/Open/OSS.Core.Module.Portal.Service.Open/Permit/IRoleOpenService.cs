@@ -3,7 +3,7 @@ using OSS.Common.Resp;
 
 namespace OSS.Core.Module.Portal;
 
-public interface IOpenedRoleService
+public interface IRoleOpenService
 {
     /// <summary>
     ///   搜索角色

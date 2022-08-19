@@ -1,5 +1,5 @@
 ﻿namespace OSS.Core.Module.Portal;
 
-internal interface IFuncService :IOpenedFuncService
+internal interface IFuncService :IFuncOpenService
 {
 }

@@ -2,7 +2,7 @@
 
 namespace OSS.Core.Module.Portal;
 
-public interface IOpenedSettingService
+public interface ISettingOpenService
 {
     /// <summary>
     ///  保存授权配置信息

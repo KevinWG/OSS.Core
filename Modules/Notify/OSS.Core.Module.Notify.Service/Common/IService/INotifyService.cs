@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Module.Notify;
 
-public interface INotifyService : IOpenedNotifyService
+public interface INotifyService : INotifyOpenService
 {
 
 }

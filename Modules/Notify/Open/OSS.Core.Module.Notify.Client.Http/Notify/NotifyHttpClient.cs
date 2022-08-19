@@ -4,7 +4,7 @@ using OSS.Core.Client.Http;
 
 namespace OSS.Core.Module.Notify.Client;
 
-internal class NotifyHttpClient : IOpenedNotifyService
+internal class NotifyHttpClient : INotifyOpenService
 {
 
     public Task<NotifySendResp> Send(NotifySendReq msg)
