@@ -1,6 +1,7 @@
 ﻿using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Context;
+using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
 
 namespace {solution_name};
