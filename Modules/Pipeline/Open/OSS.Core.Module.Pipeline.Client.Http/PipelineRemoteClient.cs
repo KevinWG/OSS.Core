@@ -7,5 +7,8 @@ namespace OSS.Core.Module.Pipeline.Client;
 /// </summary>
 public static class PipelineRemoteClient //: IPipelineClient
 {
+    /// <summary>
+    ///  Pipe 接口
+    /// </summary>
+    public static IPipeOpenService Pipe {get; } = SingleInstance<PipeHttpClient>.Instance;
 }
-

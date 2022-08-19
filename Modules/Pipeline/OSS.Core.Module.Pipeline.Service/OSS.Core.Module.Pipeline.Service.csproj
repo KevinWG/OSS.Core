@@ -7,9 +7,9 @@
          <GenerateDocumentationFile>True</GenerateDocumentationFile>
      </PropertyGroup>
     <ItemGroup>
-       <PackageReference Include="OSS.DataFlow" Version="*"/>
-       <PackageReference Include="OSS.Core.Extension.Cache" Version="*"/>
-       <PackageReference Include="OSS.Core.Extension.PassToken" Version="*"/>
+       <PackageReference Include="OSS.DataFlow" Version="*" />
+       <PackageReference Include="OSS.Core.Extension.Cache" Version="*" />
+       <PackageReference Include="OSS.Core.Extension.PassToken" Version="*" />
     </ItemGroup>
     <ItemGroup>
        <ProjectReference Include="..\OSS.Core.Module.Pipeline.Domain\OSS.Core.Module.Pipeline.Domain.csproj" />
