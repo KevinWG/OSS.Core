@@ -58,7 +58,7 @@ internal  class WebApiTool: BaseProjectTool
 
         var repRegisterStr = ss.no_rep_injection
             ? string.Empty
-            : $"builder.Services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
+            : $"services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
 
         var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}};
 
