@@ -24,7 +24,7 @@ internal  class RepTool : BaseProjectTool
 
         var packageRefs = new List<string>()
         {
-            "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache","OSS.Tools.Log"
+            "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache"
         };
 
         var projectRefs = new List<string>()

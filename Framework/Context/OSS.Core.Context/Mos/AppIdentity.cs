@@ -54,10 +54,10 @@ namespace OSS.Core.Context
         /// </summary>
         public string func_code { get; set; } = string.Empty;
 
-        /// <summary>
-        ///  业务场景
-        /// </summary>
-        public string func_scene_code { get; set; } = string.Empty;
+        ///// <summary>
+        /////  业务场景
+        ///// </summary>
+        //public string func_scene_code { get; set; } = string.Empty;
 
         /// <summary>
         ///  要求的登录类型限制

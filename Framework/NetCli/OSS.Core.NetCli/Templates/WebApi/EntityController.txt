@@ -12,7 +12,10 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
 {
     private static readonly I{entity_name}OpenService _service = new {entity_name}Service();
 
-    /// <inheritdoc />
+    /// <summary>
+    ///  查询{entity_name}列表
+    /// </summary>
+    /// <returns></returns>
     [HttpPost]
     public Task<PageListResp<{entity_name}Mo>> Search([FromBody] SearchReq req)
     {
@@ -20,9 +23,9 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     }
 
     /// <summary>
-    /// 获取详情
+    ///  通过id获取{entity_name}详情
     /// </summary>
-    /// <param name="id">id</param>
+    /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
     public Task<IResp<{entity_name}Mo>> Get(long id)
@@ -31,7 +34,7 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     }
     
     /// <summary>
-    ///  设置可用状态
+    ///  设置{entity_name}可用状态
     /// </summary>
     /// <param name="id"></param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
@@ -45,7 +48,11 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
 
 
 
-    /// <inheritdoc />
+    /// <summary>
+    ///  添加{entity_name}对象
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
     [HttpPost]
     public Task<IResp> Add([FromBody] Add{entity_name}Req req)
     {

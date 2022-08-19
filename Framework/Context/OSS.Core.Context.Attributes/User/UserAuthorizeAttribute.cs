@@ -84,7 +84,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return Resp.DefaultSuccess;
         }
 
-        var res = await opt.FuncProvider.Authorize(askFunc.func_code, askFunc.func_scene_code);
+        var res = await opt.FuncProvider.Authorize(askFunc.func_code);
         if (res.IsSuccess())
             userIdentity.data_level = res.data;
 

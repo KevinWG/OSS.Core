@@ -20,14 +20,15 @@ internal class DomainTool : BaseProjectTool
         FileHelper.CreateDirectory(project.project_dir);
 
         var packageRefs = new List<string>()
-        {
+        { 
+            "OSS.Tools.Log",
             "OSS.Core.Domain"
         };
 
         if (ss.no_rep_injection)
         {
             // 简单模式下 仓储和领域实体放在一起
-            packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache", "OSS.Tools.Log" });
+            packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache" });
         }
 
         var projectRefs = new List<string>()

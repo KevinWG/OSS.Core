@@ -12,6 +12,6 @@ namespace OSS.Core.Context
         /// </summary>
         /// <param name="funcCode"></param>
         /// <returns></returns>
-        Task<IResp<FuncDataLevel>> Authorize(string funcCode,string sceneCode);
+        Task<IResp<FuncDataLevel>> Authorize(string funcCode);
     }
 }

@@ -23,7 +23,7 @@ internal  class WebApiTool: BaseProjectTool
         {
             "Swashbuckle.AspNetCore",
             "OSS.Core.Context.Attributes",
-            "OSS.Core.Extension.Mvc.Configuration"
+            "OSS.Core.Comp.DirConfig.Mysql"
         };
 
         var projectRefs = new List<string>()
@@ -56,8 +56,14 @@ internal  class WebApiTool: BaseProjectTool
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.global_dir);
 
+        var repRegisterStr = ss.no_rep_injection
+            ? string.Empty
+            : $"builder.Services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
+
+        var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}};
+
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
-        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt");
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt", extDic);
 
         var authProPath = Path.Combine(project.global_dir, "AuthProvider.cs");
         FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AuthProvider.txt");
@@ -66,15 +72,9 @@ internal  class WebApiTool: BaseProjectTool
     private static void CreateProgramFile(Solution ss)
     {
         var project = ss.webapi_project;
-
-        var repRegisterStr = ss.no_rep_injection
-            ? string.Empty
-            : $"builder.Services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
-
-        var extDic = new Dictionary<string,string> { { "{RepStarterRegister}", repRegisterStr } };
         
         var programFilePath = Path.Combine(project.project_dir, "Program.cs");
-        FileHelper.CreateFileByTemplate(programFilePath, ss, "WebApi/Program.txt", extDic);
+        FileHelper.CreateFileByTemplate(programFilePath, ss, "WebApi/Program.txt");
     }
 
 

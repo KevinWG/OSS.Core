@@ -1,20 +1,17 @@
 ﻿using OSS.Core;
+using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
-using OSS.Core.Extension.Mvc.Configuration;
 
 using {solution_name};
 using System.Text.Json.Serialization;
+
 
 // ========================================  容器依赖注入   ========================================
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOssCoreConfiguration(builder.Configuration); // 全局配置处理
+ConfigHelper.Configuration = builder.Configuration;  // 全局配置工具处理
 
-
-builder.Services.Register<{module_name}DomainStarter>();    // 领域层启动注入
-{RepStarterRegister}
-builder.Services.Register<{module_name}ServiceStarter>();   // 逻辑服务层启动注入
 builder.Services.Register<{module_name}GlobalStarter>();    // 应用层全局注入 
 
 builder.Services.AddControllers(opt =>

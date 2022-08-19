@@ -1,4 +1,5 @@
-﻿using OSS.Common;
+﻿using OSS.Core.Comp.DirConfig.Mysql;
+using OSS.Common;
 using OSS.Core;
 
 namespace {solution_name};
@@ -8,8 +9,13 @@ namespace {solution_name};
 /// </summary>
 public class {module_name}GlobalStarter : AppStarter
 {
+    /// <inheritdoc />
     public override void Start(IServiceCollection services)
     {
-        // 全局的注入，特别是相关外部依赖信息
+         services.UserMysqlDirConfigTool();
+
+         builder.Services.Register<{module_name}DomainStarter>();    // 领域层启动注入
+         builder.Services.Register<{module_name}ServiceStarter>();   // 逻辑服务层启动注入        
+         {RepStarterRegister}
     }
 }

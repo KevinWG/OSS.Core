@@ -60,18 +60,11 @@ namespace OSS.Core.Context.Attributes
             var appInfo   = CoreContext.App.Identity;
 
             if (!string.IsNullOrEmpty(scene_query_name))
-            {
                 sceneCode = context.HttpContext.Request.Query[scene_query_name].ToString();
-                if (string.IsNullOrEmpty(sceneCode))
-                {
-                    return Task.FromResult((IResp) new Resp(RespCodes.ParaError, $"请求要求{scene_query_name}对应的参数！"));
-                }
-            }
-
+            
             appInfo.ask_auth.portal_auth_type = portal_auth_type;
-            appInfo.ask_auth.func_code        = _funcCode;
-            appInfo.ask_auth.func_scene_code  = sceneCode;
-
+            appInfo.ask_auth.func_code        = string.Concat(_funcCode, sceneCode);
+            
             return AttributeConst.TaskSuccessResp;
         }
 

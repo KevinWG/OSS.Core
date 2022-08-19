@@ -20,7 +20,6 @@ internal class ServiceTool : BaseProjectTool
         var packageRefs = new List<string>()
         {
             "OSS.DataFlow",
-            "OSS.Tools.Log",
             "OSS.Core.Extension.Cache",
             "OSS.Core.Extension.PassToken"
         };
