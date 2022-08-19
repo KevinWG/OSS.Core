@@ -8,9 +8,9 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 ///  权限接口
 /// </summary>
-public class GrantController : BasePortalController, IPermitOpenService
+public class GrantController : BasePortalController, IGrantOpenService
 {
-    private static readonly IPermitOpenService _service = new PermitService();
+    private static readonly IGrantOpenService _service = new GrantService();
 
     /// <summary>
     ///  获取当前登录用户的权限列表
@@ -26,13 +26,12 @@ public class GrantController : BasePortalController, IPermitOpenService
     /// <summary>
     ///  判断登录用户是否具有某权限
     /// </summary>
-    /// <param name="funcCode"></param>
-    /// <param name="sceneCode"></param>
+    /// <param name="func_code">功能项</param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode)
+    public Task<IResp<FuncDataLevel>> CheckPermit(string func_code)
     {
-        return _service.CheckPermit(funcCode, sceneCode);
+        return _service.CheckPermit(func_code);
     }
 
 

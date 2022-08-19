@@ -7,7 +7,7 @@ using OSS.Tools.Cache;
 
 namespace OSS.Core.Module.Portal;
 
-public class PermitService : IPermitOpenService
+public class GrantService : IGrantOpenService
 {
     #region 获取用户拥有的权限码
 
@@ -66,14 +66,13 @@ public class PermitService : IPermitOpenService
         return new ListResp<GrantedPermit>(dir.Select(d => d.Value).ToList());
     }
 
-    
+
     /// <summary>
     ///  判断登录用户是否具有某权限
     /// </summary>
     /// <param name="funcCode"></param>
-    /// <param name="sceneCode"></param>
     /// <returns></returns>
-    public async Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode)
+    public async Task<IResp<FuncDataLevel>> CheckPermit(string funcCode)
     {
         if (string.IsNullOrEmpty(funcCode))
             return new Resp<FuncDataLevel>(FuncDataLevel.All);
@@ -82,8 +81,7 @@ public class PermitService : IPermitOpenService
         if (!userFunc.IsSuccess())
             return new Resp<FuncDataLevel>().WithResp(userFunc);
 
-        var fullFuncCode = string.IsNullOrEmpty(sceneCode) ? funcCode : string.Concat(funcCode, ":", sceneCode);
-        var func         = userFunc.data.FirstOrDefault(f => f.func_code == fullFuncCode);
+        var func = userFunc.data.FirstOrDefault(f => f.func_code == funcCode);
 
         if (func == null)
             return new Resp<FuncDataLevel>().WithResp(RespCodes.UserNoPermission, "无操作权限!");

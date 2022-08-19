@@ -14,11 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Framework\Component\OSS.Core.Comp.DirConfig.Mysql\OSS.Core.Comp.DirConfig.Mysql.csproj" />
     <ProjectReference Include="..\..\Notify\OSS.Core.Module.Notify.WebApi\OSS.Core.Module.Notify.WebApi.csproj" />
     <ProjectReference Include="..\..\Portal\OSS.Core.Module.Portal.WebApi\OSS.Core.Module.Portal.WebApi.csproj" />
   </ItemGroup>

@@ -9,7 +9,7 @@ namespace OSS.Core.Module.All.Test.Permission
     [TestClass]
     public class PermissionTests : BaseTest
     {
-        private static readonly PermitService _perService  = new();
+        private static readonly GrantService _perService  = new();
         private static readonly RoleService   _roleService = new();
         private static readonly FuncService   _funcService = new();
 

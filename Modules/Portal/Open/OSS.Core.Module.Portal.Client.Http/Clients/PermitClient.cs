@@ -4,7 +4,7 @@ using OSS.Core.Context;
 
 namespace OSS.Core.Module.Portal.Client;
 
-internal class PermitClient : IPermitOpenService
+internal class PermitClient : IGrantOpenService
 {
     /// <inheritdoc />
     public Task<ListResp<GrantedPermit>> GetCurrentUserPermits()
@@ -14,9 +14,9 @@ internal class PermitClient : IPermitOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode)
+    public Task<IResp<FuncDataLevel>> CheckPermit(string funcCode)
     {
-        return new PortalRemoteRequest($"/Permit/CheckPermit?func_code={funcCode}&scene_code={sceneCode}")
+        return new PortalRemoteRequest($"/Permit/CheckPermit?func_code={funcCode}")
             .PostAsync<IResp<FuncDataLevel>>();
     }
 

@@ -6,7 +6,8 @@ namespace OSS.Core.Module.Notify;
 /// </summary>
 public class NotifyGlobalStarter : AppStarter
 {
-    public override void Start(IServiceCollection serviceCollection)
+    public override void Start(IServiceCollection service)
     {
+        service.Register<NotifyServiceStarter>();
     }
 }

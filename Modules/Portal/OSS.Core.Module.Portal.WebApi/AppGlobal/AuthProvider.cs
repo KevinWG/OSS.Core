@@ -56,10 +56,10 @@ public class UserAuthProvider : IUserAuthProvider
 /// </summary>
 public class FuncAuthProvider : IFuncAuthProvider
 {
-    private static readonly PermitService _permit = new();
+    private static readonly GrantService _permit = new();
     /// <inheritdoc />
-    public Task<IResp<FuncDataLevel>> Authorize(string funcCode, string sceneCode)
+    public Task<IResp<FuncDataLevel>> Authorize(string funcCode)
     {
-        return _permit.CheckPermit(funcCode, sceneCode);
+        return _permit.CheckPermit(funcCode);
     }
 }

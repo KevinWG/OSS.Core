@@ -1,10 +1,9 @@
-﻿using OSS.Common;
-using OSS.Common.Resp;
+﻿using OSS.Common.Resp;
 using OSS.Core.Context;
 
 namespace OSS.Core.Module.Portal;
 
-public interface IPermitOpenService
+public interface IGrantOpenService
 {
     /// <summary>
     ///  获取当前授权用户下所有角色对应的全部权限列表
@@ -18,12 +17,8 @@ public interface IPermitOpenService
     ///  判断登录用户是否具有某权限
     /// </summary>
     /// <param name="funcCode"></param>
-    /// <param name="sceneCode"></param>
     /// <returns></returns>
-    Task<IResp<FuncDataLevel>> CheckPermit(string funcCode, string sceneCode);
-
-
-
+    Task<IResp<FuncDataLevel>> CheckPermit(string funcCode);
 
 
     /// <summary>

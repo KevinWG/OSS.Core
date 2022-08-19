@@ -1,20 +1,19 @@
-using OSS.Core;
-using OSS.Core.Context.Attributes;
-using OSS.Core.Module.Portal;
 using System.Text.Json.Serialization;
+
+using OSS.Core;
+using OSS.Tools.Config;
+using OSS.Core.Context.Attributes;
+
 using OSS.Core.Extension.Mvc.Captcha;
-using OSS.Core.Extension.Mvc.Configuration;
+using OSS.Core.Module.Portal;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOssCoreConfiguration(builder.Configuration);
+ConfigHelper.Configuration = builder.Configuration;
+
+builder.Services.Register<PortalGlobalStarter>(); // 全局注入
 builder.Services.AddDefaultNoneCaptchaValidator();
-
-// 注册内部使用服务
-builder.Services.Register<PortalRepositoryStarter>(); // 仓储层
-builder.Services.Register<PortalServiceStarter>();    // 逻辑服务层
-builder.Services.Register<PortalGlobalStarter>();     // 全局注入 
-
 
 builder.Services.AddControllers(opt =>
 {

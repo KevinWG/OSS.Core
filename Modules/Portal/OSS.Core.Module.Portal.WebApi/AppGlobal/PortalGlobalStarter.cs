@@ -8,9 +8,10 @@ namespace OSS.Core.Module.Portal
     public class PortalGlobalStarter:AppStarter
     {
         /// <inheritdoc />
-        public override void Start(IServiceCollection serviceCollection)
+        public override void Start(IServiceCollection service)
         {
-          
+            service.Register<PortalServiceStarter>();    // 逻辑服务层
+            service.Register<PortalRepositoryStarter>(); // 仓储层
         }
     }
 }

@@ -12,19 +12,10 @@ public class AllWebApiGlobalStarter : AppStarter
     public override void Start(IServiceCollection services)
     {
         services.UserMysqlDirConfigTool();
-
-        #region Notify（通知服务模块）
-
-        services.Register<NotifyServiceStarter>(); // 通知服务
-        services.Register<NotifyGlobalStarter>();   //  注册对应配置信息
-
-        #endregion
-
-        #region Portal（认证服务模块）
-
-        services.Register<PortalRepositoryStarter>();   // 认证中心仓储
-        services.Register<PortalServiceStarter>();      // 认证中心服务层
         
-        #endregion
+        services.Register<NotifyGlobalStarter>(); //  注册对应配置信息
+        services.Register<PortalGlobalStarter>(); // 认证中心服务层
+
+
     }
 }

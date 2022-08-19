@@ -28,6 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Notify\OSS.Core.Module.Notify.WebApi\OSS.Core.Module.Notify.WebApi.csproj" />
     <ProjectReference Include="..\OSS.Core.Module.All.WebApi\OSS.Core.Module.All.WebApi.csproj" />
   </ItemGroup>
 

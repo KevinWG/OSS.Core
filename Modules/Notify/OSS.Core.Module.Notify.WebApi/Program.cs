@@ -1,17 +1,16 @@
 using System.Text.Json.Serialization;
 
 using OSS.Core;
+using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
-using OSS.Core.Extension.Mvc.Configuration;
 
 using OSS.Core.Module.Notify;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOssCoreConfiguration(builder.Configuration);
+ConfigHelper.Configuration = builder.Configuration;
 
-builder.Services.Register<NotifyServiceStarter>();
 builder.Services.Register<NotifyGlobalStarter>();
 
 builder.Services.AddControllers(opt =>

@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using OSS.Core.Context;
 using OSS.Core.Context.Attributes;
-using OSS.Core.Extension.Mvc.Configuration;
 using OSS.Core.Module.All.WebApi;
+using OSS.Tools.Config;
 
 namespace OSS.Core.Module.All.Test
 {
@@ -15,9 +15,9 @@ namespace OSS.Core.Module.All.Test
         [TestInitialize]
         public virtual void InitialTestContext()
         {
-            _webAppBuilder.Services.AddOssCoreConfiguration(_webAppBuilder.Configuration);
-            _webAppBuilder.Services.Register<AllWebApiGlobalStarter>();
+            ConfigHelper.Configuration = _webApp.Configuration;
 
+            _webAppBuilder.Services.Register<AllWebApiGlobalStarter>();
             _webApp.UseOssCore();
             
             CoreContext.App.Identity = new AppIdentity()

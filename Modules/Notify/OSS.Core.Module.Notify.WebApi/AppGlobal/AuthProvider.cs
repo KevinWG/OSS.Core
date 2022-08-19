@@ -52,9 +52,9 @@ public class UserAuthProvider : IUserAuthProvider
 public class FuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-    public Task<IResp<FuncDataLevel>> Authorize(string funcCode, string sceneCode)
+    public Task<IResp<FuncDataLevel>> Authorize(string funcCode)
     {
         // 引用 Portal 接口客户端SDK
-        return PortalRemoteClient.Permit.CheckPermit(funcCode, sceneCode);
+        return PortalRemoteClient.Grant.CheckPermit(funcCode);
     }
 }

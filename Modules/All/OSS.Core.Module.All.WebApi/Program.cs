@@ -3,12 +3,12 @@ using OSS.Core.Context.Attributes;
 using OSS.Core.Extension.Mvc.Captcha;
 using OSS.Core.Module.All.WebApi;
 using System.Text.Json.Serialization;
-using OSS.Core.Extension.Mvc.Configuration;
 using OSS.Core.Module.Portal;
+using OSS.Tools.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddOssCoreConfiguration(builder.Configuration);
+ConfigHelper.Configuration = builder.Configuration;
 
 // ÏµÍ³×¢²áÏî
 builder.Services.Register<AllWebApiGlobalStarter>();
@@ -20,6 +20,7 @@ builder.Services.AddControllers(opt =>
     opt.AddCoreModelValidation();
     opt.AddCoreAppAuthorization(new AppAccessProvider());
     opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
+
 }).AddJsonOptions(jsonOpt =>
 {
     jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
@@ -29,6 +30,10 @@ builder.Services.AddControllers(opt =>
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+
+
 
 var app   = builder.Build();
 
