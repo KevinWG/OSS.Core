@@ -11,10 +11,7 @@ public static class PipelineRemoteClient //: IPipelineClient
     ///  Flow 接口
     /// </summary>
     public static IFlowOpenService Flow {get; } = SingleInstance<FlowHttpClient>.Instance;
-    /// <summary>
-    ///  Link 接口
-    /// </summary>
-    public static ILinkOpenService Link {get; } = SingleInstance<LinkHttpClient>.Instance;
+
     /// <summary>
     ///  Pipe 接口
     /// </summary>
