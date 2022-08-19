@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+     <PropertyGroup>
+         <TargetFramework>net6.0</TargetFramework>
+         <ImplicitUsings>enable</ImplicitUsings>
+         <Nullable>enable</Nullable>
+         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+     </PropertyGroup>
+    <ItemGroup>
+       <PackageReference Include="Swashbuckle.AspNetCore" Version="*"/>
+       <PackageReference Include="OSS.Core.Context.Attributes" Version="*"/>
+       <PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="*"/>
+    </ItemGroup>
+    <ItemGroup>
+       <ProjectReference Include="..\OSS.Core.Module.Pipeline.Service\OSS.Core.Module.Pipeline.Service.csproj" />
+    </ItemGroup>
+</Project>
+
