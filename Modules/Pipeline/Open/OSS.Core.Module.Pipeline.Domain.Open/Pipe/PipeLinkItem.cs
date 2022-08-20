@@ -1,6 +1,6 @@
 ﻿namespace OSS.Core.Module.Pipeline;
 
-public class LinkItem
+public class PipeLinkItem
 {
     public  long from { get; set; }
     public long to { get; set; }
