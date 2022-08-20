@@ -1,17 +1,4 @@
-﻿
-#region Copyright (C)  Kevin (OSS开源实验室) 公众号：osscore
-
-/***************************************************************************
-*　　	文件功能描述：OSSCore —— 实体对象
-*
-*　　	创建人： osscore
-*    	创建日期：
-*       
-*****************************************************************************/
-
-#endregion
-
-using OSS.Core.Domain;
+﻿using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Pipeline;
 
@@ -29,7 +16,7 @@ public class PipeMo : BaseOwnerAndStateMo<long>
     /// 管道类型
     /// </summary>
     public PipeType type { get; set; }
-    
+
     /// <summary>
     ///  扩展信息
     /// </summary>

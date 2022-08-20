@@ -7,7 +7,7 @@
          <GenerateDocumentationFile>True</GenerateDocumentationFile>
      </PropertyGroup>
     <ItemGroup>
-       <PackageReference Include="OSS.Core.Domain.Opened" Version="*"/>
+       <PackageReference Include="OSS.Core.Domain.Opened" Version="*" />
     </ItemGroup>
 </Project>
 
