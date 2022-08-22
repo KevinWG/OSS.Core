@@ -17,23 +17,17 @@ public enum PipeType
     Pipeline =10,
 
     /// <summary>
-    ///  
+    ///  子流水线
     /// </summary>
     SubPipeline =20,
 
 
 
     /// <summary>
-    ///  管理员审核节点
+    ///  审核节点
     /// </summary>
-    AdminAudit = 1100,
-
-    /// <summary>
-    ///  用户确认节点
-    /// </summary>
-    UserConfirm = 1110,
-
-
+    Audit = 1100,
+    
     /// <summary>
     /// 自定义
     /// </summary>

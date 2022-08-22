@@ -12,26 +12,26 @@ public class PipeController : BasePipelineController, IPipeOpenService
 {
     private static readonly IPipeOpenService _service = new PipeService();
 
-    /// <summary>
-    ///  查询Pipe列表
-    /// </summary>
-    /// <returns></returns>
-    [HttpPost]
-    public Task<PageListResp<PipeMo>> Search([FromBody] SearchReq req)
-    {
-        return _service.Search(req);
-    }
+    ///// <summary>
+    /////  查询Pipe列表
+    ///// </summary>
+    ///// <returns></returns>
+    //[HttpPost]
+    //public Task<PageListResp<PipeMo>> Search([FromBody] SearchReq req)
+    //{
+    //    return _service.Search(req);
+    //}
 
-    /// <summary>
-    ///  通过id获取Pipe详情
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpGet]
-    public Task<IResp<PipeMo>> Get(long id)
-    {
-        return _service.Get(id);
-    }
+    ///// <summary>
+    /////  通过id获取Pipe详情
+    ///// </summary>
+    ///// <param name="id"></param>
+    ///// <returns></returns>
+    //[HttpGet]
+    //public Task<IResp<PipeMo>> Get(long id)
+    //{
+    //    return _service.Get(id);
+    //}
     
     /// <summary>
     ///  设置Pipe可用状态

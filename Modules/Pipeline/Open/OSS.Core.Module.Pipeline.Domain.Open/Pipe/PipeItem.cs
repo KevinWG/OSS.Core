@@ -1,5 +1,4 @@
-﻿
-#region Copyright (C)  Kevin (OSS开源实验室) 公众号：osscore
+﻿#region Copyright (C)  Kevin (OSS开源实验室) 公众号：osscore
 
 /***************************************************************************
 *　　	文件功能描述：OSSCore —— 实体对象
@@ -18,8 +17,13 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  管道对象实体 
 /// </summary>
-public class PipeDetail
+public class PipeItem
 {
+    /// <summary>
+    ///  管道id
+    /// </summary>
+    public long id { get; set; }
+
     /// <summary>
     /// 管道节点名称
     /// </summary>
@@ -31,12 +35,17 @@ public class PipeDetail
     public PipeType type { get; set; }
 
     /// <summary>
-    ///  扩展信息
+    ///  执行扩展信息
     /// </summary>
-    public BasePipeExt ext { get; set; } = BasePipeExt.Default;
+    public BaseExecuteExt execute_ext { get; set; } = default!;
 
     /// <summary>
-    ///  父级id
+    /// 父级 Pipeline id
     /// </summary>
     public long parent_id { get; set; }
+
+    /// <summary>
+    ///  管道状态
+    /// </summary>
+    public CommonStatus status { get; set; }
 }

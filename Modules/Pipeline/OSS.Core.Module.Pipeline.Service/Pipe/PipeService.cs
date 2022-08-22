@@ -32,7 +32,9 @@ public class PipeService : IPipeOpenService
     public async Task<IResp> Add(AddPipeReq req)
     {
         var mo = req.MapToPipeMo();
+
         mo.FormatBaseByContext();
+        mo.execute_ext = "{}";
 
         await _PipeRep.Add(mo);
         return Resp.DefaultSuccess;
