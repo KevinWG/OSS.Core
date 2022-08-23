@@ -1,5 +1,4 @@
-﻿using OSS.Common;
-using OSS.Common.Resp;
+﻿using OSS.Common.Resp;
 using OSS.Core.Client.Http;
 
 namespace OSS.Core.Module.Pipeline.Client;
@@ -20,26 +19,11 @@ internal class PipeHttpClient : IPipeOpenService
             .PostAsync<IResp>();
     }
 
-    /// <summary>
-    ///  添加对象
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
-    public Task<IResp> Add(AddPipeReq req)
+    /// <inheritdoc />
+    public Task<IResp<long>> Add(AddPipeReq req)
     {
-          return new PipelineRemoteReq($"/Pipeline/Pipe/Add")
-            .PostAsync<IResp>(req);
-    }
-
-
-    public Task<PageListResp<PipelineView>> SearchMetas()
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IResp<PipelineDetailView>>                          GetPipelineDetail(long id)
-    {
-        throw new NotImplementedException();
+        return new PipelineRemoteReq($"/Pipeline/Pipe/Add")
+            .PostAsync<IResp<long>>(req);
     }
 }
 

@@ -9,6 +9,4 @@ public class PipelineMetaRep : BasePipelineRep<MetaMo,long>
     public PipelineMetaRep() : base(PipelineConst.RepTables.PipelineMeta)
     {
     }
-    
-
 }

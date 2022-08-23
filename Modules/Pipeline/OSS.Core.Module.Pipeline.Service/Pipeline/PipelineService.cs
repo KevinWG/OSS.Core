@@ -9,8 +9,7 @@ namespace OSS.Core.Module.Pipeline;
 /// </summary>
 public class PipelineService : IPipelineOpenService
 {
-    private static readonly PipeRep _PipeRep = new();
-
+    private static readonly PipelineMetaRep    _metaRep     = new();
     private static readonly PipelineVersionRep _versionRep = new();
 
     /// <inheritdoc />
@@ -21,64 +20,51 @@ public class PipelineService : IPipelineOpenService
     }
 
     ///// <inheritdoc />
-    //public Task<IResp<PipelineDetailView>> GetPipelineDetail(long id)
+    //public Task<IResp> SetUseable(long id, ushort flag)
     //{
-
+    //    return _versionRep.UpdateStatus(id, flag == 1 ? PipelineStatus.Published : PipelineStatus.OffLine);
     //}
 
 
-    /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
-    {
-        return _PipeRep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
-    }
-
-
     #region 添加流程
-
+    
     /// <inheritdoc />
-    public async Task<IResp> Add(AddPipeReq req)
+    public async Task<IResp> Add(AddPipelineReq req)
     {
-        var mo = req.MapToPipeMo();
-
-        mo.FormatBaseByContext();
-        mo.execute_ext = "{}";
-
-        if (mo.type == PipeType.Pipeline)
+        var pipe = new PipeMo()
         {
-            var meta = await CreateMeta(mo);
-            await CreateMetaVersion(mo.id, meta.id);
-        }
+            name = req.name, type = PipeType.Pipeline
+        };
+        await InsContainer<IPipeCommon>.Instance.AddPipe(pipe);
 
-        await _PipeRep.Add(mo);
-        return Resp.DefaultSuccess;
+        await CreateMeta(pipe.id);
+        await CreateMetaVersion(pipe.id);
+
+        return new LongResp(pipe.id);
     }
 
-    private static readonly PipelineMetaRep     _metaRep     = new();
-    private static readonly PipelineVersionRep _pipelineRep = new();
-    private static async Task<MetaMo> CreateMeta(PipeMo pipe)
+    private static async Task CreateMeta(long pipeId)
     {
         var metaMo = new MetaMo();
 
-        metaMo.latest_pipe_id = metaMo.id = pipe.id;
-
+        metaMo.latest_pipe_id = metaMo.id = pipeId;// 初始metaId = 第一版pipeId
         metaMo.FormatBaseByContext();
 
         await _metaRep.Add(metaMo);
-        return metaMo;
     }
 
-    private static async Task CreateMetaVersion(long pipeId, long metaId)
+    private static async Task<VersionMo> CreateMetaVersion(long pipeId)
     {
         var verMo = new VersionMo
         {
             id      = pipeId,
-            meta_id = metaId
+            meta_id = pipeId
         };
 
         verMo.FormatBaseByContext();
+        await _versionRep.Add(verMo);
 
-        await _pipelineRep.Add(verMo);
+        return verMo;
     }
 
     #endregion

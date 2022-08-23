@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OSS.Common;
-using OSS.Core;
 
 namespace OSS.Core.Module.Pipeline;
 
@@ -12,5 +11,6 @@ public class PipelineServiceStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
+        InsContainer<IPipeCommon>.Set<PipeService>();
     }
 }

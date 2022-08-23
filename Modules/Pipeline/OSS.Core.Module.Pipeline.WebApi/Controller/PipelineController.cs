@@ -10,31 +10,14 @@ namespace OSS.Core.Module.Pipeline;
 public class PipelineController : BasePipelineController, IPipelineOpenService
 {
     private static readonly IPipelineOpenService _service = new PipelineService();
-
-  
     
-    /// <summary>
-    ///  设置Pipe可用状态
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
-    /// <returns></returns>
-    [HttpPost]
-    public async Task<IResp> SetUseable(long id, ushort flag)
-    {
-        await Task.Delay(2000);
-        return await _service.SetUseable(id, flag);
-    }
-
-
-
     /// <summary>
     ///  添加Pipe对象
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> Add([FromBody] AddPipeReq req)
+    public Task<IResp> Add([FromBody] AddPipelineReq req)
     {
         return _service.Add(req);
     }
@@ -44,6 +27,7 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
+    [HttpPost]
     public Task<PageListResp<PipelineView>> SearchLines(SearchReq req)
     {
         return _service.SearchLines(req);
