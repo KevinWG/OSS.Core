@@ -18,7 +18,15 @@ public interface IPipelineOpenService
 
     /// <summary>
     ///   搜索流水线信息
+    ///     （同一流水线仅显示一个版本
     /// </summary>
     /// <returns></returns>
     Task<PageListResp<PipelineView>> SearchLines(SearchReq req);
+
+    /// <summary>
+    ///   通过metaId获取所有版本流水线列表
+    /// </summary>
+    /// <param name="metaId"></param>
+    /// <returns></returns>
+    Task<List<PipelineView>> GetVersions(long metaId);
 }

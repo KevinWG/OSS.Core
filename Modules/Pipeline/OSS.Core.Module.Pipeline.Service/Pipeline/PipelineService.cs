@@ -5,7 +5,7 @@ using OSS.Core.Domain;
 namespace OSS.Core.Module.Pipeline;
 
 /// <summary>
-///  Pipe 服务
+///  流水线 服务逻辑
 /// </summary>
 public class PipelineService : IPipelineOpenService
 {
@@ -19,14 +19,15 @@ public class PipelineService : IPipelineOpenService
         return new PageListResp<PipelineView>(lineMos.total,lineMos.data.Select(x=>x.ToView()).ToList());
     }
 
-    ///// <inheritdoc />
-    //public Task<IResp> SetUseable(long id, ushort flag)
-    //{
-    //    return _versionRep.UpdateStatus(id, flag == 1 ? PipelineStatus.Published : PipelineStatus.OffLine);
-    //}
+    /// <inheritdoc />
+    public async Task<List<PipelineView>> GetVersions(long metaId)
+    {
+        var lineMos = await _versionRep.GetVersions(metaId);
+        return  lineMos.Select(x => x.ToView()).ToList();
+    }
 
 
-    #region 添加流程
+    #region 添加流水线
     
     /// <inheritdoc />
     public async Task<IResp> Add(AddPipelineReq req)

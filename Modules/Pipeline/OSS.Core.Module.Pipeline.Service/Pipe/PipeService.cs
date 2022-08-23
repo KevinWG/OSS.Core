@@ -11,13 +11,6 @@ public class PipeService : IPipeOpenService, IPipeCommon
     private static readonly PipeRep _PipeRep = new();
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
-    {
-        return _PipeRep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
-    }
-
-
-    /// <inheritdoc />
     public async Task<IResp<long>> Add(AddPipeReq req)
     {
         if (req.type == PipeType.Pipeline)

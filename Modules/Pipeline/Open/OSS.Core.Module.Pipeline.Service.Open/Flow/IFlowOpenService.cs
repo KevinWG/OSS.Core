@@ -22,14 +22,6 @@ public interface IFlowOpenService
     Task<IResp<FlowMo>> Get(long id);
 
     /// <summary>
-    ///  设置Flow可用状态
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
-    /// <returns></returns>
-    Task<IResp> SetUseable(long id, ushort flag);
-
-    /// <summary>
     ///  添加Flow对象
     /// </summary>
     /// <param name="req"></param>
