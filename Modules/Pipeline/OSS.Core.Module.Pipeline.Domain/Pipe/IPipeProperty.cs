@@ -1,17 +1,10 @@
-﻿using OSS.Core.Domain;
-
-namespace OSS.Core.Module.Pipeline;
+﻿namespace OSS.Core.Module.Pipeline;
 
 /// <summary>
-///  管道对象实体 
+/// 管道基础属性
 /// </summary>
-public class PipeMo : BaseOwnerAndStateMo<long>, IPipeProperty
+public interface IPipeProperty
 {
-    /// <summary>
-    /// 管道节点名称
-    /// </summary>
-    public string name { get; set; } = default!;
-
     /// <summary>
     /// 管道类型
     /// </summary>
@@ -27,4 +20,3 @@ public class PipeMo : BaseOwnerAndStateMo<long>, IPipeProperty
     /// </summary>
     public long parent_id { get; set; }
 }
-

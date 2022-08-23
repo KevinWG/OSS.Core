@@ -11,32 +11,10 @@ public class PipeService : IPipeOpenService
 {
     private static readonly PipeRep _PipeRep = new();
 
-
-    /// <inheritdoc />
-    public async Task<PageListResp<PipeMo>> Search(SearchReq req)
-    {
-        return new PageListResp<PipeMo>(await _PipeRep.Search(req));
-    }
-
-    /// <inheritdoc />
-    public Task<IResp<PipeMo>> Get(long id) => _PipeRep.GetById(id);
-
-
     /// <inheritdoc />
     public Task<IResp> SetUseable(long id, ushort flag)
     {
         return _PipeRep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
     }
 
-    /// <inheritdoc />
-    public async Task<IResp> Add(AddPipeReq req)
-    {
-        var mo = req.MapToPipeMo();
-
-        mo.FormatBaseByContext();
-        mo.execute_ext = "{}";
-
-        await _PipeRep.Add(mo);
-        return Resp.DefaultSuccess;
-    }
 }

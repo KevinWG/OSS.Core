@@ -16,10 +16,11 @@ public interface IPipeOpenService
     /// <returns></returns>
     Task<IResp> SetUseable(long id, ushort flag);
 
-    /// <summary>
-    ///  添加Pipe对象
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
-    Task<IResp> Add(AddPipeReq req);
+    ///// <summary>
+    /////  添加Pipe对象
+    ///// </summary>
+    ///// <param name="req"></param>
+    ///// <returns></returns>
+    //Task<IResp> Add(AddPipeReq req);
+
 }

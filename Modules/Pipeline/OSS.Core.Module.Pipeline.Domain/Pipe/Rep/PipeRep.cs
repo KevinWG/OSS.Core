@@ -1,5 +1,5 @@
-﻿using OSS.Common;
-using OSS.Common.Extension;
+﻿using System.Text;
+using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Domain;
 
@@ -11,7 +11,7 @@ namespace OSS.Core.Module.Pipeline;
 public class PipeRep : BasePipelineRep<PipeMo,long> 
 {
     /// <inheritdoc />
-    public PipeRep() : base("m_pipe")
+    public PipeRep() : base(PipelineConst.RepTables.Pipe)
     {
     }
 
@@ -25,6 +25,7 @@ public class PipeRep : BasePipelineRep<PipeMo,long>
         return SimpleSearch(req);
     }
 
+
     /// <summary>
     ///   修改状态
     /// </summary>
@@ -35,4 +36,7 @@ public class PipeRep : BasePipelineRep<PipeMo,long>
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
     }
+
+
+
 }

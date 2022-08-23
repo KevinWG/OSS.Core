@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using OSS.Common;
 using OSS.Common.Resp;
-using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.Module.Pipeline;
 
@@ -46,16 +44,14 @@ public class PipeController : BasePipelineController, IPipeOpenService
         return await _service.SetUseable(id, flag);
     }
 
-
-
-    /// <summary>
-    ///  添加Pipe对象
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
-    [HttpPost]
-    public Task<IResp> Add([FromBody] AddPipeReq req)
-    {
-        return _service.Add(req);
-    }
+    ///// <summary>
+    /////  添加Pipe对象
+    ///// </summary>
+    ///// <param name="req"></param>
+    ///// <returns></returns>
+    //[HttpPost]
+    //public Task<IResp> Add([FromBody] AddPipeReq req)
+    //{
+    //    return _service.Add(req);
+    //}
 }

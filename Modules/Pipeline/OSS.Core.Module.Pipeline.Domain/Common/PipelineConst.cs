@@ -22,4 +22,26 @@ public static class PipelineConst
     {
         // 放置权限码
     }
+
+    /// <summary>
+    ///  仓储层表名
+    /// </summary>
+    public static class RepTables
+    {
+        /// <summary>
+        ///  管道表名
+        /// </summary>
+        public const string Pipe = "m_pipe";
+
+        /// <summary>
+        /// 管道流水线元数据表名
+        /// </summary>
+        public const string PipelineMeta = "m_pipeline_meta";
+
+        /// <summary>
+        /// 管道流水线版本表
+        /// </summary>
+        public const string PipelineVersion = "m_pipeline_version";
+        
+    }
 }

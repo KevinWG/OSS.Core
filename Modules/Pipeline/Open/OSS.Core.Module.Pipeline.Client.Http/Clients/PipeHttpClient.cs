@@ -6,27 +6,7 @@ namespace OSS.Core.Module.Pipeline.Client;
 
 internal class PipeHttpClient : IPipeOpenService
 {
-    ///// <summary>
-    /////  查询列表
-    ///// </summary>
-    ///// <returns></returns>
-    //public Task<PageListResp<PipeMo>> Search(SearchReq req)
-    //{
-    //      return new PipelineRemoteReq("/Pipeline/Pipe/Search")
-    //        .PostAsync<PageListResp<PipeMo>>(req);
-    //}
-
-    ///// <summary>
-    /////  通过id获取详情
-    ///// </summary>
-    ///// <param name="id"></param>
-    ///// <returns></returns>
-    //public Task<IResp<PipeMo>> Get(long id)
-    //{
-    //      return new PipelineRemoteReq($"/Pipeline/Pipe/Get?id={id}")
-    //        .GetAsync<IResp<PipeMo>>();
-    //}
-
+    
     
     /// <summary>
     ///  设置可用状态
@@ -49,6 +29,17 @@ internal class PipeHttpClient : IPipeOpenService
     {
           return new PipelineRemoteReq($"/Pipeline/Pipe/Add")
             .PostAsync<IResp>(req);
+    }
+
+
+    public Task<PageListResp<PipelineView>> SearchMetas()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IResp<PipelineDetailView>>                          GetPipelineDetail(long id)
+    {
+        throw new NotImplementedException();
     }
 }
 
