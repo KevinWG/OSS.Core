@@ -47,7 +47,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <returns></returns>
     public Task<IResp> Add(Add{entity_name}Req req)
     {
-          return new {module_req}($"/{module_name}/{entity_name}/Add")
+          return new {module_req}("/{module_name}/{entity_name}/Add")
             .PostAsync<IResp>(req);
     }
 }

@@ -65,15 +65,14 @@ public class BaseProjectStructure
     {
         name = projectName;
 
-        project_dir = Path.Combine(basePath, name);
-        common_dir  = Path.Combine(project_dir, "Common");
-        global_dir  = Path.Combine(project_dir, "AppGlobal");
-
-        project_file_path = Path.Combine(project_dir, name + ".csproj");
+        project_dir       = Path.Combine(basePath, name);
+        common_dir        = Path.Combine(basePath, name, "Common");
+        global_dir        = Path.Combine(basePath, name, "AppGlobal");
+        project_file_path = Path.Combine(basePath, name, name + ".csproj");
 
         if (!string.IsNullOrEmpty(entityName))
         {
-            entity_dir = Path.Combine(project_dir, entityName);
+            entity_dir = Path.Combine(basePath, name, entityName);
         }
     }
 
@@ -100,10 +99,14 @@ public class BaseProjectStructure
     ///  全局文件夹
     /// </summary>
     public string global_dir { get; set; }
-
-
-
-
+    
+    /// <summary>
+    ///  领域对象名称
+    /// </summary>
     public string entity_name { get; set; }
+
+    /// <summary>
+    ///  领域对象文件目录
+    /// </summary>
     public string entity_dir { get; set; }
 }

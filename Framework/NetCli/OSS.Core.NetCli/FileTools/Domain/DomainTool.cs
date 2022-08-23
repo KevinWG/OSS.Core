@@ -77,7 +77,7 @@ internal class DomainTool : BaseProjectTool
     {
         if (ss.no_rep_injection)
             return;
-        
+
         var iRepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
         FileHelper.CreateDirectory(iRepDir);
 

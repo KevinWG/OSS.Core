@@ -42,7 +42,6 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     [HttpPost]
     public async Task<IResp> SetUseable(long id, ushort flag)
     {
-        await Task.Delay(2000);
         return await _service.SetUseable(id, flag);
     }
 

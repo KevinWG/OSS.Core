@@ -6,10 +6,11 @@ using OSS.Core.Domain;
 namespace {solution_name};
 
 /// <summary>
-///  {module_name} 对象仓储
+///  {entity_name} 对象仓储
 /// </summary>
 public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo,long> {rep_interface}
 {
+    /// <inheritdoc />
     public {entity_name}Rep() : base("{entity_name}")
     {
     }
