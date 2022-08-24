@@ -28,9 +28,9 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<PageListResp<PipelineView>> SearchLines(SearchReq req)
+    public Task<PageListResp<PipelineView>> Search(SearchReq req)
     {
-        return _service.SearchLines(req);
+        return _service.Search(req);
     }
 
     /// <summary>
@@ -41,6 +41,16 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
     public Task<List<PipelineView>> GetVersions(long meta_id)
     {
         return _service.GetVersions(meta_id);
+    }
+
+    /// <summary>
+    ///  查询流水线详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Task<IResp<PipelineDetailView>> GetDetail(long id)
+    {
+        return _service.GetDetail(id);
     }
 
     /// <summary>

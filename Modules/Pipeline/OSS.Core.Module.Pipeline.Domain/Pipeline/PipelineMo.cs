@@ -1,12 +1,11 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 
 namespace OSS.Core.Module.Pipeline;
 
 /// <summary>
 ///  流水线信息（含通用管道信息部分）
 /// </summary>
-public class PipelineMo:VersionMo,IPipeProperty
+public class PipelineMo:PipelinePartMo,IPipeProperty
 {
     /// <summary>
     /// 管道类型
@@ -31,31 +30,40 @@ public static class PipelineMoExtension
     /// <summary>
     ///  转化为View对象
     /// </summary>
-    /// <param name="pipeline"></param>
+    /// <param name="mo"></param>
     /// <returns></returns>
-    public static PipelineView ToView(this PipelineMo pipeline)
+    public static PipelineView ToView(this PipelineMo mo)
     {
         var view = new PipelineView();
 
-        view.id = pipeline.id;
-        view.add_time = pipeline.add_time;
-        view.status = pipeline.status;
+        view.id = mo.id;
+        view.add_time = mo.add_time;
+        view.status = mo.status;
 
-        view.name     = pipeline.name;
-        view.meta_id  = pipeline.meta_id;
-        view.ver_name = pipeline.ver_name;
+        view.name     = mo.name;
+        view.meta_id  = mo.meta_id;
+        view.ver_name = mo.ver_name;
         
-        var links = string.IsNullOrEmpty(pipeline.links)
-            ? new List<Link>() 
-            : JsonSerializer.Deserialize<List<Link>>(pipeline.links);
 
-        view.links = links??new List<Link>();
-
-        view.FormatByIPipe(pipeline);
+        view.FormatByIPipe(mo);
 
         return view;
     }
 
 
 
+    public static PipelineDetailView ToDetailView(this PipelineMo mo)
+    {
+        var pipeline = mo.ToView();
+
+        var links =(string.IsNullOrEmpty(mo.links)
+            ? null
+            : JsonSerializer.Deserialize<List<Link>>(mo.links)) ?? new List<Link>();
+        
+        return new PipelineDetailView()
+        {
+            pipeline = pipeline,
+            links    = links
+        };
+    }
 }

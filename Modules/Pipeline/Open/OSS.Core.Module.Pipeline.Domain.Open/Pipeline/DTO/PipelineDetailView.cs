@@ -11,9 +11,9 @@ public class PipelineDetailView
     public PipelineView pipeline { get; set; } = default!;
 
     /// <summary>
-    /// 流水线下管道节点链接信息 
+    ///  当前版本的链接信息
     /// </summary>
-    public List<Link> links { get; set; }
+    public List<Link> links { get; set; } = default!;
 
     /// <summary>
     ///     流水线管道节点列表

@@ -14,7 +14,7 @@ internal class PipelineHttpClient : IPipelineOpenService
     }
 
     /// <inheritdoc />
-    public Task<PageListResp<PipelineView>> SearchLines(SearchReq req)
+    public Task<PageListResp<PipelineView>> Search(SearchReq req)
     {
         return new PipelineRemoteReq("/Pipeline/pipeline/SearchLines")
             .PostAsync<PageListResp<PipelineView>>(req);
@@ -25,6 +25,13 @@ internal class PipelineHttpClient : IPipelineOpenService
     {
         return new PipelineRemoteReq($"/Pipeline/pipeline/GetVersions?meta_id={metaId}")
             .GetAsync<List<PipelineView>>();
+    }
+
+    /// <inheritdoc />
+    public Task<IResp<PipelineDetailView>> GetDetail(long id)
+    {
+        return new PipelineRemoteReq($"/Pipeline/pipeline/GetDetail?id={id}")
+            .GetAsync<IResp<PipelineDetailView>>();
     }
 
     /// <inheritdoc />

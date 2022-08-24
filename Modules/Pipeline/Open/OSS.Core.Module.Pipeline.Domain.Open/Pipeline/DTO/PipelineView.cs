@@ -16,10 +16,6 @@ public class PipelineView : PipeView
     /// </summary>
     public long meta_id { get; set; }
 
-    /// <summary>
-    ///  当前版本的链接信息
-    /// </summary>
-    public List<Link> links { get; set; } = default!;
     
     /// <summary>
     /// 版本状态

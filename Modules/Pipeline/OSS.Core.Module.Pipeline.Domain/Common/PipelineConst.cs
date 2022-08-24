@@ -41,7 +41,7 @@ public static class PipelineConst
         /// <summary>
         /// 管道流水线版本表
         /// </summary>
-        public const string PipelineVersion = "m_pipeline_version";
+        public const string PipelinePart = "m_pipeline_part";
         
     }
 }

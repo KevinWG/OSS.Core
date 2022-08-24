@@ -18,7 +18,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线信息（专用字段部分）
 /// </summary>
-public class VersionMo :BaseOwnerMo<long>, IDomainStatus<PipelineStatus> //, IPipeProperty
+public class PipelinePartMo :BaseOwnerMo<long>, IDomainStatus<PipelineStatus> //, IPipeProperty
 {
     /// <summary>
     ///  定义Id

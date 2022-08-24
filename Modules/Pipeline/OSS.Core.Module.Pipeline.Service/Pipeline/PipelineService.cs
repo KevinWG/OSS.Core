@@ -10,38 +10,45 @@ namespace OSS.Core.Module.Pipeline;
 public class PipelineService : IPipelineOpenService
 {
     private static readonly PipelineMetaRep    _metaRep     = new();
-    private static readonly PipelineVersionRep _versionRep = new();
+    private static readonly PipelinePartRep _pipelineRep = new();
 
     /// <inheritdoc />
-    public async Task<PageListResp<PipelineView>> SearchLines(SearchReq req)
+    public async Task<PageListResp<PipelineView>> Search(SearchReq req)
     {
-        var lineMos = await _versionRep.SearchLines(req);
+        var lineMos = await _pipelineRep.SearchLines(req);
         return new PageListResp<PipelineView>(lineMos.total,lineMos.data.Select(x=>x.ToView()).ToList());
     }
 
     /// <inheritdoc />
     public async Task<List<PipelineView>> GetVersions(long metaId)
     {
-        var lineMos = await _versionRep.GetVersions(metaId);
+        var lineMos = await _pipelineRep.GetVersions(metaId);
         return  lineMos.Select(x => x.ToView()).ToList();
+    }
+
+    /// <inheritdoc />
+    public async Task<IResp<PipelineDetailView>> GetDetail(long id)
+    {
+        var pRes = await _pipelineRep.GetLine(id);
+        return new Resp<PipelineDetailView>().WithResp(pRes, p => p.ToDetailView());
     }
 
     /// <inheritdoc />
     public Task<IResp> Publish(long id)
     {
-        return _versionRep.UpdateStatus(id, PipelineStatus.Published);
+        return _pipelineRep.UpdateStatus(id, PipelineStatus.Published);
     }
 
     /// <inheritdoc />
     public Task<IResp> TurnOff(long id)
     {
-        return _versionRep.UpdateStatus(id, PipelineStatus.OffLine);
+        return _pipelineRep.UpdateStatus(id, PipelineStatus.OffLine);
     }
 
     /// <inheritdoc />
     public async Task<IResp> Delete(long id)
     {
-        var lineRes = await _versionRep.GetById(id);
+        var lineRes = await _pipelineRep.GetById(id);
         if (lineRes.IsSuccess())
             return lineRes;
 
@@ -49,7 +56,7 @@ public class PipelineService : IPipelineOpenService
         if (line.status != PipelineStatus.Original)
             return new Resp(RespCodes.OperateFailed, "当前版本已经发布(发布过)，不能删除!");
 
-        return  await _versionRep.UpdateStatus(id, PipelineStatus.Deleted);
+        return  await _pipelineRep.UpdateStatus(id, PipelineStatus.Deleted);
     }
 
 
@@ -80,16 +87,16 @@ public class PipelineService : IPipelineOpenService
         await _metaRep.Add(metaMo);
     }
 
-    private static async Task<VersionMo> CreateMetaVersion(long pipeId)
+    private static async Task<PipelinePartMo> CreateMetaVersion(long pipeId)
     {
-        var verMo = new VersionMo
+        var verMo = new PipelinePartMo
         {
             id      = pipeId,
             meta_id = pipeId
         };
 
         verMo.FormatBaseByContext();
-        await _versionRep.Add(verMo);
+        await _pipelineRep.Add(verMo);
 
         return verMo;
     }
