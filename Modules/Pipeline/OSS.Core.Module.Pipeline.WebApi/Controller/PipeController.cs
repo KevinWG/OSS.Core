@@ -27,12 +27,33 @@ public class PipeController : BasePipelineController, IPipeOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
+    [HttpPost]
     public Task<LongResp> AddEnd(AddPipeReq req)
     {
         return _service.AddEnd(req);
     }
 
+    /// <summary>
+    ///  添加审核节点
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<LongResp> AddAudit(AddPipeReq req)
+    {
+        return _service.AddAudit(req);
+    }
 
+    /// <summary>
+    ///  添加审核节点
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<LongResp> AddSubPipeline(AddPipeReq req)
+    {
+        return _service.AddSubPipeline(req);
+    }
 
     /// <summary>
     ///  删除节点
@@ -44,7 +65,4 @@ public class PipeController : BasePipelineController, IPipeOpenService
     {
         return _service.Delete(id);
     }
-
-
-
 }

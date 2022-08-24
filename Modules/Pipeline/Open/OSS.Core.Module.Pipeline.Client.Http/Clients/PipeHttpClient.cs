@@ -20,6 +20,20 @@ internal class PipeHttpClient : IPipeOpenService
     }
 
     /// <inheritdoc />
+    public Task<LongResp> AddAudit(AddPipeReq req)
+    {
+        return new PipelineRemoteReq("/Pipeline/Pipe/AddAudit")
+            .PostAsync<LongResp>(req);
+    }
+
+    /// <inheritdoc />
+    public Task<LongResp> AddSubPipeline(AddPipeReq req)
+    {
+        return new PipelineRemoteReq("/Pipeline/Pipe/AddSubPipeline")
+            .PostAsync<LongResp>(req);
+    }
+
+    /// <inheritdoc />
     public Task<IResp> Delete(long id)
     {
         return new PipelineRemoteReq($"/Pipeline/Pipe/Delete?id={id}")

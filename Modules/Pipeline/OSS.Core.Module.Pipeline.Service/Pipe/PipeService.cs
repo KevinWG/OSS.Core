@@ -7,10 +7,10 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线节点服务
 /// </summary>
-public class PipeService : IPipeOpenService, IPipeCommon
+public partial class PipeService : IPipeOpenService, IPipeCommon
 {
     private static readonly PipeRep _pipeRep = new();
-
+    
     /// <inheritdoc />
     public Task<LongResp> AddStart(AddPipeReq req)
     {
@@ -33,7 +33,7 @@ public class PipeService : IPipeOpenService, IPipeCommon
         return ChangePipe(id, () => _pipeRep.SoftDeleteById(id));
     }
 
-    
+
     #region 辅助方法
 
     private static async Task<IResp> ChangePipe(long id,Func<Task<IResp>> changeHandler)

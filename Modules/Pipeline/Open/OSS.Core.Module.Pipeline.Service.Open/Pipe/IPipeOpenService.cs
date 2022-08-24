@@ -5,7 +5,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线节点领域对象开放接口
 /// </summary>
-public interface IPipeOpenService
+public  interface IPipeOpenService
 {
     /// <summary>
     ///  添加开始节点
@@ -21,12 +21,30 @@ public interface IPipeOpenService
     /// <returns></returns>
     Task<LongResp> AddEnd(AddPipeReq req);
 
+
+
+    /// <summary>
+    ///  添加审核节点
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    Task<LongResp> AddAudit(AddPipeReq req);
+
+
+
+    /// <summary>
+    ///  添加子流水线
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    Task<LongResp> AddSubPipeline(AddPipeReq req);
+
+
+
     /// <summary>
     ///  删除节点
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     Task<IResp> Delete(long id);
-
-
 }
