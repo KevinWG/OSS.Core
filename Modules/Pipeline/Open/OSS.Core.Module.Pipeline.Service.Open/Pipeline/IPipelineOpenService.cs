@@ -8,7 +8,6 @@ namespace OSS.Core.Module.Pipeline;
 /// </summary>
 public interface IPipelineOpenService
 {
-
     /// <summary>
     ///  添加流水线对象
     /// </summary>
@@ -29,4 +28,27 @@ public interface IPipelineOpenService
     /// <param name="metaId"></param>
     /// <returns></returns>
     Task<List<PipelineView>> GetVersions(long metaId);
+
+
+    /// <summary>
+    ///  发布启用流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<IResp> Publish(long id);
+
+    /// <summary>
+    ///  关闭 流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<IResp> TurnOff(long id);
+
+    /// <summary>
+    ///  关闭 流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<IResp> Delete(long id);
+
 }

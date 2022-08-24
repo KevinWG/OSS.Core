@@ -26,6 +26,18 @@ public class PipelineService : IPipelineOpenService
         return  lineMos.Select(x => x.ToView()).ToList();
     }
 
+    /// <inheritdoc />
+    public Task<IResp> Publish(long id)
+    {
+        return _versionRep.UpdateStatus(id, PipelineStatus.Published);
+    }
+
+    /// <inheritdoc />
+    public Task<IResp> TurnOff(long id)
+    {
+        return _versionRep.UpdateStatus(id, PipelineStatus.OffLine);
+    }
+
 
     #region 添加流水线
     

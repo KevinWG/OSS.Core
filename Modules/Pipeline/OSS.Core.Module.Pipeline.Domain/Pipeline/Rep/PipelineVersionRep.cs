@@ -1,7 +1,7 @@
-﻿using System.Text;
-using OSS.Common;
+﻿using OSS.Common;
+using OSS.Common.Extension;
 using OSS.Common.Resp;
-using OSS.Core.Domain;
+using System.Text;
 
 namespace OSS.Core.Module.Pipeline;
 
@@ -42,21 +42,29 @@ inner join {PipelineConst.RepTables.Pipe} P on P.id = PV.id ";
         return GetPageList<PipelineMo>(selectSql, paras, selectCountSql);
     }
 
+
+
     private static string GetSearchLinesWhereSql(SearchReq req, Dictionary<string, object> paras)
     {
-        var filter = req.filter;
-        if (filter == null)
-            return string.Empty;
+        var filter = req.filter ?? new Dictionary<string, string>();
 
+        if (!filter.ContainsKey("status"))
+            filter.Add("status", "-999");
+        
         var whereSql = new StringBuilder();
         whereSql.Append(" where 1=1 ");
 
-        foreach (var filterItem in filter)
+        foreach (var (key, value) in filter)
         {
-            switch (filterItem.Key.ToLower())
+            switch (key.ToLower())
             {
-                //case "name":
-
+                case "status":
+                    paras.Add("@status", value.ToInt32());
+                    if (value.EndsWith("9"))
+                        whereSql.Append(" PV.`status`>@status");
+                    else
+                        whereSql.Append(value.EndsWith("1") ? " PV.`status`<@status" : " PV.`status`=@status");
+                    break;
             }
         }
 
