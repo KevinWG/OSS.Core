@@ -75,7 +75,6 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
         return _service.TurnOff(id);
     }
 
-
     /// <summary>
     ///  关闭 流水线
     /// </summary>

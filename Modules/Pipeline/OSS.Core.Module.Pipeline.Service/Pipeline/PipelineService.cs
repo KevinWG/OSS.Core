@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线 服务逻辑
 /// </summary>
-public class PipelineService : IPipelineOpenService
+public class PipelineService : IPipelineOpenService, IPipelinePartCommon
 {
     private static readonly PipelineMetaRep    _metaRep     = new();
     private static readonly PipelinePartRep _pipelineRep = new();
@@ -59,7 +59,6 @@ public class PipelineService : IPipelineOpenService
         return  await _pipelineRep.UpdateStatus(id, PipelineStatus.Deleted);
     }
 
-
     #region 添加流水线
     
     /// <inheritdoc />
@@ -102,4 +101,10 @@ public class PipelineService : IPipelineOpenService
     }
 
     #endregion
+
+    /// <inheritdoc />
+    Task<IResp<PipelinePartMo>> IPipelinePartCommon.Get(long id)
+    {
+        return _pipelineRep.GetById(id);
+    }
 }

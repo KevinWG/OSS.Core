@@ -20,5 +20,15 @@ public class PipeController : BasePipelineController, IPipeOpenService
     {
         return _service.Add(req);
     }
-    
+
+    /// <summary>
+    ///  删除节点
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<IResp> Delete(long id)
+    {
+        return _service.Delete(id);
+    }
 }

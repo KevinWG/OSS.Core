@@ -5,25 +5,18 @@ namespace OSS.Core.Module.Pipeline.Client;
 
 internal class PipeHttpClient : IPipeOpenService
 {
-    
-    
-    /// <summary>
-    ///  设置可用状态
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
-    /// <returns></returns>
-    public Task<IResp> SetUseable(long id, ushort flag)
-    {
-          return new PipelineRemoteReq($"/Pipeline/Pipe/SetUseable?id={id}&flag={flag}")
-            .PostAsync<IResp>();
-    }
-
     /// <inheritdoc />
     public Task<IResp<long>> Add(AddPipeReq req)
     {
-        return new PipelineRemoteReq($"/Pipeline/Pipe/Add")
+        return new PipelineRemoteReq("/Pipeline/Pipe/Add")
             .PostAsync<IResp<long>>(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IResp> Delete(long id)
+    {
+        return new PipelineRemoteReq($"/Pipeline/Pipe/Delete?id={id}")
+            .PostAsync<IResp>();
     }
 }
 

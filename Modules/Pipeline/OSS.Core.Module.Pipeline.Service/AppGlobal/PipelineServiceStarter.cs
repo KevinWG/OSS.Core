@@ -9,8 +9,10 @@ namespace OSS.Core.Module.Pipeline;
 /// </summary>
 public class PipelineServiceStarter : AppStarter
 {
+    /// <inheritdoc />
     public override void Start(IServiceCollection serviceCollection)
     {
         InsContainer<IPipeCommon>.Set<PipeService>();
+        InsContainer<IPipelinePartCommon>.Set<PipelineService>();
     }
 }
