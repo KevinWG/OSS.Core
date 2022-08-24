@@ -26,5 +26,25 @@ internal class PipelineHttpClient : IPipelineOpenService
         return new PipelineRemoteReq($"/Pipeline/pipeline/GetVersions?meta_id={metaId}")
             .GetAsync<List<PipelineView>>();
     }
+
+    /// <inheritdoc />
+    public Task<IResp> Publish(long id)
+    {
+        return new PipelineRemoteReq($"/Pipeline/pipeline/Publish?id={id}")
+            .PostAsync<IResp>();
+    }
+    /// <inheritdoc />
+    public Task<IResp> TurnOff(long id)
+    {
+        return new PipelineRemoteReq($"/Pipeline/pipeline/TurnOff?id={id}")
+            .PostAsync<IResp>();
+    }
+
+    /// <inheritdoc />
+    public Task<IResp>      Delete(long id)
+    {
+        return new PipelineRemoteReq($"/Pipeline/pipeline/Delete?id={id}")
+            .PostAsync<IResp>();
+    }
 }
 

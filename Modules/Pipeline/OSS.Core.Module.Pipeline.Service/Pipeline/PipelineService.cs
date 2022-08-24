@@ -38,6 +38,20 @@ public class PipelineService : IPipelineOpenService
         return _versionRep.UpdateStatus(id, PipelineStatus.OffLine);
     }
 
+    /// <inheritdoc />
+    public async Task<IResp> Delete(long id)
+    {
+        var lineRes = await _versionRep.GetById(id);
+        if (lineRes.IsSuccess())
+            return lineRes;
+
+        var line = lineRes.data;
+        if (line.status != PipelineStatus.Original)
+            return new Resp(RespCodes.OperateFailed, "当前版本已经发布(发布过)，不能删除!");
+
+        return  await _versionRep.UpdateStatus(id, PipelineStatus.Deleted);
+    }
+
 
     #region 添加流水线
     

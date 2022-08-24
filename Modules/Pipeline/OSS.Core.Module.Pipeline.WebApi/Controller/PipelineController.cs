@@ -10,7 +10,7 @@ namespace OSS.Core.Module.Pipeline;
 public class PipelineController : BasePipelineController, IPipelineOpenService
 {
     private static readonly IPipelineOpenService _service = new PipelineService();
-    
+
     /// <summary>
     ///  添加Pipe对象
     /// </summary>
@@ -21,7 +21,7 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
     {
         return _service.Add(req);
     }
-    
+
     /// <summary>
     /// 搜索流水线信息
     /// </summary>
@@ -43,6 +43,37 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
         return _service.GetVersions(meta_id);
     }
 
+    /// <summary>
+    ///  发布启用流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<IResp> Publish(long id)
+    {
+        return _service.Publish(id);
+    }
+
+    /// <summary>
+    ///  关闭 流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<IResp> TurnOff(long id)
+    {
+        return _service.TurnOff(id);
+    }
 
 
+    /// <summary>
+    ///  关闭 流水线
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<IResp> Delete(long id)
+    {
+        return _service.Delete(id);
+    }
 }
