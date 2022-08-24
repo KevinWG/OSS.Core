@@ -31,4 +31,7 @@ public class PipeController : BasePipelineController, IPipeOpenService
     {
         return _service.Delete(id);
     }
+
+
+
 }

@@ -15,8 +15,6 @@ using OSS.Core.Domain;
 namespace OSS.Core.Module.Pipeline;
 
 
-
-
 /// <summary>
 ///  管道对象实体 
 /// </summary>
@@ -26,6 +24,13 @@ public class PipeView: BasePieView
     ///  管道状态
     /// </summary>
     public CommonStatus status { get; set; }
+
+
+    /// <summary>
+    /// 父级 Pipeline id
+    /// </summary>
+    public long parent_id { get; set; }
+
 }
 
 
@@ -53,15 +58,7 @@ public class BasePieView
     public BaseExecuteExt execute_ext { get; set; } = default!;
 
     /// <summary>
-    /// 父级 Pipeline id
-    /// </summary>
-    public long parent_id { get; set; }
-
-
-    /// <summary>
     ///  添加时间
     /// </summary>
     public long add_time { get; set; }
-
-
 }

@@ -17,7 +17,7 @@ public class PipelinePartRep : BasePipelineRep<PipelinePartMo, long>
     }
 
     private const string _orderSql      = " order by PV.id desc ";
-    private const string _pipelineCols  = " PV.*,  P.type, P.execute_ext,P.parent_id";
+    private const string _pipelineCols  = " PV.*,  P.type, P.execute_ext";
 
     /// <summary>
     ///  查询流水线列表

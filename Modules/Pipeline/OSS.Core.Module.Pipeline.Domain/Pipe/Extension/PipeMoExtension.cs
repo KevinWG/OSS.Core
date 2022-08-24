@@ -33,6 +33,7 @@ public static class PipeMoExtension
             status = pipe.status,
 
             add_time = pipe.add_time,
+            parent_id = pipe.parent_id
         };
 
         view.FormatByIPipe(pipe);
@@ -48,7 +49,6 @@ public static class PipeMoExtension
     public static void FormatByIPipe(this BasePieView view, IPipeProperty pipe)
     {
         view.type        = pipe.type;
-        view.parent_id   = pipe.parent_id;
         view.execute_ext = GetExecuteExtra(pipe.type, pipe.execute_ext);
     }
 

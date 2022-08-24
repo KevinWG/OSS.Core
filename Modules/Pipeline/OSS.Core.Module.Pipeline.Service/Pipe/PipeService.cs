@@ -32,9 +32,7 @@ public class PipeService : IPipeOpenService, IPipeCommon
         return ChangePipe(id, () => _pipeRep.SoftDeleteById(id));
     }
 
-
-
-
+    
     #region 辅助方法
 
     private static async Task<IResp> ChangePipe(long id,Func<Task<IResp>> changeHandler)

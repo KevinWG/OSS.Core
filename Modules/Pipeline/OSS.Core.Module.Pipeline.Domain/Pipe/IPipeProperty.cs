@@ -14,9 +14,4 @@ public interface IPipeProperty
     ///  扩展信息
     /// </summary>
     public string? execute_ext { get; set; }
-
-    /// <summary>
-    ///  父级 Pipeline id
-    /// </summary>
-    public long parent_id { get; set; }
 }
