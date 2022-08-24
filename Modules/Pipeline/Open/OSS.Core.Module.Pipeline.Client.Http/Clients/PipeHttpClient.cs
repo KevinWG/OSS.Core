@@ -27,10 +27,24 @@ internal class PipeHttpClient : IPipeOpenService
     }
 
     /// <inheritdoc />
+    public Task<IResp> SetAuditExe(long id, AuditExt ext)
+    {
+        return new PipelineRemoteReq("/Pipeline/Pipe/SetAuditExe?id="+ id)
+            .PostAsync<IResp>(ext);
+    }
+
+    /// <inheritdoc />
     public Task<LongResp> AddSubPipeline(AddPipeReq req)
     {
         return new PipelineRemoteReq("/Pipeline/Pipe/AddSubPipeline")
             .PostAsync<LongResp>(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IResp> SetSubPipelineExe(long id, SubPipeLineExt ext)
+    {
+        return new PipelineRemoteReq("/Pipeline/Pipe/SetSubPipelineExe?id=" + id)
+            .PostAsync<IResp>(ext);
     }
 
     /// <inheritdoc />

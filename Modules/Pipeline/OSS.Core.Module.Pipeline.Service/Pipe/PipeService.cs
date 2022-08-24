@@ -1,4 +1,5 @@
-﻿using OSS.Common;
+﻿using System.Text.Json;
+using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Domain;
 
@@ -7,9 +8,11 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线节点服务
 /// </summary>
-public partial class PipeService : IPipeOpenService, IPipeCommon
+public class PipeService : IPipeOpenService, IPipeCommon
 {
     private static readonly PipeRep _pipeRep = new();
+
+    #region 起始节点管理
     
     /// <inheritdoc />
     public Task<LongResp> AddStart(AddPipeReq req)
@@ -27,14 +30,58 @@ public partial class PipeService : IPipeOpenService, IPipeCommon
         return AddPipe(mo);
     }
 
+    #endregion
+
+    #region 子流水线管理
+
     /// <inheritdoc />
-    public  Task<IResp> Delete(long id)
+    public Task<LongResp> AddSubPipeline(AddPipeReq req)
+    {
+        var mo = req.MapToPipeMo(PipeType.SubPipeline);
+
+        return AddPipe(mo);
+    }
+
+    /// <inheritdoc />
+    public Task<IResp> SetSubPipelineExe(long id, SubPipeLineExt ext)
+    {
+        return SetExecuteExt(id, ext);
+    }
+
+    #endregion
+
+    #region 审核节点管理
+
+    /// <inheritdoc />
+    public Task<LongResp> AddAudit(AddPipeReq req)
+    {
+        var mo = req.MapToPipeMo(PipeType.Audit);
+
+        return AddPipe(mo);
+    }
+
+    /// <inheritdoc />
+    public Task<IResp> SetAuditExe(long id, AuditExt ext)
+    {
+        return SetExecuteExt(id, ext);
+    }
+
+    #endregion
+
+    /// <inheritdoc />
+    public Task<IResp> Delete(long id)
     {
         return ChangePipe(id, () => _pipeRep.SoftDeleteById(id));
     }
 
-
     #region 辅助方法
+
+    private static  Task<IResp> SetExecuteExt(long id,BaseExecuteExt ext)
+    {
+        var extStr = JsonSerializer.Serialize(ext);
+        return ChangePipe(id, () => _pipeRep.UpdateExt(id, extStr));
+    }
+
 
     private static async Task<IResp> ChangePipe(long id,Func<Task<IResp>> changeHandler)
     {
@@ -65,7 +112,6 @@ public partial class PipeService : IPipeOpenService, IPipeCommon
 
     #endregion
 
-
     #region 服务层内部共用
 
     /// <inheritdoc />
@@ -82,6 +128,4 @@ public partial class PipeService : IPipeOpenService, IPipeCommon
     }
 
     #endregion
-
-
 }

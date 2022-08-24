@@ -30,6 +30,14 @@ public  interface IPipeOpenService
     /// <returns></returns>
     Task<LongResp> AddAudit(AddPipeReq req);
 
+    /// <summary>
+    ///  设置审核节点执行扩展信息
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ext"></param>
+    /// <returns></returns>
+    Task<IResp> SetAuditExe(long id, AuditExt ext);
+
 
 
     /// <summary>
@@ -39,6 +47,13 @@ public  interface IPipeOpenService
     /// <returns></returns>
     Task<LongResp> AddSubPipeline(AddPipeReq req);
 
+    /// <summary>
+    ///  设置子流水线执行扩展信息
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="ext"></param>
+    /// <returns></returns>
+    Task<IResp> SetSubPipelineExe(long id, SubPipeLineExt ext);
 
 
     /// <summary>

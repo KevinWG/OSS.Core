@@ -38,6 +38,17 @@ public class PipeRep : BasePipelineRep<PipeMo,long>
     }
 
     /// <summary>
+    ///  更新执行扩展信息
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="extStr"></param>
+    /// <returns></returns>
+    public Task<IResp> UpdateExt(long id, string extStr)
+    {
+        return Update(u => new { u.execute_ext }, w => w.id == id, new { execute_ext = extStr });
+    }
+
+    /// <summary>
     ///  获取所有子节点
     /// </summary>
     /// <param name="parentId"></param>
@@ -46,4 +57,6 @@ public class PipeRep : BasePipelineRep<PipeMo,long>
     {
         return GetList(p => p.parent_id == parentId);
     }
+
+
 }
