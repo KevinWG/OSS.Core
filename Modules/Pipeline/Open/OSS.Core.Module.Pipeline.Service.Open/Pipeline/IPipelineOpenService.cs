@@ -13,7 +13,7 @@ public interface IPipelineOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(AddPipelineReq req);
+    Task<LongResp> Add(AddPipelineReq req);
 
     /// <summary>
     ///   搜索流水线信息

@@ -12,26 +12,26 @@ public class PipeService : IPipeOpenService, IPipeCommon
     private static readonly PipeRep _pipeRep = new();
 
     /// <inheritdoc />
-    public async Task<IResp<long>> Add(AddPipeReq req)
+    public Task<LongResp> AddStart(AddPipeReq req)
     {
-        if (req.type == PipeType.Pipeline)
-            return new LongResp().WithResp(RespCodes.OperateFailed, "无法在流水线下直接创建新的流水线!");
-        
-        var mo = req.MapToPipeMo();
+        var mo = req.MapToPipeMo(PipeType.Start);
 
-        await AddPipe(mo);
-        return new LongResp(mo.id);
+        return AddPipe(mo);
     }
 
+    /// <inheritdoc />
+    public Task<LongResp> AddEnd(AddPipeReq req)
+    {
+        var mo = req.MapToPipeMo(PipeType.End);
+
+        return AddPipe(mo);
+    }
 
     /// <inheritdoc />
     public  Task<IResp> Delete(long id)
     {
         return ChangePipe(id, () => _pipeRep.SoftDeleteById(id));
     }
-
-
-
 
     
     #region 辅助方法
@@ -52,12 +52,14 @@ public class PipeService : IPipeOpenService, IPipeCommon
             : await changeHandler();
     }
 
-    private static Task AddPipe(PipeMo pipe)
+    private static async Task<LongResp> AddPipe(PipeMo pipe)
     {
         pipe.FormatBaseByContext();
         pipe.execute_ext = "{}";
 
-        return _pipeRep.Add(pipe);
+        await _pipeRep.Add(pipe);
+
+        return new LongResp(pipe.id);
     }
 
 
@@ -67,7 +69,7 @@ public class PipeService : IPipeOpenService, IPipeCommon
     #region 服务层内部共用
 
     /// <inheritdoc />
-    Task IPipeCommon.AddPipe(PipeMo pipe)
+    Task<LongResp> IPipeCommon.AddPipe(PipeMo pipe)
     {
         return AddPipe(pipe);
     }

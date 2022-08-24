@@ -6,10 +6,17 @@ namespace OSS.Core.Module.Pipeline.Client;
 internal class PipeHttpClient : IPipeOpenService
 {
     /// <inheritdoc />
-    public Task<IResp<long>> Add(AddPipeReq req)
+    public Task<LongResp> AddStart(AddPipeReq req)
     {
-        return new PipelineRemoteReq("/Pipeline/Pipe/Add")
-            .PostAsync<IResp<long>>(req);
+        return new PipelineRemoteReq("/Pipeline/Pipe/AddStart")
+            .PostAsync<LongResp>(req);
+    }
+
+    /// <inheritdoc />
+    public Task<LongResp> AddEnd(AddPipeReq req)
+    {
+        return new PipelineRemoteReq("/Pipeline/Pipe/AddEnd")
+            .PostAsync<LongResp>(req);
     }
 
     /// <inheritdoc />

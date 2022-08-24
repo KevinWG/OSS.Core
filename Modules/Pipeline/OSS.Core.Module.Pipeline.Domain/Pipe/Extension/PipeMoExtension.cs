@@ -6,13 +6,14 @@ public static class PipeMoExtension
     ///  转化为管道对象
     /// </summary>
     /// <param name="req"></param>
+    /// <param name="type">节点类型</param>
     /// <returns></returns>
-    public static PipeMo MapToPipeMo(this AddPipeReq req)
+    public static PipeMo MapToPipeMo(this AddPipeReq req,PipeType type)
     {
         var mo = new PipeMo
         {
             name      = req.name,
-            type      = req.type,
+            type      = type,
             parent_id = req.parent_id,
         };
         return mo;

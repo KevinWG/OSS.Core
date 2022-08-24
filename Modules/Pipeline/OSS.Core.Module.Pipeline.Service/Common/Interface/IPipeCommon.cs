@@ -9,7 +9,7 @@ internal interface IPipeCommon
     /// </summary>
     /// <param name="newPipe"></param>
     /// <returns></returns>
-    internal Task AddPipe(PipeMo newPipe);
+    internal Task<LongResp> AddPipe(PipeMo newPipe);
 
     /// <summary>
     ///  获取流水线所有子节点

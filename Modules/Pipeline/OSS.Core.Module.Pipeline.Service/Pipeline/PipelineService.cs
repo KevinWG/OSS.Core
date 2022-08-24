@@ -73,18 +73,23 @@ public class PipelineService : IPipelineOpenService, IPipelinePartCommon
     #region 添加流水线
     
     /// <inheritdoc />
-    public async Task<IResp> Add(AddPipelineReq req)
+    public async Task<LongResp> Add(AddPipelineReq req)
     {
         var pipe = new PipeMo()
         {
             name = req.name, type = PipeType.Pipeline
         };
-        await InsContainer<IPipeCommon>.Instance.AddPipe(pipe);
 
-        await CreateMeta(pipe.id);
-        await CreateMetaVersion(pipe.id);
+        var addRes = await InsContainer<IPipeCommon>.Instance.AddPipe(pipe);
+        if (!addRes.IsSuccess())
+            return addRes;
 
-        return new LongResp(pipe.id);
+        var id = addRes.data;
+
+        await CreateMeta(id);
+        await CreateMetaVersion(id);
+
+        return new LongResp(id);
     }
 
     private static async Task CreateMeta(long pipeId)

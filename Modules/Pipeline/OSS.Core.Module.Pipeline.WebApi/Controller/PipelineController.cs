@@ -17,10 +17,11 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> Add([FromBody] AddPipelineReq req)
+    public Task<LongResp> Add([FromBody] AddPipelineReq req)
     {
         return _service.Add(req);
     }
+  
 
     /// <summary>
     /// 搜索流水线信息
@@ -85,4 +86,6 @@ public class PipelineController : BasePipelineController, IPipelineOpenService
     {
         return _service.Delete(id);
     }
+
+
 }

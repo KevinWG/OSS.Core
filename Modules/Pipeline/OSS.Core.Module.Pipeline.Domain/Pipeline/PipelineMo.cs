@@ -29,16 +29,16 @@ public static class PipelineMoExtension
     /// <returns></returns>
     public static PipelineView ToView(this PipelineMo mo)
     {
-        var view = new PipelineView();
+        var view = new PipelineView
+        {
+            id       = mo.id,
+            status   = mo.status,
+            name     = mo.name,
 
-        view.id = mo.id;
-        view.add_time = mo.add_time;
-        view.status = mo.status;
-
-        view.name     = mo.name;
-        view.meta_id  = mo.meta_id;
-        view.ver_name = mo.ver_name;
-        
+            meta_id  = mo.meta_id,
+            ver_name = mo.ver_name,
+            add_time = mo.add_time
+        };
 
         view.FormatByIPipe(mo);
 
@@ -46,7 +46,11 @@ public static class PipelineMoExtension
     }
 
 
-
+    /// <summary>
+    ///  转化为详情视图实体
+    /// </summary>
+    /// <param name="mo"></param>
+    /// <returns></returns>
     public static PipelineDetailView ToDetailView(this PipelineMo mo)
     {
         var pipeline = mo.ToView();

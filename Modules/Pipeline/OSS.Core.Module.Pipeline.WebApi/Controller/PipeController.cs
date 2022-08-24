@@ -16,10 +16,23 @@ public class PipeController : BasePipelineController, IPipeOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp<long>> Add(AddPipeReq req)
+    public Task<LongResp> AddStart(AddPipeReq req)
     {
-        return _service.Add(req);
+        return _service.AddStart(req);
     }
+
+
+    /// <summary>
+    ///  添加结束节点
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public Task<LongResp> AddEnd(AddPipeReq req)
+    {
+        return _service.AddEnd(req);
+    }
+
+
 
     /// <summary>
     ///  删除节点
