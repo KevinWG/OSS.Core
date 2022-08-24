@@ -15,10 +15,8 @@ public class PipeService : IPipeOpenService, IPipeCommon
     public async Task<IResp<long>> Add(AddPipeReq req)
     {
         if (req.type == PipeType.Pipeline)
-        {
             return new LongResp().WithResp(RespCodes.OperateFailed, "无法在流水线下直接创建新的流水线!");
-        }
-
+        
         var mo = req.MapToPipeMo();
 
         await AddPipe(mo);
@@ -31,6 +29,9 @@ public class PipeService : IPipeOpenService, IPipeCommon
     {
         return ChangePipe(id, () => _pipeRep.SoftDeleteById(id));
     }
+
+
+
 
     
     #region 辅助方法
@@ -71,6 +72,12 @@ public class PipeService : IPipeOpenService, IPipeCommon
         return AddPipe(pipe);
     }
 
+    /// <inheritdoc />
+    async Task<ListResp<PipeView>> IPipeCommon.GetSubPipeViews(long pipelineId)
+    {
+        var pMoList = await _pipeRep.GetListByParentId(pipelineId);
+        return new ListResp<PipeView>(pMoList.Select(p => p.ToView()).ToList());
+    }
 
     #endregion
 

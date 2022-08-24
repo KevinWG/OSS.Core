@@ -30,7 +30,18 @@ public class PipelineService : IPipelineOpenService, IPipelinePartCommon
     public async Task<IResp<PipelineDetailView>> GetDetail(long id)
     {
         var pRes = await _pipelineRep.GetLine(id);
-        return new Resp<PipelineDetailView>().WithResp(pRes, p => p.ToDetailView());
+        if (!pRes.IsSuccess())
+            return new Resp<PipelineDetailView>().WithResp(pRes, "未能获取有效流水线信息!");
+
+        var subPipeRes = await InsContainer<IPipeCommon>.Instance.GetSubPipeViews(id);
+        if (!subPipeRes.IsSuccess())
+            return new Resp<PipelineDetailView>().WithResp(subPipeRes);
+
+        var detailView = pRes.data.ToDetailView();
+
+        detailView.items = subPipeRes.data;
+
+        return new Resp<PipelineDetailView>(detailView);
     }
 
     /// <inheritdoc />

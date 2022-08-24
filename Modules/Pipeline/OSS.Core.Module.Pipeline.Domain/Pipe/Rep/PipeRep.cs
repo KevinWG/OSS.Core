@@ -37,6 +37,13 @@ public class PipeRep : BasePipelineRep<PipeMo,long>
         return Update(u => new {u.status}, w => w.id == id, new {status});
     }
 
-
-
+    /// <summary>
+    ///  获取所有子节点
+    /// </summary>
+    /// <param name="parentId"></param>
+    /// <returns></returns>
+    public Task<List<PipeMo>> GetListByParentId(long parentId)
+    {
+        return GetList(p => p.parent_id == parentId);
+    }
 }

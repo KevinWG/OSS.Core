@@ -13,10 +13,10 @@ public class PipelineDetailView
     /// <summary>
     ///  当前版本的链接信息
     /// </summary>
-    public List<Link> links { get; set; } = default!;
+    public IList<Link> links { get; set; } = default!;
 
     /// <summary>
     ///     流水线管道节点列表
     /// </summary>
-    public List<PipeView> items { get; set; }
+    public IList<PipeView> items { get; set; }
 }
