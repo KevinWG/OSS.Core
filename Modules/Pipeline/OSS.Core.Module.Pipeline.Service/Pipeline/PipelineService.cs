@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线 服务逻辑
 /// </summary>
-public class PipelineService : IPipelineOpenService, IPipelinePartCommon
+public class PipelineService :  IPipelinePartCommon
 {
     private static readonly PipelineMetaRep    _metaRep     = new();
     private static readonly PipelinePartRep _pipelineRep = new();
@@ -25,6 +25,7 @@ public class PipelineService : IPipelineOpenService, IPipelinePartCommon
         var lineMos = await _pipelineRep.GetVersions(metaId);
         return  lineMos.Select(x => x.ToView()).ToList();
     }
+    
 
     /// <inheritdoc />
     public async Task<IResp<PipelineDetailView>> GetDetail(long id)
@@ -118,9 +119,18 @@ public class PipelineService : IPipelineOpenService, IPipelinePartCommon
 
     #endregion
 
+
+
+    // ================  内部服务公用方法  ==============
+
     /// <inheritdoc />
     Task<IResp<PipelinePartMo>> IPipelinePartCommon.Get(long id)
     {
         return _pipelineRep.GetById(id);
+    }
+
+    Task<IResp<PipelineMo>> IPipelinePartCommon.GetLine(long id)
+    {
+        return _pipelineRep.GetLine(id);
     }
 }

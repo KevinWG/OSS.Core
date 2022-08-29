@@ -10,7 +10,6 @@ public enum PipeType
     /// </summary>
     Start = 0,
 
-
     /// <summary>
     ///  流水线
     /// </summary>
@@ -21,19 +20,10 @@ public enum PipeType
     /// </summary>
     SubPipeline =20,
 
-
-
     /// <summary>
-    ///  审核节点
+    ///  审计节点（异步回调的特定类型）
     /// </summary>
     Audit = 1100,
-    
-    /// <summary>
-    /// 自定义
-    /// </summary>
-    Custom = 10000,
-
-    
 
     /// <summary>
     /// 结束节点

@@ -65,4 +65,20 @@ public static class PipelineMoExtension
             links    = links
         };
     }
+
+    /// <summary>
+    /// 转化为业务流节点实体
+    /// </summary>
+    /// <param name="pipeline"></param>
+    /// <returns></returns>
+    public static FlowNodeMo ToFlowMo(this PipelineMo pipeline)
+    {
+        var mo = new FlowNodeMo
+        {
+            pipe_id   = pipeline.id,
+            pipe_type = pipeline.type,
+            title     = pipeline.name
+        };
+        return mo;
+    }
 }

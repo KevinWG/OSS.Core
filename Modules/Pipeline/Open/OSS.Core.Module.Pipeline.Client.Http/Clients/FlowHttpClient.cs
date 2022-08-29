@@ -10,10 +10,10 @@ internal class FlowHttpClient : IFlowOpenService
     ///  查询列表
     /// </summary>
     /// <returns></returns>
-    public Task<PageListResp<FlowMo>> Search(SearchReq req)
+    public Task<PageListResp<FlowNodeMo>> Search(SearchReq req)
     {
           return new PipelineRemoteReq("/Pipeline/Flow/Search")
-            .PostAsync<PageListResp<FlowMo>>(req);
+            .PostAsync<PageListResp<FlowNodeMo>>(req);
     }
 
     /// <summary>
@@ -21,13 +21,25 @@ internal class FlowHttpClient : IFlowOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Task<IResp<FlowMo>> Get(long id)
+    public Task<IResp<FlowNodeMo>> Get(long id)
     {
           return new PipelineRemoteReq($"/Pipeline/Flow/Get?id={id}")
-            .GetAsync<IResp<FlowMo>>();
+            .GetAsync<IResp<FlowNodeMo>>();
     }
 
-    
+    public Task<IResp> Start(StartReq req)
+    {
+        return new PipelineRemoteReq("/Pipeline/Flow/Start")
+            .PostAsync<IResp>(req);
+    }
+
+    public Task<IResp> Feed(FeedReq req)
+    {
+        return new PipelineRemoteReq("/Pipeline/Flow/Feed")
+            .PostAsync<IResp>(req);
+    }
+
+
     /// <summary>
     ///  设置可用状态
     /// </summary>
@@ -40,15 +52,5 @@ internal class FlowHttpClient : IFlowOpenService
             .PostAsync<IResp>();
     }
 
-    /// <summary>
-    ///  添加对象
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
-    public Task<IResp> Add(AddFlowReq req)
-    {
-          return new PipelineRemoteReq($"/Pipeline/Flow/Add")
-            .PostAsync<IResp>(req);
-    }
 }
 

@@ -14,5 +14,7 @@ public class PipelineServiceStarter : AppStarter
     {
         InsContainer<IPipeCommon>.Set<PipeService>();
         InsContainer<IPipelinePartCommon>.Set<PipelineService>();
+
+        InsContainer<IFlowCommonService>.Set<FlowService>();
     }
 }

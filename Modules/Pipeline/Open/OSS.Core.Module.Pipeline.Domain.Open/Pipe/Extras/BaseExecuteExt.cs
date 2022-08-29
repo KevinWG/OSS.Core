@@ -9,5 +9,4 @@ public class BaseExecuteExt
 
 public class DefaultExecuteExt: BaseExecuteExt
 {
-    public static DefaultExecuteExt Default = new DefaultExecuteExt();
 }

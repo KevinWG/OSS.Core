@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  Flow 开放 WebApi 
 /// </summary>
-public class FlowController : BasePipelineController, IFlowOpenService
+public class FlowNodeController : BasePipelineController, IFlowOpenService
 {
     private static readonly IFlowOpenService _service = new FlowService();
 
@@ -16,7 +16,7 @@ public class FlowController : BasePipelineController, IFlowOpenService
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<PageListResp<FlowMo>> Search([FromBody] SearchReq req)
+    public Task<PageListResp<FlowNodeMo>> Search([FromBody] SearchReq req)
     {
         return _service.Search(req);
     }
@@ -27,20 +27,28 @@ public class FlowController : BasePipelineController, IFlowOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<FlowMo>> Get(long id)
+    public Task<IResp<FlowNodeMo>> Get(long id)
     {
         return _service.Get(id);
     }
-    
 
     /// <summary>
-    ///  添加Flow对象
+    ///  流程启动
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    [HttpPost]
-    public Task<IResp> Add([FromBody] AddFlowReq req)
+    public Task<IResp> Start(StartReq req)
     {
-        return _service.Add(req);
+        return _service.Start(req);
+    }
+
+    /// <summary>
+    ///  流程节点执行输入
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public Task<IResp> Feed(FeedReq req)
+    {
+        return _service.Feed(req);
     }
 }

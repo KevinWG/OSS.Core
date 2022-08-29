@@ -8,10 +8,10 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  Flow 对象仓储
 /// </summary>
-public class FlowRep : BasePipelineRep<FlowMo,long> 
+public class FlowNodeRep : BasePipelineRep<FlowNodeMo,long> 
 {
     /// <inheritdoc />
-    public FlowRep() : base("Flow")
+    public FlowNodeRep() : base("Flow")
     {
     }
 
@@ -20,7 +20,7 @@ public class FlowRep : BasePipelineRep<FlowMo,long>
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public Task<PageList<FlowMo>> Search(SearchReq req)
+    public Task<PageList<FlowNodeMo>> Search(SearchReq req)
     {
         return SimpleSearch(req);
     }

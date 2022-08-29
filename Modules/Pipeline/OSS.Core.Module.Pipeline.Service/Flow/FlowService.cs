@@ -1,40 +1,56 @@
 ﻿using OSS.Common;
 using OSS.Common.Resp;
-using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Pipeline;
 
 /// <summary>
 ///  Flow 服务
 /// </summary>
-public class FlowService : IFlowOpenService
+public class FlowService : IFlowCommonService
 {
-    private static readonly FlowRep _FlowRep = new();
+    private static readonly FlowNodeRep _FlowRep = new();
 
 
     /// <inheritdoc />
-    public async Task<PageListResp<FlowMo>> Search(SearchReq req)
+    public async Task<PageListResp<FlowNodeMo>> Search(SearchReq req)
     {
-        return new PageListResp<FlowMo>(await _FlowRep.Search(req));
+        return new PageListResp<FlowNodeMo>(await _FlowRep.Search(req));
     }
 
     /// <inheritdoc />
-    public Task<IResp<FlowMo>> Get(long id) => _FlowRep.GetById(id);
+    public Task<IResp<FlowNodeMo>> Get(long id) => _FlowRep.GetById(id);
 
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
+    public Task<IResp> Start(StartReq req)
     {
-        return _FlowRep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
+        return FlowEngine.Start(req);
     }
 
     /// <inheritdoc />
-    public async Task<IResp> Add(AddFlowReq req)
+    public Task<IResp> Feed(FeedReq req)
     {
-        var mo = req.MapToFlowMo();
-        mo.FormatBaseByContext();
-
-        await _FlowRep.Add(mo);
-        return Resp.DefaultSuccess;
+        throw new NotImplementedException();
     }
+
+    async Task<LongResp> IFlowCommonService.AddNode(FlowNodeMo node)
+    {
+        await _FlowRep.Add(node);
+        return new LongResp(node.id);
+    }
+}
+
+
+
+/// <summary>
+/// 业务流内部公用服务
+/// </summary>
+public interface IFlowCommonService: IFlowOpenService
+{
+    /// <summary>
+    /// 添加流程节点
+    /// </summary>
+    /// <param name="flow"></param>
+    /// <returns></returns>
+    internal Task<LongResp> AddNode(FlowNodeMo flow);
 }

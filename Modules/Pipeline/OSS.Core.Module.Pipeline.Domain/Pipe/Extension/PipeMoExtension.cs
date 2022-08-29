@@ -1,4 +1,6 @@
-﻿namespace OSS.Core.Module.Pipeline;
+﻿using System.Text.Json;
+
+namespace OSS.Core.Module.Pipeline;
 
 public static class PipeMoExtension
 {
@@ -56,16 +58,13 @@ public static class PipeMoExtension
     private static BaseExecuteExt GetExecuteExtra(PipeType type, string? executeExt)
     {
         if (string.IsNullOrEmpty(executeExt))
+            return new DefaultExecuteExt();
+
+        return type switch
         {
-            return DefaultExecuteExt.Default;
-        }
-
-        switch (type)
-        {
-            // todo  完善配置处理
-        }
-
-        return DefaultExecuteExt.Default;
-
+            PipeType.SubPipeline => JsonSerializer.Deserialize<SubPipeLineExt>(executeExt) ?? new SubPipeLineExt(),
+            PipeType.Audit       => JsonSerializer.Deserialize<AuditExt>(executeExt) ?? new AuditExt(),
+            _                    => new DefaultExecuteExt()
+        };
     }
 }

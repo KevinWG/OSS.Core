@@ -12,19 +12,27 @@ public interface IFlowOpenService
     ///  查询Flow列表
     /// </summary>
     /// <returns></returns>
-    Task<PageListResp<FlowMo>> Search(SearchReq req);
+    Task<PageListResp<FlowNodeMo>> Search(SearchReq req);
 
     /// <summary>
     ///  通过id获取Flow详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<FlowMo>> Get(long id);
+    Task<IResp<FlowNodeMo>> Get(long id);
 
     /// <summary>
-    ///  添加Flow对象
+    ///  
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(AddFlowReq req);
+    Task<IResp> Start(StartReq req);
+
+    /// <summary>
+    ///  流程节点执行输入
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    Task<IResp> Feed(FeedReq req);
+    
 }
