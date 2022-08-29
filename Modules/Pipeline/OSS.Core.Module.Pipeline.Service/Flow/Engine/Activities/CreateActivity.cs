@@ -19,10 +19,9 @@ internal class CreateActivity : BasePassiveActivity<CreateReq, LongResp, CreateC
     protected override async Task<TrafficSignal<LongResp, CreateContext>> Executing(CreateReq req)
     {
          var addRes= await AddFlow(req);
-         if (!addRes.IsSuccess())
-             return new TrafficSignal<LongResp, CreateContext>(SignalFlag.Yellow_Wait, addRes);
-
-         return new TrafficSignal<LongResp, CreateContext>(addRes, new CreateContext(addRes.data, req.manual > 0));
+         return !addRes.IsSuccess() 
+             ? new TrafficSignal<LongResp, CreateContext>(SignalFlag.Yellow_Wait, addRes) 
+             : new TrafficSignal<LongResp, CreateContext>(addRes, new CreateContext(addRes.data, req.manual > 0));
     }
 
     private static async Task<LongResp> AddFlow(CreateReq req)
@@ -30,15 +29,12 @@ internal class CreateActivity : BasePassiveActivity<CreateReq, LongResp, CreateC
         var pipelineRes = await InsContainer<IPipelinePartCommon>.Instance.GetLine(req.pipeline_id);
         if (!pipelineRes.IsSuccess())
             return new LongResp().WithResp(pipelineRes);
-
-        var pipeline = pipelineRes.data;
-        var isManual = req.manual > 0;
-
-        var flow = pipeline.ToFlowMo();
+        
+        var flow     = pipelineRes.data.ToFlowMo();
 
         flow.biz_id    = req.biz_id;
         flow.parent_id = req.parent_id;
-        flow.status    = isManual ? ProcessStatus.Processing : ProcessStatus.Waiting;
+        flow.status    = req.manual > 0 ? ProcessStatus.Processing : ProcessStatus.Waiting;
 
         flow.FormatBaseByContext();
 

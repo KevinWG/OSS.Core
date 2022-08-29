@@ -1,13 +1,36 @@
 ﻿using OSS.Common.Resp;
+using OSS.Core.Module.Pipeline.Service.Flow.Engine.Activities;
+using OSS.Pipeline;
 
 namespace OSS.Core.Module.Pipeline;
 
 internal static class FlowEngine
 {
-    #region 普通节点
+
+    private static readonly CreateActivity _creator = new();
+
+    private static readonly CreateDispatcher    _createDispatcher = new();
+
+    private static readonly StartActivity       _startActivity = new();
+    private static readonly InitialNextActivity _next          = new();
+
+    internal const string CreateToNextConvertor = "CreateToNextConvertor";
+
+    static FlowEngine()
+    {
+        _creator.Append(_createDispatcher);
+
+        _createDispatcher.Append(_startActivity).Append(_next);
+        _createDispatcher.AppendMsgConverter(msg => new InitialNextReq(msg.flow_id, 0), "_createToNextConvertor").Append(_next);
 
 
-    #endregion
+    }
+
+    public static Task<IResp> Create(CreateReq req)
+    {
+        return Task.FromResult(Resp.DefaultSuccess);
+    }
+
 
     public static Task<IResp> Start(StartReq req)
     {
