@@ -5,15 +5,10 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  初始化所有后续节点
 /// </summary>
-internal class InitialNextActivity:BaseActivity<InitialNextReq>
+internal class InitialNextActivity: BaseEffectActivity<FlowNodeMo,IList<FlowNodeMo>>
 {
-    protected override Task<TrafficSignal> Executing(InitialNextReq para)
+    protected override Task<TrafficSignal<IList<FlowNodeMo>>> Executing(FlowNodeMo para)
     {
-        return Task.FromResult(TrafficSignal.GreenSignal);
+        throw new NotImplementedException();
     }
 }
-
-/// <summary>
-///  初始化下个节点请求
-/// </summary>
-internal record struct InitialNextReq(long flow_id, long node_id);

@@ -20,17 +20,17 @@ internal class CreateActivity : BasePassiveActivity<CreateReq, LongResp, CreateC
     {
          var addRes= await AddFlow(req);
          return !addRes.IsSuccess() 
-             ? new TrafficSignal<LongResp, CreateContext>(SignalFlag.Yellow_Wait, addRes) 
-             : new TrafficSignal<LongResp, CreateContext>(addRes, new CreateContext(addRes.data, req.manual > 0));
+             ? new TrafficSignal<LongResp, CreateContext>(SignalFlag.Yellow_Wait, new LongResp().WithResp(addRes)) 
+             : new TrafficSignal<LongResp, CreateContext>(new LongResp(addRes.data.id), new CreateContext(addRes.data, req.manual > 0));
     }
 
-    private static async Task<LongResp> AddFlow(CreateReq req)
+    private static async Task<IResp<FlowNodeMo>> AddFlow(CreateReq req)
     {
         var pipelineRes = await InsContainer<IPipelinePartCommon>.Instance.GetLine(req.pipeline_id);
         if (!pipelineRes.IsSuccess())
-            return new LongResp().WithResp(pipelineRes);
-        
-        var flow     = pipelineRes.data.ToFlowMo();
+            return new Resp<FlowNodeMo>().WithResp(pipelineRes);
+
+        var flow = pipelineRes.data.ToFlowMo();
 
         flow.biz_id    = req.biz_id;
         flow.parent_id = req.parent_id;
@@ -38,13 +38,14 @@ internal class CreateActivity : BasePassiveActivity<CreateReq, LongResp, CreateC
 
         flow.FormatBaseByContext();
 
-        return await InsContainer<IFlowCommonService>.Instance.AddNode(flow);
+        await InsContainer<IFlowCommonService>.Instance.AddNode(flow);
+        return new Resp<FlowNodeMo>(flow);
     }
 }
 
 /// <summary>
 ///   业务流创建后上下文
 /// </summary>
-/// <param name="flow_id"></param>
+/// <param name="flow"></param>
 /// <param name="is_manual"></param>
-public record struct CreateContext(long flow_id,bool is_manual);
+public record struct CreateContext(FlowNodeMo flow,bool is_manual);

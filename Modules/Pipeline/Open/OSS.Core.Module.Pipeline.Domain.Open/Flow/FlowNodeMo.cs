@@ -53,7 +53,6 @@ public class FlowNodeMo : BaseOwnerMo<long>, IDomainStatus<ProcessStatus>
 
     #region 处理进度
 
-
     /// <summary>
     /// 处理进度状态
     /// </summary>
