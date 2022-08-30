@@ -89,7 +89,7 @@ public class PipeService : IPipeOpenService, IPipeCommon
         if (!pipeRes.IsSuccess())
             return new Resp().WithResp(pipeRes, "节点不存在或异常!");
 
-        var pipelineRes = await InsContainer<IPipelinePartCommon>.Instance.Get(pipeRes.data.parent_id);
+        var pipelineRes = await InsContainer<IPipelineCommon>.Instance.Get(pipeRes.data.parent_id);
         if (!pipelineRes.IsSuccess())
             return new Resp().WithResp(pipelineRes, "节点所在流水线不存在或异常!");
 

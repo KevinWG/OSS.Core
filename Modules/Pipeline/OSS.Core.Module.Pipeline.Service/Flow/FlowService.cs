@@ -6,19 +6,19 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  Flow 服务
 /// </summary>
-public class FlowService : IFlowCommonService
+public class FlowService : IFlowCommon
 {
-    private static readonly FlowNodeRep _FlowRep = new();
+    private static readonly FlowNodeRep _fNodeRep = new();
 
 
     /// <inheritdoc />
     public async Task<PageListResp<FlowNodeMo>> Search(SearchReq req)
     {
-        return new PageListResp<FlowNodeMo>(await _FlowRep.Search(req));
+        return new PageListResp<FlowNodeMo>(await _fNodeRep.Search(req));
     }
 
     /// <inheritdoc />
-    public Task<IResp<FlowNodeMo>> Get(long id) => _FlowRep.GetById(id);
+    public Task<IResp<FlowNodeMo>> Get(long id) => _fNodeRep.GetById(id);
 
 
     /// <inheritdoc />
@@ -33,24 +33,22 @@ public class FlowService : IFlowCommonService
         throw new NotImplementedException();
     }
 
-    async Task<LongResp> IFlowCommonService.AddNode(FlowNodeMo node)
+
+
+    async Task<LongResp> IFlowCommon.AddNode(FlowNodeMo node)
     {
-        await _FlowRep.Add(node);
+        await _fNodeRep.Add(node);
         return new LongResp(node.id);
     }
-}
 
+    /// <inheritdoc />
+    public  Task<IResp> AddNodes(List<FlowNodeMo> nextNodes)
+    {
+        return _fNodeRep.AddList(nextNodes);
+    }
 
-
-/// <summary>
-/// 业务流内部公用服务
-/// </summary>
-public interface IFlowCommonService: IFlowOpenService
-{
-    /// <summary>
-    /// 添加流程节点
-    /// </summary>
-    /// <param name="flow"></param>
-    /// <returns></returns>
-    internal Task<LongResp> AddNode(FlowNodeMo flow);
+    Task<IResp> IFlowCommon.UpdateNodeStatus(long id, ProcessStatus status)
+    {
+        return _fNodeRep.UpdateStatus(id, status);
+    }
 }

@@ -13,8 +13,8 @@ public class PipelineServiceStarter : AppStarter
     public override void Start(IServiceCollection serviceCollection)
     {
         InsContainer<IPipeCommon>.Set<PipeService>();
-        InsContainer<IPipelinePartCommon>.Set<PipelineService>();
+        InsContainer<IPipelineCommon>.Set<PipelineService>();
 
-        InsContainer<IFlowCommonService>.Set<FlowService>();
+        InsContainer<IFlowCommon>.Set<FlowService>();
     }
 }

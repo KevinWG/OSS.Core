@@ -1,11 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace OSS.Core.Module.Pipeline;
+﻿namespace OSS.Core.Module.Pipeline;
 
 /// <summary>
 ///  节点执行请求
 /// </summary>
-public class FeedReq : BaseFeedReq
+public class FeedReq : BaseExecutingReq
 {
     /// <summary>
     ///  业务流节点Id
@@ -22,9 +20,7 @@ public class FeedReq : BaseFeedReq
 /// <summary>
 ///  基础执行请求
 /// </summary>
-public class BaseFeedReq
+public class BaseExecutingReq
 {
     // todo 扩展表单关联
-
-  
 }

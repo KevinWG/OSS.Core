@@ -1,7 +1,5 @@
 ﻿using OSS.Common;
-using OSS.Common.Extension;
 using OSS.Common.Resp;
-using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Pipeline;
 
@@ -31,7 +29,7 @@ public class FlowNodeRep : BasePipelineRep<FlowNodeMo,long>
     /// <param name="id"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateStatus(long id, CommonStatus status)
+    public Task<IResp> UpdateStatus(long id, ProcessStatus status)
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
     }

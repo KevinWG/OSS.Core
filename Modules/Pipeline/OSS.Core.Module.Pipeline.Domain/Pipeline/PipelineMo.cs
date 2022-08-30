@@ -75,9 +75,11 @@ public static class PipelineMoExtension
     {
         var mo = new FlowNodeMo
         {
-            pipe_id   = pipeline.id,
-            pipe_type = pipeline.type,
-            title     = pipeline.name
+            title = pipeline.name,
+
+            pipe_id     = pipeline.id,
+            pipeline_id = pipeline.id,
+            pipe_type   = pipeline.type,
         };
         return mo;
     }

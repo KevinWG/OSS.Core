@@ -5,7 +5,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  模块内部服务公用
 /// </summary>
-public interface IPipelinePartCommon: IPipelineOpenService
+public interface IPipelineCommon: IPipelineOpenService
 {
     /// <summary>
     ///  获取管道流水线部分信息（如：版本状态）

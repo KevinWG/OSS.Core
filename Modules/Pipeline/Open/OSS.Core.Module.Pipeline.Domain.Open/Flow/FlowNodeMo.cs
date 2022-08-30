@@ -20,15 +20,24 @@ namespace OSS.Core.Module.Pipeline;
 /// </summary>
 public class FlowNodeMo : BaseOwnerMo<long>, IDomainStatus<ProcessStatus>
 {
+    #region 管道信息
+
     /// <summary>
-    ///  所属管道Id
+    ///  所属流水线管道Id
     /// </summary>
     public long pipe_id { get; set; }
+
+    /// <summary>
+    ///  所属流水线Id
+    /// </summary>
+    public long pipeline_id { get; set; }
 
     /// <summary>
     /// 管道类型
     /// </summary>
     public PipeType pipe_type { get; set; }
+
+    #endregion
 
 
     #region 节点信息
@@ -49,6 +58,8 @@ public class FlowNodeMo : BaseOwnerMo<long>, IDomainStatus<ProcessStatus>
     public string title { get; set; } = default!;
 
     #endregion
+
+
 
 
     #region 处理进度

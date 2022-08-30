@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  流水线 服务逻辑
 /// </summary>
-public class PipelineService :  IPipelinePartCommon
+public class PipelineService :  IPipelineCommon
 {
     private static readonly PipelineMetaRep    _metaRep     = new();
     private static readonly PipelinePartRep _pipelineRep = new();
@@ -124,12 +124,12 @@ public class PipelineService :  IPipelinePartCommon
     // ================  内部服务公用方法  ==============
 
     /// <inheritdoc />
-    Task<IResp<PipelinePartMo>> IPipelinePartCommon.Get(long id)
+    Task<IResp<PipelinePartMo>> IPipelineCommon.Get(long id)
     {
         return _pipelineRep.GetById(id);
     }
 
-    Task<IResp<PipelineMo>> IPipelinePartCommon.GetLine(long id)
+    Task<IResp<PipelineMo>> IPipelineCommon.GetLine(long id)
     {
         return _pipelineRep.GetLine(id);
     }
