@@ -40,16 +40,33 @@ internal static class FlowEngine
     private static bool CheckToEnd(FlowNodeMo node) => node.status == ProcessStatus.Abandon || (node.status == ProcessStatus.Completed && node.pipe_type == PipeType.End);
     private static bool CheckToFeed(FlowNodeMo node) => node.status is ProcessStatus.Waiting or ProcessStatus.Processing;
 
-
+    /// <summary>
+    ///  创建业务流程
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
     public static Task<LongResp> Create(CreateReq req)
     {
         return _createFlow.Execute(req);
     }
 
-
-    public static Task<IResp> Start(StartReq req)
+    /// <summary>
+    ///  启动流程
+    /// </summary>
+    /// <param name="flowId"></param>
+    /// <returns></returns>
+    public static Task<IResp> Start(long flowId)
     {
-        return _startFlow.Execute(req);
+        return _startFlow.Execute(flowId);
     }
 
+    /// <summary>
+    ///   回调投递结果
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public static Task<IResp> Feed(FeedReq req)
+    {
+        return _feed.Execute(req);
+    }
 }

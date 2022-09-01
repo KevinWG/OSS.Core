@@ -39,7 +39,6 @@ public class FlowNodeMo : BaseOwnerMo<long>, IDomainStatus<ProcessStatus>
 
     #endregion
 
-
     #region 节点信息
 
     /// <summary>
@@ -60,24 +59,8 @@ public class FlowNodeMo : BaseOwnerMo<long>, IDomainStatus<ProcessStatus>
     #endregion
 
 
+    #region 执行人信息
 
-
-    #region 处理进度
-
-    /// <summary>
-    /// 处理进度状态
-    /// </summary>
-    public ProcessStatus status { get; set; }
-
-    /// <summary>
-    ///   处理备注
-    /// </summary>
-    public string? remark { get; set; }
-    
-    /// <summary>
-    ///  处理时间
-    /// </summary>
-    public long process_time { get; set; }
 
     /// <summary>
     ///  处理人Id
@@ -92,5 +75,25 @@ public class FlowNodeMo : BaseOwnerMo<long>, IDomainStatus<ProcessStatus>
     #endregion
 
 
-}
+    #region 处理进度信息
 
+    /// <inheritdoc />
+    public ProcessStatus status { get; set; }
+
+    /// <summary>
+    ///    开始处理时间
+    /// </summary>
+    public long start_time { get; set; }
+
+    /// <summary>
+    ///    处理完成时间
+    /// </summary>
+    public long end_time { get; set; }
+
+    /// <summary>
+    ///   处理备注
+    /// </summary>
+    public string? remark { get; set; }
+
+    #endregion
+}

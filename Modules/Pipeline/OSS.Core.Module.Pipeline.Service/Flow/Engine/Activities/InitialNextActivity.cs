@@ -7,14 +7,14 @@ namespace OSS.Core.Module.Pipeline;
 /// <summary>
 ///  初始化所有后续节点
 /// </summary>
-internal class InitialNextActivity : BaseEffectActivity<FlowNodeMo, IList<FlowNodeMo>>
+internal class InitialNextActivity : BaseActivity<FlowNodeMo,IResp, IList<FlowNodeMo>>
 {
-    protected override async Task<TrafficSignal<IList<FlowNodeMo>>> Executing(FlowNodeMo node)
+    protected override async Task<TrafficSignal<IResp, IList<FlowNodeMo>>> Executing(FlowNodeMo node)
     {
         var iniRes = await Initial(node);
         return iniRes.IsSuccess()
-            ? new TrafficSignal<IList<FlowNodeMo>>(iniRes.data)
-            : new TrafficSignal<IList<FlowNodeMo>>(SignalFlag.Yellow_Wait, iniRes.data);
+            ? new TrafficSignal<IResp, IList<FlowNodeMo>>(iniRes,iniRes.data)
+            : new TrafficSignal<IResp, IList<FlowNodeMo>>(SignalFlag.Yellow_Wait, iniRes, iniRes.data);
     }
 
     private static async Task<ListResp<FlowNodeMo>> Initial(FlowNodeMo node)

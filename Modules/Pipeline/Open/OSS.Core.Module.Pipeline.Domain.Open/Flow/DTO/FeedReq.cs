@@ -14,6 +14,11 @@ public class FeedReq : BaseExecutingReq
     ///  处理状态
     /// </summary>
     public ProcessStatus status { get; set; }
+
+    /// <summary>
+    ///  备注
+    /// </summary>
+    public string? remark { get; set; }
 }
 
 

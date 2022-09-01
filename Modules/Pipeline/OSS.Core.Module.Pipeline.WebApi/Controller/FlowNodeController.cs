@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using OSS.Common;
 using OSS.Common.Resp;
+using OSS.Core.Context;
+using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.Module.Pipeline;
 
@@ -35,18 +37,22 @@ public class FlowNodeController : BasePipelineController, IFlowOpenService
     /// <summary>
     ///  流程启动
     /// </summary>
-    /// <param name="req"></param>
+    /// <param name="id">业务流Id</param>
     /// <returns></returns>
-    public Task<IResp> Start(StartReq req)
+    [HttpPost]
+    public Task<IResp> Start(long id)
     {
-        return _service.Start(req);
+        return _service.Start(id);
     }
 
     /// <summary>
-    ///  流程节点执行输入
+    ///  主动投递节点处理结果
+    ///     （服务端内部应用调用
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
+    [HttpPost]
+    [AppMeta(AppAuthMode.AppSign)]
     public Task<IResp> Feed(FeedReq req)
     {
         return _service.Feed(req);

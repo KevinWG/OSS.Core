@@ -1,12 +1,18 @@
 ﻿namespace OSS.Core.Module.Pipeline;
 
-/// <summary>
-/// 启动流程
-/// </summary>
-public class StartReq
+
+
+public class AbandonReq
 {
     /// <summary>
     ///  业务流Id
     /// </summary>
     public long flow_id { get; set; }
+
+    /// <summary>
+    ///  备注
+    /// </summary>
+    public string remark { get; set; }
 }
+
+

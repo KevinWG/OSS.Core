@@ -22,17 +22,16 @@ public interface IFlowOpenService
     Task<IResp<FlowNodeMo>> Get(long id);
 
     /// <summary>
-    ///  
+    ///  启动流程
     /// </summary>
-    /// <param name="req"></param>
+    /// <param name="flowId"></param>
     /// <returns></returns>
-    Task<IResp> Start(StartReq req);
+    Task<IResp> Start(long flowId);
 
     /// <summary>
-    ///  流程节点执行输入
+    ///  主动投递节点处理结果
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
     Task<IResp> Feed(FeedReq req);
-    
 }

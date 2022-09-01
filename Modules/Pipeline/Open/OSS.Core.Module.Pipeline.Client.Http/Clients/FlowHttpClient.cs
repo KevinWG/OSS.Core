@@ -27,29 +27,16 @@ internal class FlowHttpClient : IFlowOpenService
             .GetAsync<IResp<FlowNodeMo>>();
     }
 
-    public Task<IResp> Start(StartReq req)
+    public Task<IResp> Start(long id)
     {
-        return new PipelineRemoteReq("/Pipeline/Flow/Start")
-            .PostAsync<IResp>(req);
+        return new PipelineRemoteReq("/Pipeline/Flow/Start?id="+id)
+            .PostAsync<IResp>();
     }
 
     public Task<IResp> Feed(FeedReq req)
     {
         return new PipelineRemoteReq("/Pipeline/Flow/Feed")
             .PostAsync<IResp>(req);
-    }
-
-
-    /// <summary>
-    ///  设置可用状态
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
-    /// <returns></returns>
-    public Task<IResp> SetUseable(long id, ushort flag)
-    {
-          return new PipelineRemoteReq($"/Pipeline/Flow/SetUseable?id={id}&flag={flag}")
-            .PostAsync<IResp>();
     }
 
 }
