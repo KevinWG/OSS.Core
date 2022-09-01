@@ -3,7 +3,7 @@ using OSS.Common.Resp;
 
 namespace OSS.Core.Module.Portal;
 
-public class FuncService : IFuncService
+public class FuncService : IFuncCommonService
 {
     #region 权限码处理
 

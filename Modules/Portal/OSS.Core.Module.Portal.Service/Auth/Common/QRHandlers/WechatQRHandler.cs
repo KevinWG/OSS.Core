@@ -110,7 +110,7 @@ internal class WechatOfficialQRHandler
 
             var socialUser = wechatUserRes.ToSocialUserReq(wechatAppKey);
 
-            return await InsContainer<ISocialUserService>.Instance.AddOrUpdateSocialUser(socialUser);
+            return await InsContainer<ISocialUserCommonService>.Instance.AddOrUpdateSocialUser(socialUser);
         }
         catch (Exception e)
         {

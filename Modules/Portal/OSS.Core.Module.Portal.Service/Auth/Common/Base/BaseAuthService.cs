@@ -156,7 +156,7 @@ namespace OSS.Core.Module.Portal
                 return new Resp<SocialUserMo>().WithResp(RespCodes.OperateFailed, "第三方账号绑定失败！");
 
             var socialUserId = tokenDetailRes.data.userId;
-            return await InsContainer<ISocialUserService>.Instance.BindWithSysUser(socialUserId, userId);
+            return await InsContainer<ISocialUserCommonService>.Instance.BindWithSysUser(socialUserId, userId);
         }
 
 

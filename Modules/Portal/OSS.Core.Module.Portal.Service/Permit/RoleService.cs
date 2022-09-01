@@ -4,7 +4,7 @@ using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Portal
 {
-    public class RoleService : IRoleService, IRoleOpenService
+    public class RoleService : IRoleCommonService
     {
         private static readonly IRoleRep _roleRep = InsContainer<IRoleRep>.Instance;
 
@@ -130,7 +130,7 @@ namespace OSS.Core.Module.Portal
         }
 
         /// <inheritdoc />
-        Task<List<long>> IRoleService.GetRoleIdsByUserId(long userId)
+        Task<List<long>> IRoleCommonService.GetRoleIdsByUserId(long userId)
         {
             return _roleUserRep.GetRoleIdsByUserId(userId);
         }

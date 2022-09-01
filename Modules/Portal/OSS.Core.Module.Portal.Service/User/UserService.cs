@@ -20,7 +20,7 @@ namespace OSS.Core.Module.Portal;
     /// <summary>
     ///  用户服务
     /// </summary>
-    public class UserService :  IUserService
+    public class UserService :  IUserCommonService
     {
         private static readonly IUserInfoRep _userRep = InsContainer<IUserInfoRep>.Instance;
 

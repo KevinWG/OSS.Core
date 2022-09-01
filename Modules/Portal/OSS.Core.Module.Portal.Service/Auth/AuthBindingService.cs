@@ -31,7 +31,7 @@ namespace OSS.Core.Module.Portal
     //    如果已经存在邮箱或手机号必须验证 BindToken
     // 修改密码：
     //     可以通过旧密码 和 BindToken 两种方式修改
-    public class AuthBindingService : BaseAuthService
+    public class AuthBindingService : BaseAuthService, IAuthBindingOpenService
     {
         /// <summary>
         ///  获取当前登录用户信息
@@ -39,7 +39,7 @@ namespace OSS.Core.Module.Portal
         /// <returns></returns>
         public Task<Resp<UserBasicMo>> GetCurrentUser()
         {
-            return InsContainer<IUserService>.Instance.GetUserById(CoreContext.User.Identity.id.ToInt64());
+            return InsContainer<IUserCommonService>.Instance.GetUserById(CoreContext.User.Identity.id.ToInt64());
         }
         
         /// <summary>
@@ -196,7 +196,7 @@ namespace OSS.Core.Module.Portal
         {
             var tagets         = new List<string> {notifyName};
 
-            var authSettingRes = await InsContainer<ISettingService>.Instance.GetAuthSetting();
+            var authSettingRes = await InsContainer<ISettingCommonService>.Instance.GetAuthSetting();
             if (!authSettingRes.IsSuccess())
                 return authSettingRes;
 

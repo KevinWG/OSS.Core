@@ -22,7 +22,7 @@ namespace OSS.Core.Module.Portal
     /// <summary>
     ///  管理员服务
     /// </summary>
-    public class AdminService:IAdminService
+    public class AdminService:IAdminCommonService
     {
         private static readonly IAdminInfoRep _adminRep = InsContainer<IAdminInfoRep>.Instance;
 
@@ -58,7 +58,7 @@ namespace OSS.Core.Module.Portal
         public async Task<Resp<long>> AddAdmin(AdminInfoMo admin)
         {
             // 判断用户本身是否存在问题
-            var userRes = await InsContainer<IUserService>.Instance.GetUserById(admin.id);
+            var userRes = await InsContainer<IUserCommonService>.Instance.GetUserById(admin.id);
             if (!userRes.IsSuccess())
                 return new Resp<long>().WithResp(userRes);
 
@@ -115,8 +115,7 @@ namespace OSS.Core.Module.Portal
         }
 
 
-
-        public Task<IResp<AdminInfoMo>> GetAdminByUId(long userId)
+        Task<IResp<AdminInfoMo>> IAdminCommonService.GetAdminByUId(long userId)
         {
             return _adminRep.GetAdminByUId(userId);
         }

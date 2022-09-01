@@ -22,7 +22,7 @@ public class GrantService : IGrantOpenService
         if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
         {
             // 如果是超级管理员直接返回所有
-            var sysFunItemsRes = await InsContainer<IFuncService>.Instance.GetAllFuncItems();
+            var sysFunItemsRes = await InsContainer<IFuncCommonService>.Instance.GetAllFuncItems();
             if (!sysFunItemsRes.IsSuccess())
                 return new ListResp<GrantedPermit>().WithResp(sysFunItemsRes);
 
@@ -40,7 +40,7 @@ public class GrantService : IGrantOpenService
     {
         var userId = CoreContext.User.Identity.id.ToInt64();
 
-        var roleIdsRes = await InsContainer<IRoleService>.Instance.GetRoleIdsByUserId(userId);
+        var roleIdsRes = await InsContainer<IRoleCommonService>.Instance.GetRoleIdsByUserId(userId);
         if (roleIdsRes.Count == 0)
             return new ListResp<GrantedPermit>(); // 用户无具体权限信息
 

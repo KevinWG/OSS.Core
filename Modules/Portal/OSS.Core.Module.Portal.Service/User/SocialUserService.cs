@@ -4,7 +4,7 @@ using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Portal
 {
-    public class SocialUserService:ISocialUserService
+    public class SocialUserService:ISocialUserCommonService
     {
         private static readonly ISocialUserRep _socialUserRep = InsContainer<ISocialUserRep>.Instance;
 

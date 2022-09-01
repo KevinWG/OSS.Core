@@ -3,7 +3,7 @@ using OSS.Tools.DirConfig;
 
 namespace OSS.Core.Module.Portal;
 
-public class SettingService : ISettingService
+public class SettingService : ISettingCommonService
 {
     /// <inheritdoc />
     public async Task<IResp> SaveAuthSetting(AuthSetting setting)

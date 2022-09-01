@@ -22,7 +22,7 @@ using OSS.Tools.Cache;
 
 namespace OSS.Core.Module.Portal;
 
-public class AuthService : BaseAuthService, IAuthService
+public class AuthService : BaseAuthService, IAuthCommonService
 {
     #region 获取登录认证信息
 
@@ -104,7 +104,7 @@ public class AuthService : BaseAuthService, IAuthService
         var code    = NumHelper.RandomNum();
         var targets = new List<string>() { req.name };
 
-        var authSettingRes = await InsContainer<ISettingService>.Instance.GetAuthSetting();
+        var authSettingRes = await InsContainer<ISettingCommonService>.Instance.GetAuthSetting();
         if (!authSettingRes.IsSuccess())
             return authSettingRes;
 

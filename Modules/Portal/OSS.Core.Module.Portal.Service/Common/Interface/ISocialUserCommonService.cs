@@ -2,14 +2,14 @@
 
 namespace OSS.Core.Module.Portal
 {
-    internal interface ISocialUserService
+    internal interface ISocialUserCommonService
     {
         /// <summary>
         ///  新增或者更新社交平台用户授权信息
         /// </summary>
         /// <param name="socialUser"></param>
         /// <returns></returns>
-        Task<LongResp> AddOrUpdateSocialUser(AddOrUpdateSocialReq socialUser);
+         Task<LongResp> AddOrUpdateSocialUser(AddOrUpdateSocialReq socialUser);
         
         /// <summary>
         ///  绑定系统用户

@@ -11,7 +11,7 @@ namespace OSS.Core.Module.Portal
 
         internal static async Task<Resp<UserIdentity>> GetUserIdentity(long userId)
         {
-            var userRes = await InsContainer<IUserService>.Instance.GetUserById(userId);
+            var userRes = await InsContainer<IUserCommonService>.Instance.GetUserById(userId);
             if (!userRes.IsSuccess())
                 return new Resp<UserIdentity>().WithResp(userRes, "获取用户信息异常!");
 
@@ -55,7 +55,7 @@ namespace OSS.Core.Module.Portal
 
         internal static async Task<Resp<UserIdentity>> GetAdminIdentity(long userId)
         {
-            var adminRes = await InsContainer<IAdminService>.Instance.GetAdminByUId(userId);
+            var adminRes = await InsContainer<IAdminCommonService>.Instance.GetAdminByUId(userId);
             if (!adminRes.IsSuccess())
                 return new Resp<UserIdentity>().WithResp(adminRes, "管理员账号/密码错误!");
 
@@ -93,7 +93,7 @@ namespace OSS.Core.Module.Portal
 
         internal static async Task<Resp<UserIdentity>> GetSocialIdentity(long socialUserId)
         {
-            var socialRes = await InsContainer<ISocialUserService>.Instance.GetById(socialUserId);
+            var socialRes = await InsContainer<ISocialUserCommonService>.Instance.GetById(socialUserId);
             if (!socialRes.IsSuccess())
                 return new Resp<UserIdentity>().WithResp(socialRes, "获取第三方信息异常!");
 

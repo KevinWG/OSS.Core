@@ -10,15 +10,16 @@ public class PortalServiceStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
-        InsContainer<IAuthService>.Set<AuthService>();
+        InsContainer<IAuthCommonService>.Set<AuthService>();
 
-        InsContainer<IAdminService>.Set<AdminService>();
-        InsContainer<IUserService>.Set<UserService>();
+        InsContainer<IAdminCommonService>.Set<AdminService>();
+        InsContainer<IUserCommonService>.Set<UserService>();
+        InsContainer<ISocialUserCommonService>.Set<SocialUserService>();
 
-        InsContainer<IFuncService>.Set<FuncService>();
-        InsContainer<IRoleService>.Set<RoleService>();
+        InsContainer<IFuncCommonService>.Set<FuncService>();
+        InsContainer<IRoleCommonService>.Set<RoleService>();
 
-        InsContainer<ISettingService>.Set<SettingService>();
+        InsContainer<ISettingCommonService>.Set<SettingService>();
 
         WechatOfficialQRHandler.StartSubscriber();
     }

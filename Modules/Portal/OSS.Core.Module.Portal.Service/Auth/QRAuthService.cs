@@ -8,7 +8,7 @@ namespace OSS.Core.Module.Portal
     /// <summary>
     ///  应用扫码登录授权
     /// </summary>
-    public class QRAuthService : BaseSocialAuthService
+    public class QRAuthService : BaseSocialAuthService, IQRAuthOpenService
     {
         #region 获取二维码
 
