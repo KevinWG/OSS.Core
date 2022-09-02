@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Portal;
 ///  小程序登录授权接口
 /// </summary>
 [AllowAnonymous]
-public class QRAuthController : BasePortalController
+public class QRAuthController : BasePortalController,IQRAuthOpenService
 {
     private static readonly QRAuthService _service = new QRAuthService();
 

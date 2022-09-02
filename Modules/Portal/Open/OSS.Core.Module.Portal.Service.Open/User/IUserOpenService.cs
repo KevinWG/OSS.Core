@@ -22,14 +22,19 @@ public interface IUserOpenService
     ///   获取用户信息（管理员权限
     /// </summary>
     /// <returns></returns>
-    Task<Resp<UserBasicMo>> GetUserById(long userId);
+    Task<Resp<UserBasicMo>> Get(long userId);
 
     /// <summary>
-    ///  修改锁定状态
+    /// 锁定
     /// </summary>
-    /// <param name="uId"></param>
-    /// <param name="makeLock"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> ChangeLockStatus(long uId, bool makeLock);
+    Task<IResp> Lock(long id);
 
+    /// <summary>
+    ///  解锁
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    Task<IResp> UnLock(long id);
 }

@@ -27,7 +27,7 @@ namespace OSS.Core.Module.Portal
             // = 已绑定系统用户的情况
             if (userId > 0)
             {
-                var userRes = await InsContainer<IUserCommonService>.Instance.GetUserById(userId);
+                var userRes = await InsContainer<IUserCommonService>.Instance.Get(userId);
                 if (!userRes.IsSuccess())
                     return new PortalTokenResp().WithResp(userRes, "第三方绑定账号信息异常!");
 

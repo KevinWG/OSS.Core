@@ -18,23 +18,23 @@ using OSS.Core.Context.Attributes;
 
 namespace OSS.Core.Module.Portal;
 
-/// <summary>
-/// 用户模块
-/// </summary>
-public class SocialUserController : BasePortalController
-{
-    private static readonly SocialUserService _service = new();
+///// <summary>
+///// 用户模块
+///// </summary>
+//public class SocialUserController : BasePortalController
+//{
+//    private static readonly SocialUserService _service = new();
 
-    /// <summary>
-    /// 获取当前租户平台下的外部平台用户列表
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
-    [HttpPost]
-    [UserFuncMeta(PortalConst.FuncCodes.portal_user_list)]
-    public Task<PageListResp<SocialUserSmallMo>> SearchSocialUsers([FromBody] SearchReq req)
-    {
-        return _service.SearchSocialUsers(req);
-    }
+//    /// <summary>
+//    /// 获取当前租户平台下的外部平台用户列表
+//    /// </summary>
+//    /// <param name="req"></param>
+//    /// <returns></returns>
+//    [HttpPost]
+//    [UserFuncMeta(PortalConst.FuncCodes.portal_user_list)]
+//    public Task<PageListResp<SocialUserSmallMo>> SearchSocialUsers([FromBody] SearchReq req)
+//    {
+//        return _service.SearchSocialUsers(req);
+//    }
 
-}
+//}

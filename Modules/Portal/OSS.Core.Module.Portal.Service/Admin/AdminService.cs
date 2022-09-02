@@ -53,12 +53,14 @@ namespace OSS.Core.Module.Portal
         /// <summary>
         ///  添加管理员
         /// </summary>
-        /// <param name="admin"></param>
+        /// <param name="req"></param>
         /// <returns></returns>
-        public async Task<Resp<long>> AddAdmin(AdminInfoMo admin)
+        public async Task<Resp<long>> Add(AddAdminReq req)
         {
+            var admin = req.MapToAdminInfo();
+
             // 判断用户本身是否存在问题
-            var userRes = await InsContainer<IUserCommonService>.Instance.GetUserById(admin.id);
+            var userRes = await InsContainer<IUserCommonService>.Instance.Get(admin.id);
             if (!userRes.IsSuccess())
                 return new Resp<long>().WithResp(userRes);
 
@@ -92,16 +94,6 @@ namespace OSS.Core.Module.Portal
             return new PageListResp<AdminInfoMo>(await _adminRep.SearchAdmins(req));
         }
         
-        /// <summary>
-        /// 修改锁定状态
-        /// </summary>
-        /// <param name="uId"></param>
-        /// <param name="makeLock"></param>
-        /// <returns></returns>
-        public Task<IResp> ChangeLockStatus(long uId, bool makeLock)
-        {
-            return _adminRep.UpdateStatus(uId, makeLock ? AdminStatus.Locked : AdminStatus.Normal);
-        }
         
         /// <summary>
         /// 修改锁定状态
@@ -112,6 +104,20 @@ namespace OSS.Core.Module.Portal
         public Task<IResp> SetAdminType(long uId, AdminType adminType)
         {
             return _adminRep.SetAdminType(uId, adminType);
+        }
+
+
+        /// <inheritdoc />
+        public Task<IResp> Lock(long uid)
+        {
+            return _adminRep.UpdateStatus(uid, AdminStatus.Locked);
+        }
+
+
+        /// <inheritdoc />
+        public Task<IResp> UnLock(long uid)
+        {
+            return _adminRep.UpdateStatus(uid, AdminStatus.Normal);
         }
 
 

@@ -39,7 +39,7 @@ namespace OSS.Core.Module.Portal
         /// <returns></returns>
         public Task<Resp<UserBasicMo>> GetCurrentUser()
         {
-            return InsContainer<IUserCommonService>.Instance.GetUserById(CoreContext.User.Identity.id.ToInt64());
+            return InsContainer<IUserCommonService>.Instance.Get(CoreContext.User.Identity.id.ToInt64());
         }
         
         /// <summary>
@@ -87,23 +87,27 @@ namespace OSS.Core.Module.Portal
 
             return sendRes;
         }
-        
+
         /// <summary>
         ///  发送新账号动态码
         /// </summary>
-        /// <param name="portalName"></param>
-        /// <param name="type"></param>
+        /// <param name="req"></param>
         /// <returns></returns>
-        public async Task<IResp> SendNewCode(PortalNameType type, string portalName)
+        public async Task<IResp> SendNewCode(PortalNameReq req)
         {
+            var checkRes = req.CheckNameType();
+
+            if (!checkRes.IsSuccess())
+                return checkRes;
+
             var userRes = await GetCurrentUser();
             if (!userRes.IsSuccess())
                 return userRes;
 
             var code    = NumHelper.RandomNum();
-            var sendRes = await Send(type, code, portalName);
+            var sendRes = await Send(req.type, code, req.name);
 
-            var key = string.Concat(PortalConst.CacheKeys.Portal_Bind_Passcode_New_ByName, portalName);
+            var key = string.Concat(PortalConst.CacheKeys.Portal_Bind_Passcode_New_ByName, req.name);
             await CacheHelper.SetAbsoluteAsync(key, code, TimeSpan.FromMinutes(2));
 
             return sendRes;
@@ -132,7 +136,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public async Task<IResp> BindByCode(BindByPassCodeReq req)
+        public async Task<IResp> Bind(BindByPassCodeReq req)
         {
             var key      = string.Concat(PortalConst.CacheKeys.Portal_Bind_Passcode_New_ByName, req.name);
             var checkRes = await CheckCodeCache(key, req.code);

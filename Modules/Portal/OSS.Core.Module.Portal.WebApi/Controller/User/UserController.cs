@@ -22,7 +22,7 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 /// 用户模块
 /// </summary>
-public class UserController : BasePortalController
+public class UserController : BasePortalController,IUserOpenService
 {
     private static readonly UserService _service = new();
     
@@ -58,7 +58,7 @@ public class UserController : BasePortalController
     [UserFuncMeta(PortalConst.FuncCodes.portal_user_lock)]
     public async Task<IResp> Lock(long id)
     {
-        return await _service.ChangeLockStatus(id, true);
+        return await _service.Lock(id);
     }
 
     /// <summary>
@@ -70,7 +70,7 @@ public class UserController : BasePortalController
     [UserFuncMeta(PortalConst.FuncCodes.portal_user_unlock)]
     public async Task<IResp> UnLock(long id)
     {
-        return await _service.ChangeLockStatus(id, false);
+        return await _service.UnLock(id);
     }
 
 
@@ -83,6 +83,6 @@ public class UserController : BasePortalController
     [UserFuncMeta(PortalAuthorizeType.Admin)]
     public Task<Resp<UserBasicMo>> Get(long id)
     {
-        return _service.GetUserById(id);
+        return _service.Get(id);
     }
 }

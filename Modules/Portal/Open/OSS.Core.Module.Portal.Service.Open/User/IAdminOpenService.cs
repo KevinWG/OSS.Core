@@ -24,7 +24,7 @@ public interface IAdminOpenService
     /// </summary>
     /// <param name="admin"></param>
     /// <returns></returns>
-    Task<Resp<long>> AddAdmin(AdminInfoMo admin);
+    Task<Resp<long>> Add(AddAdminReq admin);
 
     /// <summary>
     ///  管理员查询
@@ -33,13 +33,27 @@ public interface IAdminOpenService
     /// <returns></returns>
     Task<PageListResp<AdminInfoMo>> SearchAdmins(SearchReq req);
 
+    ///// <summary>
+    ///// 修改锁定状态
+    ///// </summary>
+    ///// <param name="uId"></param>
+    ///// <param name="makeLock"></param>
+    ///// <returns></returns>
+    //Task<IResp> ChangeLockStatus(long uId, bool makeLock);
+
     /// <summary>
-    /// 修改锁定状态
+    /// 锁定管理员
     /// </summary>
-    /// <param name="uId"></param>
-    /// <param name="makeLock"></param>
+    /// <param name="uid"></param>
     /// <returns></returns>
-    Task<IResp> ChangeLockStatus(long uId, bool makeLock);
+    Task<IResp> Lock(long uid);
+
+    /// <summary>
+    ///  解锁管理员
+    /// </summary>
+    /// <param name="uid"></param>
+    /// <returns></returns>
+    Task<IResp> UnLock(long uid);
 
     /// <summary>
     /// 修改锁定状态

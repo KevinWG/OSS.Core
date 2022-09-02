@@ -11,7 +11,7 @@ namespace OSS.Core.Module.Portal
 
         internal static async Task<Resp<UserIdentity>> GetUserIdentity(long userId)
         {
-            var userRes = await InsContainer<IUserCommonService>.Instance.GetUserById(userId);
+            var userRes = await InsContainer<IUserCommonService>.Instance.Get(userId);
             if (!userRes.IsSuccess())
                 return new Resp<UserIdentity>().WithResp(userRes, "获取用户信息异常!");
 

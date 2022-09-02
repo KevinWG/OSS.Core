@@ -21,7 +21,7 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 ///  管理员对外WebApi
 /// </summary>
-public class AdminController : BasePortalController
+public class AdminController : BasePortalController,IAdminOpenService
 {
     private static readonly AdminService _service = new();
 
@@ -32,9 +32,9 @@ public class AdminController : BasePortalController
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_admin_create)]
-    public Task<Resp<long>> Create([FromBody] AddAdminReq req)
+    public Task<Resp<long>> Add([FromBody] AddAdminReq req)
     {
-        return _service.AddAdmin(req.MapToAdminInfo());
+        return _service.Add(req);
     }
 
     /// <summary>
@@ -48,6 +48,8 @@ public class AdminController : BasePortalController
     {
         return _service.SearchAdmins(req);
     }
+
+
 
     #region 修改自己的信息
 
@@ -86,7 +88,7 @@ public class AdminController : BasePortalController
     [UserFuncMeta(PortalConst.FuncCodes.portal_admin_lock)]
     public Task<IResp> Lock(long uid)
     {
-        return _service.ChangeLockStatus(uid, true);
+        return _service.Lock(uid);
     }
 
     /// <summary>
@@ -98,9 +100,9 @@ public class AdminController : BasePortalController
     [UserFuncMeta(PortalConst.FuncCodes.portal_admin_unlock)]
     public Task<IResp> UnLock(long uid)
     {
-        return  _service.ChangeLockStatus(uid, false);
+        return _service.UnLock(uid);
     }
-
+    
     /// <summary>
     ///  设置管理员类型
     /// </summary>
@@ -112,9 +114,7 @@ public class AdminController : BasePortalController
     public Task<IResp> SetAdminType(long uid, AdminType admin_type)
     {
         if (uid <= 0 || !Enum.IsDefined(typeof(AdminType), admin_type))
-        {
             return Task.FromResult((IResp)new Resp(RespCodes.ParaError,"参数异常"));
-        }
 
         return _service.SetAdminType(uid, admin_type);
     }

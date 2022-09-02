@@ -21,10 +21,10 @@ namespace OSS.Core.Module.All.Test.Portal
         [TestMethod]
         public async Task ChangeStatusTest()
         {
-            var changeRes = await _service.ChangeLockStatus(CoreContext.User.Identity.id.ToInt64(), true);
+            var changeRes = await _service.Lock(CoreContext.User.Identity.id.ToInt64());
             Assert.IsTrue(changeRes.IsSuccess());
 
-            changeRes = await _service.ChangeLockStatus(CoreContext.User.Identity.id.ToInt64(), false);
+            changeRes = await _service.UnLock(CoreContext.User.Identity.id.ToInt64());
             Assert.IsTrue(changeRes.IsSuccess());
         }
 

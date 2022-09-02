@@ -20,9 +20,9 @@ namespace OSS.Core.Module.Portal;
 /// <summary>
 /// 用户模块
 /// </summary>
-public class AuthBindingController : BasePortalController
+public class AuthBindingController : BasePortalController,IAuthBindingOpenService
 {
-    private static readonly AuthBindingService _service = new();
+    private static readonly IAuthBindingOpenService  _service = new AuthBindingService();
 
     /// <summary>
     /// 添加用户
@@ -72,6 +72,8 @@ public class AuthBindingController : BasePortalController
         return _service.GetBindToken(old_code, type);
     }
 
+
+
     /// <summary>
     ///  发送新账号动态码
     /// </summary>
@@ -80,12 +82,7 @@ public class AuthBindingController : BasePortalController
     [HttpPost]
     public Task<IResp> SendNewCode([FromBody] PortalNameReq req)
     {
-        var checkRes = req.CheckNameType();
-
-        if (!checkRes.IsSuccess())
-            return Task.FromResult(checkRes);
-
-        return _service.SendNewCode(req.type, req.name);
+        return _service.SendNewCode(req);
     }
 
     /// <summary>
@@ -101,7 +98,7 @@ public class AuthBindingController : BasePortalController
         if (!checkRes.IsSuccess())
             return Task.FromResult(checkRes);
 
-        return _service.BindByCode(req);
+        return _service.Bind(req);
     }
 
     #endregion

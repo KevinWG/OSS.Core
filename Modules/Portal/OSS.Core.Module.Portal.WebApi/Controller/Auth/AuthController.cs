@@ -23,7 +23,7 @@ namespace OSS.Core.Module.Portal
     ///  认证授权门户
     /// </summary>
     [AllowAnonymous]
-    public class AuthController : BasePortalController
+    public class AuthController : BasePortalController,IAuthOpenService
     {
         private static readonly AuthService service = new();
 

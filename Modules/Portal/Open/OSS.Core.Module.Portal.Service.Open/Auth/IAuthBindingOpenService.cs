@@ -27,10 +27,9 @@ public interface IAuthBindingOpenService
     /// <summary>
     ///  发送新账号动态码
     /// </summary>
-    /// <param name="portalName"></param>
-    /// <param name="type"></param>
+    /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> SendNewCode(PortalNameType type, string portalName);
+    Task<IResp> SendNewCode(PortalNameReq req);
 
     /// <summary>
     ///  获取绑定信息的令牌
@@ -45,5 +44,5 @@ public interface IAuthBindingOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> BindByCode(BindByPassCodeReq req);
+    Task<IResp> Bind(BindByPassCodeReq req);
 }
