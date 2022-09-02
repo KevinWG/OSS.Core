@@ -4,7 +4,7 @@ using OSS.Core.Context;
 
 namespace OSS.Core.Module.Portal.Client;
 
-internal class PermitClient : IGrantOpenService
+internal class PermitHttpClient : IGrantOpenService
 {
     /// <inheritdoc />
     public Task<ListResp<GrantedPermit>> GetCurrentUserPermits()

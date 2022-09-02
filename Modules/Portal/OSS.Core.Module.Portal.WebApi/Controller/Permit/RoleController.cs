@@ -51,25 +51,25 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <summary>
     ///   启用角色
     /// </summary>
-    /// <param name="rid"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_active)]
-    public Task<IResp> Active(long rid)
+    public Task<IResp> Active(long id)
     {
-        return _service.Active(rid);
+        return _service.Active(id);
     }
 
     /// <summary>
     ///  作废角色
     /// </summary>
-    /// <param name="rid"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_active)]
-    public Task<IResp> UnActive(long rid)
+    public Task<IResp> UnActive(long id)
     {
-        return _service.UnActive(rid);
+        return _service.UnActive(id);
     }
 
     #endregion
@@ -83,12 +83,11 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpGet]
     [UserFuncMeta(PortalConst.FuncCodes.portal_user_roles)]
-    public Task<ListResp<RoleMo>> GetUserRoles(long userId)
+    public Task<ListResp<RoleMo>> GetUserRoles(long u_id)
     {
-        return _service.GetUserRoles(userId);
+        return _service.GetUserRoles(u_id);
     }
     
-
     /// <summary>
     ///   添加新的绑定
     /// </summary>
@@ -107,9 +106,9 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_bind_delete)]
-    public Task<IResp> DeleteUserBind(long userId,long roleId)
+    public Task<IResp> DeleteUserBind(long u_id,long r_id)
     {
-        return _service.DeleteUserBind(userId,roleId);
+        return _service.DeleteUserBind(u_id,r_id);
     }
 
     ///// <summary>

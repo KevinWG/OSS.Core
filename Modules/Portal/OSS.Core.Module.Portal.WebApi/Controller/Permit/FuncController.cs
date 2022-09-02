@@ -19,7 +19,7 @@ public class FuncController : BasePortalController, IFuncOpenService
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPost]
     public Task<IResp> CheckFuncCode(string code)
     {
         return _service.CheckFuncCode(code);

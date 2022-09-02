@@ -10,8 +10,8 @@ namespace OSS.Core.Module.Notify
     {
         public override void Start(IServiceCollection serviceCollection)
         {
-            InsContainer<INotifyService>.Set<NotifyService>();
-            InsContainer<ITemplateService>.Set<TemplateService>();
+            InsContainer<INotifyCommonService>.Set<NotifyService>();
+            InsContainer<ITemplateCommonService>.Set<TemplateService>();
 
             // 华为短信配置
             HwSmsHelper.default_secret = new HwSecret();

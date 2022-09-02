@@ -3,7 +3,7 @@ using OSS.Core.Client.Http;
 
 namespace OSS.Core.Module.Portal.Client;
 
-internal class SettingClient : ISettingOpenService
+internal class SettingHttpClient : ISettingOpenService
 {
     public Task<IResp> SaveAuthSetting(AuthSetting setting)
     {

@@ -7,7 +7,7 @@ namespace OSS.Core.Module.Notify;
 /// <summary>
 ///  获取
 /// </summary>
-public class TemplateService : ITemplateService
+public class TemplateService : ITemplateCommonService
 {
     private static readonly TemplateRep _templateRep = new();
 

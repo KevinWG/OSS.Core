@@ -3,7 +3,7 @@ using OSS.Common.Resp;
 
 namespace OSS.Core.Module.Notify;
 
-public interface IOpenedTemplateService
+public interface ITemplateOpenService
 {
     /// <summary>
     ///  查询模板列表

@@ -27,16 +27,16 @@ public interface IRoleOpenService
     /// <summary>
     ///   激活角色
     /// </summary>
-    /// <param name="rid"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> Active(long rid);
+    Task<IResp> Active(long id);
 
     /// <summary>
     ///  下线角色
     /// </summary>
-    /// <param name="rid"></param>
+    /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> UnActive(long rid);
+    Task<IResp> UnActive(long id);
 
 
 

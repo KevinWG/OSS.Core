@@ -4,9 +4,9 @@ using OSS.Tools.Log;
 
 namespace OSS.Core.Module.Notify;
 
-public class NotifyService : INotifyService
+public class NotifyService : INotifyCommonService
 {
-    private static readonly ITemplateService channelService = InsContainer<ITemplateService>.Instance;
+    private static readonly ITemplateCommonService channelService = InsContainer<ITemplateCommonService>.Instance;
 
     /// <summary>
     ///   发送通知消息

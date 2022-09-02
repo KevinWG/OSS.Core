@@ -8,9 +8,9 @@ namespace OSS.Core.Module.Notify;
 /// <summary>
 ///  通知模板对外WebApi
 /// </summary>
-public class TemplateController : BaseNotifyController, IOpenedTemplateService
+public class TemplateController : BaseNotifyController, ITemplateOpenService
 {
-    private static readonly IOpenedTemplateService _service = new TemplateService();
+    private static readonly ITemplateOpenService _service = new TemplateService();
 
     /// <inheritdoc />
     [HttpPost]
