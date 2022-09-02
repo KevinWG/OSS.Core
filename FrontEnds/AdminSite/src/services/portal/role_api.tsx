@@ -22,13 +22,13 @@ export function updateRoleName(id: string, req: { name: string }) {
 }
 
 export function activeRole(id: string) {
-  return request<IResp>('/portal/role/Active?rid=' + id, {
+  return request<IResp>('/portal/role/Active?id=' + id, {
     method: 'POST',
   });
 }
 
 export function unactiveRole(id: string) {
-  return request<IResp>('/portal/role/UnActive?rid=' + id, {
+  return request<IResp>('/portal/role/UnActive?id=' + id, {
     method: 'POST',
   });
 }
@@ -56,14 +56,14 @@ export async function editRoleFuncs(r_id: string, add_items: string[], delete_it
  * @returns
  */
 export function getUserRoles(id: string) {
-  return request<IListResp<PortalApi.RoleMo>>('/portal/Role/GetUserRoles?userId=' + id);
+  return request<IListResp<PortalApi.RoleMo>>('/portal/Role/GetUserRoles?u_id=' + id);
 }
 
 /**
  *  删除用户角色绑定
  */
 export async function deleteUserRoleBind(userId: string, roleId: string): Promise<IResp> {
-  return request<IResp>('/portal/role/DeleteUserBind?userId=' + userId + '&roleId=' + roleId, {
+  return request<IResp>('/portal/role/DeleteUserBind?u_id=' + userId + '&r_id=' + roleId, {
     method: 'POST',
   });
 }
