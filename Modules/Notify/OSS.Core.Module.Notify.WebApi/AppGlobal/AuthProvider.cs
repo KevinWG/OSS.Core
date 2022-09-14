@@ -12,7 +12,9 @@ namespace OSS.Core.Module.Notify;
 public class AppAccessProvider : IAppAccessProvider
 {
     private static List<AppAccess>? _appAccessList = null;
-    public async Task<IResp<AppAccess>> GetByKey(string key)
+
+    /// <inheritdoc />
+    public Task<IResp<AppAccess>> GetByKey(string key)
     {
         if (_appAccessList == null)
         {
@@ -20,15 +22,12 @@ public class AppAccessProvider : IAppAccessProvider
             ConfigHelper.Configuration.GetSection("Access").Bind(_appAccessList);
         }
 
-        foreach (var access in _appAccessList)
-        {
-            if (access.access_key == key)
-            {
-                return new Resp<AppAccess>(access);
-            }
-        }
+        var access = _appAccessList.FirstOrDefault(a => a.access_key == key);
+        var res = access == null
+            ? new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求")
+            : new Resp<AppAccess>(access);
 
-        return new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求");
+        return Task.FromResult<IResp<AppAccess>>(res);
     }
 }
 
