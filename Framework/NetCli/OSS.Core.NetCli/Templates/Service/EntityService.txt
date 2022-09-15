@@ -22,14 +22,14 @@ public class {entity_name}Service : I{entity_name}OpenService
     public async Task<IResp<{entity_name}Mo>> Get(long id)
     {
         var  getRes = await _{entity_name}Rep.GetById(id);
-        return getRes.IsSuccess() ? getRes : new Resp<{entity_name}Mo>().WithErrMsg("未能找到{entity_name}信息");
+        return getRes.IsSuccess() ? getRes : new Resp<{entity_name}Mo>().WithResp(getRes,"未能找到{entity_name}信息");
     }
 
     /// <inheritdoc />
     public async Task<IResp<{entity_name}Mo>> GetUseable(long id)
     {
         var getRes = await Get(id);
-        return getRes.IsSuccess() && getRes.data.status >= 0 ? getRes : new Resp<{entity_name}Mo>().WithErrMsg("未能找到有效的{entity_name}信息");
+        return getRes.IsSuccess() && getRes.data.status >= 0 ? getRes : new Resp<{entity_name}Mo>().WithResp(getRes,"未能找到有效的{entity_name}信息");
     }
 
     /// <inheritdoc />
