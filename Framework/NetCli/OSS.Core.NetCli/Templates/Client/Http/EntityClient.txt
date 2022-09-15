@@ -12,7 +12,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <returns></returns>
     public Task<PageListResp<{entity_name}Mo>> Search(SearchReq req)
     {
-          return new {module_req}("/{module_name}/{entity_name}/Search")
+          return new {module_req}("/{entity_name}/Search")
             .PostAsync<PageListResp<{entity_name}Mo>>(req);
     }
 
@@ -23,10 +23,20 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <returns></returns>
     public Task<IResp<{entity_name}Mo>> Get(long id)
     {
-          return new {module_req}($"/{module_name}/{entity_name}/Get?id={id}")
+          return new {module_req}($"/{entity_name}/Get?id={id}")
             .GetAsync<IResp<{entity_name}Mo>>();
     }
 
+    /// <summary>
+    ///  通过id获取有效可用详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    public Task<IResp<{entity_name}Mo>> GetUseable(long id)
+    {
+          return new {module_req}($"/{entity_name}/GetUseable?id={id}")
+            .GetAsync<IResp<{entity_name}Mo>>();
+    }
     
     /// <summary>
     ///  设置可用状态
@@ -36,7 +46,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <returns></returns>
     public Task<IResp> SetUseable(long id, ushort flag)
     {
-          return new {module_req}($"/{module_name}/{entity_name}/SetUseable?id={id}&flag={flag}")
+          return new {module_req}($"/{entity_name}/SetUseable?id={id}&flag={flag}")
             .PostAsync<IResp>();
     }
 
@@ -47,7 +57,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <returns></returns>
     public Task<IResp> Add(Add{entity_name}Req req)
     {
-          return new {module_req}("/{module_name}/{entity_name}/Add")
+          return new {module_req}("/{entity_name}/Add")
             .PostAsync<IResp>(req);
     }
 }

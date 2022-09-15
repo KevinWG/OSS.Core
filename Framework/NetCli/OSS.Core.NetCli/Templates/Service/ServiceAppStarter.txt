@@ -12,5 +12,6 @@ public class {module_name}ServiceStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {
+        // 初始化service层内部容器注入等操作
     }
 }
