@@ -32,6 +32,17 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     {
         return _service.Get(id);
     }
+
+    /// <summary>
+    ///   通过id获取 有效可用的 {entity_name} 详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet]
+    public Task<IResp<{entity_name}Mo>> GetUseable(long id)
+    {
+        return _service.GetUseable(id);
+    }
     
     /// <summary>
     ///  设置{entity_name}可用状态
@@ -53,7 +64,7 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> Add([FromBody] Add{entity_name}Req req)
+    public Task<LongResp> Add([FromBody] Add{entity_name}Req req)
     {
         return _service.Add(req);
     }

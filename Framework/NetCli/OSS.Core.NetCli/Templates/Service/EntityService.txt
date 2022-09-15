@@ -39,11 +39,11 @@ public class {entity_name}Service : I{entity_name}OpenService
     }
 
     /// <inheritdoc />
-    public async Task<IResp> Add(Add{entity_name}Req req)
+    public async Task<LongResp> Add(Add{entity_name}Req req)
     {
         var mo = req.MapTo{entity_name}Mo();
 
         await _{entity_name}Rep.Add(mo);
-        return Resp.DefaultSuccess;
+        return new LongResp(mo.id);
     }
 }

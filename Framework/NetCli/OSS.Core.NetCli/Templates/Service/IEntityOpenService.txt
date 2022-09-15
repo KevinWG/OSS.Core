@@ -41,5 +41,5 @@ public interface I{entity_name}OpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(Add{entity_name}Req req);
+    Task<LongResp> Add(Add{entity_name}Req req);
 }
