@@ -7,5 +7,15 @@ namespace OSS.Core.Module.Article.Client;
 /// </summary>
 public static class ArticleRemoteClient //: IArticleClient
 {
+    /// <summary>
+    ///  Article 接口
+    /// </summary>
+    public static IArticleOpenService Article {get; } = SingleInstance<ArticleHttpClient>.Instance;
+    /// <summary>
+    ///  Category 接口
+    /// </summary>
+    public static ICategoryOpenService Category {get; } = SingleInstance<CategoryHttpClient>.Instance;
 }
+
+
 

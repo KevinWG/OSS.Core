@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using OSS.Common;
-using OSS.Core;
 
 namespace OSS.Core.Module.Article;
 
@@ -10,7 +9,12 @@ namespace OSS.Core.Module.Article;
 /// </summary>
 public class ArticleServiceStarter : AppStarter
 {
+    /// <summary>
+    ///     启动注册
+    /// </summary>
+    /// <param name="serviceCollection"></param>
     public override void Start(IServiceCollection serviceCollection)
     {
+        InsContainer<ICategoryService>.Set<CategoryService>();
     }
 }

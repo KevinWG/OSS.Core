@@ -5,6 +5,9 @@
 /// </summary>
 public static class ArticleConst
 {
+    /// <summary>
+    ///  模块名称
+    /// </summary>
     public const string ModuleName = "Article";
 
     public static class CacheKeys
