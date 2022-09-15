@@ -13,7 +13,7 @@ public static class PassTokenHelper
     /// </summary>
     /// <param name="data"></param>
     /// <returns></returns>
-    internal static string GenerateToken(string data)
+    public static string GenerateToken(string data)
     {
         return GenerateToken(data, string.Empty);
     }
