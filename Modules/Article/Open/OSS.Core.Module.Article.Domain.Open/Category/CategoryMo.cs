@@ -31,6 +31,11 @@ public class CategoryMo : BaseOwnerAndStateMo<long>
     public long parent_id { get; set; }
 
     /// <summary>
+    ///  父级信息
+    /// </summary>
+    public string? parent_ext { get; set; }
+
+    /// <summary>
     ///   深度
     /// </summary>
     public int deep_level { get; set; }

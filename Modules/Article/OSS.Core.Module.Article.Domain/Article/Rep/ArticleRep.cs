@@ -1,4 +1,5 @@
 ﻿using OSS.Common;
+using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Core.Domain;
 
@@ -22,6 +23,18 @@ public class ArticleRep : BaseArticleRep<ArticleMo,long>
     public Task<PageList<ArticleMo>> Search(SearchReq req)
     {
         return SimpleSearch(req);
+    }
+
+
+    protected override string BuildSimpleSearch_FilterItemSql(string key, string value, Dictionary<string, object> sqlParas)
+    {
+        switch (key)
+        {
+            case "category_id":
+                sqlParas.Add("@category_id",value.ToInt64());
+                return " category_id=@category_id ";
+        }
+        return base.BuildSimpleSearch_FilterItemSql(key, value, sqlParas);
     }
 
     /// <summary>

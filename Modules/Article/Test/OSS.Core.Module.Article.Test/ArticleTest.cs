@@ -11,12 +11,14 @@ namespace OSS.Core.Module.Article.Test
         [TestMethod]
         public async Task TestMethod1()
         {
+            const long categoryId = 1000000000000000000;
+
             var addReq = new AddArticleReq
             {
-                title        = "测试文章",
-                author       = "张晓",
-                category_id = 1,
-                body    = "文章单元测试，测试文章模块功能是否正常。"
+                title       = "测试文章",
+                author      = "张晓",
+                category_id = categoryId,
+                body        = "文章单元测试，测试文章模块功能是否正常。"
             };
 
             var addRes = await _service.Add(addReq);
@@ -28,8 +30,8 @@ namespace OSS.Core.Module.Article.Test
             var updateReq = new AddArticleReq
             {
                 title       = "(修改版)测试文章",
-                author      = "张晓",
-                category_id = 1,
+                author      = "张",
+                category_id = categoryId,
                 body        = "(修改版)文章单元测试，测试文章模块功能是否正常。"
             };
             var updateRes = await _service.Edit(aIdToken, updateReq);
@@ -37,7 +39,7 @@ namespace OSS.Core.Module.Article.Test
 
             var searchRes = await _service.MSearch(new SearchReq()
             {
-                filter = new Dictionary<string, string>() { { "category_id", "1" } }
+                filter = new Dictionary<string, string>() { { "category_id", categoryId.ToString() } }
             });
             Assert.IsTrue(searchRes.IsSuccess() && searchRes.data.Count > 0, searchRes.msg ?? "没有搜索到文章信息");
 

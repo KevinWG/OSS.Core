@@ -16,7 +16,7 @@ namespace OSS.Core.Module.Article.Test
                 name      = "≤‚ ‘∑÷¿‡",
                 parent_id = 0
             });
-
+            
             var cId = addRes.data;
 
             Assert.IsTrue(addRes.IsSuccess(),addRes.msg);
@@ -43,9 +43,7 @@ namespace OSS.Core.Module.Article.Test
             });
 
             Assert.IsTrue(addSubRes.IsSuccess(), addSubRes.msg);
-
-            //var subId = addSubRes.data;
-
+            
             var searchRes = await _categoryService.Search(new SearchReq()
             {
                 filter = new Dictionary<string, string>(){{"parent_id", cId.ToString() } }

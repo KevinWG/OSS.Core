@@ -10,6 +10,8 @@ namespace OSS.Core.Module.Article;
 /// </summary>
 public class CategoryRep : BaseArticleRep<CategoryMo,long> 
 {
+
+
     /// <inheritdoc />
     public CategoryRep() : base("m_article_category")
     {
@@ -46,5 +48,18 @@ public class CategoryRep : BaseArticleRep<CategoryMo,long>
     public Task<IResp> UpdateStatus(long id, CommonStatus status)
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
+    }
+
+    /// <summary>
+    ///  获取当前节点下的最后一个子节点
+    /// </summary>
+    /// <param name="parentId"></param>
+    /// <returns></returns>
+    public Task<IResp<long>> GetLastSubId(long parentId)
+    {
+        // 包含已经被软删除的数据
+         var sql = $"SELECT id FROM { TableName } t where t.parent_id=@parent_id order by id desc limit 1";
+
+        return Get<long>(sql, new { parent_id = parentId });
     }
 }

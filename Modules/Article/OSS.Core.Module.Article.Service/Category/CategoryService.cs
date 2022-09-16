@@ -51,11 +51,42 @@ public class CategoryService : ICategoryService
             if (!parentRes.IsSuccess())
                 return new LongResp().WithResp(parentRes,"所属父级分类异常!");
 
+            var parent = parentRes.data;
+
+            var parentExt = string.IsNullOrEmpty(parent.parent_ext) ? string.Empty : (parent.parent_ext + ",");
+
+            mo.parent_ext = string.Concat(parentExt, parent.id, "|", parent.name);
             mo.deep_level = parentRes.data.deep_level + 1;
         }
+
+        var idRes = await GetNewId(req.parent_id);
+        if (!idRes.IsSuccess())
+            return idRes;
         
+        mo.id = idRes.data;
+
         await _CategoryRep.Add(mo);
-        return new LongResp(mo.id);
+        return idRes;
+    }
+
+    private static async Task<LongResp> GetNewId(long parentId)
+    {
+        var lastSubIdRes = await _CategoryRep.GetLastSubId(parentId);
+        if (!lastSubIdRes.IsSuccess() && !lastSubIdRes.IsRespCode(RespCodes.OperateObjectNull))
+            return new LongResp().WithResp(lastSubIdRes);
+
+        // 生成树形编码
+        var  maxSubId = lastSubIdRes.data;
+        long treeNum;
+        try
+        {
+            treeNum = TreeNumHelper.GenerateNum(parentId, maxSubId);
+        }
+        catch (Exception)
+        {
+            return new LongResp().WithResp(RespCodes.OperateFailed, "无法生成有效的编码，可能已经超出长度限制");
+        }
+        return new LongResp(treeNum);
     }
 }
 
