@@ -51,10 +51,10 @@ internal class CategoryHttpClient : ICategoryOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public Task<IResp> Add(AddCategoryReq req)
+    public Task<LongResp> Add(AddCategoryReq req)
     {
           return new ArticleRemoteReq("/Category/Add")
-            .PostAsync<IResp>(req);
+            .PostAsync<LongResp>(req);
     }
 }
 

@@ -11,7 +11,7 @@ namespace OSS.Core.Module.Article;
 public class CategoryRep : BaseArticleRep<CategoryMo,long> 
 {
     /// <inheritdoc />
-    public CategoryRep() : base("Category")
+    public CategoryRep() : base("m_article_category")
     {
     }
 
@@ -23,6 +23,18 @@ public class CategoryRep : BaseArticleRep<CategoryMo,long>
     public Task<PageList<CategoryMo>> Search(SearchReq req)
     {
         return SimpleSearch(req);
+    }
+
+    /// <inheritdoc />
+    protected override string BuildSimpleSearch_FilterItemSql(string key, string value, Dictionary<string, object> sqlParas)
+    {
+        switch (key)
+        {
+            case "parent_id":
+                sqlParas.Add("@parent_id",value.ToInt64());
+                return " parent_id=@parent_id ";
+        }
+        return base.BuildSimpleSearch_FilterItemSql(key, value, sqlParas);
     }
 
     /// <summary>

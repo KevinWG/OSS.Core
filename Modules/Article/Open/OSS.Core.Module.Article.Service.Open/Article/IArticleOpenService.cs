@@ -4,12 +4,18 @@ using OSS.Common.Resp;
 namespace OSS.Core.Module.Article;
 
 /// <summary>
-///  Article 领域对象开放接口
+///  文章 领域对象开放接口
 /// </summary>
 public interface IArticleOpenService
 {
     /// <summary>
-    ///  查询Article列表
+    ///  文章管理查询列表
+    /// </summary>
+    /// <returns></returns>
+    Task<TokenPageListResp<ArticleMo>> MSearch(SearchReq req);
+
+    /// <summary>
+    ///  文章查询列表
     /// </summary>
     /// <returns></returns>
     Task<PageListResp<ArticleMo>> Search(SearchReq req);
@@ -20,7 +26,7 @@ public interface IArticleOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     Task<IResp<ArticleMo>> Get(long id);
-
+    
     /// <summary>
     ///  通过id获取有效可用状态的Article详情
     /// </summary>
@@ -28,18 +34,26 @@ public interface IArticleOpenService
     /// <returns></returns>
     Task<IResp<ArticleMo>> GetUseable(long id);
 
+
     /// <summary>
-    ///  设置Article可用状态
+    ///  删除
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
+    /// <param name="pass_token"></param>
     /// <returns></returns>
-    Task<IResp> SetUseable(long id, ushort flag);
+    Task<IResp> Delete(string pass_token);
+
+    /// <summary>
+    ///  编辑文章
+    /// </summary>
+    /// <param name="pass_token"></param>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    Task<IResp> Edit(string pass_token, AddArticleReq req);
 
     /// <summary>
     ///  添加Article对象
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(AddArticleReq req);
+    Task<LongResp> Add(AddArticleReq req);
 }

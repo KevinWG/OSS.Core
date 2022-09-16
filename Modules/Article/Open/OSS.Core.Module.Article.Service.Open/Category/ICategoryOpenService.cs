@@ -42,5 +42,5 @@ public interface ICategoryOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(AddCategoryReq req);
+    Task<LongResp> Add(AddCategoryReq req);
 }

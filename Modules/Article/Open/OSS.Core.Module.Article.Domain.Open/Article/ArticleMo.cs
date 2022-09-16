@@ -23,7 +23,23 @@ public class ArticleMo : BaseOwnerAndStateMo<long>
     /// <summary>
     ///  文章名称
     /// </summary>
-    public string title { get; set; } = default!;
+    public string title { get; set; } = string.Empty;
+
+    /// <summary>
+    ///  内容摘要
+    /// </summary>
+    public string brief { get; set; } = string.Empty;
+
+    /// <summary>
+    ///  内容头图
+    /// </summary>
+    public string head_img { get; set; } = string.Empty;
+
+    /// <summary>
+    ///  作者
+    /// </summary>
+    public string author { get; set; } = string.Empty;
+
 
     /// <summary>
     ///  分类id

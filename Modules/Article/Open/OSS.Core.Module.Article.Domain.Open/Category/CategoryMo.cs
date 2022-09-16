@@ -23,7 +23,7 @@ public class CategoryMo : BaseOwnerAndStateMo<long>
     /// <summary>
     ///  分类名称
     /// </summary>
-    public string name { get; set; }
+    public string name { get; set; } = string.Empty;
 
     /// <summary>
     ///  父级Id

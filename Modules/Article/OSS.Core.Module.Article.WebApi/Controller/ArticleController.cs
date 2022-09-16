@@ -16,7 +16,12 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<PageListResp<ArticleMo>> Search([FromBody] SearchReq req)
+    public Task<TokenPageListResp<ArticleMo>> MSearch([FromBody] SearchReq req)
+    {
+        return _service.MSearch(req);
+    }
+
+    public Task<PageListResp<ArticleMo>> Search(SearchReq req)
     {
         return _service.Search(req);
     }
@@ -44,15 +49,26 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     }
 
     /// <summary>
-    ///  设置Article可用状态
+    ///  删除文章信息
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
+    /// <param name="pass_token"></param>
+    /// <returns></returns>
+    public Task<IResp> Delete(string pass_token)
+    {
+        return _service.Delete(pass_token);
+    }
+
+
+    /// <summary>
+    /// 修改编辑文章
+    /// </summary>
+    /// <param name="pass_token"></param>
+    /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IResp> SetUseable(long id, ushort flag)
+    public Task<IResp> Edit(string pass_token, [FromBody] AddArticleReq req)
     {
-        return await _service.SetUseable(id, flag);
+        return _service.Edit(pass_token, req);
     }
 
     /// <summary>
@@ -61,7 +77,7 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> Add([FromBody] AddArticleReq req)
+    public Task<LongResp> Add([FromBody] AddArticleReq req)
     {
         return _service.Add(req);
     }

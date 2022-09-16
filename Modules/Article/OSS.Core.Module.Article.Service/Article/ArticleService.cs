@@ -1,6 +1,6 @@
 ﻿using OSS.Common;
+using OSS.Common.Extension;
 using OSS.Common.Resp;
-using OSS.Core.Domain;
 
 namespace OSS.Core.Module.Article;
 
@@ -10,6 +10,14 @@ namespace OSS.Core.Module.Article;
 public class ArticleService : IArticleOpenService
 {
     private static readonly ArticleRep _ArticleRep = new();
+
+    /// <inheritdoc />
+    public async Task<TokenPageListResp<ArticleMo>> MSearch(SearchReq req)
+    {
+        var pageList = await _ArticleRep.Search(req);
+
+        return pageList.ToTokenPageRespWithIdToken();
+    }
 
     /// <inheritdoc />
     public async Task<PageListResp<ArticleMo>> Search(SearchReq req)
@@ -32,22 +40,33 @@ public class ArticleService : IArticleOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
+    public Task<IResp> Delete(string pass_token)
     {
-        return _ArticleRep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
+        var id = PassTokenHelper.GetData(pass_token).ToInt64();
+
+        return _ArticleRep.SoftDeleteById(id);
     }
 
     /// <inheritdoc />
-    public async Task<IResp> Add(AddArticleReq req)
+    public Task<IResp> Edit(string pass_token, AddArticleReq req)
     {
-        // 判断当前分类是否正常
-        var categoryRes = await InsContainer<ICategoryService>.Instance.GetUseable(req.category_id);
-        if (categoryRes.IsSuccess())
-            return categoryRes;
+        var id = PassTokenHelper.GetData(pass_token).ToInt64();
+        return _ArticleRep.Edit(id, req);
+    }
+
+    /// <inheritdoc />
+    public async Task<LongResp> Add(AddArticleReq req)
+    {
+        // 无需判断分类，暂时隐藏
+        // var categoryRes =  await InsContainer<ICategoryService>.Instance.GetUseable(req.category_id);
+        // if (categoryRes.IsSuccess())
+        //    return categoryRes;
 
         var mo = req.MapToArticleMo();
 
         await _ArticleRep.Add(mo);
-        return Resp.DefaultSuccess;
+        return new LongResp(mo.id);
     }
+
+  
 }

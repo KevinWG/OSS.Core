@@ -1,5 +1,4 @@
 ﻿using OSS.Common;
-using OSS.Common.Extension;
 using OSS.Common.Resp;
 using OSS.Core.Domain;
 
@@ -11,7 +10,7 @@ namespace OSS.Core.Module.Article;
 public class ArticleRep : BaseArticleRep<ArticleMo,long> 
 {
     /// <inheritdoc />
-    public ArticleRep() : base("Article")
+    public ArticleRep() : base("m_article")
     {
     }
 
@@ -34,5 +33,20 @@ public class ArticleRep : BaseArticleRep<ArticleMo,long>
     public Task<IResp> UpdateStatus(long id, CommonStatus status)
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
+    }
+
+    public Task<IResp> Edit(long id, AddArticleReq req)
+    {
+        return Update(a => new
+        {
+            a.title,
+            a.author,
+            a.head_img,
+            a.brief,
+            a.category_id,
+            a.body,
+            a.attaches,
+            a.tags
+        },w=>w.id==id, req);
     }
 }

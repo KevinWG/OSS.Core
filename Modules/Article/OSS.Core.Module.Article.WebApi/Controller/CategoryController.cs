@@ -11,6 +11,7 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
 {
     private static readonly ICategoryOpenService _service = new CategoryService();
 
+
     /// <summary>
     ///  查询Category列表
     /// </summary>
@@ -31,12 +32,12 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
     {
         return _service.Get(id);
     }
+
     /// <summary>
     ///  获取有效可用的分类信息
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    /// <exception cref="NotImplementedException"></exception>
     [HttpGet]
     public Task<IResp<CategoryMo>> GetUseable(long id)
     {
@@ -63,7 +64,7 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> Add([FromBody] AddCategoryReq req)
+    public Task<LongResp> Add([FromBody] AddCategoryReq req)
     {
         return _service.Add(req);
     }

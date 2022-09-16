@@ -11,8 +11,23 @@ public class AddArticleReq
     /// <summary>
     ///  文章名称
     /// </summary>
-    [Required]
+    [Required(ErrorMessage = "标题不能为空！")]
     public string title { get; set; } = default!;
+
+    /// <summary>
+    ///  内容摘要
+    /// </summary>
+    public string brief { get; set; } = string.Empty;
+
+    /// <summary>
+    ///  内容头图
+    /// </summary>
+    public string head_img { get; set; } = string.Empty;
+
+    /// <summary>
+    ///  作者
+    /// </summary>
+    public string author { get; set; } = string.Empty;
 
     /// <summary>
     ///  分类id
@@ -22,7 +37,7 @@ public class AddArticleReq
     /// <summary>
     ///  文章内容
     /// </summary>
-    [Required]
+    [Required(ErrorMessage = "内容不能为空！")]
     public string body { get; set; } = default!;
 
     /// <summary>
@@ -50,12 +65,16 @@ public static class AddArticleReqMap
     {
         var mo = new ArticleMo
         {
-            title = req.title,
+            title    = req.title,
+            brief    = req.brief,
+            author   = req.author,
+            head_img = req.head_img,
+
             category_id = req.category_id,
 
-            body = req.body,
+            body     = req.body,
             attaches = req.attaches,
-            tags = req.tags,
+            tags     = req.tags,
         };
         mo.FormatBaseByContext();
         return mo;
