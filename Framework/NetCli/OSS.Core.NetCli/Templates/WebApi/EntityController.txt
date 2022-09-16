@@ -17,9 +17,9 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<PageListResp<{entity_name}Mo>> Search([FromBody] SearchReq req)
+    public Task<TokenPageListResp<{entity_name}Mo>> MSearch([FromBody] SearchReq req)
     {
-        return _service.Search(req);
+        return _service.MSearch(req);
     }
 
     /// <summary>
@@ -51,9 +51,9 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IResp> SetUseable(long id, ushort flag)
+    public Task<IResp> SetUseable(string pass_token, ushort flag)
     {
-        return await _service.SetUseable(id, flag);
+        return _service.SetUseable(pass_token, flag);
     }
 
 

@@ -13,9 +13,10 @@ public class {entity_name}Service : I{entity_name}OpenService
 
 
     /// <inheritdoc />
-    public async Task<PageListResp<{entity_name}Mo>> Search(SearchReq req)
+    public async Task<PageListResp<{entity_name}Mo>> MSearch(SearchReq req)
     {
-        return new PageListResp<{entity_name}Mo>(await _{entity_name}Rep.Search(req));
+        var pageList = await _{entity_name}Rep.Search(req);
+         return pageList.ToTokenPageRespWithIdToken();
     }
 
     /// <inheritdoc />
@@ -36,8 +37,10 @@ public class {entity_name}Service : I{entity_name}OpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
+    public Task<IResp> SetUseable(string pass_token, ushort flag)
     {
+        var id = PassTokenHelper.GetData(pass_token).ToInt64();
+
         return _{entity_name}Rep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
     }
 

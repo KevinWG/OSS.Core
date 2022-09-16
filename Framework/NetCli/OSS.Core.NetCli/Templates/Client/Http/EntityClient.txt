@@ -6,55 +6,35 @@ namespace {solution_name}.Client;
 
 internal class {entity_name}HttpClient : I{entity_name}OpenService
 {
-    /// <summary>
-    ///  查询列表
-    /// </summary>
-    /// <returns></returns>
-    public Task<PageListResp<{entity_name}Mo>> Search(SearchReq req)
+    /// <inheritdoc />
+    public Task<PageListResp<{entity_name}Mo>> MSearch(SearchReq req)
     {
-          return new {module_req}("/{entity_name}/Search")
-            .PostAsync<PageListResp<{entity_name}Mo>>(req);
+          return new {module_req}("/{entity_name}/MSearch")
+            .PostAsync<TokenPageListResp<{entity_name}Mo>>(req);
     }
 
-    /// <summary>
-    ///  通过id获取详情
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<IResp<{entity_name}Mo>> Get(long id)
     {
           return new {module_req}($"/{entity_name}/Get?id={id}")
             .GetAsync<IResp<{entity_name}Mo>>();
     }
 
-    /// <summary>
-    ///  通过id获取有效可用详情
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<IResp<{entity_name}Mo>> GetUseable(long id)
     {
           return new {module_req}($"/{entity_name}/GetUseable?id={id}")
             .GetAsync<IResp<{entity_name}Mo>>();
     }
     
-    /// <summary>
-    ///  设置可用状态
-    /// </summary>
-    /// <param name="id"></param>
-    /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
-    /// <returns></returns>
-    public Task<IResp> SetUseable(long id, ushort flag)
+    /// <inheritdoc />
+    public Task<IResp> SetUseable(string pass_token, ushort flag)
     {
-          return new {module_req}($"/{entity_name}/SetUseable?id={id}&flag={flag}")
+          return new {module_req}($"/{entity_name}/SetUseable?pass_token={pass_token}&flag={flag}")
             .PostAsync<IResp>();
     }
 
-    /// <summary>
-    ///  添加对象
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
+    /// <inheritdoc />
     public Task<LongResp> Add(Add{entity_name}Req req)
     {
           return new {module_req}("/{entity_name}/Add")
