@@ -32,7 +32,7 @@ public class {entity_name}Service : I{entity_name}OpenService
             if (!getRes.IsSuccess())
             return getRes;
         
-        return getRes.data.status >= 0 ? getRes : new Resp<CategoryMo>().WithResp(RespCodes.OperateObjectNull,"未能找到有效可用的{entity_name}信息");
+        return getRes.data.status >= 0 ? getRes : new Resp<{entity_name}Mo>().WithResp(RespCodes.OperateObjectNull,"未能找到有效可用的{entity_name}信息");
     }
 
     /// <inheritdoc />

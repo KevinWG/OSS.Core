@@ -26,7 +26,7 @@ public interface I{entity_name}OpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<ArticleMo>> GetUseable(long id);
+    Task<IResp<{entity_name}Mo>> GetUseable(long id);
 
     /// <summary>
     ///  设置{entity_name}可用状态
