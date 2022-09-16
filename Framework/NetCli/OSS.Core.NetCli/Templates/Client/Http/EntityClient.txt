@@ -7,7 +7,7 @@ namespace {solution_name}.Client;
 internal class {entity_name}HttpClient : I{entity_name}OpenService
 {
     /// <inheritdoc />
-    public Task<PageListResp<{entity_name}Mo>> MSearch(SearchReq req)
+    public Task<TokenPageListResp<{entity_name}Mo>> MSearch(SearchReq req)
     {
           return new {module_req}("/{entity_name}/MSearch")
             .PostAsync<TokenPageListResp<{entity_name}Mo>>(req);

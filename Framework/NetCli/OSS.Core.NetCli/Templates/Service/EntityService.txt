@@ -13,7 +13,7 @@ public class {entity_name}Service : I{entity_name}OpenService
 
 
     /// <inheritdoc />
-    public async Task<PageListResp<{entity_name}Mo>> MSearch(SearchReq req)
+    public async Task<TokenPageListResp<{entity_name}Mo>> MSearch(SearchReq req)
     {
         var pageList = await _{entity_name}Rep.Search(req);
          return pageList.ToTokenPageRespWithIdToken();
