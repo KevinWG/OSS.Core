@@ -1,11 +1,12 @@
 ﻿using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Domain;
+using OSS.Common.Extension;
 
 namespace {solution_name};
 
 /// <summary>
-///  {entity_name} 服务
+///  {entity_display} 服务
 /// </summary>
 public class {entity_name}Service : I{entity_name}OpenService
 {
@@ -23,17 +24,19 @@ public class {entity_name}Service : I{entity_name}OpenService
     public async Task<IResp<{entity_name}Mo>> Get(long id)
     {
         var  getRes = await _{entity_name}Rep.GetById(id);
-        return getRes.IsSuccess() ? getRes : new Resp<{entity_name}Mo>().WithResp(getRes,"未能找到{entity_name}信息");
+        return getRes.IsSuccess() ? getRes : new Resp<{entity_name}Mo>().WithResp(getRes,"未能找到{entity_display}信息");
     }
 
     /// <inheritdoc />
     public async Task<IResp<{entity_name}Mo>> GetUseable(long id)
     {
         var getRes = await Get(id);
-            if (!getRes.IsSuccess())
+        if (!getRes.IsSuccess())
             return getRes;
         
-        return getRes.data.status >= 0 ? getRes : new Resp<{entity_name}Mo>().WithResp(RespCodes.OperateObjectNull,"未能找到有效可用的{entity_name}信息");
+        return getRes.data.status >= 0 
+            ? getRes
+            : new Resp<{entity_name}Mo>().WithResp(RespCodes.OperateObjectNull,"未能找到有效可用的{entity_display}信息");
     }
 
     /// <inheritdoc />

@@ -5,29 +5,30 @@ namespace OSSCore;
 
 internal class Solution
 {
-    public Solution(CreateParas paras, string basePath, string entityName = "")
+    public Solution(ModulePara paras, string basePath, string entityName = "", string entityDisplay = "")
     {
         base_path = basePath;
-        module_name = paras.module_name;
-        //solution_mode = paras.solution_mode;
-        entity_name = entityName;
+
+        module_name    = paras.name;
+        module_display = string.IsNullOrEmpty(paras.display) ? module_name : paras.display;
+
+        entity_name    = entityName;
+        entity_display = string.IsNullOrEmpty(entityDisplay) ? entityName : entityDisplay;
 
         no_rep_injection = paras.solution_mode == SolutionMode.Simple;
 
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
-            ? paras.module_name
-            : string.Concat(paras.solution_pre, ".", paras.module_name);
+            ? paras.name
+            : string.Concat(paras.solution_pre, ".", paras.name);
 
-        domain_project = new DomainProject(solution_name, module_name, basePath, entityName);
+        domain_project      = new DomainProject(solution_name, module_name, basePath, entityName);
         domain_open_project = new DomainOpenProject(solution_name, module_name, basePath, entityName);
 
-        service_project = new ServiceProject(solution_name, module_name, basePath, entityName);
+        service_project      = new ServiceProject(solution_name, module_name, basePath, entityName);
         service_open_project = new ServiceOpenedProject(solution_name, module_name, basePath, entityName);
 
-        rep_project = new RepProject(solution_name, module_name, basePath, entityName);
-
-        webapi_project = new WebApiProject(solution_name, module_name, basePath, entityName);
-
+        rep_project         = new RepProject(solution_name, module_name, basePath, entityName);
+        webapi_project      = new WebApiProject(solution_name, module_name, basePath, entityName);
         http_client_project = new ClientProject(solution_name, module_name, basePath, entityName);
     }
 
@@ -35,12 +36,15 @@ internal class Solution
 
     public string module_name { get; }
 
+    public string module_display { get; }
+
     public string entity_name { get; set; }
+    public string entity_display { get; set; }
 
     public string solution_name { get;  }
 
     public bool no_rep_injection { get; set; }
-    //public SolutionMode solution_mode { get; }
+
 
     public ClientProject http_client_project { get; }
 

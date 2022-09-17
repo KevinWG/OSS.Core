@@ -5,7 +5,7 @@ using OSS.Tools.Config;
 namespace {solution_name};
 
 /// <summary>
-///  {module_name} 模块仓储基类
+///  {module_display} 模块仓储基类
 /// </summary>
 public abstract class Base{module_name}Rep<MType,IdType> : BaseMysqlRep<MType, IdType>
     where MType : BaseMo<IdType>

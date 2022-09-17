@@ -1,17 +1,8 @@
 ﻿
-internal class Command
+namespace OSSCore;
+
+internal class ModulePara: ParaItem
 {
-    public string name { get; set; }
-
-    public CreateParas create_paras { get; set; }
-
-}
-
-
-internal class CreateParas
-{
-    public string module_name { get; set; }
-
     public string solution_pre { get; set; }
 
     public SolutionMode solution_mode { get; set; } = SolutionMode.Default;
@@ -21,4 +12,12 @@ public enum SolutionMode
 {
     Default=0,
     Simple =1
+}
+
+
+public class ParaItem
+{
+    public string name { get; set; }
+
+    public string display { get; set; }
 }

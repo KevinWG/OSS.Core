@@ -5,12 +5,12 @@ using OSS.Core.Domain;
 namespace {solution_name};
 
 /// <summary>
-///  {entity_name} 仓储层接口
+///  {entity_display} 仓储层接口
 /// </summary>
 public interface I{entity_name}Rep:IRepository<{entity_name}Mo,long>
 {
     /// <summary>
-    /// 查询列表
+    ///  查询列表
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>

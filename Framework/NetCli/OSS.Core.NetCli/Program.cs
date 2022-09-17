@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Text.Json;
 
+
 public class Program
 {
     static void Main(string[] args)
@@ -13,9 +14,7 @@ public class Program
             ConsoleTips();
             return;
         }
-
         DispatchCommand(args);
-        
     }
     
 
@@ -40,23 +39,44 @@ public class Program
 
     private static void AddEntity(string[] args)
     {
-        var entityName = args[1];
-        if (string.IsNullOrEmpty(entityName))
+        var entityPara = GetAddEntityParas(args);
+
+        if (string.IsNullOrEmpty(entityPara.name))
         {
             ConsoleTips();
             return;
         }
 
-
         var basePath = Directory.GetCurrentDirectory();
 
         var paras = GetParasFromFile(basePath);
-        var ss = new Solution(paras, basePath,entityName);
+        var ss = new Solution(paras, basePath, entityPara.name,entityPara.display);
         
         new SolutionTool().AddEntity(ss);
     }
 
-    private static CreateParas GetParasFromFile(string basePath)
+
+    private static ParaItem GetAddEntityParas(string[] args)
+    {
+        var paras = new ParaItem();
+
+        for (var i = 1; i < args.Length; i++)
+        {
+            var p = args[i];
+            if (p.StartsWith("--display="))
+            {
+                paras.display = p.Replace("--display=", "").TrimEnd();
+            }
+            else
+            {
+                paras.name = p;
+            }
+        }
+        return paras;
+    }
+
+
+    private static ModulePara GetParasFromFile(string basePath)
     {
         var jsonFilePath = Path.Combine(basePath, module_json_file_name);
         if (!File.Exists(jsonFilePath))
@@ -66,10 +86,8 @@ public class Program
 
         var mJsonStr = FileHelper.LoadFile(jsonFilePath);
         
-        return JsonSerializer.Deserialize<CreateParas>(mJsonStr);
+        return JsonSerializer.Deserialize<ModulePara>(mJsonStr);
     }
-
-
 
     #endregion
 
@@ -83,7 +101,7 @@ public class Program
     {
         var paras = GetCreateParas(args);
 
-        if (string.IsNullOrEmpty(paras.module_name))
+        if (string.IsNullOrEmpty(paras.name))
         {
             ConsoleTips();
             return;
@@ -99,9 +117,9 @@ public class Program
     }
     
     
-    private static CreateParas GetCreateParas(string[] args)
+    private static ModulePara GetCreateParas(string[] args)
     {
-        var paras = new CreateParas();
+        var paras = new ModulePara();
 
         for (var i=1;i<args.Length;i++)
         {
@@ -116,9 +134,13 @@ public class Program
                 var mode= p.Replace("--mode=", "").TrimEnd();
                 paras.solution_mode = mode == "simple" ? SolutionMode.Simple : SolutionMode.Default;
             }
+            else if (p.StartsWith("--display="))
+            {
+                paras.display = p.Replace("--display=", "").TrimEnd();
+            }
             else
             {
-                paras.module_name = p;
+                paras.name = p;
             }
         }
         return paras;
@@ -147,3 +169,4 @@ osscore add entityName (创建领域对象名为entityName的各模块文件)
         Console.WriteLine(commandStr);
     }
 }
+

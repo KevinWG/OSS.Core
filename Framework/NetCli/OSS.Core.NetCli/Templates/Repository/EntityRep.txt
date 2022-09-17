@@ -6,7 +6,7 @@ using OSS.Core.Domain;
 namespace {solution_name};
 
 /// <summary>
-///  {entity_name} 对象仓储
+///  {entity_display} 对象仓储
 /// </summary>
 public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo,long> {rep_interface}
 {

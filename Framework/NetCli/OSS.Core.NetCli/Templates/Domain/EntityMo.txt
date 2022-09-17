@@ -16,7 +16,7 @@ using OSS.Core.Domain;
 namespace {solution_name};
 
 /// <summary>
-///  {entity_name} 对象实体 
+///  {entity_display} 对象实体 
 /// </summary>
 public class {entity_name}Mo : BaseOwnerAndStateMo<long>
 {

@@ -6,7 +6,7 @@
 public static class {module_name}Const
 {
     /// <summary>
-    ///  模块名称
+    ///  {module_display}模块名称
     /// </summary>
     public const string ModuleName = "{module_name}";
 

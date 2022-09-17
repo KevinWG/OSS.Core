@@ -65,14 +65,23 @@ internal static class FileHelper
         var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         var content = LoadFile(templatePath);
 
-        var newContent = content.Replace("{module_name}", ss.module_name)
+        var newContent = content
             .Replace("{solution_name}", ss.solution_name)
+
+            .Replace("{module_name}", ss.module_name)
+            .Replace("{module_display}", ss.module_display)
+
             .Replace("{entity_name}", ss.entity_name)
+            .Replace("{entity_display}", ss.entity_display)
+
             .Replace("{domain_project_name}", ss.domain_project.name)
             .Replace("{domain_opened_project_name}", ss.domain_open_project.name)
+
             .Replace("{service_project_name}", ss.service_project.name)
             .Replace("{service_opened_project_name}", ss.service_open_project.name)
+
             .Replace("{repository_project_name}", ss.rep_project.name)
+
             .Replace("{webapi_project_name}", ss.webapi_project.name);
 
         if (extParas ==null)
