@@ -87,7 +87,7 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
     /// <returns></returns>
     protected virtual string BuildSimpleSearch_TableName(SearchReq req, Dictionary<string, object> sqlParas)
     {
-        return TableName;
+        return  string.Concat(TableName," t ");
     }
 
     /// <summary>
@@ -140,13 +140,13 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
             case "status":
                 sqlParas.Add("@status", value.ToInt32());
                 if (value.EndsWith("9"))
-                    return " `status`>@status";
+                    return " t.`status`>@status";
                 
-                return value.EndsWith("1") ? " `status`<@status" : " `status`=@status";
+                return value.EndsWith("1") ? " t.`status`<@status" : " t.`status`=@status";
 
             case "owner_uid":
                 sqlParas.Add("@owner_uid", value.ToInt64());
-                return " `owner_uid`=@owner_uid";
+                return " t.`owner_uid`=@owner_uid";
         }
 
         return string.Empty;
@@ -159,7 +159,7 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
     /// <returns></returns>
     protected virtual string BuildSimpleSearch_OrderSql(Dictionary<string, SortType> orders)
     {
-        return " Order BY `id` DESC";
+        return " Order BY t.`id` DESC";
     }
 
     #endregion
