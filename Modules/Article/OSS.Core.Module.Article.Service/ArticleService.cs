@@ -68,5 +68,20 @@ public class ArticleService : IArticleOpenService
         return new LongResp(mo.id);
     }
 
-  
+
+    private static readonly ArticleTopicRep _articleTopicRep = new ArticleTopicRep();
+    /// <summary>
+    ///  添加文章到指定的主题
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public async Task<IResp> RelateTopics(RelateTopicReq req)
+    {
+        var list = req.MapToArticleTopicMos();
+
+        await _articleTopicRep.AddList(list);
+
+        return Resp.DefaultSuccess;
+    }
+
 }

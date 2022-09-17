@@ -81,4 +81,16 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     {
         return _service.Add(req);
     }
+
+
+    /// <summary>
+    /// 关联专题
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<IResp> RelateTopics([FromBody]RelateTopicReq req)
+    {
+        return _service.RelateTopics(req);
+    }
 }

@@ -56,4 +56,11 @@ public interface IArticleOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     Task<LongResp> Add(AddArticleReq req);
+    
+    /// <summary>
+    ///  关联主题
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    Task<IResp> RelateTopics(RelateTopicReq req);
 }

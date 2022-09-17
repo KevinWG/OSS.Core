@@ -25,4 +25,25 @@ public static class ArticleConst
     {
         // 放置权限码
     }
+
+    /// <summary>
+    ///  仓储表名
+    /// </summary>
+    public static class RepTables
+    {
+        /// <summary>
+        ///  文章表
+        /// </summary>
+        public const string Article = "m_article";
+
+        /// <summary>
+        ///  专题表
+        /// </summary>
+        public const string Topic = "m_article_topic";
+
+        /// <summary>
+        /// 文章主题关联表
+        /// </summary>
+        public const string ArticleTopic = "m_article_topic_relate";
+    }
 }

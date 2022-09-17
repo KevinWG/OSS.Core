@@ -11,7 +11,7 @@ namespace OSS.Core.Module.Article;
 public class ArticleRep : BaseArticleRep<ArticleMo,long> 
 {
     /// <inheritdoc />
-    public ArticleRep() : base("m_article")
+    public ArticleRep() : base(ArticleConst.RepTables.Article)
     {
     }
 
@@ -26,16 +26,31 @@ public class ArticleRep : BaseArticleRep<ArticleMo,long>
     }
 
 
+    /// <inheritdoc />
     protected override string BuildSimpleSearch_FilterItemSql(string key, string value, Dictionary<string, object> sqlParas)
     {
         switch (key)
         {
             case "category_id":
                 sqlParas.Add("@category_id",value.ToInt64());
-                return " category_id=@category_id ";
+                return " t.category_id=@category_id ";
         }
         return base.BuildSimpleSearch_FilterItemSql(key, value, sqlParas);
     }
+
+    /// <inheritdoc />
+    protected override string BuildSimpleSearch_TableName(SearchReq req, Dictionary<string, object> sqlParas)
+    {
+
+        if (req.filter.ContainsKey("topic_id"))
+        {
+            var topicId = req.filter["topic_id"].ToInt64();
+            return
+                $"  {ArticleConst.RepTables.Article} t inner join {ArticleConst.RepTables.ArticleTopic} at on at.topic_id={topicId} and t.id = at.article_id ";
+        }
+        return base.BuildSimpleSearch_TableName(req, sqlParas);
+    }
+
 
     /// <summary>
     ///   修改状态
