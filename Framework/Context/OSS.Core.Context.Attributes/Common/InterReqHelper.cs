@@ -6,7 +6,7 @@ namespace OSS.Core.Context.Attributes
 {
     internal static class InterReqHelper
     {
-        internal static CoreContextOption Option { get; set; }
+        internal static CoreContextOption? Option { get; set; }
 
         internal static string GetErrorPage(HttpContext context,  IResp res)
         {
@@ -44,7 +44,7 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         private static bool CheckIfErrorUrl(string requestPath)
         {
-            return !string.IsNullOrEmpty(Option.ErrorPage) && requestPath.StartsWith(Option.ErrorPage);
+            return !string.IsNullOrEmpty(Option?.ErrorPage) && requestPath.StartsWith(Option.ErrorPage);
         }
 
     }

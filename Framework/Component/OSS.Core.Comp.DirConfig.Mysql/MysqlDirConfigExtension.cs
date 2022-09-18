@@ -12,10 +12,10 @@ public static class MysqlDirConfigCompExtension
     /// <param name="opt"></param>
     public static void UserMysqlDirConfigTool(this IServiceCollection serviceCollection, ConnectionOption? opt=null)
     {
-        DirConfigRep.Option            = opt??new ConnectionOption();
+        DirConfigRep.Option            = opt?? _defaultOption;
         DirConfigHelper.DefaultDirTool = new DirConfigMysqlTool();
     }
-
+    private static readonly ConnectionOption _defaultOption = new();
 }
 
 public class ConnectionOption
