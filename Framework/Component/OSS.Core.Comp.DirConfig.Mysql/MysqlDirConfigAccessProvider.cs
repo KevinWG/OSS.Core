@@ -1,6 +1,6 @@
-﻿using System.Data;
-using OSS.Common;
-using OSS.Core.Comp.DirConfig.Mysql;
+﻿using OSS.Common;
+using OSS.Tools.DirConfig;
+using System.Data;
 
 namespace OSS.Core.Comp.DirConfig;
 
@@ -21,12 +21,10 @@ public class MysqlDirConfigAccessProvider<T> : IAccessProvider<T>
         _sourceName = sourceName;
     }
     
-    private readonly DirConfigMysqlTool _dirConfigTool = SingleInstance<DirConfigMysqlTool>.Instance;
-
     /// <inheritdoc />
     public async Task<T> Get()
     {
-        var access = await _dirConfigTool.GetDirConfig<T>(_configKey, _sourceName);
+        var access = await DirConfigHelper.GetDirConfig<T>(_configKey, _sourceName);
         if (access==null)
             throw new NoNullAllowedException($"未能发现{_configKey} 对应的访问配置信息!");
         

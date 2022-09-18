@@ -6,9 +6,9 @@ namespace OSS.Core.Comp.DirConfig.Mysql;
 
 internal class DirConfigRep : BaseMysqlRep<DirConfigMo, string>
 {
-    internal static ConnectionOption Option;
-    public DirConfigRep() : base(Option.WriteConnectionName, Option.ReadConnectionName, Option.TableName)
+    public DirConfigRep(ConnectionOption option) : base(option.WriteConnection, option.ReadConnection, option.TableName)
     {
+
     }
 
     private const string System_Dir_Config_ByKey = "System_Dir_Config_";

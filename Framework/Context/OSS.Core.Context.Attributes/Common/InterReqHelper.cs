@@ -44,7 +44,7 @@ namespace OSS.Core.Context.Attributes
         /// <returns></returns>
         private static bool CheckIfErrorUrl(string requestPath)
         {
-            return !string.IsNullOrEmpty(Option?.ErrorPage) && requestPath.StartsWith(Option.ErrorPage);
+            return !string.IsNullOrEmpty(Option.ErrorPage) && requestPath.StartsWith(Option.ErrorPage);
         }
 
     }

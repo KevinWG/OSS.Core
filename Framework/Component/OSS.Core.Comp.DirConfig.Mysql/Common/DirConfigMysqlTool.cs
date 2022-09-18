@@ -9,7 +9,12 @@ namespace OSS.Core.Comp.DirConfig.Mysql
 {
     internal class DirConfigMysqlTool:IToolDirConfig
     {
-        private static readonly DirConfigRep _configRep = new();
+        private readonly DirConfigRep _configRep;
+
+        public DirConfigMysqlTool(ConnectionOption opt)
+        {
+            _configRep = new DirConfigRep(opt);
+        }
 
         public async Task<bool> SetDirConfig<TConfig>(string key, TConfig dirConfig, string sourceName)
         {
