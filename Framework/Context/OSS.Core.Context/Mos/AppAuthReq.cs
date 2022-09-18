@@ -144,7 +144,6 @@ namespace OSS.Core.Context
 
         private static readonly IResp _successResp = new Resp();
 
-
         /// <summary>
         ///   检验是否合法
         /// </summary>
@@ -156,8 +155,8 @@ namespace OSS.Core.Context
         /// <returns></returns>
         public static IResp CheckSign(this AppAuthReq appAuthInfo,string accessSecret, int signExpiredSeconds, string extSignData = null, char separator = ';')
         {
-            if (appAuthInfo.timestamp <= 0 || string.IsNullOrEmpty(appAuthInfo.access_key) || string.IsNullOrEmpty(appAuthInfo.trace_no))
-                return new Resp(RespCodes.ParaError, "参数错误！");
+            if (appAuthInfo.timestamp <= 0 || string.IsNullOrEmpty(appAuthInfo.access_key))
+                return new Resp(RespCodes.ParaError, "应用签名相关参数错误！");
 
             if (Math.Abs(DateTime.Now.ToUtcSeconds() - appAuthInfo.timestamp) > signExpiredSeconds)
                 return new Resp(RespCodes.ParaExpired, "签名不在时效范围(请使用Unix Timestamp)！");

@@ -16,7 +16,7 @@ namespace OSS.Core.Context
             /// <summary>
             ///  应用信息是否初始化完成
             /// </summary>
-            public static bool IsInitialized = ContextHelper.GetContext().AppIdentity != null;
+            public static bool IsInitialized => ContextHelper.GetContext().AppIdentity != null;
             
             /// <summary>
             ///  客户端应用授权认证信息

@@ -32,8 +32,7 @@ namespace OSS.Core.Context.Attributes
                 CoreContext.App.Identity = new AppIdentity();
             
             var appIdentity = CoreContext.App.Identity;
-        
-
+            
             // 1. app 内容格式化
             var res = await AppAuthorize(appIdentity, context.HttpContext);
             if (!res.IsSuccess())
