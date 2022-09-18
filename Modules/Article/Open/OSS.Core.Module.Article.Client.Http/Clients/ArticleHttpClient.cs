@@ -16,7 +16,6 @@ internal class ArticleHttpClient : IArticleOpenService
             .PostAsync<TokenPageListResp<ArticleMo>>(req);
     }
 
-
     /// <summary>
     ///  文章查询列表
     /// </summary>
@@ -26,7 +25,6 @@ internal class ArticleHttpClient : IArticleOpenService
         return new ArticleRemoteReq("/Article/Search")
             .PostAsync<PageListResp<ArticleMo>>(req);
     }
-
 
     /// <summary>
     ///  通过id获取详情
@@ -47,23 +45,16 @@ internal class ArticleHttpClient : IArticleOpenService
             .GetAsync<IResp<ArticleMo>>();
     }
 
+    /// <summary>
+    ///  删除
+    /// </summary>
+    /// <param name="pass_token"></param>
+    /// <returns></returns>
     public Task<IResp> Delete(string pass_token)
     {
-        throw new NotImplementedException();
+        return new ArticleRemoteReq($"/Article/Delete?pass_token={pass_token}")
+            .PostAsync<IResp>();
     }
-
-
-    ///// <summary>
-    /////  设置可用状态
-    ///// </summary>
-    ///// <param name="id"></param>
-    ///// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
-    ///// <returns></returns>
-    //public Task<IResp> SetUseable(long id, ushort flag)
-    //{
-    //      return new ArticleRemoteReq($"/Article/SetUseable?id={id}&flag={flag}")
-    //        .PostAsync<IResp>();
-    //}
 
     /// <inheritdoc />
     public Task<IResp> Edit(string pass_token, AddArticleReq req)
@@ -81,6 +72,13 @@ internal class ArticleHttpClient : IArticleOpenService
     {
           return new ArticleRemoteReq("/Article/Add")
             .PostAsync<LongResp>(req);
+    }
+
+    /// <inheritdoc />
+    public Task<IResp> RelateTopics(RelateTopicReq req)
+    {
+        return new ArticleRemoteReq("/Article/RelateTopics")
+            .PostAsync<IResp>(req);
     }
 }
 

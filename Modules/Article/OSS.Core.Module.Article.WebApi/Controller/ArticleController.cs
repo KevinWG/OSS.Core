@@ -21,7 +21,13 @@ public class ArticleController : BaseArticleController, IArticleOpenService
         return _service.MSearch(req);
     }
 
-    public Task<PageListResp<ArticleMo>> Search(SearchReq req)
+    /// <summary>
+    ///  查询文章列表
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public Task<PageListResp<ArticleMo>> Search([FromBody] SearchReq req)
     {
         return _service.Search(req);
     }
@@ -53,7 +59,7 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// </summary>
     /// <param name="pass_token"></param>
     /// <returns></returns>
-    public Task<IResp> Delete(string pass_token)
+   [HttpPost] public Task<IResp> Delete(string pass_token)
     {
         return _service.Delete(pass_token);
     }

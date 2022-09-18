@@ -16,6 +16,5 @@ public class ArticleGlobalStarter : AppStarter
 
          services.Register<ArticleDomainStarter>();    // 领域层启动注入
          services.Register<ArticleServiceStarter>();   // 逻辑服务层启动注入        
-         
     }
 }
