@@ -57,13 +57,15 @@ namespace OSS.Core.Module.Portal
         /// <returns></returns>
         [HttpPost]
         [CaptchaValidator]
-        public Task<IResp> SendCode([FromBody] PortalNameReq req)
+        public async Task<IResp> SendCode([FromBody] PortalNameReq req)
         {
+            var app      = CoreContext.App.Identity;
+
             var checkRes = req.CheckNameType();
             if (!checkRes.IsSuccess())
-                return Task.FromResult(checkRes);
-
-            return service.SendCode(req);
+                return checkRes;
+            
+            return await service.SendCode(req);
         }
 
         #region 【用户】动态码登录注册

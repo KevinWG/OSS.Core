@@ -8,9 +8,9 @@
      </PropertyGroup>
     <ItemGroup>
        <PackageReference Include="OSS.Tools.Log" Version="*" />
-       <PackageReference Include="OSS.Core.Domain" Version="*" />
-       <PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="*" />
-       <PackageReference Include="OSS.Core.Extension.Cache" Version="*" />
+       <PackageReference Include="OSS.Core.Domain" Version="2.2.0" />
+       <PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="2.2.0" />
+       <PackageReference Include="OSS.Core.Extension.Cache" Version="2.2.0" />
     </ItemGroup>
     <ItemGroup>
        <ProjectReference Include="..\Open\OSS.Core.Module.Article.Domain.Open\OSS.Core.Module.Article.Domain.Open.csproj" />

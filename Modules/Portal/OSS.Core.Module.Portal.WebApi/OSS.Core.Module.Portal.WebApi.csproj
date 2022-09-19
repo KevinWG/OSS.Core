@@ -8,9 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="2.0.0" />
-    <PackageReference Include="OSS.Core.Context.Attributes" Version="2.9.3" />
-    <PackageReference Include="OSS.Core.Extension.Mvc.Captcha.Ali" Version="2.0.0" />
+    <PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="2.4.0" />
+    <PackageReference Include="OSS.Core.Context.Attributes" Version="2.10.3" />
+    <PackageReference Include="OSS.Core.Extension.Mvc.Captcha.Ali" Version="2.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 

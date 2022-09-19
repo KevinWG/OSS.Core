@@ -28,8 +28,7 @@ internal static class PortalTokenHelper
     /// <returns></returns>
     internal static PortalTokenResp GeneratePortalToken(UserIdentity newIdentity)
     {
-        var tenantId = CoreContext.Tenant.Identity.id;
-        var tokenStr = string.Concat(newIdentity.id, "|", tenantId, "|", (int) newIdentity.auth_type, "|",
+        var tokenStr = string.Concat(newIdentity.id, "|", (int) newIdentity.auth_type, "|",
             NumHelper.RandomNum(6));
 
         var token = GetToken(UserTokenSecret, tokenStr);
@@ -46,19 +45,16 @@ internal static class PortalTokenHelper
 
             var tokenDetail = GetTokenDetail(UserTokenSecret, appInfo.token);
             var tokenSplit  = tokenDetail.Split('|');
-            if (tokenSplit.Length != 4)
+
+            if (tokenSplit.Length != 3)
                 return new Resp<(long, PortalAuthorizeType)>().WithResp(RespCodes.OperateFailed,
                     "非合法授权来源!");
 
-            var tenantId = tokenSplit[1];
-            var userId   = tokenSplit[0].ToInt64();
+            var userId = tokenSplit[0].ToInt64();
+            if (userId <= 0)
+                return new Resp<(long, PortalAuthorizeType)>().WithResp(RespCodes.OperateFailed, "非合法授权来源!");
 
-            if (!string.IsNullOrEmpty(appInfo.tenant_id) && tenantId != appInfo.tenant_id
-                || userId <= 0)
-                return new Resp<(long, PortalAuthorizeType)>().WithResp(RespCodes.OperateFailed,
-                    "非合法授权来源!");
-
-            var authType = (PortalAuthorizeType) tokenSplit[2].ToInt32();
+            var authType = (PortalAuthorizeType) tokenSplit[1].ToInt32();
             return new Resp<(long, PortalAuthorizeType)>()
             {
                 data = (userId, authType)

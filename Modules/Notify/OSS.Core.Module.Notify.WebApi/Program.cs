@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 
 using OSS.Core;
+using OSS.Core.Comp.DirConfig.Mysql;
 using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
 
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 ConfigHelper.Configuration = builder.Configuration;
 
 builder.Services.Register<NotifyGlobalStarter>();
+builder.Services.UserMysqlDirConfigTool();
 
 builder.Services.AddControllers(opt =>
 {

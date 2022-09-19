@@ -9,7 +9,7 @@
     <ItemGroup>
        <PackageReference Include="OSS.DataFlow" Version="*" />
        <PackageReference Include="OSS.Core.Extension.Cache" Version="*" />
-       <PackageReference Include="OSS.Core.Extension.PassToken" Version="2.1.1" />
+       <PackageReference Include="OSS.Core.Extension.PassToken" Version="2.2.0" />
     </ItemGroup>
     <ItemGroup>
        <ProjectReference Include="..\OSS.Core.Module.Article.Domain\OSS.Core.Module.Article.Domain.csproj" />

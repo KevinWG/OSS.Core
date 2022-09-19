@@ -5,6 +5,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 	<ItemGroup>
-	  <PackageReference Include="OSS.Core.Domain.Opened" Version="2.1.0" />
+	  <PackageReference Include="OSS.Core.Domain.Opened" Version="2.2.0" />
 	</ItemGroup>
 </Project>

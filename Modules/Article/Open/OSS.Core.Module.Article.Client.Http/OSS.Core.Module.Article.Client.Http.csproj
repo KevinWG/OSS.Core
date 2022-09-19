@@ -7,7 +7,7 @@
          <GenerateDocumentationFile>True</GenerateDocumentationFile>
      </PropertyGroup>
     <ItemGroup>
-       <PackageReference Include="OSS.Core.Client.Http" Version="*"/>
+       <PackageReference Include="OSS.Core.Client.Http" Version="2.2.0" />
     </ItemGroup>
     <ItemGroup>
        <ProjectReference Include="..\OSS.Core.Module.Article.Service.Open\OSS.Core.Module.Article.Service.Open.csproj" />

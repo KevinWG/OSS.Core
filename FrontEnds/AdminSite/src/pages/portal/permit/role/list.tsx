@@ -6,7 +6,7 @@ import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 import SearchProTable from '@/components/search/search_protable';
 import { CommonStatus } from '@/services/common/enums';
 import FuncCodes from '@/services/common/func_codes';
-import { activeRole, searchRoles, unactiveRole } from '@/services/portal/role_api';
+import { activeRole, searchRoles, unactiveRole } from '@/services/permit/role_api';
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,

@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 
 using OSS.Core;
+using OSS.Core.Comp.DirConfig.Mysql;
 using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
 
@@ -11,6 +12,7 @@ using OSS.Core.Module.Portal;
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigHelper.Configuration = builder.Configuration;
+builder.Services.UserMysqlDirConfigTool();
 
 builder.Services.Register<PortalGlobalStarter>(); // È«¾Ö×¢Èë
 builder.Services.AddDefaultNoneCaptchaValidator();

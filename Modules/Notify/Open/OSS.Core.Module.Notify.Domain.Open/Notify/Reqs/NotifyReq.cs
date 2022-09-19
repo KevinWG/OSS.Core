@@ -3,12 +3,12 @@
 namespace OSS.Core.Module.Notify
 {
     public class NotifySendReq
-    {        /// <summary>
+    {
+        /// <summary>
         ///  通知请求
         /// </summary>
         public NotifySendReq()
         {
-
         }
 
         /// <summary>

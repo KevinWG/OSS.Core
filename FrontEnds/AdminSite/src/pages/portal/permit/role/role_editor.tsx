@@ -1,4 +1,4 @@
-import { addRole, updateRoleName } from '@/services/portal/role_api';
+import { addRole, updateRoleName } from '@/services/permit/role_api';
 import { ProForm, ProFormText } from '@ant-design/pro-components';
 import { Form, message, Modal, ModalProps } from 'antd';
 

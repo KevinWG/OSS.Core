@@ -25,32 +25,33 @@ export default [
         path: '/portal/admin/list',
         component: './portal/admin/list',
       },
-      {
-        path: '/portal/permit',
-        access: FuncCodes.Poral_Permit,
-        name: '权限管理',
-        routes: [
-          {
-            path: '/portal/permit/role',
-            name: '角色管理',
-            access: FuncCodes.portal_role_list,
-            component: './portal/permit/role/list',
-          },
-          {
-            path: '/portal/permit/func',
-            name: '权限项管理',
-            access: FuncCodes.Portal_Func_Operate,
-            component: './portal/permit/func_items',
-          },
-          { component: './404' },
-        ],
-      },
+    
       {
         name: '登录设置',
         access: FuncCodes.portal_setting_auth,
         path: '/portal/auth/setting',
         component: './portal/auth_setting',
       },
+    ],
+  },
+  {
+    path: '/permit',
+    access: FuncCodes.Poral_Permit,
+    name: '权限管理',
+    routes: [
+      {
+        path: '/permit/role',
+        name: '角色管理',
+        access: FuncCodes.portal_role_list,
+        component: './portal/permit/role/list',
+      },
+      {
+        path: '/permit/func',
+        name: '权限项管理',
+        access: FuncCodes.Portal_Func_Operate,
+        component: './portal/permit/func_items',
+      },
+      { component: './404' },
     ],
   },
   // {

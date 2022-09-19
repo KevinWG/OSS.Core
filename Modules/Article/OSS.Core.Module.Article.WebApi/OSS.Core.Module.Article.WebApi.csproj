@@ -8,8 +8,8 @@
      </PropertyGroup>
     <ItemGroup>
        <PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
-       <PackageReference Include="OSS.Core.Context.Attributes" Version="*" />
-       <PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="*" />
+       <PackageReference Include="OSS.Core.Context.Attributes" Version="2.10.3" />
+       <PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="2.4.0" />
     </ItemGroup>
     <ItemGroup>
        <ProjectReference Include="..\..\Portal\Open\OSS.Core.Module.Portal.Client.Http\OSS.Core.Module.Portal.Client.Http.csproj" />

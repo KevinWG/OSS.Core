@@ -4,15 +4,16 @@ using OSS.Core.Context.Attributes;
 
 using OSS.Core.Module.Article;
 using System.Text.Json.Serialization;
+using OSS.Core.Comp.DirConfig.Mysql;
 
 
 // ========================================  容器依赖注入   ========================================
-
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigHelper.Configuration = builder.Configuration;  // 全局配置工具处理
 
 builder.Services.Register<ArticleGlobalStarter>();    // 应用层全局注入 
+builder.Services.UserMysqlDirConfigTool();
 
 builder.Services.AddControllers(opt =>
     {

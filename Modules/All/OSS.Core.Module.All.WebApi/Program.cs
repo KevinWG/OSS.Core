@@ -3,12 +3,16 @@ using OSS.Core.Context.Attributes;
 using OSS.Core.Extension.Mvc.Captcha;
 using OSS.Core.Module.All.WebApi;
 using System.Text.Json.Serialization;
+using OSS.Core.Comp.DirConfig.Mysql;
 using OSS.Core.Module.Portal;
 using OSS.Tools.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 
 ConfigHelper.Configuration = builder.Configuration;
+
+// 使用mysql字典配置管理
+builder.Services.UserMysqlDirConfigTool();
 
 // 系统注册项
 builder.Services.Register<AllWebApiGlobalStarter>();

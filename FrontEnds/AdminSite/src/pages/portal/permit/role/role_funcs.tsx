@@ -2,7 +2,7 @@ import AccessButton from '@/components/button/access_button';
 import FuncCodes from '@/services/common/func_codes';
 import { CompareNotIn } from '@/services/common/utils';
 import { getAllFuncItems } from '@/services/permit/func_api';
-import { editRoleFuncs, getRoleFuncs } from '@/services/portal/role_api';
+import { editRoleFuncs, getRoleFuncs } from '@/services/permit/role_api';
 import { useRequest } from 'ahooks';
 import { Button, Card, Col, Drawer, message, Row, Space, Tree } from 'antd';
 import { DrawerProps } from 'antd/lib/drawer';
