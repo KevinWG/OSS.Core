@@ -204,7 +204,7 @@ public class AuthService : BaseAuthService, IAuthCommonService
             return new Resp(RespCodes.OperateFailed, "验证码错误");
 
         await CacheHelper.RemoveAsync(key);
-        return new Resp();
+        return Resp.DefaultSuccess;
     }
 
     #endregion
