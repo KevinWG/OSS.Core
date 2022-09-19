@@ -27,8 +27,9 @@ export default defineConfig({
   },
 
   targets: {
-    ie: 11,
+    // ie: 11,
   },
+
   // umi routes: https://umijs.org/docs/routing
   routes,
   access: {},
