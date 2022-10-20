@@ -43,7 +43,6 @@
 >Extension 
 >>OSS.Core.Extension.Cache      针对全局IResp接口的缓存方法扩展<br>
 >>OSS.Core.Extension.PassToken    全局行级数据安全通行码扩展方法<br>
->>OSS.Core.Extension.Mvc.Configuration    Config配置全局扩展
 
 >>Captcha （验证码）
 >>>>OSS.Core.Extension.Mvc.Captcha   验证码请求拦截中间件扩展（人机校验）<br>
@@ -63,6 +62,21 @@
 
 >Component
 >>OSS.Core.Comp.DirConfig.Mysql 基于Mysql的字典配置管理组件。
+
+### 新增模块
+	为了减少创建新项目的复杂度，同步提供了 dotnet tool 本地工具（osscore），一键创建项目并建立相关引用
+	工具安装命令: dotnet tool intall -g OSSCore
+
+	完成本地工具安装之后，可在项目所在文件夹执行以下命令：
+	  
+	osscore new moduleA （创建名称为 moduleA 的模块解决方案）
+    	可选参数提示：
+        --pre=xxx, 指定解决方案前缀
+        --mode=simple|default, 指定解决方案结构
+            simple： 没有独立的仓储类库（和领域对象类库合并）
+            default：独立仓储层
+
+	osscore add entityName (创建领域对象名为entityName的各模块文件)
 
 ### 其他相关独立开源组件
 
