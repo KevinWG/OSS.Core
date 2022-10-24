@@ -35,6 +35,30 @@ namespace OSS.Core.Domain
     }
 
     /// <summary>
+    ///  基础所有者实体（租户）
+    /// </summary>
+    /// <typeparam name="IdType"></typeparam>
+    public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>,ITenantId<long>
+    {
+        /// <summary>
+        ///  租户
+        /// </summary>
+        public long tenant_id { get; set; }
+    }
+
+    /// <summary>
+    ///  基础所有者实体（租户）
+    /// </summary>
+    /// <typeparam name="IdType"></typeparam>
+    public class BaseTenantOwnerStateMo<IdType> : BaseTenantOwnerMo<IdType>
+    {
+        /// <summary>
+        /// 状态信息
+        /// </summary>
+        public CommonStatus status { get; set; }
+    }
+
+    /// <summary>
     ///  基类扩展方法
     /// </summary>
     public static class BaseMoExtension
@@ -58,6 +82,22 @@ namespace OSS.Core.Domain
             }
 
             t.add_time = DateTime.Now.ToUtcSeconds();
+        }
+
+        /// <summary>
+        ///  从上下文中初始化基础信息
+        /// </summary>
+        /// <param name="t"></param>
+        public static void FormatBaseByContext(this BaseTenantOwnerMo<long> t)
+        {
+            FormatBaseByContext((BaseOwnerMo<long>)t);
+
+            if (t.tenant_id > 0) return;
+
+            if (CoreContext.Tenant.IsAuthenticated)
+            {
+                t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+            }
         }
     }
 
