@@ -38,7 +38,7 @@ namespace OSS.Core.Domain
     ///  基础所有者实体（租户）
     /// </summary>
     /// <typeparam name="IdType"></typeparam>
-    public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>,ITenantId<long>
+    public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>,IDomainTenantId<long>
     {
         /// <summary>
         ///  租户
@@ -50,7 +50,7 @@ namespace OSS.Core.Domain
     ///  基础所有者实体（租户）
     /// </summary>
     /// <typeparam name="IdType"></typeparam>
-    public class BaseTenantOwnerStateMo<IdType> : BaseTenantOwnerMo<IdType>
+    public class BaseTenantOwnerAndStateMo<IdType> : BaseTenantOwnerMo<IdType>
     {
         /// <summary>
         /// 状态信息
