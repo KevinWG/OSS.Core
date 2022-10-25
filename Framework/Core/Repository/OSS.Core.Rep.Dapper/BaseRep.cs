@@ -21,6 +21,11 @@ using System.Linq.Expressions;
 
 namespace OSS.Core.Rep.Dapper;
 
+/// <summary>
+/// 仓储基类
+/// </summary>
+/// <typeparam name="TType"></typeparam>
+/// <typeparam name="IdType"></typeparam>
 public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     //where TType :    IDomainId<IdType>
 {
@@ -29,6 +34,10 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     public string TableName { get; }
 
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="tableName"></param>
     protected BaseRep(string tableName)
     {
         TableName = tableName;
@@ -58,9 +67,6 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             }
         }
     }
-
-
-
 
 
     /// <summary>
@@ -210,8 +216,6 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     }
     
     #endregion
-
-
 
     #region Get
 
@@ -451,7 +455,6 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     }
 
     #endregion
-
 }
 
 
