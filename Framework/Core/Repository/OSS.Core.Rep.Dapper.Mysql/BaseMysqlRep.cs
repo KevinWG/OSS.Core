@@ -7,7 +7,7 @@ using MySql.Data.MySqlClient;
 using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Common.Extension;
-
+using OSS.Core.Context;
 using OSS.Core.Domain;
 using OSS.Core.Rep.Dapper;
 
@@ -102,6 +102,8 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
 
         if (HaveStatusColumn && !searchFilters.ContainsKey("status"))
             searchFilters.Add("status", "-9999");
+        if (HaveTenantIdColumn && !searchFilters.ContainsKey("tenant_id"))
+            searchFilters.Add("tenant_id",CoreContext.Tenant.Identity.id );
 
         var strBuilder = new StringBuilder("where 1=1 ");
         foreach (var filter in searchFilters)
@@ -147,6 +149,10 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
             case "owner_uid":
                 sqlParas.Add("@owner_uid", value.ToInt64());
                 return " t.`owner_uid`=@owner_uid";
+
+            case "tenant_id":
+                sqlParas.Add("@tenant_id", value.ToInt64());
+                return " t.`tenant_id`=@tenant_id";
         }
 
         return string.Empty;
