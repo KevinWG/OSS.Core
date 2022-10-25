@@ -1,4 +1,6 @@
-﻿namespace OSS.Core.Context
+﻿using OSS.Common.Extension;
+
+namespace OSS.Core.Context
 {
     using Provider =  OSS.Common.ServiceProvider;
 
@@ -22,6 +24,42 @@
         public static void InitialContextContainer()
         {
             ContextHelper.GetContext();
+        }
+
+        /// <summary>
+        ///  获取用户Id（long类型）
+        /// </summary>
+        /// <returns></returns>
+        public static long GetUserLongId()
+        {
+            return CoreContext.User.Identity.id.ToInt64();
+        }
+
+        /// <summary>
+        ///  获取租户Id（long类型）
+        /// </summary>
+        /// <returns></returns>
+        public static long GetTenantLongId()
+        {
+            return CoreContext.Tenant.Identity.id.ToInt64();
+        }
+
+        /// <summary>
+        ///  获取用户Id（long类型）
+        /// </summary>
+        /// <returns></returns>
+        public static long GetUserLongIdSafely()
+        {
+            return CoreContext.User.IsAuthenticated? CoreContext.User.Identity.id.ToInt64():0;
+        }
+
+        /// <summary>
+        ///  获取租户Id（long类型）
+        /// </summary>
+        /// <returns></returns>
+        public static long GetTenantLongIdSafely()
+        {
+            return CoreContext.Tenant.IsAuthenticated? CoreContext.Tenant.Identity.id.ToInt64():0;
         }
     }
     

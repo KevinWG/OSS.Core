@@ -18,9 +18,15 @@ using OSS.Core.Domain;
 
 using System.Data;
 using System.Linq.Expressions;
+using OSS.Core.Context;
 
 namespace OSS.Core.Rep.Dapper;
 
+/// <summary>
+/// 仓储基类
+/// </summary>
+/// <typeparam name="TType"></typeparam>
+/// <typeparam name="IdType"></typeparam>
 public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     //where TType :    IDomainId<IdType>
 {
@@ -29,6 +35,10 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     public string TableName { get; }
 
+    /// <summary>
+    /// 构造函数
+    /// </summary>
+    /// <param name="tableName"></param>
     protected BaseRep(string tableName)
     {
         TableName = tableName;
@@ -44,6 +54,12 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     protected static readonly bool HaveIdColumn;
 
+
+    /// <summary>
+    ///  是否存在状态字段
+    /// </summary>
+    protected static readonly bool HaveTenantIdColumn;
+
     static BaseRep()
     {
         var interfaces = typeof(TType).GetInterfaces();
@@ -55,12 +71,11 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
                     HaveStatusColumn = true;
                 else if (i.GetGenericTypeDefinition() == typeof(IDomainId<>))
                     HaveIdColumn = true;
+                else if (i.GetGenericTypeDefinition() == typeof(IDomainTenantId<>))
+                  HaveTenantIdColumn = true;
             }
         }
     }
-
-
-
 
 
     /// <summary>
@@ -151,7 +166,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     #endregion
 
     #region Delete
-    
+
     /// <summary>
     /// 软删除，仅仅修改  status = CommonStatus.Delete 
     /// </summary>
@@ -161,14 +176,18 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     {
         if (!HaveIdColumn)
             throw new NotImplementedException($"当前仓储类型({typeof(TType).Name})未继承(IDomainId<>)，不能使用SoftDeleteById方法！");
-        
+
         if (id == null)
             throw new Exception(" 删除 Id 不能为空 ！");
 
-        const string whereSql = "id=@id";
+        if (!HaveTenantIdColumn)
+            return SoftDelete("id=@id", new { id });
 
-        var dirPara = new {id};
-        return SoftDelete(whereSql, dirPara);
+        const string whereSql = "id=@id and tenant_id=@tenant_id";
+        var tenantId = CoreContext.GetTenantLongId();
+
+        return SoftDelete(whereSql, new { id, tenant_id = tenantId });
+
     }
 
     /// <summary>
@@ -180,7 +199,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     {
         if (!HaveStatusColumn)
             throw new NotImplementedException($"当前仓储类型({typeof(TType).Name})未继承(IDomainStatus<>)，不能使用SoftDelete方法！");
-
+        
         return Update(m => new {status = CommonStatus.Deleted}, whereExp);
     }
 
@@ -210,8 +229,6 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     }
     
     #endregion
-
-
 
     #region Get
 
@@ -246,6 +263,12 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
         {
             sql = string.Concat(sql, " and status>@status");
             dirPara.Add("@status", (int) CommonStatus.Deleted);
+        }
+
+        if (HaveTenantIdColumn)
+        {
+            sql = string.Concat(sql, " and tenant_id=@tenant_id");
+            dirPara.Add("@tenant_id", CoreContext.GetTenantLongId());
         }
 
         return Get<RType>(sql, dirPara);
@@ -451,7 +474,6 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     }
 
     #endregion
-
 }
 
 
