@@ -1,8 +1,11 @@
 ﻿using OSS.Common.Resp;
+using OSS.Core.Context;
 using OSS.Core.Context.Attributes;
 using OSS.Tools.Config;
 
 namespace WeApi.Test;
+
+
 /// <summary>
 ///  应用访问秘钥信息提供者
 /// </summary>
@@ -24,9 +27,19 @@ public class AppAccessProvider : IAppAccessProvider
                 return new Resp<AppAccess>(access);
             }
         }
-
         return new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求");
     }
+}
 
 
+
+public class TenantAuthProvider : ITenantAuthProvider
+{
+    public async Task<IResp<TenantIdentity>> GetIdentity()
+    {
+        return new Resp<TenantIdentity>(new TenantIdentity()
+        {
+            id = "1"
+        });
+    }
 }

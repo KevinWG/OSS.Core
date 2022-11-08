@@ -12,7 +12,7 @@ builder.Services.AddDefaultNoneCaptchaValidator();
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization(new AppAccessProvider());
+    opt.AddCoreAppAuthorization(new AppAccessProvider(),new TenantAuthProvider());
 
 }).AddJsonOptions(jsonOpt =>
 {

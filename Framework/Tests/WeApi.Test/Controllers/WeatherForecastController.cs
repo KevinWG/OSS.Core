@@ -21,11 +21,12 @@ namespace WeApi.Test.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
-        [CaptchaValidator]
+        [HttpGet]
+        //[CaptchaValidator]
         public IResp Get()
         {
-            var app = CoreContext.App.Identity;
+            var app    = CoreContext.App.Identity;
+            var tenant = CoreContext.Tenant.Identity;
 
             return Resp.DefaultSuccess;
         }

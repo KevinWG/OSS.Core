@@ -131,9 +131,7 @@ namespace OSS.Core.Context.Attributes
 
         private static async Task<IResp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
         {
-            if (appInfo.auth_mode == AppAuthMode.OutApp
-                || appOption?.TenantAuthProvider == null
-                || !CoreContext.Tenant.IsAuthenticated)
+            if (appOption?.TenantAuthProvider == null)
                 return Resp.DefaultSuccess;
 
             var identityRes = await appOption.TenantAuthProvider.GetIdentity();
