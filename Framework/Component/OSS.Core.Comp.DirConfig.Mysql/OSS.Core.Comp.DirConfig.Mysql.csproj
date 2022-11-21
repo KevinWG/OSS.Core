@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <Version>2.4.1</Version>
+    <Version>2.4.2</Version>
     <PackageIcon>logo.png</PackageIcon>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
@@ -19,7 +19,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="OSS.Tools.Config" Version="1.2.0" />
-    <PackageReference Include="OSS.Tools.DirConfig" Version="2.3.2" />
+    <PackageReference Include="OSS.Tools.DirConfig" Version="2.3.3" />
   </ItemGroup>
 
   <ItemGroup>
