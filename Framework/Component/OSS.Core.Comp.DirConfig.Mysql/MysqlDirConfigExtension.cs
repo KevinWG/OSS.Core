@@ -16,6 +16,16 @@ public static class MysqlDirConfigCompExtension
         DirConfigHelper.DefaultDirTool = new DirConfigMysqlTool(opt ?? GetDefaultOption());
     }
 
+    /// <summary>
+    /// 使用列表配置项组件（Mysql存储）
+    /// </summary>
+    /// <param name="serviceCollection"></param>
+    /// <param name="opt"></param>
+    public static void UserMysqlListConfigTool(this IServiceCollection serviceCollection, ConnectionOption? opt = null)
+    {
+        ListConfigHelper.DefaultDirTool = new ListConfigMysqlTool(opt ?? GetDefaultOption());
+    }
+
     private static ConnectionOption GetDefaultOption()
     {
         return new ConnectionOption()
@@ -25,7 +35,6 @@ public static class MysqlDirConfigCompExtension
             WriteConnection = ConfigHelper.GetConnectionString("WriteConnection"),
         };
     }
-
     private static readonly ConnectionOption _defaultOption = new();
 }
 
@@ -45,6 +54,7 @@ public class ConnectionOption
     ///  配置表名
     /// </summary>
     public string TableName { get; set; } = "sys_dir_config";
+
 }
 
 

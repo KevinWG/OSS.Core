@@ -43,9 +43,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Comp.DirConfig.Mys
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DE8FF8A7-A5AD-4E27-A9E5-C815198BFA8F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.Test", "Tests\OSS.Core.Test\OSS.Core.Test.csproj", "{0BAF2339-8FD1-497D-9487-29E62D59515A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Test", "Tests\OSS.Core.Test\OSS.Core.Test.csproj", "{0BAF2339-8FD1-497D-9487-29E62D59515A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WeApi.Test", "Tests\WeApi.Test\WeApi.Test.csproj", "{828D2E16-CC0D-4903-8942-AA588EC1AF9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WeApi.Test", "Tests\WeApi.Test\WeApi.Test.csproj", "{828D2E16-CC0D-4903-8942-AA588EC1AF9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,8 +93,8 @@ Global
 		{E690DC2F-AF20-4224-BD74-0128C679AA9F}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{E690DC2F-AF20-4224-BD74-0128C679AA9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E690DC2F-AF20-4224-BD74-0128C679AA9F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FD9D123B-AE16-4E51-B582-58E9383B1003}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{FD9D123B-AE16-4E51-B582-58E9383B1003}.Debug|Any CPU.Build.0 = Release|Any CPU
+		{FD9D123B-AE16-4E51-B582-58E9383B1003}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD9D123B-AE16-4E51-B582-58E9383B1003}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD9D123B-AE16-4E51-B582-58E9383B1003}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD9D123B-AE16-4E51-B582-58E9383B1003}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CD9F7B8A-2319-4CB3-9F19-BE3ADBD04C58}.Debug|Any CPU.ActiveCfg = Release|Any CPU

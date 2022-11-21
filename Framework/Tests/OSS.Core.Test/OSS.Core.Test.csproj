@@ -16,7 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Component\OSS.Core.Comp.DirConfig.Mysql\OSS.Core.Comp.DirConfig.Mysql.csproj" />
     <ProjectReference Include="..\..\Context\OSS.Core.Context\OSS.Core.Context.csproj" />
+    <ProjectReference Include="..\WeApi.Test\WeApi.Test.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
