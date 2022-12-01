@@ -10,7 +10,7 @@ namespace OSS.Core.Context.Attributes
 
         internal static string GetErrorPage(HttpContext context,  IResp res)
         {
-            if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.auth_mode != AppAuthMode.Browser) || context.Request.IsFetchReq())
+            if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.auth_mode != AppAuthMode.None) || context.Request.IsFetchReq())
                 return string.Empty;
 
             if (CheckIfErrorUrl(context.Request.Path.ToString()))
@@ -24,7 +24,7 @@ namespace OSS.Core.Context.Attributes
 
         internal static string GetUnloginPage(HttpContext context)
         {
-            if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.auth_mode != AppAuthMode.Browser) || context.Request.IsFetchReq())
+            if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.auth_mode != AppAuthMode.None) || context.Request.IsFetchReq())
                 return string.Empty;
 
             var loginUrl = Option?.LoginPage;

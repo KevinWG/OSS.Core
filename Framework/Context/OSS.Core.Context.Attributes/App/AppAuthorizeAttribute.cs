@@ -49,11 +49,11 @@ namespace OSS.Core.Context.Attributes
 
         private async Task<IResp> AppAuthorize(AppIdentity appInfo, HttpContext context)
         {
-            if (appInfo.auth_mode != AppAuthMode.OutApp)
+            if (appInfo.auth_mode != AppAuthMode.PartnerContract)
             {
                 appInfo.auth_mode = context.Request.Headers.ContainsKey(_appOption.SignModeHeaderName)
                     ? AppAuthMode.AppSign
-                    : AppAuthMode.Browser;
+                    : AppAuthMode.None;
             }
             
             switch (appInfo.auth_mode)
@@ -77,7 +77,7 @@ namespace OSS.Core.Context.Attributes
             }
 
 
-            if (appInfo.auth_mode >= AppAuthMode.Browser)
+            if (appInfo.auth_mode >= AppAuthMode.None)
             {
                 // 浏览器模式下，从cookie中初始化用户Token
                 if (context.Request.Cookies.TryGetValue(_appOption.BrowserModeCookieName, out var tokenVal))

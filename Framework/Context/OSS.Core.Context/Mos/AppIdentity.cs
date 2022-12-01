@@ -67,7 +67,7 @@ namespace OSS.Core.Context
         /// <summary>
         /// 来源模式
         /// </summary> 
-        public AppAuthMode app_auth_mode { get; set; } = AppAuthMode.Browser;
+        public AppAuthMode app_auth_mode { get; set; } = AppAuthMode.None;
 
         /// <summary>
         ///   应用类型
@@ -77,23 +77,23 @@ namespace OSS.Core.Context
 
 
     /// <summary>
-    ///  app的来源处理模式
+    ///  应用授权模式（值越小安全层级越高
     /// </summary>
     public enum AppAuthMode
     {
         /// <summary>
-        ///  应用签名模式（强签名）
+        ///  系统应用签名模式（强签名）
         /// </summary>
         AppSign = 0,
 
         /// <summary>
-        ///  第三方应用模式（如微信回调，自定义约定验证模式
+        ///  第三方合作应用约定模式（如微信回调，自定义约定验证模式
         /// </summary>
-        OutApp = 1000,
+        PartnerContract = 1000,
 
         /// <summary>
-        /// 浏览器访问模式
+        ///  非授权验证
         /// </summary>
-        Browser = 10000
+        None = 10000
     }
 }
