@@ -109,12 +109,12 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="list"></param>
     /// <returns></returns>
-    public virtual async Task<IResp> AddList(IList<TType> list)
+    public virtual async Task<Resp> AddList(IList<TType> list)
     {
         var res = await ExecuteWriteAsync(async con =>
         {
             var row = await con.InsertList(TableName, list);
-            return row > 0 ? Resp.DefaultSuccess : new Resp().WithResp(RespCodes.OperateFailed, "添加失败!");
+            return row > 0 ? new Resp() : new Resp().WithResp(RespCodes.OperateFailed, "添加失败!");
         });
         return res;
     }
@@ -155,7 +155,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
         => ExecuteWriteAsync(async con =>
         {
             if (string.IsNullOrEmpty(whereSql))
-                throw new Exception("更新语句 where 条件不能为空！");
+                throw new RespException(SysRespCodes.AppError,"更新语句 where 条件不能为空！");
 
             var sql = string.Concat("UPDATE ", TableName, " SET ", updateColNamesSql, " ", whereSql);
             var row = await con.ExecuteAsync(sql, para);
@@ -172,7 +172,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<IResp> SoftDeleteById(IdType id)
+    public virtual Task<Resp> SoftDeleteById(IdType id)
     {
         if (!HaveIdColumn)
             throw new NotImplementedException($"当前仓储类型({typeof(TType).Name})未继承(IDomainId<>)，不能使用SoftDeleteById方法！");
@@ -209,7 +209,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <param name="whereSql"></param>
     /// <param name="whereParas"></param>
     /// <returns></returns>
-    protected virtual Task<IResp> SoftDelete(string whereSql, object? whereParas = null)
+    protected virtual Task<Resp> SoftDelete(string whereSql, object? whereParas = null)
     {
         if (!HaveStatusColumn)
             throw new NotImplementedException($"当前仓储类型({typeof(TType).Name})未继承(IDomainStatus<>)，不能使用SoftDelete方法！");
@@ -223,7 +223,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
 
             var rows = await con.ExecuteAsync(sql, whereParas);
             return rows > 0
-                ? Resp.DefaultSuccess
+                ? new Resp()
                 : new Resp().WithResp(RespCodes.OperateFailed, "软删除失败!");
         });
     }
@@ -238,7 +238,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<IResp<TType>> GetById(IdType id)
+    public virtual Task<Resp<TType>> GetById(IdType id)
     {
         return GetById<TType>(id);
     }
@@ -248,10 +248,10 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<IResp<RType>> GetById<RType>(IdType id)
+    public virtual Task<Resp<RType>> GetById<RType>(IdType id)
     {
         if (!HaveIdColumn)
-            throw new NotImplementedException($"当前仓储类型({typeof(TType).Name})未继承(IDomainId<>)，不能使用GetById方法！");
+            throw new RespNotImplementException($"当前仓储类型({typeof(TType).Name})未继承(IDomainId<>)，不能使用GetById方法！");
 
         if (id == null)
             throw new Exception(" 查询Id不能为空 ！");
@@ -279,7 +279,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
     /// <returns></returns>
-    protected Task<IResp<TType>> Get(Expression<Func<TType, bool>> whereExp)
+    protected Task<Resp<TType>> Get(Expression<Func<TType, bool>> whereExp)
         => ExecuteReadAsRespAsync(con => con.Get<TType, TType>(TableName, whereExp));
 
 
@@ -288,7 +288,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
     /// <returns></returns>
-    protected Task<IResp<RType>> Get<RType>(Expression<Func<TType, bool>> whereExp)
+    protected Task<Resp<RType>> Get<RType>(Expression<Func<TType, bool>> whereExp)
         => ExecuteReadAsRespAsync(con => con.Get<TType, RType>(TableName, whereExp));
 
     /// <summary>
@@ -297,7 +297,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <param name="getSql"> 查询sql语句</param>
     /// <param name="para"></param>
     /// <returns></returns>
-    protected virtual Task<IResp<RType>> Get<RType>(string getSql, object para)
+    protected virtual Task<Resp<RType>> Get<RType>(string getSql, object para)
     {
         return ExecuteReadAsRespAsync(con => con.QuerySingleOrDefaultAsync<RType>(getSql, para));
     }
@@ -420,13 +420,13 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <typeparam name="RespParaType"></typeparam>
     /// <param name="func"></param>
     /// <returns></returns>
-    protected Task<IResp<RespParaType>> ExecuteReadAsRespAsync<RespParaType>(
+    protected Task<Resp<RespParaType>> ExecuteReadAsRespAsync<RespParaType>(
         Func<IDbConnection, Task<RespParaType>> func)
         => ExecuteAsync(async con =>
         {
             var res = await func(con);
 
-            return (IResp<RespParaType>) (res != null
+            return (res != null
                 ? new Resp<RespParaType>(res)
                 : new Resp<RespParaType>().WithResp(RespCodes.OperateObjectNull, "未发现相关数据！"));
         }, false);

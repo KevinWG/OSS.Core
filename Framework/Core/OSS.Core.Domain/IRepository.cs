@@ -22,28 +22,28 @@ namespace OSS.Core.Domain
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        Task<IResp> AddList(IList<MType> list);
+        Task<Resp> AddList(IList<MType> list);
 
         /// <summary>
         /// 软删除，仅仅修改  status = CommonStatus.Delete 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<IResp> SoftDeleteById(IdType id);
+        Task<Resp> SoftDeleteById(IdType id);
 
         /// <summary>
         /// 通过id获取实体
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<IResp<MType>> GetById(IdType id);
+        Task<Resp<MType>> GetById(IdType id);
 
         /// <summary>
         /// 通过id获取实体
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<IResp<RType>> GetById<RType>(IdType id);
+        Task<Resp<RType>> GetById<RType>(IdType id);
     }
 
 }
