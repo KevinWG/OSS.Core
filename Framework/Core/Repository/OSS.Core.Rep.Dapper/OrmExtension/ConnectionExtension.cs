@@ -91,7 +91,7 @@ namespace OSS.Core.Rep.Dapper
         }
         #endregion
 
-        public static async Task<IResp> UpdatePartial<TType>(this IDbConnection con, string tableName,
+        public static async Task<Resp> UpdatePartial<TType>(this IDbConnection con, string tableName,
             Expression<Func<TType, object>> update, Expression<Func<TType, bool>> where, object mo)
         {
             if (string.IsNullOrEmpty(tableName))
@@ -106,7 +106,7 @@ namespace OSS.Core.Rep.Dapper
             var paras = GetExecuteParas(mo, visitor);
             var row = await con.ExecuteAsync(sql, paras);
 
-            return row > 0 ? Resp.DefaultSuccess : new Resp().WithResp(RespCodes.OperateFailed, "更新失败!");
+            return row > 0 ? new Resp() : new Resp().WithResp(RespCodes.OperateFailed, "更新失败!");
         }
 
         /// <summary>

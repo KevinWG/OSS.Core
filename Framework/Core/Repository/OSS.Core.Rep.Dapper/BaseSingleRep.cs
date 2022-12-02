@@ -104,7 +104,7 @@ namespace OSS.Core.Rep.Dapper
         /// </param>
         /// <param name="mo">update和where表达式中参数值</param>
         /// <returns></returns>
-        protected virtual Task<IResp> Update(Expression<Func<TType, object>> updateExp,
+        protected virtual Task<Resp> Update(Expression<Func<TType, object>> updateExp,
             Expression<Func<TType, bool>> whereExp, object? mo = null)
             => ExecuteWriteAsync(con => con.UpdatePartial(TableName, updateExp, whereExp, mo));
 
@@ -132,7 +132,7 @@ namespace OSS.Core.Rep.Dapper
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual Task<IResp> SoftDeleteById(IdType id)
+        public virtual Task<Resp> SoftDeleteById(IdType id)
         {
             var whereSql = "id=@id";
             var dirPara  = new {id};
@@ -144,7 +144,7 @@ namespace OSS.Core.Rep.Dapper
         /// </summary>
         /// <param name="whereExp">条件表达式</param>
         /// <returns></returns>
-        protected virtual Task<IResp> SoftDelete(Expression<Func<TType, bool>> whereExp)
+        protected virtual Task<Resp> SoftDelete(Expression<Func<TType, bool>> whereExp)
         {
             return Update(m => new {status = CommonStatus.Deleted}, whereExp);
         }
@@ -155,11 +155,11 @@ namespace OSS.Core.Rep.Dapper
         /// <param name="whereSql"></param>
         /// <param name="whereParas"></param>
         /// <returns></returns>
-        protected virtual Task<IResp> SoftDelete(string whereSql, object? whereParas = null)
+        protected virtual Task<Resp> SoftDelete(string whereSql, object? whereParas = null)
         {
             if (string.IsNullOrEmpty(whereSql))
             {
-                return Task.FromResult( (IResp)new Resp(RespCodes.ParaError, "where语句不能为空！"));
+                return Task.FromResult( new Resp(RespCodes.ParaError, "where语句不能为空！"));
             }
 
             return ExecuteWriteAsync(async con =>
@@ -167,7 +167,7 @@ namespace OSS.Core.Rep.Dapper
                 var sql = $"UPDATE {TableName} SET status={(int) CommonStatus.Deleted} WHERE {whereSql}";
 
                 var rows = await con.ExecuteAsync(sql, whereParas);
-                return rows > 0 ? Resp.DefaultSuccess : new Resp().WithResp(RespCodes.OperateFailed, "soft delete Failed!");
+                return rows > 0 ? new Resp() : new Resp().WithResp(RespCodes.OperateFailed, "soft delete Failed!");
             });
         }
 
@@ -325,12 +325,12 @@ namespace OSS.Core.Rep.Dapper
         /// <param name="sql"></param>
         /// <param name="paras"></param>
         /// <returns></returns>
-        protected Task<IResp> ExecuteWriteAsync(string sql, object paras)
+        protected Task<Resp> ExecuteWriteAsync(string sql, object paras)
         {
             return ExecuteWriteAsync(async con =>
             {
                 var rows = await con.ExecuteAsync(sql, paras);
-                return rows > 0 ? Resp.DefaultSuccess : new Resp(RespCodes.OperateFailed, "未能执行成功！");
+                return rows > 0 ? new Resp() : new Resp(RespCodes.OperateFailed, "未能执行成功！");
             });
         }
 

@@ -15,7 +15,7 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
     }
 
 
-    public Task<IResp> UpdateVal(string listKey, string itemKey, string confJson)
+    public Task<Resp> UpdateVal(string listKey, string itemKey, string confJson)
     {
         var haveTenantId = CoreContext.Tenant.IsAuthenticated;
 
@@ -44,7 +44,7 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
 
     private const string System_ConfigItem_ByKey = "System_Config_{0}_{1}";
 
-    public Task<IResp<ConfigMo>> GetByKey(string listKey, string itemKey)
+    public Task<Resp<ConfigMo>> GetByKey(string listKey, string itemKey)
     {
         var haveTenantId = CoreContext.Tenant.IsAuthenticated;
 

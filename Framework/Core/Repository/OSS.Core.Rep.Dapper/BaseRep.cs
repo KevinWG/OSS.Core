@@ -140,7 +140,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </param>
     /// <param name="mo">update和where表达式中参数值</param>
     /// <returns></returns>
-    protected virtual Task<IResp> Update(Expression<Func<TType, object>> updateExp,
+    protected virtual Task<Resp> Update(Expression<Func<TType, object>> updateExp,
                                         Expression<Func<TType, bool>> whereExp, object? mo = null)
         => ExecuteWriteAsync(con => con.UpdatePartial(TableName, updateExp, whereExp, mo));
 
@@ -151,7 +151,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <param name="whereSql"></param>
     /// <param name="para"></param>
     /// <returns></returns>
-    protected virtual Task<IResp> Update(string updateColNamesSql, string whereSql, object? para = null)
+    protected virtual Task<Resp> Update(string updateColNamesSql, string whereSql, object? para = null)
         => ExecuteWriteAsync(async con =>
         {
             if (string.IsNullOrEmpty(whereSql))
@@ -160,7 +160,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             var sql = string.Concat("UPDATE ", TableName, " SET ", updateColNamesSql, " ", whereSql);
             var row = await con.ExecuteAsync(sql, para);
 
-            return row > 0 ? Resp.DefaultSuccess : new Resp().WithResp(RespCodes.OperateFailed, "更新失败!");
+            return row > 0 ? new Resp() : new Resp().WithResp(RespCodes.OperateFailed, "更新失败!");
         });
 
     #endregion
@@ -195,7 +195,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">条件表达式</param>
     /// <returns></returns>
-    protected virtual Task<IResp> SoftDelete(Expression<Func<TType, bool>> whereExp)
+    protected virtual Task<Resp> SoftDelete(Expression<Func<TType, bool>> whereExp)
     {
         if (!HaveStatusColumn)
             throw new NotImplementedException($"当前仓储类型({typeof(TType).Name})未继承(IDomainStatus<>)，不能使用SoftDelete方法！");
