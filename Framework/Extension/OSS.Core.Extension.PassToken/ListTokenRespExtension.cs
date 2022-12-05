@@ -46,6 +46,19 @@ public static class ListTokenRespExtension
         return ToTokenListResp(listRes, "id", GetId);
     }
 
+    /// <summary>
+    /// 转化为通行token分页列表
+    /// 并附带默认以Id为列的token处理
+    /// </summary>
+    /// <typeparam name="TData"></typeparam>
+    /// <param name="list"></param>
+    /// <returns></returns>
+    public static TokenListResp<TData> ToTokenListRespWithIdToken<TData>(this IList<TData> list)
+        where TData : BaseMo<long>
+    {
+        return list.ToTokenListResp().AddColumnToken("id", GetId); //ToTokenListResp(listRes, "id", GetId);
+    }
+
     private static string GetId(BaseMo<long> mo) => mo.id.ToString();
 }
 
