@@ -18,27 +18,27 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp<{entity_name}Mo>> Get(long id)
+    public Task<Resp<{entity_name}Mo>> Get(long id)
     {
           var apiPath = string.Concat(apiEntityPath , "/Get?id=",id);
 
-          return new {module_req}(apiPath).GetAsync<IResp<{entity_name}Mo>>();
+          return new {module_req}(apiPath).GetAsync<Resp<{entity_name}Mo>>();
     }
 
     /// <inheritdoc />
-    public Task<IResp<{entity_name}Mo>> GetUseable(long id)
+    public Task<Resp<{entity_name}Mo>> GetUseable(long id)
     {
           var apiPath = string.Concat(apiEntityPath , "/GetUseable?id=",id);
 
-          return new {module_req}(apiPath).GetAsync<IResp<{entity_name}Mo>>();
+          return new {module_req}(apiPath).GetAsync<Resp<{entity_name}Mo>>();
     }
     
     /// <inheritdoc />
-    public Task<IResp> SetUseable(string pass_token, ushort flag)
+    public Task<Resp> SetUseable(string pass_token, ushort flag)
     {
           var apiPath = string.Concat(apiEntityPath , "/SetUseable?pass_token=",pass_token,"&flag=",flag);
 
-          return new {module_req}(apiPath).PostAsync<IResp>();
+          return new {module_req}(apiPath).PostAsync<Resp>();
     }
 
     /// <inheritdoc />

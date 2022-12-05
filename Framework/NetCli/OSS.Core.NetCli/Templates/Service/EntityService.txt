@@ -21,14 +21,14 @@ public class {entity_name}Service : I{entity_name}OpenService
     }
 
     /// <inheritdoc />
-    public async Task<IResp<{entity_name}Mo>> Get(long id)
+    public async Task<Resp<{entity_name}Mo>> Get(long id)
     {
         var  getRes = await _{entity_name}Rep.GetById(id);
         return getRes.IsSuccess() ? getRes : new Resp<{entity_name}Mo>().WithResp(getRes,"未能找到{entity_display}信息");
     }
 
     /// <inheritdoc />
-    public async Task<IResp<{entity_name}Mo>> GetUseable(long id)
+    public async Task<Resp<{entity_name}Mo>> GetUseable(long id)
     {
         var getRes = await Get(id);
         if (!getRes.IsSuccess())
@@ -40,7 +40,7 @@ public class {entity_name}Service : I{entity_name}OpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(string pass_token, ushort flag)
+    public Task<Resp> SetUseable(string pass_token, ushort flag)
     {
         var id = PassTokenHelper.GetData(pass_token).ToInt64();
 
@@ -50,7 +50,7 @@ public class {entity_name}Service : I{entity_name}OpenService
     /// <inheritdoc />
     public async Task<LongResp> Add(Add{entity_name}Req req)
     {
-        var mo = req.MapTo{entity_name}Mo();
+        var mo = req.ToMo();
 
         await _{entity_name}Rep.Add(mo);
         return new LongResp(mo.id);

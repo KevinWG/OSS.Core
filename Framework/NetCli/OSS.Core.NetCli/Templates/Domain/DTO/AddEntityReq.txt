@@ -22,7 +22,7 @@ public static class Add{entity_name}ReqMap
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public static {entity_name}Mo MapTo{entity_name}Mo(this Add{entity_name}Req req)
+    public static {entity_name}Mo ToMo(this Add{entity_name}Req req)
     {
         var mo = new {entity_name}Mo
         {

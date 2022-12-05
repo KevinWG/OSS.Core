@@ -18,7 +18,7 @@ public class AppAccessProvider : IAppAccessProvider
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public Task<IResp<AppAccess>> GetByKey(string key)
+    public Task<Resp<AppAccess>> GetByKey(string key)
     {
         if (_appAccessList == null)
         {
@@ -31,7 +31,7 @@ public class AppAccessProvider : IAppAccessProvider
             ? new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求")
             : new Resp<AppAccess>(access);
 
-        return Task.FromResult<IResp<AppAccess>>(res);
+        return Task.FromResult<Resp<AppAccess>>(res);
     }
 }
 
@@ -44,7 +44,7 @@ public class AppAccessProvider : IAppAccessProvider
 public class UserAuthProvider : IUserAuthProvider
 {
     /// <inheritdoc />
-    public Task<IResp<UserIdentity>> GetIdentity()
+    public Task<Resp<UserIdentity>> GetIdentity()
     {
         // 可自定义如下返回：
         //var identity = new UserIdentity()
@@ -54,7 +54,7 @@ public class UserAuthProvider : IUserAuthProvider
         //    auth_type = PortalAuthorizeType.Admin
         //};
 
-        //IResp<UserIdentity> res = new Resp<UserIdentity>(identity);
+        //Resp<UserIdentity> res = new Resp<UserIdentity>(identity);
         //return Task.FromResult(res);
 
 
@@ -71,10 +71,10 @@ public class UserAuthProvider : IUserAuthProvider
 public class FuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-    public Task<IResp<FuncDataLevel>> Authorize(string funcCode)
+    public Task<Resp<FuncDataLevel>> Authorize(string funcCode)
     {
         // 可以自定义实现,如：
-        //IResp<FuncDataLevel> res = new Resp<FuncDataLevel>(FuncDataLevel.All);
+        //Resp<FuncDataLevel> res = new Resp<FuncDataLevel>(FuncDataLevel.All);
         //return Task.FromResult(res);
 
         // 或者部署通用模块 Portal，引用接口客户端SDK，如：

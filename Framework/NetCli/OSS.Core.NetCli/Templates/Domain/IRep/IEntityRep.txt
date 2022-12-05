@@ -22,5 +22,5 @@ public interface I{entity_name}Rep:IRepository<{entity_name}Mo,long>
     /// <param name="id"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    Task<IResp> UpdateStatus(long id, CommonStatus status);
+    Task<Resp> UpdateStatus(long id, CommonStatus status);
 }
