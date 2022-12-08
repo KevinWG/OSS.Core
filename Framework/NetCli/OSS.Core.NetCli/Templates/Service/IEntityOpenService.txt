@@ -21,17 +21,17 @@ public interface I{entity_name}OpenService
     /// <returns></returns>
     Task<Resp<{entity_name}Mo>> Get(long id);
 
-    /// <summary>
-    ///  通过id获取有效可用状态的{entity_display}详情
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    Task<Resp<{entity_name}Mo>> GetUseable(long id);
+    ///// <summary>
+    /////  通过id获取有效可用状态的{entity_display}详情
+    ///// </summary>
+    ///// <param name="id"></param>
+    ///// <returns></returns>
+    //Task<Resp<{entity_name}Mo>> GetUseable(long id);
 
     /// <summary>
     ///  设置{entity_display}可用状态
     /// </summary>
-    /// <param name="pass_token">通过Id生成的通行码</param>
+    /// <param name="pass_token">Id对应的通行码</param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
     Task<Resp> SetUseable(string pass_token, ushort flag);

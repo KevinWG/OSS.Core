@@ -33,21 +33,11 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
         return _service.Get(id);
     }
 
-    /// <summary>
-    ///   通过id获取 有效可用的 {entity_display} 详情
-    /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpGet]
-    public Task<Resp<{entity_name}Mo>> GetUseable(long id)
-    {
-        return _service.GetUseable(id);
-    }
     
     /// <summary>
     ///  设置{entity_display}可用状态
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="pass_token">id对应的通行码</param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
     [HttpPost]

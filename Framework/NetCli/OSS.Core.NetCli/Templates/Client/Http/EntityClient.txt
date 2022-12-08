@@ -11,8 +11,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <inheritdoc />
     public Task<TokenPageListResp<{entity_name}Mo>> MSearch(SearchReq req)
     {
-          var apiPath = string.Concat(apiEntityPath , "/MSearch");
-
+          var apiPath =$"{apiEntityPath}/MSearch";
           return new {module_req}(apiPath)
             .PostAsync<TokenPageListResp<{entity_name}Mo>>(req);
     }
@@ -20,23 +19,14 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <inheritdoc />
     public Task<Resp<{entity_name}Mo>> Get(long id)
     {
-          var apiPath = string.Concat(apiEntityPath , "/Get?id=",id);
-
-          return new {module_req}(apiPath).GetAsync<Resp<{entity_name}Mo>>();
-    }
-
-    /// <inheritdoc />
-    public Task<Resp<{entity_name}Mo>> GetUseable(long id)
-    {
-          var apiPath = string.Concat(apiEntityPath , "/GetUseable?id=",id);
-
+          var apiPath =$"{apiEntityPath}/Get?id={id}";
           return new {module_req}(apiPath).GetAsync<Resp<{entity_name}Mo>>();
     }
     
     /// <inheritdoc />
     public Task<Resp> SetUseable(string pass_token, ushort flag)
     {
-          var apiPath = string.Concat(apiEntityPath , "/SetUseable?pass_token=",pass_token,"&flag=",flag);
+          var apiPath =$"{apiEntityPath}/SetUseable?pass_token={pass_token}&flag={flag}";
 
           return new {module_req}(apiPath).PostAsync<Resp>();
     }
@@ -44,8 +34,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     /// <inheritdoc />
     public Task<LongResp> Add(Add{entity_name}Req req)
     {
-          var apiPath = string.Concat(apiEntityPath , "/Add");
-
+          var apiPath =$"{apiEntityPath}/Add";
           return new {module_req}(apiPath).PostAsync<LongResp>(req);
     }
 }
