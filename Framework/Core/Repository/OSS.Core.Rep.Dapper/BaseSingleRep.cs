@@ -73,7 +73,7 @@ namespace OSS.Core.Rep.Dapper
         /// </summary>
         /// <param name="list"></param>
         /// <returns></returns>
-        public virtual async Task<IResp> AddList(IList<TType> list)
+        public virtual async Task<Resp> AddList(IList<TType> list)
         {
             var res = await ExecuteWriteAsync(async con =>
             {
@@ -115,12 +115,12 @@ namespace OSS.Core.Rep.Dapper
         /// <param name="whereSql"></param>
         /// <param name="para"></param>
         /// <returns></returns>
-        protected virtual Task<IResp> Update(string updateColNamesSql, string whereSql, object? para = null)
+        protected virtual Task<Resp> Update(string updateColNamesSql, string whereSql, object? para = null)
             => ExecuteWriteAsync(async con =>
             {
                 var sql = string.Concat("UPDATE ", TableName, " SET ", updateColNamesSql, " ", whereSql);
                 var row = await con.ExecuteAsync(sql, para);
-                return row > 0 ? Resp.DefaultSuccess : new Resp().WithResp( RespCodes.OperateFailed, "更新失败");
+                return row > 0 ? new Resp() : new Resp().WithResp( RespCodes.OperateFailed, "更新失败");
             });
 
         #endregion

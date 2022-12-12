@@ -394,12 +394,12 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <param name="sql"></param>
     /// <param name="paras"></param>
     /// <returns></returns>
-    protected Task<IResp> ExecuteWriteAsync(string sql, object paras)
+    protected Task<Resp> ExecuteWriteAsync(string sql, object paras)
     {
         return ExecuteWriteAsync(async con =>
         {
             var rows = await con.ExecuteAsync(sql, paras);
-            return (IResp) (rows > 0 ? new Resp() : new Resp(RespCodes.OperateFailed, "未能执行成功！"));
+            return (rows > 0 ? new Resp() : new Resp(RespCodes.OperateFailed, "未能执行成功！"));
         });
     }
 
