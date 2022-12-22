@@ -13,6 +13,11 @@ using OSS.Core.Rep.Dapper;
 
 namespace OSS.Core.Rep.Mysql;
 
+/// <summary>
+///   mysql仓储基类
+/// </summary>
+/// <typeparam name="TType"></typeparam>
+/// <typeparam name="IdType"></typeparam>
 public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
     where TType : BaseMo<IdType>
 {
@@ -68,7 +73,7 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
 
         return GetPageList<RType>(selectSql, sqlParas, totalSql);
     }
-
+    
     /// <summary>
     ///  构建通用搜索的列名
     /// </summary>
@@ -76,7 +81,7 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
     /// <returns></returns>
     protected virtual string BuildSimpleSearch_SelectColumns(SearchReq req)
     {
-        return "*";
+        return "t.*";
     }
 
     /// <summary>
@@ -87,7 +92,7 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
     /// <returns></returns>
     protected virtual string BuildSimpleSearch_TableName(SearchReq req, Dictionary<string, object> sqlParas)
     {
-        return  string.Concat(TableName," t ");
+        return  string.Concat(TableName," t");
     }
 
     /// <summary>
