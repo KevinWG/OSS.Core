@@ -18,14 +18,14 @@ public class CategoryService : ICategoryService
     }
 
     /// <inheritdoc />
-    public async Task<IResp<CategoryMo>> Get(long id)
+    public async Task<Resp<CategoryMo>> Get(long id)
     {
         var getRes = await _CategoryRep.GetById(id);
         return getRes.IsSuccess() ? getRes : new Resp<CategoryMo>().WithResp(getRes,"未能找到分类信息");
     }
 
     /// <inheritdoc />
-    public async Task<IResp<CategoryMo>> GetUseable(long id)
+    public async Task<Resp<CategoryMo>> GetUseable(long id)
     {
         var getRes = await Get(id);
         if (!getRes.IsSuccess())
@@ -35,13 +35,13 @@ public class CategoryService : ICategoryService
     }
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
+    public Task<Resp> SetUseable(long id, ushort flag)
     {
         return _CategoryRep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
     }
 
     /// <inheritdoc />
-    public async Task<LongResp> Add(AddCategoryReq req)
+    public async Task<LongResp> Add(AddArticleCategoryReq req)
     {
         var mo = req.MapToCategoryMo();
 

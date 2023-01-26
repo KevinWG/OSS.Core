@@ -14,24 +14,24 @@ internal class TopicHttpClient : ITopicOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp<TopicMo>> Get(long id)
+    public Task<Resp<TopicMo>> Get(long id)
     {
           return new ArticleRemoteReq($"/Topic/Get?id={id}")
-            .GetAsync<IResp<TopicMo>>();
+            .GetAsync<Resp<TopicMo>>();
     }
 
     /// <inheritdoc />
-    public Task<IResp<TopicMo>> GetUseable(long id)
+    public Task<Resp<TopicMo>> GetUseable(long id)
     {
           return new ArticleRemoteReq($"/Topic/GetUseable?id={id}")
-            .GetAsync<IResp<TopicMo>>();
+            .GetAsync<Resp<TopicMo>>();
     }
     
     /// <inheritdoc />
-    public Task<IResp> SetUseable(string pass_token, ushort flag)
+    public Task<Resp> SetUseable(string pass_token, ushort flag)
     {
           return new ArticleRemoteReq($"/Topic/SetUseable?pass_token={pass_token}&flag={flag}")
-            .PostAsync<IResp>();
+            .PostAsync<Resp>();
     }
 
     /// <inheritdoc />

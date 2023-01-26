@@ -10,6 +10,6 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        internal Task<IResp<AdminInfoMo>> GetAdminByUId(long userId);
+        internal Task<Resp<AdminInfoMo>> GetAdminByUId(long userId);
     }
 }

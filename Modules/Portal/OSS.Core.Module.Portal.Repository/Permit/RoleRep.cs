@@ -55,7 +55,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public override Task<IResp<RoleMo>> GetById(long id)
+        public override Task<Resp<RoleMo>> GetById(long id)
         {
             var cacheKey = string.Concat(PortalConst.CacheKeys.Permit_Role_ById, id);
             var getFunc  = () => base.GetById(id);
@@ -69,7 +69,7 @@ namespace OSS.Core.Module.Portal
         /// <param name="rid"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public Task<IResp> UpdateStatus(long rid, CommonStatus status)
+        public Task<Resp> UpdateStatus(long rid, CommonStatus status)
         {
             var cacheKey = string.Concat(PortalConst.CacheKeys.Permit_Role_ById, rid);
 
@@ -83,7 +83,7 @@ namespace OSS.Core.Module.Portal
         /// <param name="rid"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Task<IResp> UpdateName(long rid, string name)
+        public Task<Resp> UpdateName(long rid, string name)
         {
             var cacheKey = string.Concat(PortalConst.CacheKeys.Permit_Role_ById, rid);
 

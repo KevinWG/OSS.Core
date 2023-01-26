@@ -19,7 +19,7 @@ public interface ICategoryOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<CategoryMo>> Get(long id);
+    Task<Resp<CategoryMo>> Get(long id);
 
 
     /// <summary>
@@ -27,7 +27,7 @@ public interface ICategoryOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<CategoryMo>> GetUseable(long id);
+    Task<Resp<CategoryMo>> GetUseable(long id);
 
     /// <summary>
     ///  设置Category可用状态
@@ -35,12 +35,12 @@ public interface ICategoryOpenService
     /// <param name="id"></param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
-    Task<IResp> SetUseable(long id, ushort flag);
+    Task<Resp> SetUseable(long id, ushort flag);
 
     /// <summary>
     ///  添加Category对象
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<LongResp> Add(AddCategoryReq req);
+    Task<LongResp> Add(AddArticleCategoryReq req);
 }

@@ -39,5 +39,5 @@ interface BaseMo {
 
 interface IEditorProps<T> {
   record: T;
-  call_back?: (resp: IResp, record: T) => void;
+  callback: (resp: IResp, record?: T) => void;
 }

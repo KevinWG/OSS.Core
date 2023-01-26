@@ -11,14 +11,13 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
 {
     private static readonly ICategoryOpenService _service = new CategoryService();
 
-
     /// <summary>
     ///  查询Category列表
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<PageListResp<CategoryMo>> Search([FromBody] SearchReq req)
-    {
+    public Task<PageListResp<CategoryMo>> Search([FromBody] SearchReq req)    {
+
         return _service.Search(req);
     }
 
@@ -28,7 +27,7 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<CategoryMo>> Get(long id)
+    public Task<Resp<CategoryMo>> Get(long id)
     {
         return _service.Get(id);
     }
@@ -39,7 +38,7 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<CategoryMo>> GetUseable(long id)
+    public Task<Resp<CategoryMo>> GetUseable(long id)
     {
         return _service.GetUseable(id);
     }
@@ -51,7 +50,7 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<IResp> SetUseable(long id, ushort flag)
+    public async Task<Resp> SetUseable(long id, ushort flag)
     {
         return await _service.SetUseable(id, flag);
     }
@@ -64,7 +63,7 @@ public class CategoryController : BaseArticleController, ICategoryOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<LongResp> Add([FromBody] AddCategoryReq req)
+    public Task<LongResp> Add([FromBody] AddArticleCategoryReq req)
     {
         return _service.Add(req);
     }

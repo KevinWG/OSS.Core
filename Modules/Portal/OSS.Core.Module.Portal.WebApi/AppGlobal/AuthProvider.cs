@@ -34,6 +34,16 @@ public class AppAccessProvider : IAppAccessProvider
     
 }
 
+public class TenantAuthProvider : ITenantAuthProvider
+{
+    public async Task<IResp<TenantIdentity>> GetIdentity()
+    {
+        return new Resp<TenantIdentity>(new TenantIdentity()
+        {
+            id = "1"
+        });
+    }
+}
 
 /// <summary>
 ///  登录用户授权验证

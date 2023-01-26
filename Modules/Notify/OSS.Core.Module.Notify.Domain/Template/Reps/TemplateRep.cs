@@ -47,7 +47,7 @@ public class TemplateRep : BaseNotifyRep<TemplateMo>
     /// <param name="id"></param>
     /// <param name="req"></param>
     /// <returns></returns>
-    public Task<IResp> Update(long id, AddTemplateReq req)
+    public Task<Resp> Update(long id, AddTemplateReq req)
     {
         return Update(u => new
         {
@@ -70,7 +70,7 @@ public class TemplateRep : BaseNotifyRep<TemplateMo>
     /// <param name="id"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateStatus(long id, CommonStatus status)
+    public Task<Resp> UpdateStatus(long id, CommonStatus status)
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
     }

@@ -2,6 +2,8 @@
 using OSS.Core.Module.Article;
 using OSS.Core.Module.Notify;
 using OSS.Core.Module.Portal;
+using TM.Module.Product;
+using TM.WMS;
 
 namespace OSS.Core.Module.All.WebApi;
 
@@ -17,5 +19,8 @@ public class AllWebApiGlobalStarter : AppStarter
         services.Register<NotifyGlobalStarter>();  //  通知模块
         services.Register<PortalGlobalStarter>();  //  认证门户
         services.Register<ArticleGlobalStarter>(); //  文章中心
+
+        services.Register<WMSGlobalStarter>();
+        services.Register<ProductGlobalStarter>();
     }
 }

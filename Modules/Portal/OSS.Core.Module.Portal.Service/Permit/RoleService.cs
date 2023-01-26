@@ -12,7 +12,7 @@ namespace OSS.Core.Module.Portal
         ///  添加角色
         /// </summary>
         /// <returns></returns>
-        public async Task<IResp> Add(AddRoleReq req)
+        public async Task<Resp> Add(AddRoleReq req)
         {
             var rMo = req.ToMo();
 
@@ -20,7 +20,7 @@ namespace OSS.Core.Module.Portal
 
             await _roleRep.Add(rMo);
 
-            return Resp.DefaultSuccess;
+            return new Resp();
         }
 
       
@@ -39,7 +39,7 @@ namespace OSS.Core.Module.Portal
         ///  更新角色名称
         /// </summary>
         /// <returns></returns>
-        public async Task<IResp> UpdateName(long id, AddRoleReq req)
+        public async Task<Resp> UpdateName(long id, AddRoleReq req)
         {
             return await _roleRep.UpdateName(id, req.name);
         }
@@ -49,7 +49,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="rid"></param>
         /// <returns></returns>
-        public Task<IResp> Active(long rid)
+        public Task<Resp> Active(long rid)
         {
             return _roleRep.UpdateStatus(rid, CommonStatus.Original);
         }
@@ -59,7 +59,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="rid"></param>
         /// <returns></returns>
-        public async Task<IResp> UnActive(long rid)
+        public async Task<Resp> UnActive(long rid)
         {
             var countRes = await InsContainer<IRoleUserRep>.Instance.GetUserCountByRoleId(rid); 
             if (!countRes.IsSuccess())
@@ -109,7 +109,7 @@ namespace OSS.Core.Module.Portal
         ///   添加新的绑定
         /// </summary>
         /// <returns></returns>
-        public async Task<IResp> UserBind(AddRoleUserReq req)
+        public async Task<Resp> UserBind(AddRoleUserReq req)
         {
             var ruMo = req.ToMo();
 
@@ -117,14 +117,14 @@ namespace OSS.Core.Module.Portal
 
             await _roleUserRep.Add(ruMo);
 
-            return Resp.DefaultSuccess;
+            return new Resp();
         }
 
         /// <summary>
         ///  删除用户角色绑定信息
         /// </summary>
         /// <returns></returns>
-        public Task<IResp> DeleteUserBind(long userId,long roleId)
+        public Task<Resp> DeleteUserBind(long userId,long roleId)
         {
             return _roleUserRep.DeleteBind(userId, roleId);
         }

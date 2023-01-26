@@ -19,7 +19,7 @@ public class PortalWebHelper
             return;
 
         var appSourceMode = CoreContext.App.Identity.auth_mode;
-        if (appSourceMode >= AppAuthMode.Browser)
+        if (appSourceMode >= AppAuthMode.None)
         {
             var cookieOpt = new CookieOptions()
             {

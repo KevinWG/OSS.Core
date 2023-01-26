@@ -19,7 +19,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="roleId"></param>
         /// <returns></returns>
-        public Task<IResp<int>> GetUserCountByRoleId(long roleId)
+        public Task<Resp<int>> GetUserCountByRoleId(long roleId)
         {
             var sql = string.Concat("select count(1) from ", TableName,
                 " where role_id=@role_id and status>@status");
@@ -58,7 +58,7 @@ namespace OSS.Core.Module.Portal
         ///  删除绑定信息
         /// </summary>
         /// <returns></returns>
-        public Task<IResp> DeleteBind(long userId,long roleId)
+        public Task<Resp> DeleteBind(long userId,long roleId)
         {
             return Update(u => new { u.status }, w => w.u_id== userId&& w.role_id== roleId, new { status=CommonStatus.Deleted })
                 .WithRespCacheClearAsync(string.Concat(PortalConst.CacheKeys.Permit_UserRoles_ByUId, userId));

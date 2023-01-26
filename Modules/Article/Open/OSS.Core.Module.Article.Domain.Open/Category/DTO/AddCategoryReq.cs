@@ -6,7 +6,7 @@ namespace OSS.Core.Module.Article;
 /// <summary>
 ///  Category 添加请求
 /// </summary>
-public class AddCategoryReq
+public class AddArticleCategoryReq
 {
     /// <summary>
     ///  分类名称
@@ -23,7 +23,7 @@ public class AddCategoryReq
 
 public static class AddCategoryReqMap
 {
-    public static CategoryMo MapToCategoryMo(this AddCategoryReq req)
+    public static CategoryMo MapToCategoryMo(this AddArticleCategoryReq req)
     {
         var mo = new CategoryMo
         {

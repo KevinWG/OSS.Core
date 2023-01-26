@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Core.Domain" Version="2.2.0" />
+    <PackageReference Include="OSS.Core.Domain" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>

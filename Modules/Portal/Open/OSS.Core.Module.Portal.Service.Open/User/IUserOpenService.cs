@@ -9,7 +9,7 @@ public interface IUserOpenService
     ///  修改基础信息
     /// </summary>
     /// <returns></returns>
-    Task<IResp> ChangeMyBasic(UpdateUserBasicReq req);
+    Task<Resp> ChangeMyBasic(UpdateUserBasicReq req);
 
     /// <summary>
     ///  获取租户平台下的用户列表
@@ -29,12 +29,12 @@ public interface IUserOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> Lock(long id);
+    Task<Resp> Lock(long id);
 
     /// <summary>
     ///  解锁
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> UnLock(long id);
+    Task<Resp> UnLock(long id);
 }

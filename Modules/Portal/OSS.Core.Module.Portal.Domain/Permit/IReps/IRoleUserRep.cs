@@ -17,13 +17,13 @@ public interface IRoleUserRep : IRepository<RoleUserMo, long>
     /// </summary>
     /// <param name="roleId"></param>
     /// <returns></returns>
-    Task<IResp<int>> GetUserCountByRoleId(long roleId);
+    Task<Resp<int>> GetUserCountByRoleId(long roleId);
 
     /// <summary>
     ///  删除绑定信息
     /// </summary>
     /// <returns></returns>
-    Task<IResp> DeleteBind(long userId, long roleId);
+    Task<Resp> DeleteBind(long userId, long roleId);
 
     ///// <summary>
     /////  搜索用户角色绑定关联

@@ -14,30 +14,30 @@ internal class TemplateHttpClient : ITemplateOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp<TemplateMo>> Get(long id)
+    public Task<Resp<TemplateMo>> Get(long id)
     {
         return new NotifyRemoteReq("/Template/Get?id=" + id)
-            .GetAsync<IResp<TemplateMo>>();
+            .GetAsync<Resp<TemplateMo>>();
     }
 
     /// <inheritdoc />
-    public Task<IResp> Update(long id, AddTemplateReq req)
+    public Task<Resp> Update(long id, AddTemplateReq req)
     {
         return new NotifyRemoteReq("/Template/Update?id=" + id)
-            .PostAsync<IResp>(req);
+            .PostAsync<Resp>(req);
     }
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(long id, ushort flag)
+    public Task<Resp> SetUseable(long id, ushort flag)
     {
         return new NotifyRemoteReq(string.Concat("/Template/SetUseable?id=", id, "&flag=", flag))
-            .PostAsync<IResp>();
+            .PostAsync<Resp>();
     }
 
     /// <inheritdoc />
-    public Task<IResp> Add(AddTemplateReq req)
+    public Task<Resp> Add(AddTemplateReq req)
     {
         return new NotifyRemoteReq("/Template/Add")
-            .PostAsync<IResp>(req);
+            .PostAsync<Resp>(req);
     }
 }

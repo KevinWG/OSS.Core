@@ -15,7 +15,7 @@ import { Form, message, Modal, ModalProps, Row, Space } from 'antd';
 import { useEffect } from 'react';
 interface TemplateEditorProps extends IEditorProps<NotifyApi.Template>, ModalProps {}
 
-export default function ({ record, visible, call_back, ...modelProps }: TemplateEditorProps) {
+export default function ({ record, visible, callback, ...modelProps }: TemplateEditorProps) {
   const [editForm] = Form.useForm();
 
   // 因为 initialValues 的特殊，变化后这里需要重置一下
@@ -25,14 +25,14 @@ export default function ({ record, visible, call_back, ...modelProps }: Template
     }
   }, [record]);
 
-  const isAdd = record.id == '0';
+  const isAdd = record?.id == '0';
   const submit = async (req: NotifyApi.AddTemplateReq) => {
     var res = isAdd ? await addTemplate(req) : await updateTemplate(record.id, req);
     if (res.success) {
       message.success((isAdd ? '新增' : '修改') + '成功!');
       editForm.resetFields();
     }
-    if (call_back) call_back(res, record);
+    if (callback) callback(res, record);
   };
 
   return (

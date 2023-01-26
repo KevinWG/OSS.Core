@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TM.WMS.WebApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:60031;http://localhost:60032"
+    }
+  }
+}

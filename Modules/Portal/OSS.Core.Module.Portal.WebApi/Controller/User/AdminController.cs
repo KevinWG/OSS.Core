@@ -59,7 +59,7 @@ public class AdminController : BasePortalController,IAdminOpenService
     /// <param name="avatar"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> ChangeMyAvatar([FromQuery] string avatar)
+    public Task<Resp> ChangeMyAvatar([FromQuery] string avatar)
     {
         return _service.ChangeMyAvatar(avatar);
     }
@@ -70,7 +70,7 @@ public class AdminController : BasePortalController,IAdminOpenService
     /// <param name="name"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> ChangeMyName([FromQuery] string name)
+    public Task<Resp> ChangeMyName([FromQuery] string name)
     {
         return  _service.ChangeMyName(name);
     }
@@ -86,7 +86,7 @@ public class AdminController : BasePortalController,IAdminOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_admin_lock)]
-    public Task<IResp> Lock(long uid)
+    public Task<Resp> Lock(long uid)
     {
         return _service.Lock(uid);
     }
@@ -98,7 +98,7 @@ public class AdminController : BasePortalController,IAdminOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_admin_unlock)]
-    public Task<IResp> UnLock(long uid)
+    public Task<Resp> UnLock(long uid)
     {
         return _service.UnLock(uid);
     }
@@ -111,10 +111,10 @@ public class AdminController : BasePortalController,IAdminOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_admin_settype)]
-    public Task<IResp> SetAdminType(long uid, AdminType admin_type)
+    public Task<Resp> SetAdminType(long uid, AdminType admin_type)
     {
         if (uid <= 0 || !Enum.IsDefined(typeof(AdminType), admin_type))
-            return Task.FromResult((IResp)new Resp(RespCodes.ParaError,"参数异常"));
+            return Task.FromResult(new Resp(RespCodes.ParaError,"参数异常"));
 
         return _service.SetAdminType(uid, admin_type);
     }

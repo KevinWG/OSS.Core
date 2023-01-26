@@ -1,8 +1,8 @@
 import AccessButton from '@/components/button/access_button';
+import { editRoleFuncs, getRoleFuncs } from '@/pages/portal/permit/role/service';
 import FuncCodes from '@/services/common/func_codes';
 import { CompareNotIn } from '@/services/common/utils';
 import { getAllFuncItems } from '@/services/permit/func_api';
-import { editRoleFuncs, getRoleFuncs } from '@/services/permit/role_api';
 import { useRequest } from 'ahooks';
 import { Button, Card, Col, Drawer, message, Row, Space, Tree } from 'antd';
 import { DrawerProps } from 'antd/lib/drawer';
@@ -195,19 +195,21 @@ const EditRoleFunc: React.FC<EditRoleFuncProps> = (props: EditRoleFuncProps) => 
           </p>
         )}
 
-        <Tree
-          treeData={treeNodes}
-          defaultExpandAll={true}
-          showLine={true}
-          selectable={false}
-          checkable={needEdit}
-          onCheck={(k) => {
-            console.info(k);
-            setCheckedKeys(k.checked);
-          }}
-          checkStrictly={true}
-          checkedKeys={checkedKeys}
-        />
+        {treeNodes && (
+          <Tree
+            treeData={treeNodes}
+            defaultExpandAll={true}
+            showLine={true}
+            selectable={false}
+            checkable={needEdit}
+            onCheck={(k) => {
+              console.info(k);
+              setCheckedKeys(k.checked);
+            }}
+            checkStrictly={true}
+            checkedKeys={checkedKeys}
+          />
+        )}
       </Card>
 
       <Row style={{ marginTop: 20 }}>

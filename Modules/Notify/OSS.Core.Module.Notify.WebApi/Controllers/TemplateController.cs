@@ -26,7 +26,7 @@ public class TemplateController : BaseNotifyController, ITemplateOpenService
     /// <param name="id">模板id</param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<TemplateMo>> Get(long id)
+    public Task<Resp<TemplateMo>> Get(long id)
     {
         return _service.Get(id);
     }
@@ -40,7 +40,7 @@ public class TemplateController : BaseNotifyController, ITemplateOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(NotifyConst.FuncCodes.Notify_Template_Update)]
-    public Task<IResp> Update(long id, [FromBody] AddTemplateReq req)
+    public Task<Resp> Update(long id, [FromBody] AddTemplateReq req)
     {
         return _service.Update(id, req);
     }
@@ -53,15 +53,20 @@ public class TemplateController : BaseNotifyController, ITemplateOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(NotifyConst.FuncCodes.Notify_Template_Update)]
-    public async Task<IResp> SetUseable(long id, ushort flag)
+    public async Task<Resp> SetUseable(long id, ushort flag)
     {
         return await _service.SetUseable(id, flag);
     }
 
-    /// <inheritdoc />
+
+    /// <summary>
+    ///  添加模板信息
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(NotifyConst.FuncCodes.Notify_Template_Add)]
-    public Task<IResp> Add([FromBody] AddTemplateReq req)
+    public Task<Resp> Add([FromBody] AddTemplateReq req)
     {
         return _service.Add(req);
     }

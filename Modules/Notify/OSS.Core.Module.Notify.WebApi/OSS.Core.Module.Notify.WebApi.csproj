@@ -6,8 +6,8 @@
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 	<ItemGroup>
-		<PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="2.4.0" />
-		<PackageReference Include="OSS.Core.Context.Attributes" Version="2.10.3" />
+		<PackageReference Include="OSS.Core.Comp.DirConfig.Mysql" Version="2.5.0" />
+		<PackageReference Include="OSS.Core.Context.Attributes" Version="2.10.6" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="*" />
 	</ItemGroup>
 	<ItemGroup>

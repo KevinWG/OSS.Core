@@ -1,66 +1,71 @@
 import FetchConfirmButton from '@/components/button/fetch_confirm_button';
 import { message, Space } from 'antd';
+import { ButtonProps } from 'antd/es/button';
 import React from 'react';
 import { useRequest } from 'umi';
 
-interface TableFetchButtonProps<T> {
+interface TableFetchButtonProps<T> extends ButtonProps{
   record: T;
+
+  // /**
+  //  * 按钮名称，回调函数会传回
+  //  */
+  // btn_name?: string;
+  func_code?: string;
+
   /**
    * 如果涉及服务端接口交互，实现此方法即可
    */
-  fetch: (record: T) => Promise<IResp>;
-  /**
-   * 按钮名称，回调函数会传回
-   */
-  btn_name?: string;
-  func_code?: string;
-  icon?: React.ReactNode;
+  fetch?: (record: T) => Promise<IResp>;
+  
+
   /**
    * 提示消息中使用的动作描述
    */
   fetch_desp?: string;
-  /**
+
+  fetchKey?: (record: T) => string;
+  
+ /**
    * 按钮显示文字
    */
-  btn_text?: string;
+  btn_text?: string; 
 
   /**
    * 如果仅仅是页面处理，在此事件执行即可
    */
   btn_click?: (record: T) => void;
 
-  fetchKey?: (record: T) => string;
   callback?: (res: IResp, item: T, actionName?: string) => void;
 }
 
 // 锁定按钮
 export function TableFetchButton<T>(props: TableFetchButtonProps<T>) {
-  const { btn_text, record, icon, func_code, callback, fetch, fetchKey } = props;
+  const { btn_text, record, btn_click, func_code, callback, fetch, fetchKey ,...restProps} = props;
 
   const aBtnProps: any = {
     type: 'dashed',
     shape: 'round',
     size: 'small',
-    icon: icon,
     func_code: func_code,
-    onClick: () => {
-      if (props.btn_click) {
-        props.btn_click(record);
-      }
-    },
+    ...restProps
   };
 
+  if (btn_click) {
+    aBtnProps.onClick= () => {
+      btn_click(record);
+    }
+  }
+ 
   if (fetch) {
-    const dispalyName = props.fetch_desp ?? btn_text ?? '执行';
+    const actionName = btn_text?? props.title ?? '执行';
+    const dispalyDesp = props.fetch_desp ?? actionName;
     const doAction = async (item: T) => {
-      message.info('开始 ' + btn_text);
       var res = await fetch(item);
       if (res.success) {
-        message.success(btn_text + ' 成功！');
-        if (callback) callback(res, item, btn_text);
-      } else {
-        message.error(btn_text + ' 失败:' + res.msg);
-      }
+        message.success(actionName + ' 成功！');
+        if (callback) callback(res, item, actionName);
+      } 
     };
 
     const reqHandler = useRequest(doAction, { manual: true, fetchKey: fetchKey });
@@ -70,7 +75,7 @@ export function TableFetchButton<T>(props: TableFetchButtonProps<T>) {
       : reqHandler.loading;
 
     aBtnProps.confirm_props = {
-      title: '是否确认' + dispalyName,
+      title: '是否确认' + dispalyDesp,
       onConfirm: () => reqHandler.run(record),
       okText: '确认',
       cancelText: '放弃',
@@ -94,8 +99,7 @@ export default function TableFetchButtons<T extends BaseMo>(
   props: TableFetchButtonsProps<T>,
 ): JSX.Element {
   const { record, condition_buttons, callback, fetchKey } = props;
-  // const s = record?.status;
-
+  // const s = record?.status
   return (
     <Space wrap>
       {condition_buttons &&

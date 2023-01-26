@@ -2,16 +2,17 @@ import AccessButton from '@/components/button/access_button';
 import TableButton from '@/components/button/table_button';
 import FuncCodes from '@/services/common/func_codes';
 import { getAllFuncTreeItems } from '@/services/permit/func_api';
-import { ActionType, PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { PageContainer, ProColumns, ProTable } from '@ant-design/pro-components';
+import { useRequest } from 'ahooks';
 import { Space } from 'antd';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import FuncItemEditor from './FuncItemEditor';
 
 const FuncItemList: React.FC = () => {
   const defaultItem: any = { id: '' };
 
   const [editItem, setEditItem] = useState<PermitApi.FuncItem>(defaultItem);
-  const actionRef = useRef<ActionType>();
+  // const actionRef = useRef<ActionType>();
 
   const tableCols: ProColumns<PermitApi.FuncItem>[] = [
     {
@@ -49,41 +50,45 @@ const FuncItemList: React.FC = () => {
       },
     },
   ];
-
+  const treeReq = useRequest(getAllFuncTreeItems);
   return (
     <PageContainer title={false}>
-      <ProTable<PermitApi.FuncItem>
-        rowKey="code"
-        columns={tableCols}
-        actionRef={actionRef}
-        request={getAllFuncTreeItems}
-        expandable={{ defaultExpandAllRows: true, indentSize: 30 }}
-        search={false}
-        pagination={false}
-        headerTitle="权限项管理"
-        toolbar={{
-          actions: [
-            <AccessButton
-              key="primary"
-              type="primary"
-              func_code={FuncCodes.Portal_Func_Operate}
-              onClick={() => {
-                setEditItem({ id: '0' } as any);
-              }}
-            >
-              新增权限项
-            </AccessButton>,
-          ],
-        }}
-      ></ProTable>
+      {treeReq.data && (
+        <ProTable<PermitApi.FuncItem>
+          rowKey="code"
+          search={false}
+          pagination={false}
+          columns={tableCols}
+          defaultExpandAllRows={true}
+          indentSize={20}
+          dataSource={treeReq.data?.data}
+          loading={treeReq.loading}
+          headerTitle="权限项管理"
+          toolbar={{
+            actions: [
+              <AccessButton
+                key="primary"
+                type="primary"
+                func_code={FuncCodes.Portal_Func_Operate}
+                onClick={() => {
+                  setEditItem({ id: '0' } as any);
+                }}
+              >
+                新增权限项
+              </AccessButton>,
+            ],
+          }}
+        ></ProTable>
+      )}
       <FuncItemEditor
         record={editItem}
         visible={!!editItem.id}
         onCancel={() => setEditItem(defaultItem)}
-        call_back={(res: IResp, item: PermitApi.FuncItem) => {
+        callback={(res: IResp, item?: PermitApi.FuncItem) => {
           if (res.success) {
             setEditItem(defaultItem);
-            actionRef.current?.reload();
+            treeReq.run();
+            // actionRef.current?.reload();
           }
         }}
       ></FuncItemEditor>

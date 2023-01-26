@@ -1,5 +1,5 @@
 import SelectTableModalElement from '@/components/form/select_table_modal_element';
-import { searchUsers } from '@/services/portal/user_api';
+import { searchUsers } from '@/pages/portal/user/service';
 import { Avatar } from 'antd';
 
 export default function UserSelectModal(props: {

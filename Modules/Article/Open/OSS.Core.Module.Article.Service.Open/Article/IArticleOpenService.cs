@@ -25,14 +25,14 @@ public interface IArticleOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<ArticleMo>> Get(long id);
+    Task<Resp<ArticleMo>> Get(long id);
     
     /// <summary>
     ///  通过id获取有效可用状态的Article详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<ArticleMo>> GetUseable(long id);
+    Task<Resp<ArticleMo>> GetUseable(long id);
 
 
     /// <summary>
@@ -40,7 +40,7 @@ public interface IArticleOpenService
     /// </summary>
     /// <param name="pass_token"></param>
     /// <returns></returns>
-    Task<IResp> Delete(string pass_token);
+    Task<Resp> Delete(string pass_token);
 
     /// <summary>
     ///  编辑文章
@@ -48,7 +48,7 @@ public interface IArticleOpenService
     /// <param name="pass_token"></param>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Edit(string pass_token, AddArticleReq req);
+    Task<Resp> Edit(string pass_token, AddArticleReq req);
 
     /// <summary>
     ///  添加Article对象
@@ -62,5 +62,5 @@ public interface IArticleOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> RelateTopics(RelateTopicReq req);
+    Task<Resp> RelateTopics(RelateTopicReq req);
 }

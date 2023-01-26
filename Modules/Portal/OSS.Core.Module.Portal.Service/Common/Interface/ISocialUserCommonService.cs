@@ -17,13 +17,13 @@ namespace OSS.Core.Module.Portal
         /// <param name="socialUserId"></param>
         /// <param name="sysUserId"></param>
         /// <returns></returns>
-        Task<IResp<SocialUserMo>> BindWithSysUser(long socialUserId, long sysUserId);
+        Task<Resp<SocialUserMo>> BindWithSysUser(long socialUserId, long sysUserId);
 
         /// <summary>
         ///  获取社交平台用户信息
         /// </summary>
         /// <param name="socialUserId"></param>
         /// <returns></returns>
-        Task<IResp<SocialUserMo>> GetById(long socialUserId);
+        Task<Resp<SocialUserMo>> GetById(long socialUserId);
     }
 }

@@ -20,14 +20,14 @@ public class TopicService : ITopicOpenService
     }
 
     /// <inheritdoc />
-    public async Task<IResp<TopicMo>> Get(long id)
+    public async Task<Resp<TopicMo>> Get(long id)
     {
         var  getRes = await _TopicRep.GetById(id);
         return getRes.IsSuccess() ? getRes : new Resp<TopicMo>().WithResp(getRes,"未能找到专题信息");
     }
 
     /// <inheritdoc />
-    public async Task<IResp<TopicMo>> GetUseable(long id)
+    public async Task<Resp<TopicMo>> GetUseable(long id)
     {
         var getRes = await Get(id);
         if (!getRes.IsSuccess())
@@ -39,7 +39,7 @@ public class TopicService : ITopicOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp> SetUseable(string pass_token, ushort flag)
+    public Task<Resp> SetUseable(string pass_token, ushort flag)
     {
         var id = PassTokenHelper.GetData(pass_token).ToInt64();
 

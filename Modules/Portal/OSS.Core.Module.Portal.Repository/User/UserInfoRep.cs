@@ -66,7 +66,7 @@ public class UserInfoRep : BasePortalRep<UserInfoMo>, IUserInfoRep
     /// <param name="name"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    public Task<IResp<UserInfoMo>> GetUserByLoginType(string name, PortalNameType type)
+    public Task<Resp<UserInfoMo>> GetUserByLoginType(string name, PortalNameType type)
     {
         return type == PortalNameType.Mobile
             ? Get(u => u.mobile == name && u.status >= UserStatus.Locked)
@@ -83,7 +83,7 @@ public class UserInfoRep : BasePortalRep<UserInfoMo>, IUserInfoRep
     /// <param name="type"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    public Task<IResp> UpdatePortalByType(long id, PortalNameType type, string name)
+    public Task<Resp> UpdatePortalByType(long id, PortalNameType type, string name)
     {
         var userKey = string.Concat(PortalConst.CacheKeys.Portal_User_ById, id);
         return (
@@ -94,7 +94,7 @@ public class UserInfoRep : BasePortalRep<UserInfoMo>, IUserInfoRep
     }
 
 
-    public override Task<IResp<UserInfoMo>> GetById(long id)
+    public override Task<Resp<UserInfoMo>> GetById(long id)
     {
         var getFunc = () => base.GetById(id);
 
@@ -110,7 +110,7 @@ public class UserInfoRep : BasePortalRep<UserInfoMo>, IUserInfoRep
     /// <param name="id"></param>
     /// <param name="state"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateStatus(long id, UserStatus state)
+    public Task<Resp> UpdateStatus(long id, UserStatus state)
     {
         var userKey = string.Concat(PortalConst.CacheKeys.Portal_User_ById, id);
         return Update(t => new {status = state}, t => t.id == id)
@@ -125,7 +125,7 @@ public class UserInfoRep : BasePortalRep<UserInfoMo>, IUserInfoRep
     /// <param name="avatar"></param>
     /// <param name="nickName"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateBasicInfo(long id, string avatar, string nickName)
+    public Task<Resp> UpdateBasicInfo(long id, string avatar, string nickName)
     {
         var userKey = string.Concat(PortalConst.CacheKeys.Portal_User_ById, id);
         return Update(t => new {avatar = avatar, nick_name = nickName}, t => t.id == id)

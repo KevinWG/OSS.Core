@@ -23,13 +23,13 @@ public class FuncRep : BasePortalRep<FuncMo>, IFuncRep
     }
 
     /// <inheritdoc />
-    public Task<IResp<FuncMo>> GetByCode(string code)
+    public Task<Resp<FuncMo>> GetByCode(string code)
     {
         return Get(w => w.code == code && w.status > CommonStatus.Deleted);
     }
 
     /// <inheritdoc />
-    public Task<IResp> UpdateByCode(string code, ChangeFuncItemReq req)
+    public Task<Resp> UpdateByCode(string code, ChangeFuncItemReq req)
     {
         return Update(u => new
             {
@@ -38,7 +38,7 @@ public class FuncRep : BasePortalRep<FuncMo>, IFuncRep
             .WithRespCacheClearAsync(PortalConst.CacheKeys.Permit_Func_All);
     }
 
-    public Task<IResp> UpdateStatus(string code, CommonStatus status)
+    public Task<Resp> UpdateStatus(string code, CommonStatus status)
     {
         return Update(u => new
             {

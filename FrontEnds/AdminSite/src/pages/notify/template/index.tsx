@@ -120,7 +120,7 @@ const TemplateList: React.FC = () => {
         visible={!!editItem.id}
         onCancel={() => setEditItem(defaultEditItem)}
         record={editItem}
-        call_back={(res, r) => {
+        callback={(res, r) => {
           if (res.success) {
             setEditItem(defaultEditItem);
             tableAction.current?.reload();

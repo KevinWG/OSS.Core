@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="OSS.Core.Extension.Cache" Version="2.2.0" />
-    <PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="2.2.0" />
+    <PackageReference Include="OSS.Core.Extension.Cache" Version="2.2.1" />
+    <PackageReference Include="OSS.Core.Rep.Dapper.Mysql" Version="2.3.1" />
   </ItemGroup>
 
   <ItemGroup>

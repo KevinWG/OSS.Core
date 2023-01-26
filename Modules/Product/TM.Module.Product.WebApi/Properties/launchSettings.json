@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "TM.Module.Product.WebApi": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58469;http://localhost:58470"
+    }
+  }
+}

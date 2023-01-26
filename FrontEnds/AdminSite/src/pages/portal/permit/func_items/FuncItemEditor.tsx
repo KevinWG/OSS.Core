@@ -8,10 +8,10 @@ interface FuncItemEditorProps extends IEditorProps<PermitApi.FuncItem>, ModalPro
 export default function FuncItemEditor({
   record,
   visible,
-  call_back,
+  callback,
   ...modelProps
 }: FuncItemEditorProps) {
-  const isAdd = record.id == '0';
+  const isAdd = record?.id == '0';
   const [editForm] = Form.useForm();
 
   const submitHandler = async (req: PermitApi.AddFuncItemReq) => {
@@ -23,7 +23,7 @@ export default function FuncItemEditor({
       message.success((isAdd ? '新增' : '修改') + '成功!');
       editForm.resetFields();
     }
-    if (call_back) call_back(res, record);
+    if (callback) callback(res, record);
   };
 
   // 因为 initialValues 的特殊，变化后这里需要重置一下

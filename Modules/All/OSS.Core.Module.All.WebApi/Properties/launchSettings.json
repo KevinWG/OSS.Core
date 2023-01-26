@@ -4,7 +4,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iis": {
-      "applicationUrl": "http://localhost:9100",
+      "applicationUrl": "http://localhost:9000",
       "sslPort": 0
     },
     "iisExpress": {
@@ -33,7 +33,7 @@
     },
     "IIS": {
       "commandName": "IIS",
-      "workingDirectory": "D:\\Codes\\Core\\OSS.Core\\Modules\\All\\OSS.Core.Module.All.WebApi",
+      "workingDirectory": "D:\\Codes\\Core\\OSS.Core.Pro\\Modules\\All\\OSS.Core.Module.All.WebApi",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {

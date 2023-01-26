@@ -19,14 +19,14 @@ public interface ITopicOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<TopicMo>> Get(long id);
+    Task<Resp<TopicMo>> Get(long id);
 
     /// <summary>
     ///  通过id获取有效可用状态的专题详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<TopicMo>> GetUseable(long id);
+    Task<Resp<TopicMo>> GetUseable(long id);
 
     /// <summary>
     ///  设置专题可用状态
@@ -34,7 +34,7 @@ public interface ITopicOpenService
     /// <param name="pass_token">通过Id生成的通行码</param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
-    Task<IResp> SetUseable(string pass_token, ushort flag);
+    Task<Resp> SetUseable(string pass_token, ushort flag);
 
     /// <summary>
     ///  添加专题对象

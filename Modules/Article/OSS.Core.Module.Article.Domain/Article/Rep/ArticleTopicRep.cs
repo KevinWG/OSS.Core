@@ -31,7 +31,7 @@ public class ArticleTopicRep : BaseArticleRep<ArticleTopicMo,long>
     /// <param name="id"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateStatus(long id, CommonStatus status)
+    public Task<Resp> UpdateStatus(long id, CommonStatus status)
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
     }

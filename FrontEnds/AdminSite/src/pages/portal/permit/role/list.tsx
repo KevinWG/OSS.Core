@@ -4,9 +4,9 @@ import AccessButton from '@/components/button/access_button';
 import TableButton from '@/components/button/table_button';
 import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 import SearchProTable from '@/components/search/search_protable';
+import { activeRole, searchRoles, unactiveRole } from '@/pages/portal/permit/role/service';
 import { CommonStatus } from '@/services/common/enums';
 import FuncCodes from '@/services/common/func_codes';
-import { activeRole, searchRoles, unactiveRole } from '@/services/permit/role_api';
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -140,7 +140,7 @@ const RoleList: React.FC<{}> = () => {
       />
       <RoleEditor
         record={editRole}
-        call_back={(res) => {
+        callback={(res) => {
           if (res.success) {
             tableRef.current?.reload();
             setEditRole(defaultRole);

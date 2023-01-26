@@ -12,7 +12,7 @@ public interface IFuncRep : IRepository<FuncMo, long>
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    Task<IResp<FuncMo>> GetByCode(string code);
+    Task<Resp<FuncMo>> GetByCode(string code);
 
     /// <summary>
     ///  通过code更新权限信息
@@ -20,7 +20,7 @@ public interface IFuncRep : IRepository<FuncMo, long>
     /// <param name="code"></param>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> UpdateByCode(string code, ChangeFuncItemReq req);
+    Task<Resp> UpdateByCode(string code, ChangeFuncItemReq req);
 
     /// <summary>
     ///  修改状态
@@ -28,5 +28,5 @@ public interface IFuncRep : IRepository<FuncMo, long>
     /// <param name="code"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    Task<IResp> UpdateStatus(string code, CommonStatus status);
+    Task<Resp> UpdateStatus(string code, CommonStatus status);
 }

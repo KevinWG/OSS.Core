@@ -99,9 +99,20 @@ public  static class PortalConst
         public const string portal_admin_unlock  = "portal_admin_unlock";
         public const string portal_admin_settype = "portal_admin_settype";
 
+
+        // 来往对象（组织）
+        public const string portal_org = "portal_org";
+        public const string portal_org_manage = "portal_org_manage";
+
+
+
+
+
         //===== role_func 角色权限项
         public const string portal_grant_role_permits = "portal_grant_role_permits"; // 查看关联绑定
         public const string portal_grant_role_change  = "portal_grant_role_change";  // 修改角色绑定权限项信息
+
+
 
 
 

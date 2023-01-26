@@ -6,45 +6,45 @@ namespace OSS.Core.Module.Portal.Client;
 
 internal class AdminHttpClient : IAdminOpenService
 {
-    public Task<IResp> ChangeMyAvatar(string avatar)
+    public Task<Resp> ChangeMyAvatar(string avatar)
     {
-        return new PortalRemoteRequest("/Admin/ChangeMyAvatar?avatar="+ avatar)
-            .PostAsync<IResp>(); 
+        return new PortalRemoteReq("/Admin/ChangeMyAvatar?avatar="+ avatar)
+            .PostAsync<Resp>(); 
     }
 
-    public Task<IResp> ChangeMyName(string name)
+    public Task<Resp> ChangeMyName(string name)
     {
-        return new PortalRemoteRequest("/Admin/ChangeMyName?name=" + name)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/Admin/ChangeMyName?name=" + name)
+            .PostAsync<Resp>();
     }
 
     public Task<Resp<long>> Add(AddAdminReq admin)
     {
-        return new PortalRemoteRequest("/Admin/Add")
+        return new PortalRemoteReq("/Admin/Add")
             .PostAsync<Resp<long>>(admin);
     }
-
+    
     public Task<PageListResp<AdminInfoMo>> SearchAdmins(SearchReq req)
     {
-        return new PortalRemoteRequest("/Admin/SearchAdmins")
+        return new PortalRemoteReq("/Admin/SearchAdmins")
             .PostAsync<PageListResp<AdminInfoMo>>(req);
     }
 
-    public Task<IResp> Lock(long uid)
+    public Task<Resp> Lock(long uid)
     {
-        return new PortalRemoteRequest("/Admin/Lock?uid="+ uid)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/Admin/Lock?uid="+ uid)
+            .PostAsync<Resp>();
     }
 
-    public Task<IResp> UnLock(long uid)
+    public Task<Resp> UnLock(long uid)
     {
-        return new PortalRemoteRequest("/Admin/UnLock?uid=" + uid)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/Admin/UnLock?uid=" + uid)
+            .PostAsync<Resp>();
     }
 
-    public Task<IResp> SetAdminType(long uId, AdminType adminType)
+    public Task<Resp> SetAdminType(long uId, AdminType adminType)
     {
-        return new PortalRemoteRequest(string.Concat("/Admin/SetAdminType?uid=" , uId, "&admin_type=",(int)adminType))
-            .PostAsync<IResp>();
+        return new PortalRemoteReq(string.Concat("/Admin/SetAdminType?uid=" , uId, "&admin_type=",(int)adminType))
+            .PostAsync<Resp>();
     }
 }

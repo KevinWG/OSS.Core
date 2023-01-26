@@ -8,82 +8,82 @@ internal class RoleHttpClient : IRoleOpenService
 {
     public Task<PageListResp<RoleMo>> Search(SearchReq req)
     {
-        return new PortalRemoteRequest("/Role/Search" )
+        return new PortalRemoteReq("/Role/Search" )
             .PostAsync<PageListResp<RoleMo>>(req);
     }
 
-    public Task<IResp> Add(AddRoleReq req)
+    public Task<Resp> Add(AddRoleReq req)
     {
-        return new PortalRemoteRequest("/Role/Add")
-            .PostAsync<IResp>(req);
+        return new PortalRemoteReq("/Role/Add")
+            .PostAsync<Resp>(req);
     }
 
-    public Task<IResp> UpdateName(long id, AddRoleReq req)
+    public Task<Resp> UpdateName(long id, AddRoleReq req)
     {
-        return new PortalRemoteRequest("/Role/UpdateName?id="+ id)
-            .PostAsync<IResp>(req);
+        return new PortalRemoteReq("/Role/UpdateName?id="+ id)
+            .PostAsync<Resp>(req);
     }
 
-    public Task<IResp> Active(long id)
+    public Task<Resp> Active(long id)
     {
-        return new PortalRemoteRequest("/Role/Active?id=" + id)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/Role/Active?id=" + id)
+            .PostAsync<Resp>();
     }
 
-    public Task<IResp> UnActive(long id)
+    public Task<Resp> UnActive(long id)
     {
-        return new PortalRemoteRequest("/Role/UnActive?id=" + id)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/Role/UnActive?id=" + id)
+            .PostAsync<Resp>();
     }
 
     public Task<ListResp<RoleMo>> GetUserRoles(long userId)
     {
-        return new PortalRemoteRequest("/Role/GetUserRoles?u_id=" + userId)
+        return new PortalRemoteReq("/Role/GetUserRoles?u_id=" + userId)
             .GetAsync<ListResp<RoleMo>>();
     }
 
-    public Task<IResp> UserBind(AddRoleUserReq req)
+    public Task<Resp> UserBind(AddRoleUserReq req)
     {
-        return new PortalRemoteRequest("/Role/UserBind")
-            .PostAsync<IResp>(req);
+        return new PortalRemoteReq("/Role/UserBind")
+            .PostAsync<Resp>(req);
     }
 
-    public Task<IResp> DeleteUserBind(long userId, long roleId)
+    public Task<Resp> DeleteUserBind(long userId, long roleId)
     {
-        return new PortalRemoteRequest(string.Concat("/Role/DeleteUserBind?u_id=", userId, "&r_id=", roleId))
-            .PostAsync<IResp>();
+        return new PortalRemoteReq(string.Concat("/Role/DeleteUserBind?u_id=", userId, "&r_id=", roleId))
+            .PostAsync<Resp>();
     }
 }
 
 internal class UserHttpClient : IUserOpenService
 {
-    public Task<IResp> ChangeMyBasic(UpdateUserBasicReq req)
+    public Task<Resp> ChangeMyBasic(UpdateUserBasicReq req)
     {
-        return new PortalRemoteRequest("/User/ChangeMyBasic")
-            .PostAsync<IResp>(req);
+        return new PortalRemoteReq("/User/ChangeMyBasic")
+            .PostAsync<Resp>(req);
     }
 
     public Task<PageListResp<UserBasicMo>> SearchUsers(SearchReq req)
     {
-        return new PortalRemoteRequest("/User/SearchUsers")
+        return new PortalRemoteReq("/User/SearchUsers")
             .PostAsync<PageListResp<UserBasicMo>>(req);
     }
 
     public Task<Resp<UserBasicMo>> Get(long id)
     {
-        return new PortalRemoteRequest("/User/Get?id="+ id)
+        return new PortalRemoteReq("/User/Get?id="+ id)
             .GetAsync<Resp<UserBasicMo>>();
     }
 
-    public Task<IResp> Lock(long id)
+    public Task<Resp> Lock(long id)
     {
-        return new PortalRemoteRequest("/User/Lock?id=" + id)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/User/Lock?id=" + id)
+            .PostAsync<Resp>();
     }
 
-    public Task<IResp> UnLock(long id)
+    public Task<Resp> UnLock(long id)
     {
-        return new PortalRemoteRequest("/User/UnLock?id=" + id)
-            .PostAsync<IResp>();
+        return new PortalRemoteReq("/User/UnLock?id=" + id)
+            .PostAsync<Resp>();
     }
 }

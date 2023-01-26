@@ -43,13 +43,13 @@ namespace OSS.Core.Module.Portal
                 : new LongResp().WithResp(updateRes);
         }
         
-        private Task<IResp<SocialUserMo>> GetByAppUserId(string appUserId, string socialAppKey, AppPlatform plat)
+        private Task<Resp<SocialUserMo>> GetByAppUserId(string appUserId, string socialAppKey, AppPlatform plat)
         {
             return _socialUserRep.GetByAppUserId(appUserId, socialAppKey, plat);
         }
         
         /// <inheritdoc />
-        public async Task<IResp<SocialUserMo>> BindWithSysUser(long socialUserId, long sysUserId)
+        public async Task<Resp<SocialUserMo>> BindWithSysUser(long socialUserId, long sysUserId)
         {
             var socialUserRes = await _socialUserRep.GetById(socialUserId);
             if (!socialUserRes.IsSuccess())
@@ -65,7 +65,7 @@ namespace OSS.Core.Module.Portal
         }
         
         /// <inheritdoc/>
-        public Task<IResp<SocialUserMo>> GetById(long socialUserId)
+        public Task<Resp<SocialUserMo>> GetById(long socialUserId)
         {
             return _socialUserRep.GetById(socialUserId);
         }

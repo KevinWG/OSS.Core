@@ -7,25 +7,25 @@ internal class FuncHttpClient : IFuncOpenService
 {
     public Task<IResp> CheckFuncCode(string code)
     {
-        return new PortalRemoteRequest("/Func/CheckFuncCode?code=" + code)
+        return new PortalRemoteReq("/Func/CheckFuncCode?code=" + code)
             .PostAsync<IResp>();
     }
 
     public Task<ListResp<FuncMo>> GetAllFuncItems()
     {
-        return new PortalRemoteRequest("/Func/GetAllFuncItems")
+        return new PortalRemoteReq("/Func/GetAllFuncItems")
             .GetAsync<ListResp<FuncMo>>();
     }
 
     public Task<IResp> AddFuncItem(AddFuncItemReq req)
     {
-        return new PortalRemoteRequest("/Func/AddFuncItem")
+        return new PortalRemoteReq("/Func/AddFuncItem")
             .PostAsync<IResp>(req);
     }
 
     public Task<IResp> ChangeFuncItem(string code, ChangeFuncItemReq req)
     {
-        return new PortalRemoteRequest("/Func/ChangeFuncItem?code="+ code)
+        return new PortalRemoteReq("/Func/ChangeFuncItem?code="+ code)
             .PostAsync<IResp>(req);
     }
 }

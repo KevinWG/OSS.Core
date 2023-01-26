@@ -16,27 +16,27 @@ public interface IRoleOpenService
     ///  添加角色
     /// </summary>
     /// <returns></returns>
-    Task<IResp> Add(AddRoleReq req);
+    Task<Resp> Add(AddRoleReq req);
 
     /// <summary>
     ///  更新角色名称
     /// </summary>
     /// <returns></returns>
-    Task<IResp> UpdateName(long id, AddRoleReq req);
+    Task<Resp> UpdateName(long id, AddRoleReq req);
 
     /// <summary>
     ///   激活角色
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> Active(long id);
+    Task<Resp> Active(long id);
 
     /// <summary>
     ///  下线角色
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp> UnActive(long id);
+    Task<Resp> UnActive(long id);
 
 
 
@@ -53,11 +53,11 @@ public interface IRoleOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> UserBind(AddRoleUserReq req);
+    Task<Resp> UserBind(AddRoleUserReq req);
 
     /// <summary>
     ///   删除角色绑定
     /// </summary>
     /// <returns></returns>
-    Task<IResp> DeleteUserBind(long userId, long roleId);
+    Task<Resp> DeleteUserBind(long userId, long roleId);
 }

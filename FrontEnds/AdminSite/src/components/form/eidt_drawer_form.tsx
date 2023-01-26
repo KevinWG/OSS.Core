@@ -48,7 +48,7 @@ export default function EditDrawerForm<T>(props: EditDrawerProps<T>) {
         form={editForm}
         items={form_items}
         row_item_count={row_item_count}
-        // initialValues={record}
+        initialValues={record}
         onFinish={onFinish}
       >
         <Space>

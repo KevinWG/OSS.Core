@@ -26,21 +26,21 @@ public class ArticleService : IArticleOpenService
     }
 
     /// <inheritdoc />
-    public async Task<IResp<ArticleMo>> Get(long id)
+    public async Task<Resp<ArticleMo>> Get(long id)
     {
         var  getRes = await _ArticleRep.GetById(id);
         return getRes.IsSuccess() ? getRes : new Resp<ArticleMo>().WithErrMsg("未能找到文章信息");
     }
 
     /// <inheritdoc />
-    public async Task<IResp<ArticleMo>> GetUseable(long id)
+    public async Task<Resp<ArticleMo>> GetUseable(long id)
     {
         var getRes = await Get(id);
         return getRes.IsSuccess() && getRes.data.status >= 0 ? getRes : new Resp<ArticleMo>().WithErrMsg("未能找到有效的文章信息");
     }
 
     /// <inheritdoc />
-    public Task<IResp> Delete(string pass_token)
+    public Task<Resp> Delete(string pass_token)
     {
         var id = PassTokenHelper.GetData(pass_token).ToInt64();
 
@@ -48,7 +48,7 @@ public class ArticleService : IArticleOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp> Edit(string pass_token, AddArticleReq req)
+    public Task<Resp> Edit(string pass_token, AddArticleReq req)
     {
         var id = PassTokenHelper.GetData(pass_token).ToInt64();
         return _ArticleRep.Edit(id, req);
@@ -75,13 +75,13 @@ public class ArticleService : IArticleOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public async Task<IResp> RelateTopics(RelateTopicReq req)
+    public async Task<Resp> RelateTopics(RelateTopicReq req)
     {
         var list = req.MapToArticleTopicMos();
 
         await _articleTopicRep.AddList(list);
 
-        return Resp.DefaultSuccess;
+        return new Resp();
     }
 
 }

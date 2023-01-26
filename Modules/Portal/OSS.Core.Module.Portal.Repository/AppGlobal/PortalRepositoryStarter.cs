@@ -21,5 +21,7 @@ public class PortalRepositoryStarter : AppStarter
         InsContainer<IRoleRep>.Set<RoleRep>();
         InsContainer<IRoleFuncRep>.Set<RoleFuncRep>();
         InsContainer<IRoleUserRep>.Set<RoleUserRep>();
+
+        InsContainer<IOrganizationRep>.Set<OrganizationRep>();
     }
 }

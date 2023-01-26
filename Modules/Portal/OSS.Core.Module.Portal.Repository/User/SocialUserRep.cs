@@ -42,7 +42,7 @@ namespace OSS.Core.Module.Portal
         ///  根据绑定用户id获取第三方账号信息
         /// </summary>
         /// <returns></returns>
-        public  Task<IResp<SocialUserMo>> GetByUserId(long uId,string socialAppId, AppPlatform plat)
+        public  Task<Resp<SocialUserMo>> GetByUserId(long uId,string socialAppId, AppPlatform plat)
         {
             return  Get(u => u.owner_uid == uId && u.social_app_key == socialAppId && u.social_plat == plat);
         }
@@ -53,7 +53,7 @@ namespace OSS.Core.Module.Portal
         /// <param name="appUserId"></param>
         /// <param name="plat"></param>
         /// <returns></returns>
-        public  Task<IResp<SocialUserMo>> GetByAppUserId(string appUserId, string socialAppId, AppPlatform plat)
+        public  Task<Resp<SocialUserMo>> GetByAppUserId(string appUserId, string socialAppId, AppPlatform plat)
         {
             return  Get(u => u.app_user_id == appUserId && u.social_app_key == socialAppId && u.social_plat == plat);
         }
@@ -64,7 +64,7 @@ namespace OSS.Core.Module.Portal
         ///   更新已有授权信息
         /// </summary>
         /// <returns></returns>
-        public async Task<IResp> UpdateSocialUser(long socialUserId, AddOrUpdateSocialReq req)
+        public async Task<Resp> UpdateSocialUser(long socialUserId, AddOrUpdateSocialReq req)
         {
             return await Update(
                 u => new
@@ -89,7 +89,7 @@ namespace OSS.Core.Module.Portal
         /// <param name="socialUserId"></param>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public async Task<IResp> BindUserIdById(long socialUserId, long userId)
+        public async Task<Resp> BindUserIdById(long socialUserId, long userId)
         {
             var mTime = DateTime.Now.ToUtcSeconds();
             return await Update(u => new { owner_uid = userId, status = UserStatus.Normal },
@@ -102,7 +102,7 @@ namespace OSS.Core.Module.Portal
         /// <param name="id"></param>
         /// <param name="appUnionId"></param>
         /// <returns></returns>
-        public async Task<IResp> UpdateWechatMAppSession(long id, string sessionKey, string appUnionId)
+        public async Task<Resp> UpdateWechatMAppSession(long id, string sessionKey, string appUnionId)
         {
             var mTime = DateTime.Now.ToUtcSeconds();
             return await Update(u => new { access_token = sessionKey, app_union_id = appUnionId }, w => w.id == id);

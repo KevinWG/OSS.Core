@@ -26,7 +26,7 @@ public interface IRoleRep : IRepository<RoleMo, long>
     /// <param name="rid"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    Task<IResp> UpdateStatus(long rid, CommonStatus status);
+    Task<Resp> UpdateStatus(long rid, CommonStatus status);
 
     /// <summary>
     /// 修改角色名称
@@ -34,5 +34,5 @@ public interface IRoleRep : IRepository<RoleMo, long>
     /// <param name="rid"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    Task<IResp> UpdateName(long rid, string name);
+    Task<Resp> UpdateName(long rid, string name);
 }

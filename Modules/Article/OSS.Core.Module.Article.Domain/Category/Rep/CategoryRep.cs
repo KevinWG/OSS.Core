@@ -45,7 +45,7 @@ public class CategoryRep : BaseArticleRep<CategoryMo,long>
     /// <param name="id"></param>
     /// <param name="status"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateStatus(long id, CommonStatus status)
+    public Task<Resp> UpdateStatus(long id, CommonStatus status)
     {
         return Update(u => new {u.status}, w => w.id == id, new {status});
     }
@@ -55,7 +55,7 @@ public class CategoryRep : BaseArticleRep<CategoryMo,long>
     /// </summary>
     /// <param name="parentId"></param>
     /// <returns></returns>
-    public Task<IResp<long>> GetLastSubId(long parentId)
+    public Task<Resp<long>> GetLastSubId(long parentId)
     {
         // 包含已经被软删除的数据
          var sql = $"SELECT id FROM { TableName } t where t.parent_id=@parent_id order by id desc limit 1";

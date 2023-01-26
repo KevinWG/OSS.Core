@@ -12,8 +12,6 @@ namespace OSS.Core.Module.Portal
         {
             service.Register<PortalServiceStarter>();    // 逻辑服务层
             service.Register<PortalRepositoryStarter>(); // 仓储层
-
-
         }
     }
 }

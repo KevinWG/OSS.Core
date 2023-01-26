@@ -16,7 +16,7 @@ public interface ITemplateOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<IResp<TemplateMo>> Get(long id);
+    Task<Resp<TemplateMo>> Get(long id);
 
     /// <summary>
     /// 修改模板信息
@@ -24,7 +24,7 @@ public interface ITemplateOpenService
     /// <param name="id"></param>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Update(long id, AddTemplateReq req);
+    Task<Resp> Update(long id, AddTemplateReq req);
 
     /// <summary>
     ///  设置可用状态
@@ -32,12 +32,12 @@ public interface ITemplateOpenService
     /// <param name="id"></param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
-    Task<IResp> SetUseable(long id, ushort flag);
+    Task<Resp> SetUseable(long id, ushort flag);
 
     /// <summary>
     ///  添加模板信息
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<IResp> Add(AddTemplateReq req);
+    Task<Resp> Add(AddTemplateReq req);
 }

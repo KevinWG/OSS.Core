@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Framework\Core\OSS.Core.Service\OSS.Core.Service.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.AppCenter.Domain\OSS.Core.Module.AppCenter.Domain.csproj" />
+    <ProjectReference Include="..\OSS.Core.Module.AppCenter.Service.opened\OSS.Core.Module.AppCenter.Service.Opened.csproj" />
+  </ItemGroup>
+
+</Project>

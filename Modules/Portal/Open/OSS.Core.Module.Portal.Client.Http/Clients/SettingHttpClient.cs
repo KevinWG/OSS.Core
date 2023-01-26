@@ -7,13 +7,13 @@ internal class SettingHttpClient : ISettingOpenService
 {
     public Task<IResp> SaveAuthSetting(AuthSetting setting)
     {
-        return new PortalRemoteRequest("/Setting/SaveAuthSetting")
+        return new PortalRemoteReq("/Setting/SaveAuthSetting")
             .PostAsync<IResp>(setting);
     }
 
     public Task<IResp<AuthSetting>> GetAuthSetting()
     {
-        return new PortalRemoteRequest("/Setting/GetAuthSetting")
+        return new PortalRemoteReq("/Setting/GetAuthSetting")
             .GetAsync<IResp<AuthSetting>>();//<IResp>(setting);
     }
 }

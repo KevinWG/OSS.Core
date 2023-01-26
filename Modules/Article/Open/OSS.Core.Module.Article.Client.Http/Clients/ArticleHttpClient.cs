@@ -31,18 +31,18 @@ internal class ArticleHttpClient : IArticleOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Task<IResp<ArticleMo>> Get(long id)
+    public Task<Resp<ArticleMo>> Get(long id)
     {
           return new ArticleRemoteReq($"/Article/Get?id={id}")
-            .GetAsync<IResp<ArticleMo>>();
+            .GetAsync<Resp<ArticleMo>>();
     }
 
 
     /// <inheritdoc />
-    public Task<IResp<ArticleMo>> GetUseable(long id)
+    public Task<Resp<ArticleMo>> GetUseable(long id)
     {
         return new ArticleRemoteReq($"/Article/GetUseable?id={id}")
-            .GetAsync<IResp<ArticleMo>>();
+            .GetAsync<Resp<ArticleMo>>();
     }
 
     /// <summary>
@@ -50,17 +50,17 @@ internal class ArticleHttpClient : IArticleOpenService
     /// </summary>
     /// <param name="pass_token"></param>
     /// <returns></returns>
-    public Task<IResp> Delete(string pass_token)
+    public Task<Resp> Delete(string pass_token)
     {
         return new ArticleRemoteReq($"/Article/Delete?pass_token={pass_token}")
-            .PostAsync<IResp>();
+            .PostAsync<Resp>();
     }
 
     /// <inheritdoc />
-    public Task<IResp> Edit(string pass_token, AddArticleReq req)
+    public Task<Resp> Edit(string pass_token, AddArticleReq req)
     {
         return new ArticleRemoteReq($"/Article/Edit?pass_token={pass_token}")
-            .PostAsync<IResp>(req);
+            .PostAsync<Resp>(req);
     }
 
     /// <summary>
@@ -75,10 +75,10 @@ internal class ArticleHttpClient : IArticleOpenService
     }
 
     /// <inheritdoc />
-    public Task<IResp> RelateTopics(RelateTopicReq req)
+    public Task<Resp> RelateTopics(RelateTopicReq req)
     {
         return new ArticleRemoteReq("/Article/RelateTopics")
-            .PostAsync<IResp>(req);
+            .PostAsync<Resp>(req);
     }
 }
 

@@ -55,10 +55,9 @@ const staticCols: ProColumns<PortalApi.AdminInfo>[] = [
     search: {
       transform: (value) => {
         const dateRange = {
-          add_start_at: Math.ceil(value[0] / 1000),
-          add_end_at: Math.ceil(value[1] / 1000),
+          add_start_at: moment(value[0]).unix(),
+          add_end_at: moment(value[1]).unix(),
         };
-        console.info(dateRange);
         return dateRange;
       },
     },

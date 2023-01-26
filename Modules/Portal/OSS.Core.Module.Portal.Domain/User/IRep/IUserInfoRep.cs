@@ -19,7 +19,7 @@ public interface IUserInfoRep:IRepository<UserInfoMo,long>
     /// <param name="name"></param>
     /// <param name="type"></param>
     /// <returns></returns>
-    Task<IResp<UserInfoMo>> GetUserByLoginType(string name, PortalNameType type);
+    Task<Resp<UserInfoMo>> GetUserByLoginType(string name, PortalNameType type);
 
     /// <summary>
     ///  修改用户登录信息
@@ -28,7 +28,7 @@ public interface IUserInfoRep:IRepository<UserInfoMo,long>
     /// <param name="type"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    Task<IResp> UpdatePortalByType(long id, PortalNameType type, string name);
+    Task<Resp> UpdatePortalByType(long id, PortalNameType type, string name);
 
     /// <summary>
     ///  修改用户状态
@@ -36,7 +36,7 @@ public interface IUserInfoRep:IRepository<UserInfoMo,long>
     /// <param name="id"></param>
     /// <param name="state"></param>
     /// <returns></returns>
-    Task<IResp> UpdateStatus(long id, UserStatus state);
+    Task<Resp> UpdateStatus(long id, UserStatus state);
 
     /// <summary>
     ///  修改基础信息
@@ -45,5 +45,5 @@ public interface IUserInfoRep:IRepository<UserInfoMo,long>
     /// <param name="avatar"></param>
     /// <param name="nickName"></param>
     /// <returns></returns>
-    Task<IResp> UpdateBasicInfo(long id, string avatar, string nickName);
+    Task<Resp> UpdateBasicInfo(long id, string avatar, string nickName);
 }

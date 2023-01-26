@@ -34,7 +34,7 @@ public class AdminInfoRep : BasePortalRep<AdminInfoMo>, IAdminInfoRep //,IAdminI
     /// </summary>
     /// <param name="uId"></param>
     /// <returns></returns>
-    public Task<IResp<AdminInfoMo>> GetAdminByUId(long uId)
+    public Task<Resp<AdminInfoMo>> GetAdminByUId(long uId)
     {
         var                           adminKey = string.Concat(PortalConst.CacheKeys.Portal_Admin_ByUId, uId);
         var getFunc  = () => Get(a => a.id == uId);
@@ -69,10 +69,17 @@ public class AdminInfoRep : BasePortalRep<AdminInfoMo>, IAdminInfoRep //,IAdminI
                 return "admin_type=@admin_type";
             
             case "add_start_at":
-                sqlParas.Add("@add_start_at", value.ToInt64());
+                var startAt = value.ToInt64();
+                if (startAt <= 0)
+                    return string.Empty;
+
+                sqlParas.Add("@add_start_at", startAt);
                 return "add_time>=@add_start_at";
             case "add_end_at":
-                sqlParas.Add("@add_end_at", value.ToInt64());
+                var endAt = value.ToInt64();
+                if (endAt <= 0)
+                    return string.Empty;
+                sqlParas.Add("@add_end_at", endAt);
                 return "add_time<=@add_end_at";
         }
 
@@ -87,7 +94,7 @@ public class AdminInfoRep : BasePortalRep<AdminInfoMo>, IAdminInfoRep //,IAdminI
     /// <param name="id"></param>
     /// <param name="adminStatus"></param>
     /// <returns></returns>
-    public Task<IResp> UpdateStatus(long uId, AdminStatus adminStatus)
+    public Task<Resp> UpdateStatus(long uId, AdminStatus adminStatus)
     {
         var adminKey = string.Concat(PortalConst.CacheKeys.Portal_Admin_ByUId, uId);
         return Update(t => new {status = adminStatus}, t => t.id == uId)
@@ -100,7 +107,7 @@ public class AdminInfoRep : BasePortalRep<AdminInfoMo>, IAdminInfoRep //,IAdminI
     /// <param name="uId"></param>
     /// <param name="avatar"></param>
     /// <returns></returns>
-    public Task<IResp> ChangeAvatar(long uId, string avatar)
+    public Task<Resp> ChangeAvatar(long uId, string avatar)
     {
         var adminKey = string.Concat(PortalConst.CacheKeys.Portal_Admin_ByUId, uId);
 
@@ -114,7 +121,7 @@ public class AdminInfoRep : BasePortalRep<AdminInfoMo>, IAdminInfoRep //,IAdminI
     /// <param name="v"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    public Task<IResp> ChangeMyName(long uId, string name)
+    public Task<Resp> ChangeMyName(long uId, string name)
     {
         var adminKey = string.Concat(PortalConst.CacheKeys.Portal_Admin_ByUId, uId);
 
@@ -130,7 +137,7 @@ public class AdminInfoRep : BasePortalRep<AdminInfoMo>, IAdminInfoRep //,IAdminI
     /// <param name="uId"></param>
     /// <param name="adminType"></param>
     /// <returns></returns>
-    public Task<IResp> SetAdminType(long uId, AdminType adminType)
+    public Task<Resp> SetAdminType(long uId, AdminType adminType)
     {
         var adminKey = string.Concat(PortalConst.CacheKeys.Portal_Admin_ByUId, uId);
         return Update(t => new {admin_type = adminType}, t => t.id == uId)

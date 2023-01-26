@@ -1,7 +1,7 @@
 import AccessButton from '@/components/button/access_button';
 import SelectTableModalElement from '@/components/form/select_table_modal_element';
+import { searchRoles } from '@/pages/portal/permit/role/service';
 import FuncCodes from '@/services/common/func_codes';
-import { searchRoles } from '@/services/permit/role_api';
 
 export default function RoleSelectModal(props: {
   /**

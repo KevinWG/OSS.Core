@@ -25,7 +25,13 @@ export default [
         path: '/portal/admin/list',
         component: './portal/admin/list',
       },
-    
+      {
+        name: '合作对象管理',
+        access: FuncCodes.portal_org,
+        path: '/portal/org/list',
+        component: './portal/organization/list',
+      },
+
       {
         name: '登录设置',
         access: FuncCodes.portal_setting_auth,
@@ -62,6 +68,64 @@ export default [
   //     { component: './404' },
   //   ],
   // },
+  {
+    path: '/product',
+    name: '商品管理',
+    access: FuncCodes.Product,
+    routes: [
+      {
+        path: '/product/category/list',
+        access: FuncCodes.Product_SpuCategory,
+        name: '商品分类',
+        component: './product/category/list',
+      },
+      { component: './404' },
+    ],
+  },
+  {
+    path: '/wms',
+    name: '仓储管理',
+    access: FuncCodes.WMS,
+    routes: [
+      {
+        path: '/wms/stock/apply',
+        name: '出入库申请',
+        access: FuncCodes.wms_stock_apply_list,
+        component: './wms/stock_apply/list',
+      },
+      {
+        path: '/wms/mcategory/list',
+        access: FuncCodes.WMS_MCategory,
+        name: '物料分类',
+        component: './wms/mcategory/list',
+      },
+      {
+        path: '/wms/material/list',
+        name: '物料管理',
+        access: FuncCodes.wms_material,
+        component: './wms/material/list',
+      },
+      {
+        path: '/wms/warehouse/list',
+        access: FuncCodes.WMS_Warehouse,
+        name: '仓库管理',
+        component: './wms/warehouse/list',
+      },
+      {
+        path: '/wms/batch/list',
+        name: '批次管理',
+        access: FuncCodes.wms_batch_msearch,
+        component: './wms/batch/list',
+      },
+      {
+        path: '/wms/unit/list',
+        access: FuncCodes.wms_unit_list,
+        name: '单位设置',
+        component: './wms/unit/list',
+      },
+      { component: './404' },
+    ],
+  },
   {
     path: '/notify',
     access: FuncCodes.Notify,

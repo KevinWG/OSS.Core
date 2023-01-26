@@ -38,7 +38,7 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<ArticleMo>> Get(long id)
+    public Task<Resp<ArticleMo>> Get(long id)
     {
         return _service.Get(id);
     }
@@ -49,7 +49,7 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<ArticleMo>> GetUseable(long id)
+    public Task<Resp<ArticleMo>> GetUseable(long id)
     {
         return _service.GetUseable(id);
     }
@@ -59,7 +59,8 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// </summary>
     /// <param name="pass_token"></param>
     /// <returns></returns>
-   [HttpPost] public Task<IResp> Delete(string pass_token)
+    [HttpPost]
+    public Task<Resp> Delete(string pass_token)
     {
         return _service.Delete(pass_token);
     }
@@ -72,7 +73,7 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> Edit(string pass_token, [FromBody] AddArticleReq req)
+    public Task<Resp> Edit(string pass_token, [FromBody] AddArticleReq req)
     {
         return _service.Edit(pass_token, req);
     }
@@ -95,7 +96,7 @@ public class ArticleController : BaseArticleController, IArticleOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> RelateTopics([FromBody]RelateTopicReq req)
+    public Task<Resp> RelateTopics([FromBody] RelateTopicReq req)
     {
         return _service.RelateTopics(req);
     }

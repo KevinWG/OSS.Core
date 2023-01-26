@@ -21,16 +21,16 @@ internal class CategoryHttpClient : ICategoryOpenService
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public Task<IResp<CategoryMo>> Get(long id)
+    public Task<Resp<CategoryMo>> Get(long id)
     {
           return new ArticleRemoteReq($"/Category/Get?id={id}")
-            .GetAsync<IResp<CategoryMo>>();
+            .GetAsync<Resp<CategoryMo>>();
     }
 
-    public Task<IResp<CategoryMo>> GetUseable(long id)
+    public Task<Resp<CategoryMo>> GetUseable(long id)
     {
         return new ArticleRemoteReq($"/Category/GetUseable?id={id}")
-            .GetAsync<IResp<CategoryMo>>();
+            .GetAsync<Resp<CategoryMo>>();
     }
 
 
@@ -40,10 +40,10 @@ internal class CategoryHttpClient : ICategoryOpenService
     /// <param name="id"></param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
-    public Task<IResp> SetUseable(long id, ushort flag)
+    public Task<Resp> SetUseable(long id, ushort flag)
     {
           return new ArticleRemoteReq($"/Category/SetUseable?id={id}&flag={flag}")
-            .PostAsync<IResp>();
+            .PostAsync<Resp>();
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ internal class CategoryHttpClient : ICategoryOpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public Task<LongResp> Add(AddCategoryReq req)
+    public Task<LongResp> Add(AddArticleCategoryReq req)
     {
           return new ArticleRemoteReq("/Category/Add")
             .PostAsync<LongResp>(req);

@@ -8,8 +8,8 @@ import React, { useRef, useState } from 'react';
 import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 import SearchProTable from '@/components/search/search_protable';
 
+import { lockUser, searchUsers } from '@/pages/portal/user/service';
 import { UserStatus } from '@/services/portal/enums';
-import { lockUser, searchUsers } from '@/services/portal/user_api';
 
 import AccessButton from '@/components/button/access_button';
 import FuncCodes from '@/services/common/func_codes';

@@ -9,28 +9,28 @@ internal class PermitHttpClient : IGrantOpenService
     /// <inheritdoc />
     public Task<ListResp<GrantedPermit>> GetCurrentUserPermits()
     {
-        return new PortalRemoteRequest("/Permit/GetCurrentUserPermits")
+        return new PortalRemoteReq("/Permit/GetCurrentUserPermits")
             .GetAsync<ListResp<GrantedPermit>>();
     }
 
     /// <inheritdoc />
     public Task<IResp<FuncDataLevel>> CheckPermit(string funcCode)
     {
-        return new PortalRemoteRequest($"/Permit/CheckPermit?func_code={funcCode}")
+        return new PortalRemoteReq($"/Permit/CheckPermit?func_code={funcCode}")
             .PostAsync<IResp<FuncDataLevel>>();
     }
 
     /// <inheritdoc />
     public Task<ListResp<GrantedPermit>> GetPermitsByRoleId(long roleId)
     {
-        return new PortalRemoteRequest($"/Permit/GetPermitsByRoleId?roleId={roleId}")
+        return new PortalRemoteReq($"/Permit/GetPermitsByRoleId?roleId={roleId}")
             .GetAsync<ListResp<GrantedPermit>>();
     }
 
     /// <inheritdoc />
     public Task<IResp> ChangeRolePermits(long rid, ChangeRolePermitReq req)
     {
-        return new PortalRemoteRequest($"/Permit/ChangeRolePermits?rid={rid}")
+        return new PortalRemoteReq($"/Permit/ChangeRolePermits?rid={rid}")
             .PostAsync<IResp>(req);
     }
 }

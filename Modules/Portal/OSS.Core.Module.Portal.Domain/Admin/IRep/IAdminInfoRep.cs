@@ -11,7 +11,7 @@ public interface IAdminInfoRep : IRepository<AdminInfoMo, long>
     /// </summary>
     /// <param name="uId"></param>
     /// <returns></returns>
-    Task<IResp<AdminInfoMo>> GetAdminByUId(long uId);
+    Task<Resp<AdminInfoMo>> GetAdminByUId(long uId);
 
     /// <summary>
     ///  查询管理员列表
@@ -26,7 +26,7 @@ public interface IAdminInfoRep : IRepository<AdminInfoMo, long>
     /// <param name="uId"></param>
     /// <param name="adminStatus"></param>
     /// <returns></returns>
-    Task<IResp> UpdateStatus(long uId, AdminStatus adminStatus);
+    Task<Resp> UpdateStatus(long uId, AdminStatus adminStatus);
 
     /// <summary>
     ///   修改头像地址
@@ -34,7 +34,7 @@ public interface IAdminInfoRep : IRepository<AdminInfoMo, long>
     /// <param name="uId"></param>
     /// <param name="avatar"></param>
     /// <returns></returns>
-    Task<IResp> ChangeAvatar(long uId, string avatar);
+    Task<Resp> ChangeAvatar(long uId, string avatar);
 
     /// <summary>
     /// 修改管理员名称
@@ -42,7 +42,7 @@ public interface IAdminInfoRep : IRepository<AdminInfoMo, long>
     /// <param name="uId"></param>
     /// <param name="name"></param>
     /// <returns></returns>
-    Task<IResp> ChangeMyName(long uId, string name);
+    Task<Resp> ChangeMyName(long uId, string name);
 
     /// <summary>
     ///  修改管理员状态
@@ -50,5 +50,5 @@ public interface IAdminInfoRep : IRepository<AdminInfoMo, long>
     /// <param name="uId"></param>
     /// <param name="adminType"></param>
     /// <returns></returns>
-    Task<IResp> SetAdminType(long uId, AdminType adminType);
+    Task<Resp> SetAdminType(long uId, AdminType adminType);
 }

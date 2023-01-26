@@ -22,7 +22,7 @@ builder.Services.AddDefaultNoneCaptchaValidator();
 builder.Services.AddControllers(opt =>
 {
     opt.AddCoreModelValidation();
-    opt.AddCoreAppAuthorization(new AppAccessProvider());
+    opt.AddCoreAppAuthorization(new AppAccessProvider(),new TenantAuthProvider());
     opt.AddCoreUserAuthorization(new UserAuthProvider(),new FuncAuthProvider());
 
 }).AddJsonOptions(jsonOpt =>
@@ -35,12 +35,7 @@ builder.Services.AddControllers(opt =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
-
-
 var app   = builder.Build();
-
 var isDev = app.Environment.IsDevelopment();
 
 if (isDev)

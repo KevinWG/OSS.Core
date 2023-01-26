@@ -33,7 +33,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="avatar"></param>
         /// <returns></returns>
-        public Task<IResp> ChangeMyAvatar(string avatar)
+        public Task<Resp> ChangeMyAvatar(string avatar)
         {
             return _adminRep.ChangeAvatar(CoreContext.User.Identity.id.ToInt64(), avatar);
         }
@@ -43,7 +43,7 @@ namespace OSS.Core.Module.Portal
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public Task<IResp> ChangeMyName(string name)
+        public Task<Resp> ChangeMyName(string name)
         {
             return _adminRep.ChangeMyName(CoreContext.User.Identity.id.ToInt64(), name);
         }
@@ -101,27 +101,27 @@ namespace OSS.Core.Module.Portal
         /// <param name="uId"></param>
         /// <param name="adminType"></param>
         /// <returns></returns>
-        public Task<IResp> SetAdminType(long uId, AdminType adminType)
+        public Task<Resp> SetAdminType(long uId, AdminType adminType)
         {
             return _adminRep.SetAdminType(uId, adminType);
         }
 
 
         /// <inheritdoc />
-        public Task<IResp> Lock(long uid)
+        public Task<Resp> Lock(long uid)
         {
             return _adminRep.UpdateStatus(uid, AdminStatus.Locked);
         }
 
 
         /// <inheritdoc />
-        public Task<IResp> UnLock(long uid)
+        public Task<Resp> UnLock(long uid)
         {
             return _adminRep.UpdateStatus(uid, AdminStatus.Normal);
         }
 
 
-        Task<IResp<AdminInfoMo>> IAdminCommonService.GetAdminByUId(long userId)
+        Task<Resp<AdminInfoMo>> IAdminCommonService.GetAdminByUId(long userId)
         {
             return _adminRep.GetAdminByUId(userId);
         }

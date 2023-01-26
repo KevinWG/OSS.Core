@@ -27,7 +27,7 @@ public class UserService : IUserCommonService
 
 
     /// <inheritdoc />
-    public Task<IResp> ChangeMyBasic(UpdateUserBasicReq req)
+    public Task<Resp> ChangeMyBasic(UpdateUserBasicReq req)
     {
         return _userRep.UpdateBasicInfo(CoreContext.User.Identity.id.ToInt64(), req.avatar, req.nick_name);
     }
@@ -53,12 +53,12 @@ public class UserService : IUserCommonService
         return new Resp<UserBasicMo>(userData);
     }
 
-    public Task<IResp> Lock(long id)
+    public Task<Resp> Lock(long id)
     {
         return _userRep.UpdateStatus(id, UserStatus.Locked);
     }
 
-    public Task<IResp> UnLock(long id)
+    public Task<Resp> UnLock(long id)
     {
         return _userRep.UpdateStatus(id, UserStatus.Normal);
     }

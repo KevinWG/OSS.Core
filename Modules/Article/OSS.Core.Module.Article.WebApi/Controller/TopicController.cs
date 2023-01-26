@@ -28,7 +28,7 @@ public class TopicController : BaseArticleController, ITopicOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<TopicMo>> Get(long id)
+    public Task<Resp<TopicMo>> Get(long id)
     {
         return _service.Get(id);
     }
@@ -39,7 +39,7 @@ public class TopicController : BaseArticleController, ITopicOpenService
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<IResp<TopicMo>> GetUseable(long id)
+    public Task<Resp<TopicMo>> GetUseable(long id)
     {
         return _service.GetUseable(id);
     }
@@ -51,7 +51,7 @@ public class TopicController : BaseArticleController, ITopicOpenService
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> SetUseable(string pass_token, ushort flag)
+    public Task<Resp> SetUseable(string pass_token, ushort flag)
     {
         return _service.SetUseable(pass_token, flag);
     }

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+     <PropertyGroup>
+         <TargetFramework>net6.0</TargetFramework>
+         <ImplicitUsings>enable</ImplicitUsings>
+         <Nullable>enable</Nullable>
+         <GenerateDocumentationFile>True</GenerateDocumentationFile>
+     </PropertyGroup>
+    <ItemGroup>
+       <PackageReference Include="OSS.Core.Client.Http" Version="*" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\TM.Module.Product.Service.Open\TM.Module.Product.Service.Open.csproj" />
+    </ItemGroup>
+</Project>
+

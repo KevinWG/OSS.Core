@@ -28,10 +28,6 @@ export enum RespCodes {
 }
 
 export const CommonStatus = {
-  '-999': {
-    text: '全部',
-    status: 'Success',
-  },
   '-100': {
     text: '锁定',
     status: 'Error',

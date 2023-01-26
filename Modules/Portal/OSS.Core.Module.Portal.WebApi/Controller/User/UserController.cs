@@ -32,7 +32,7 @@ public class UserController : BasePortalController,IUserOpenService
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<IResp> ChangeMyBasic([FromBody] UpdateUserBasicReq req)
+    public Task<Resp> ChangeMyBasic([FromBody] UpdateUserBasicReq req)
     {
         return _service.ChangeMyBasic(req);
     }
@@ -56,7 +56,7 @@ public class UserController : BasePortalController,IUserOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_user_lock)]
-    public async Task<IResp> Lock(long id)
+    public async Task<Resp> Lock(long id)
     {
         return await _service.Lock(id);
     }
@@ -68,9 +68,9 @@ public class UserController : BasePortalController,IUserOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_user_unlock)]
-    public async Task<IResp> UnLock(long id)
+    public  Task<Resp> UnLock(long id)
     {
-        return await _service.UnLock(id);
+        return _service.UnLock(id);
     }
 
 

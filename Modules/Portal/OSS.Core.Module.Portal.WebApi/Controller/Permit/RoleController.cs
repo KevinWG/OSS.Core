@@ -32,7 +32,7 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_add)]
-    public Task<IResp> Add([FromBody] AddRoleReq req)
+    public Task<Resp> Add([FromBody] AddRoleReq req)
     {
         return _service.Add(req);
     }
@@ -43,7 +43,7 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_add)]
-    public Task<IResp> UpdateName(long id, [FromBody] AddRoleReq req)
+    public Task<Resp> UpdateName(long id, [FromBody] AddRoleReq req)
     {
         return _service.UpdateName(id,req);
     }
@@ -55,7 +55,7 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_active)]
-    public Task<IResp> Active(long id)
+    public Task<Resp> Active(long id)
     {
         return _service.Active(id);
     }
@@ -67,7 +67,7 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_active)]
-    public Task<IResp> UnActive(long id)
+    public Task<Resp> UnActive(long id)
     {
         return _service.UnActive(id);
     }
@@ -95,7 +95,7 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_bind_user)]
-    public Task<IResp> UserBind([FromBody] AddRoleUserReq req)
+    public Task<Resp> UserBind([FromBody] AddRoleUserReq req)
     {
         return _service.UserBind(req);
     }
@@ -106,7 +106,7 @@ public class RoleController : BasePortalController, IRoleOpenService
     /// <returns></returns>
     [HttpPost]
     [UserFuncMeta(PortalConst.FuncCodes.portal_role_bind_delete)]
-    public Task<IResp> DeleteUserBind(long u_id,long r_id)
+    public Task<Resp> DeleteUserBind(long u_id,long r_id)
     {
         return _service.DeleteUserBind(u_id,r_id);
     }

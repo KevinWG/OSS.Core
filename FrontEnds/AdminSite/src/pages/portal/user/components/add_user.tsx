@@ -57,7 +57,6 @@ const formItems: FormItemFactoryProps[] = [
     rules: [
       {
         validator: (r: any, val: any) => CheckValid(PortalNameType.Email, val),
-        validateTrigger: 'onBlur',
       },
     ],
   },

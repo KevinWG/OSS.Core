@@ -18,6 +18,8 @@
     <ProjectReference Include="..\..\Article\OSS.Core.Module.Article.WebApi\OSS.Core.Module.Article.WebApi.csproj" />
     <ProjectReference Include="..\..\Notify\OSS.Core.Module.Notify.WebApi\OSS.Core.Module.Notify.WebApi.csproj" />
     <ProjectReference Include="..\..\Portal\OSS.Core.Module.Portal.WebApi\OSS.Core.Module.Portal.WebApi.csproj" />
+    <ProjectReference Include="..\..\Product\TM.Module.Product.WebApi\TM.Module.Product.WebApi.csproj" />
+    <ProjectReference Include="..\..\WMS\TM.WMS.WebApi\TM.WMS.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

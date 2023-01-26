@@ -1,9 +1,13 @@
 import TableFetchButtons from '@/components/button/table_Fetch_buttons';
 import SearchProTable from '@/components/search/search_protable';
+import {
+  addUserRoleBind,
+  deleteUserRoleBind,
+  getUserRoles,
+} from '@/pages/portal/permit/role/service';
+import { getUser } from '@/pages/portal/user/service';
 import FuncCodes from '@/services/common/func_codes';
 import { AdminType } from '@/services/portal/enums';
-import { addUserRoleBind, deleteUserRoleBind, getUserRoles } from '@/services/permit/role_api';
-import { getUser } from '@/services/portal/user_api';
 import { CloseCircleOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProDescriptions } from '@ant-design/pro-components';
 import { useAccess } from '@umijs/max';

@@ -10,14 +10,14 @@ public interface IAdminOpenService
     /// </summary>
     /// <param name="avatar"></param>
     /// <returns></returns>
-    Task<IResp> ChangeMyAvatar(string avatar);
+    Task<Resp> ChangeMyAvatar(string avatar);
 
     /// <summary>
     ///   管理员修改自己的名称
     /// </summary>
     /// <param name="name"></param>
     /// <returns></returns>
-    Task<IResp> ChangeMyName(string name);
+    Task<Resp> ChangeMyName(string name);
 
     /// <summary>
     ///  添加管理员
@@ -46,14 +46,14 @@ public interface IAdminOpenService
     /// </summary>
     /// <param name="uid"></param>
     /// <returns></returns>
-    Task<IResp> Lock(long uid);
+    Task<Resp> Lock(long uid);
 
     /// <summary>
     ///  解锁管理员
     /// </summary>
     /// <param name="uid"></param>
     /// <returns></returns>
-    Task<IResp> UnLock(long uid);
+    Task<Resp> UnLock(long uid);
 
     /// <summary>
     /// 修改锁定状态
@@ -61,7 +61,7 @@ public interface IAdminOpenService
     /// <param name="uId"></param>
     /// <param name="adminType"></param>
     /// <returns></returns>
-    Task<IResp> SetAdminType(long uId, AdminType adminType);
+    Task<Resp> SetAdminType(long uId, AdminType adminType);
 
 
 }
