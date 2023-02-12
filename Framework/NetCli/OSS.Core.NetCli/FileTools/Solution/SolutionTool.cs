@@ -24,8 +24,11 @@ internal class SolutionTool : BaseProjectTool
         _domainOpenedTool.Create(ss);
         _serviceOpenedTool.Create(ss);
         _clientTool.Create(ss);
+
+       
+            _domainTool.Create(ss);
         
-        _domainTool.Create(ss);
+
         _repTool.Create(ss);
         _serviceTool.Create(ss);
         _webapiTool.Create(ss);
@@ -64,21 +67,21 @@ internal class SolutionTool : BaseProjectTool
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.http_client_project.name}\", \"Open\\{ss.http_client_project.name}\\{ss.http_client_project.name}.csproj\", \"{clientId}\"");
         slnContent.AppendLine("EndProject");
 
-        slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.domain_project.name}\", \"{ss.domain_project.name}\\{ss.domain_project.name}.csproj\", \"{domainId}\"");
-        slnContent.AppendLine("EndProject");
+        if (!ss.no_rep_injection)
+        {
+            slnContent.AppendLine(
+                $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.domain_project.name}\", \"{ss.domain_project.name}\\{ss.domain_project.name}.csproj\", \"{domainId}\"");
+            slnContent.AppendLine("EndProject");
+        }
 
         slnContent.AppendLine(
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_project.name}\", \"{ss.service_project.name}\\{ss.service_project.name}.csproj\", \"{serviceId}\"");
         slnContent.AppendLine("EndProject");
 
-        if (!ss.no_rep_injection)
-        {
             slnContent.AppendLine(
                 $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{repId}\"");
             slnContent.AppendLine("EndProject");
-
-        }
+     
 
         slnContent.AppendLine(
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.webapi_project.name}\", \"{ss.webapi_project.name}\\{ss.webapi_project.name}.csproj\", \"{webApiId}\"");
@@ -107,7 +110,12 @@ internal class SolutionTool : BaseProjectTool
         _serviceOpenedTool.AddEntity(ss);
         _clientTool.AddEntity(ss);
 
-        _domainTool.AddEntity(ss);
+
+        if (!ss.no_rep_injection)
+        {
+            _domainTool.AddEntity(ss);
+        }
+
         _repTool.AddEntity(ss);
         _serviceTool.AddEntity(ss);
         _webapiTool.AddEntity(ss);

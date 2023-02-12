@@ -7,12 +7,8 @@ internal  class RepTool : BaseProjectTool
 {
     public override void Create(Solution solution)
     {
-        if (solution.no_rep_injection)
-        {
-            Create_CommonFiles(solution);
-            return;
-        }
-
+        Create_CommonFiles(solution);
+        
         base.Create(solution);
         Console.WriteLine($"仓储层类库 ({solution.rep_project.name}) -- done");
     }
@@ -27,9 +23,10 @@ internal  class RepTool : BaseProjectTool
             "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache"
         };
 
+        var domainProject = ss.no_rep_injection ? ss.domain_open_project.name : ss.domain_project.name;
         var projectRefs = new List<string>()
         {
-            $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj"
+            $"..{(ss.no_rep_injection?"\\Open":string.Empty)}\\{domainProject}\\{domainProject}.csproj"
         };
         
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
@@ -68,9 +65,7 @@ internal  class RepTool : BaseProjectTool
 
     private static void AddEntity_Rep(Solution ss)
     {
-        var repDir = ss.no_rep_injection
-            ? Path.Combine(ss.domain_project.entity_dir, "Rep") // 简化模式，放置在Domain文件夹
-            : Path.Combine(ss.rep_project.project_dir, ss.entity_name); 
+        var repDir =  Path.Combine(ss.rep_project.project_dir, ss.entity_name); 
 
         FileHelper.CreateDirectory(repDir);
 

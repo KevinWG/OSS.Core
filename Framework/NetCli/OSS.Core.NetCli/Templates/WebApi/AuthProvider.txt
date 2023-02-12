@@ -18,7 +18,7 @@ public class AppAccessProvider : IAppAccessProvider
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public Task<Resp<AppAccess>> GetByKey(string key)
+    public async Task<IResp<AppAccess>> GetByKey(string key)
     {
         if (_appAccessList == null)
         {
@@ -26,12 +26,15 @@ public class AppAccessProvider : IAppAccessProvider
             ConfigHelper.Configuration.GetSection("Access").Bind(_appAccessList);
         }
 
-        var access = _appAccessList.FirstOrDefault(a => a.access_key == key);
-        var res = access == null
-            ? new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求")
-            : new Resp<AppAccess>(access);
+        foreach (var access in _appAccessList)
+        {
+            if (access.access_key == key)
+            {
+                return new Resp<AppAccess>(access);
+            }
+        }
 
-        return Task.FromResult<Resp<AppAccess>>(res);
+        return new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求");
     }
 }
 
@@ -44,7 +47,7 @@ public class AppAccessProvider : IAppAccessProvider
 public class UserAuthProvider : IUserAuthProvider
 {
     /// <inheritdoc />
-    public Task<Resp<UserIdentity>> GetIdentity()
+    public Task<IResp<UserIdentity>> GetIdentity()
     {
         // 可自定义如下返回：
         //var identity = new UserIdentity()
@@ -71,7 +74,7 @@ public class UserAuthProvider : IUserAuthProvider
 public class FuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-    public Task<Resp<FuncDataLevel>> Authorize(string funcCode)
+    public Task<IResp<FuncDataLevel>> Authorize(string funcCode)
     {
         // 可以自定义实现,如：
         //Resp<FuncDataLevel> res = new Resp<FuncDataLevel>(FuncDataLevel.All);

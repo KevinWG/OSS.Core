@@ -10,6 +10,11 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create(Solution solution)
     {
+        if (solution.no_rep_injection)
+        {
+            Create_CommonFiles(solution);
+            return;
+        }
         base.Create(solution);
         Console.WriteLine($"领域层类库({solution.domain_project.name}) -- done");
     }
@@ -25,11 +30,11 @@ internal class DomainTool : BaseProjectTool
             "OSS.Core.Domain"
         };
 
-        if (ss.no_rep_injection)
-        {
-            // 简单模式下 仓储和领域实体放在一起
-            packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache" });
-        }
+        //if (ss.no_rep_injection)
+        //{
+        //    // 简单模式下 仓储和领域实体放在一起
+        //    packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache" });
+        //}
 
         var projectRefs = new List<string>()
         {
@@ -46,7 +51,8 @@ internal class DomainTool : BaseProjectTool
         var project = ss.domain_project;
         FileHelper.CreateDirectory(project.common_dir);
 
-        var baeRepFilePath = Path.Combine(project.common_dir, $"{project.const_file_name}.cs");
+        var constProjectDir = ss.no_rep_injection ? ss.rep_project.common_dir : ss.domain_project.common_dir;
+        var baeRepFilePath  = Path.Combine(constProjectDir, $"{project.const_file_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
     }
 

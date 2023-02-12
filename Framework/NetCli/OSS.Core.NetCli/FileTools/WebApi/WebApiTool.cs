@@ -60,7 +60,13 @@ internal  class WebApiTool: BaseProjectTool
             ? string.Empty
             : $"services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入";
 
-        var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}};
+        var domainRegisterStr = ss.no_rep_injection
+            ? string.Empty
+            : $"services.Register<{ss.domain_project.starter_class_name}>();       // 领域实体层启动注入";
+
+        var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}, 
+            { "{DomainStarterRegister}", domainRegisterStr } }; 
+
 
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt", extDic);
