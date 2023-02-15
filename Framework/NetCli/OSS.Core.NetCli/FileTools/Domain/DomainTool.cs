@@ -49,9 +49,10 @@ internal class DomainTool : BaseProjectTool
     public override void Create_CommonFiles(Solution ss)
     {
         var project = ss.domain_project;
-        FileHelper.CreateDirectory(project.common_dir);
-
-        var constProjectDir = ss.no_rep_injection ? ss.rep_project.common_dir : ss.domain_project.common_dir;
+        
+        var constProjectDir = ss.no_rep_injection ? ss.rep_project.common_dir : project.common_dir;
+        FileHelper.CreateDirectory(constProjectDir);
+        
         var baeRepFilePath  = Path.Combine(constProjectDir, $"{project.const_file_name}.cs");
         FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
     }

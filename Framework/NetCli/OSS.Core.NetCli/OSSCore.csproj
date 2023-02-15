@@ -6,7 +6,7 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>osscore</ToolCommandName>
 		<Description>OSSCore 模块解决方案 .Net 客户端工具</Description>
-		<Version>2.3.2</Version>
+		<Version>2.3.3</Version>
 	</PropertyGroup>
 
 	<ItemGroup>
