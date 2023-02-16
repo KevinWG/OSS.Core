@@ -1,5 +1,4 @@
-﻿using OSS.Common;
-using OSS.Common.Resp;
+﻿using OSS.Common.Resp;
 
 namespace OSS.Core.Context
 {
@@ -9,6 +8,16 @@ namespace OSS.Core.Context
     public static partial class CoreContext
     {
         /// <summary>
+        ///   应用服务端签名模式，对应的票据信息的请求头名称
+        /// </summary>
+        public const string DefaultAppSignModeTicketHeaderName = "at-id";
+
+        /// <summary>
+        ///  用户 token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
+        /// </summary>
+        public const string DefaultBrowserModeUserCookieName = "u_cn";
+
+        /// <summary>
         ///  上下文应用信息
         /// </summary>
         public static class App
@@ -17,7 +26,7 @@ namespace OSS.Core.Context
             ///  应用信息是否初始化完成
             /// </summary>
             public static bool IsInitialized => ContextHelper.GetContext().AppIdentity != null;
-            
+
             /// <summary>
             ///  客户端应用授权认证信息
             /// </summary>
@@ -45,6 +54,8 @@ namespace OSS.Core.Context
             /// </summary>
             public static AppInfo Self { get; set; } = _defaultAppInfo;
         }
+
+
     }
 
     /// <summary>

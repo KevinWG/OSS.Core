@@ -35,8 +35,7 @@ internal  class RepTool : BaseProjectTool
     public override void Create_CommonFiles(Solution ss)
     {
         var project = ss.rep_project;
-        var baseRepDir = ss.no_rep_injection
-            ? ss.domain_project.common_dir : project.common_dir;
+        var baseRepDir = project.common_dir;
 
         FileHelper.CreateDirectory(baseRepDir);
 

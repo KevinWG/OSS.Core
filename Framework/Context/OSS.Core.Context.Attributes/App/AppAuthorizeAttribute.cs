@@ -80,7 +80,7 @@ namespace OSS.Core.Context.Attributes
             if (appInfo.auth_mode >= AppAuthMode.None)
             {
                 // 浏览器模式下，从cookie中初始化用户Token
-                if (context.Request.Cookies.TryGetValue(_appOption.BrowserModeCookieName, out var tokenVal))
+                if (context.Request.Cookies.TryGetValue(_appOption.BrowserModeUserCookieName, out var tokenVal))
                     appInfo.token = tokenVal;
             }
 
@@ -151,13 +151,13 @@ namespace OSS.Core.Context.Attributes
         /// <summary>
         ///   应用服务端签名模式，对应的票据信息的请求头名称
         /// </summary>
-        public string SignModeHeaderName { get; set; } = "at-id";
+        public string SignModeHeaderName { get; set; } = CoreContext.DefaultAppSignModeTicketHeaderName;
 
         /// <summary>
         ///  用户token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
         /// </summary>
-        public string BrowserModeCookieName { get; set; } = "u_cn";
-
+        public string BrowserModeUserCookieName { get; set; } = CoreContext.DefaultBrowserModeUserCookieName;
+        
         /// <summary>
         ///  签名秘钥提供者
         /// </summary>
