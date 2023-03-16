@@ -76,8 +76,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             }
         }
     }
-
-
+    
     /// <summary>
     /// 获取数据库连接
     /// </summary>
