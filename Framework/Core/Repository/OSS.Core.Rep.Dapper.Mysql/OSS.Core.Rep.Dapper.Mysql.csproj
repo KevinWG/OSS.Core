@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="8.0.29" />
-    <PackageReference Include="OSS.Tools.Config" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>

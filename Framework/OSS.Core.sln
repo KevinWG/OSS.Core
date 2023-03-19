@@ -41,7 +41,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Comp.DirConfig.Mysql", "Component\OSS.Core.Comp.DirConfig.Mysql\OSS.Core.Comp.DirConfig.Mysql.csproj", "{CD9F7B8A-2319-4CB3-9F19-BE3ADBD04C58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.Rep.Dapper.SqlServer", "Core\Repository\OSS.Core.Rep.Dapper.SqlServer\OSS.Core.Rep.Dapper.SqlServer.csproj", "{AA5437C8-79D4-4376-9BC1-C5C27486F877}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Rep.Dapper.SqlServer", "Core\Repository\OSS.Core.Rep.Dapper.SqlServer\OSS.Core.Rep.Dapper.SqlServer.csproj", "{AA5437C8-79D4-4376-9BC1-C5C27486F877}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,8 +97,8 @@ Global
 		{CD9F7B8A-2319-4CB3-9F19-BE3ADBD04C58}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{CD9F7B8A-2319-4CB3-9F19-BE3ADBD04C58}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD9F7B8A-2319-4CB3-9F19-BE3ADBD04C58}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA5437C8-79D4-4376-9BC1-C5C27486F877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA5437C8-79D4-4376-9BC1-C5C27486F877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA5437C8-79D4-4376-9BC1-C5C27486F877}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{AA5437C8-79D4-4376-9BC1-C5C27486F877}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{AA5437C8-79D4-4376-9BC1-C5C27486F877}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AA5437C8-79D4-4376-9BC1-C5C27486F877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

@@ -20,7 +20,7 @@ internal  class RepTool : BaseProjectTool
 
         var packageRefs = new List<string>()
         {
-            "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache"
+            "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache","OSS.Tools.Config"
         };
 
         var domainProject = ss.no_rep_injection ? ss.domain_open_project.name : ss.domain_project.name;

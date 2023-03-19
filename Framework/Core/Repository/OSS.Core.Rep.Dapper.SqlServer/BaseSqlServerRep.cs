@@ -1,6 +1,7 @@
 ﻿using OSS.Core.Domain;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using OSS.Core.Rep.Dapper.SqlServer;
 
 namespace OSS.Core.Rep.Dapper
 {
