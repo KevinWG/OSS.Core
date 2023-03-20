@@ -27,7 +27,13 @@ builder.Services.AddControllers(opt =>
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(opt =>
+{
+    //var baseDir = AppContext.BaseDirectory;
+
+    //opt.IncludeXmlComments(Path.Combine(baseDir, "Docs\\WebApi.xml"));
+    //opt.IncludeXmlComments(Path.Combine(baseDir, "Docs\\Domain.Open.xml"));
+});
 
 
 
@@ -39,7 +45,10 @@ var isDev = app.Environment.IsDevelopment();
 if (isDev)
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(opt =>
+    {
+        opt.DefaultModelsExpandDepth(-1);
+    });
 }
 
 app.UseOssCore();
