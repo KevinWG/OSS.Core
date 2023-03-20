@@ -78,7 +78,7 @@ namespace OSS.Core.Rep.Dapper
                 }
                 else
                     isStart = true;
-                sqlCols.Append("`").Append(propertyInfo.Name).Append("`");
+                sqlCols.Append("[").Append(propertyInfo.Name).Append("]");
                 sqlValues.Append("@").Append(propertyInfo.Name);
             }
             sqlCols.Append(")");

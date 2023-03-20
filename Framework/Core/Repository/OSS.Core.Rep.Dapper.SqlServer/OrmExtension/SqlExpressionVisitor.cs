@@ -463,7 +463,7 @@ namespace OSS.Core.Rep.Dapper
 
         /// <summary>
         ///  获取属性列名称
-        ///    内部补充转义字符，防止和数据库关键字名称冲突，如 `name`
+        ///    内部补充转义字符，防止和数据库关键字名称冲突，如 [name]
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
