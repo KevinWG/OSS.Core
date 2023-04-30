@@ -25,7 +25,7 @@ internal  class ClientTool : BaseProjectTool
 
         var projectRefs = new List<string>()
         {
-            $"..\\{ss.service_open_project.name}\\{ss.service_open_project.name}.csproj"
+            $"..\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj"
         };
 
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);

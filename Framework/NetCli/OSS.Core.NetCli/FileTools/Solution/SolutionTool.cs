@@ -25,14 +25,12 @@ internal class SolutionTool : BaseProjectTool
         _serviceOpenedTool.Create(ss);
         _clientTool.Create(ss);
 
-       
-            _domainTool.Create(ss);
-        
+        _domainTool.Create(ss);
 
         _repTool.Create(ss);
         _serviceTool.Create(ss);
         _webapiTool.Create(ss);
-        
+
         CreateSolutionFile(ss);
 
         Console.WriteLine("全部完成!");
@@ -40,9 +38,8 @@ internal class SolutionTool : BaseProjectTool
 
     private static void CreateSolutionFile(Solution ss)
     {
-        var domainOpenId  = Guid.NewGuid().ToString();
-        var serviceOpenId = Guid.NewGuid().ToString();
-        var clientId = Guid.NewGuid().ToString();
+        var domainOpenId = Guid.NewGuid().ToString();
+        var clientId     = Guid.NewGuid().ToString();
 
         var domainId  = Guid.NewGuid().ToString();
         var repId = Guid.NewGuid().ToString();
@@ -60,9 +57,6 @@ internal class SolutionTool : BaseProjectTool
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.domain_open_project.name}\", \"Open\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj\", \"{domainOpenId}\"");
         slnContent.AppendLine("EndProject");
 
-        slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_open_project.name}\", \"Open\\{ss.service_open_project.name}\\{ss.service_open_project.name}.csproj\", \"{serviceOpenId}\"");
-        slnContent.AppendLine("EndProject");
         slnContent.AppendLine(
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.http_client_project.name}\", \"Open\\{ss.http_client_project.name}\\{ss.http_client_project.name}.csproj\", \"{clientId}\"");
         slnContent.AppendLine("EndProject");
@@ -90,7 +84,6 @@ internal class SolutionTool : BaseProjectTool
         slnContent.AppendLine("Global");
         slnContent.AppendLine("	GlobalSection(NestedProjects) = preSolution");
         slnContent.AppendLine($"		{domainOpenId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
-        slnContent.AppendLine($"		{serviceOpenId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
         slnContent.AppendLine($"		{clientId} = {{77C70B84-7F0C-4B68-A201-AF182B4807C3}}");
         slnContent.AppendLine("	EndGlobalSection");
         slnContent.AppendLine("EndGlobal");
