@@ -7,7 +7,7 @@ internal class ServiceOpenedProject : BaseProjectStructure
     public ServiceOpenedProject(string solutionName, string moduleName,
                                 string basePath, string entityName = "")
         : base(
-            string.Concat(solutionName, ".Service.Open")
+            string.Concat(solutionName, ".Domain.Open")
             , Path.Combine(basePath, "Open"), entityName)
     {
     }

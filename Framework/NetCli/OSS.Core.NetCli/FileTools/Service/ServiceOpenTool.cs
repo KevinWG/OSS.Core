@@ -19,7 +19,7 @@ internal  class ServiceOpenedTool : BaseProjectTool
 
         var projectRefs = new List<string>()
         {
-            $"..\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj"
+            //$"..\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj"
         };
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
@@ -30,9 +30,10 @@ internal  class ServiceOpenedTool : BaseProjectTool
 
     public override void AddEntity(Solution ss)
     {
-        FileHelper.CreateDirectory(ss.service_open_project.entity_dir);
+        var interfaceDir = Path.Combine(ss.service_open_project.entity_dir, "Interface");
+        FileHelper.CreateDirectory(interfaceDir);
 
-        var oServiceFilePath = Path.Combine(ss.service_open_project.entity_dir, $"I{ss.entity_name}OpenService.cs");
+        var oServiceFilePath = Path.Combine(interfaceDir, $"I{ss.entity_name}OpenService.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath,ss, "Service/IEntityOpenService.txt");
 
         Console.WriteLine("服务层实体（共享） -- done");
