@@ -59,7 +59,7 @@ internal class SolutionTool : BaseProjectTool
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.http_client_project.name}\", \"Open\\{ss.http_client_project.name}\\{ss.http_client_project.name}.csproj\", \"{clientId}\"");
         slnContent.AppendLine("EndProject");
 
-        if (!ss.no_rep_injection)
+        if (ss.mode != SolutionMode.Simple)
         {
             slnContent.AppendLine(
                 $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.domain_project.name}\", \"{ss.domain_project.name}\\{ss.domain_project.name}.csproj\", \"{domainId}\"");

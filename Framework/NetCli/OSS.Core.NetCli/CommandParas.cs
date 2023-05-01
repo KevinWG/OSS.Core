@@ -11,7 +11,9 @@ internal class ModulePara: ParaItem
 public enum SolutionMode
 {
     Default=0,
-    Simple =1
+    Simple =1,
+
+    Simple_Plus =2,
 }
 
 

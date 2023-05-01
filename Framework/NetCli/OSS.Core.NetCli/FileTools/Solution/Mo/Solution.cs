@@ -28,8 +28,8 @@ internal class Solution
         webapi_project      = new WebApiProject(solution_name, module_name, basePath, entityName);
         http_client_project = new ClientProject(solution_name, module_name, basePath, entityName);
 
-        no_rep_injection = paras.solution_mode == SolutionMode.Simple;
-        if (no_rep_injection)
+        mode = paras.solution_mode ;
+        if (mode == SolutionMode.Simple)
         {
             // 简单模式，Domain 对应文件放在仓储目录
             domain_project.ResetFrom(rep_project);
@@ -47,7 +47,11 @@ internal class Solution
 
     public string solution_name { get;  }
 
-    public bool no_rep_injection { get; set; }
+    //public bool no_rep_injection { get; set; }
+
+
+    public SolutionMode mode { get; set; }
+
 
 
     public ClientProject http_client_project { get; }

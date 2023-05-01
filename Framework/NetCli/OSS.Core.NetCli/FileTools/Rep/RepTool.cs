@@ -23,12 +23,11 @@ internal  class RepTool : BaseProjectTool
             "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache","OSS.Tools.Config"
         };
 
-        var domainProject = ss.no_rep_injection ? ss.domain_open_project.name : ss.domain_project.name;
+        var domainProject = ss.mode == SolutionMode.Simple ? ss.domain_open_project.name : ss.domain_project.name;
         var projectRefs = new List<string>()
         {
-            $"..{(ss.no_rep_injection?"\\Open":string.Empty)}\\{domainProject}\\{domainProject}.csproj"
+            $"..{(ss.mode == SolutionMode.Simple ?"\\Open":string.Empty)}\\{domainProject}\\{domainProject}.csproj"
         };
-        
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
 
@@ -62,6 +61,11 @@ internal  class RepTool : BaseProjectTool
         Console.WriteLine("仓储层实体 -- done");
     }
 
+
+    //private static void AddEntity_Rep(Solution ss)
+    //{
+    //}
+
     private static void AddEntity_Rep(Solution ss)
     {
         var repDir =  Path.Combine(ss.rep_project.project_dir, ss.entity_name); 
@@ -72,14 +76,14 @@ internal  class RepTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt", new Dictionary<string, string>()
         {
             {
-                "{rep_interface}", ss.no_rep_injection ?  string.Empty :$",I{ss.entity_name}Rep"
+                "{rep_interface}", ss.mode == SolutionMode.Default ?  string.Empty :$",I{ss.entity_name}Rep"
             }
         });
     }
 
     private static void AddEntity_ChangeStarter(Solution ss)
     {
-        if (ss.no_rep_injection) 
+        if (ss.mode != SolutionMode.Default) 
             return;
 
         var project         = ss.rep_project;

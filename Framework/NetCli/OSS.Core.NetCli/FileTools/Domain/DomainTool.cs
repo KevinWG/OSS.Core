@@ -16,7 +16,7 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_Project(Solution ss)
     {
-        if (!ss.no_rep_injection)
+        if (ss.mode != SolutionMode.Simple)
             return;
 
         var project = ss.domain_project;
@@ -55,7 +55,7 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution solution)
     {
-        if (!solution.no_rep_injection)
+        if (solution.mode != SolutionMode.Simple)
             return;
 
         var project = solution.domain_project;
@@ -71,23 +71,18 @@ internal class DomainTool : BaseProjectTool
 
     public override void AddEntity(Solution ss)
     {
-        if (ss.no_rep_injection)
-        {
-            return;
-        }
-
-        FileHelper.CreateDirectory(ss.domain_project.entity_dir);
-
         AddEntityIRep(ss);
 
-        Console.WriteLine("领域层实体 -- done");
+        Console.WriteLine("领域层 -- done");
     }
 
     private static void AddEntityIRep(Solution ss)
     {
-        if (ss.no_rep_injection)
+        if (ss.mode == SolutionMode.Default)
             return;
 
+        FileHelper.CreateDirectory(Path.Combine(ss.domain_project.entity_dir,"IRep"));
+        
         var iRepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
         FileHelper.CreateDirectory(iRepDir);
 
