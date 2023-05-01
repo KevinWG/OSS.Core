@@ -16,6 +16,6 @@ public class {module_name}GlobalStarter : AppStarter
 
          {DomainStarterRegister}
          {RepStarterRegister}
-         services.Register<{module_name}ServiceStarter>();   // 逻辑服务层启动注入        
+         {ServiceStarterRegister}
     }
 }

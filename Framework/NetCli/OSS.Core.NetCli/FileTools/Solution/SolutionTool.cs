@@ -40,7 +40,7 @@ internal class SolutionTool : BaseProjectTool
         var clientId     = Guid.NewGuid().ToString();
 
         var domainId  = Guid.NewGuid().ToString();
-        var repId = Guid.NewGuid().ToString();
+        var repId     = Guid.NewGuid().ToString();
         var serviceId = Guid.NewGuid().ToString();
         var webApiId  = Guid.NewGuid().ToString();
 
@@ -66,14 +66,16 @@ internal class SolutionTool : BaseProjectTool
             slnContent.AppendLine("EndProject");
         }
 
-        slnContent.AppendLine(
-            $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_project.name}\", \"{ss.service_project.name}\\{ss.service_project.name}.csproj\", \"{serviceId}\"");
-        slnContent.AppendLine("EndProject");
+        if (ss.mode != SolutionMode.Simple_Plus)
+        {
+            slnContent.AppendLine(
+                $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.service_project.name}\", \"{ss.service_project.name}\\{ss.service_project.name}.csproj\", \"{serviceId}\"");
+            slnContent.AppendLine("EndProject");
 
             slnContent.AppendLine(
                 $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.rep_project.name}\", \"{ss.rep_project.name}\\{ss.rep_project.name}.csproj\", \"{repId}\"");
             slnContent.AppendLine("EndProject");
-     
+        }
 
         slnContent.AppendLine(
             $"Project(\"{{9A19103F-16F7-4668-BE54-9A1E7A4F7556}}\") = \"{ss.webapi_project.name}\", \"{ss.webapi_project.name}\\{ss.webapi_project.name}.csproj\", \"{webApiId}\"");

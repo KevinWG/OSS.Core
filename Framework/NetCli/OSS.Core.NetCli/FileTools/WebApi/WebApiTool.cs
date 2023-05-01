@@ -59,14 +59,16 @@ internal  class WebApiTool: BaseProjectTool
         var repRegisterStr = ss.mode != SolutionMode.Simple_Plus
             ? $"services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入"
             : string.Empty;
+        var serviceRegisterStr = ss.mode != SolutionMode.Simple_Plus
+            ? $"services.Register<{ss.service_project.starter_class_name}>();       // 逻辑服务层启动注入 "
+            : string.Empty;
 
         var domainRegisterStr = ss.mode == SolutionMode.Simple
             ? string.Empty
             : $"services.Register<{ss.domain_project.starter_class_name}>();       // 领域实体层启动注入";
 
-        var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}, 
+        var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}, {"{ServiceStarterRegister}", serviceRegisterStr},
             { "{DomainStarterRegister}", domainRegisterStr } }; 
-
 
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt", extDic);

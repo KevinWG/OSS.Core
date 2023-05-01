@@ -14,6 +14,9 @@ internal class ServiceTool : BaseProjectTool
 
     public override void Create_Project(Solution ss)
     {
+        if (ss.mode == SolutionMode.Simple_Plus)
+            return;
+
         var project = ss.service_project;
         FileHelper.CreateDirectory(project.project_dir);
         
@@ -37,6 +40,9 @@ internal class ServiceTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution ss)
     {
+        if (ss.mode == SolutionMode.Simple_Plus)
+            return;
+
         var project = ss.service_project;
         FileHelper.CreateDirectory(project.global_dir);
 
@@ -44,18 +50,23 @@ internal class ServiceTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(baeStarterFilePath, ss, "Service/ServiceAppStarter.txt");
     }
     
-
     #region 添加实体
 
     public override void AddEntity(Solution ss)
     {
-        FileHelper.CreateDirectory(ss.service_project.entity_dir);
+        var path = ss.service_project.entity_dir;
+        if (ss.mode == SolutionMode.Simple_Plus)
+        {
+            path = Path.Combine(path, "Service");
+        }
 
+        FileHelper.CreateDirectory(path);
+        
         var repDefine = ss.mode == SolutionMode.Default
                 ? $"I{ss.entity_name}Rep _{ss.entity_name}Rep = InsContainer<I{ss.entity_name}Rep>.Instance" :
                 $"{ss.entity_name}Rep _{ss.entity_name}Rep = new()";
 
-        var oServiceFilePath = Path.Combine(ss.service_project.entity_dir, $"{ss.entity_name}Service.cs");
+        var oServiceFilePath = Path.Combine(path, $"{ss.entity_name}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt",
             new Dictionary<string, string>() { { "{rep_define}", repDefine } });
         

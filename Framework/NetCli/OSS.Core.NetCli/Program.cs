@@ -115,34 +115,46 @@ public class Program
         var moduleJsonPath = Path.Combine(basePath, module_json_file_name);
         FileHelper.CreateFile(moduleJsonPath, JsonSerializer.Serialize(paras));
     }
-    
-    
+
+
     private static ModulePara GetCreateParas(string[] args)
     {
         var paras = new ModulePara();
 
-        for (var i=1;i<args.Length;i++)
+        for (var i = 1; i < args.Length; i++)
         {
-            var p= args[i];
+            var p = args[i];
 
             if (p.StartsWith("--pre="))
             {
-                paras.solution_pre = p.Replace("--pre=", "").TrimEnd();
+                paras.solution_pre = p.Replace("--pre=", "").Trim();
             }
             else if (p.StartsWith("--mode="))
             {
-                var mode= p.Replace("--mode=", "").TrimEnd();
-                paras.solution_mode = mode == "simple" ? SolutionMode.Simple : SolutionMode.Default;
+                var mode = p.Replace("--mode=", "").Trim().ToLower();
+                if (mode == "simple")
+                {
+                    paras.solution_mode = SolutionMode.Simple;
+                }
+                else if (mode == "simple_plus")
+                {
+                    paras.solution_mode = SolutionMode.Simple_Plus;
+                }
+                else
+                {
+                    paras.solution_mode = SolutionMode.Default;
+                }
             }
             else if (p.StartsWith("--display="))
             {
-                paras.display = p.Replace("--display=", "").TrimEnd();
+                paras.display = p.Replace("--display=", "").Trim();
             }
             else
             {
                 paras.name = p;
             }
         }
+
         return paras;
     }
 

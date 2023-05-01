@@ -4,6 +4,9 @@ using OSS.Core.Client.Http;
 
 namespace {solution_name}.Client;
 
+/// <summary>
+///  {entity_display} 接口客户端
+/// </summary>
 internal class {entity_name}HttpClient : I{entity_name}OpenService
 {
      private const string apiEntityPath = "/{entity_name}";

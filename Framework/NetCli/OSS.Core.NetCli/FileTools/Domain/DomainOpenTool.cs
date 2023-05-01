@@ -16,7 +16,7 @@ internal class DomainOpenTool : BaseProjectTool
     {
         var project = ss.domain_open_project;
         FileHelper.CreateDirectory(project.project_dir);
-        
+
         var packageRefs = new List<string>()
         {
             "OSS.Core.Domain.Opened"
@@ -61,7 +61,7 @@ internal class DomainOpenTool : BaseProjectTool
 
     private static void AddEntity_IOpenService(Solution ss)
     {
-        var interfaceDir = Path.Combine(ss.domain_open_project.entity_dir, "Interface");
+        var interfaceDir = Path.Combine(ss.domain_open_project.entity_dir, "IService");
         FileHelper.CreateDirectory(interfaceDir);
 
         var oServiceFilePath = Path.Combine(interfaceDir, $"I{ss.entity_name}OpenService.cs");
@@ -69,4 +69,4 @@ internal class DomainOpenTool : BaseProjectTool
     }
 
     #endregion
-    }
+}

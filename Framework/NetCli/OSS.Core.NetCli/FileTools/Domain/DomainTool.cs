@@ -11,12 +11,15 @@ internal class DomainTool : BaseProjectTool
     public override void Create(Solution solution)
     {
         base.Create(solution);
+
+        Create_ReadMeFile(solution);
+
         Console.WriteLine($"领域层类库({solution.domain_project.name}) -- done");
     }
 
     public override void Create_Project(Solution ss)
     {
-        if (ss.mode != SolutionMode.Simple)
+        if (ss.mode == SolutionMode.Simple)
             return;
 
         var project = ss.domain_project;
@@ -28,11 +31,18 @@ internal class DomainTool : BaseProjectTool
             "OSS.Core.Domain"
         };
 
-        //if (ss.no_rep_injection)
-        //{
-        //    // 简单模式下 仓储和领域实体放在一起
-        //    packageRefs.AddRange(new[] { "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache" });
-        //}
+        if (ss.mode == SolutionMode.Simple_Plus)
+        {
+            // 极简模式下 服务，仓储，实体放置在一起
+            packageRefs.AddRange(new[]
+            {
+                "OSS.DataFlow",
+                "OSS.Tools.Config",
+                "OSS.Core.Rep.Dapper.Mysql",
+                "OSS.Core.Extension.Cache",
+                "OSS.Core.Extension.PassToken"
+            });
+        }
 
         var projectRefs = new List<string>()
         {
@@ -41,7 +51,14 @@ internal class DomainTool : BaseProjectTool
 
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
+    public  void Create_ReadMeFile(Solution ss)
+    {
+        var projectDir = ss.domain_project.project_dir;
+        FileHelper.CreateDirectory(projectDir);
 
+        var readMeFilePath = Path.Combine(projectDir, $"ReadMe.txt");
+        FileHelper.CreateFileByTemplate(readMeFilePath, ss, "Domain/ReadMe.txt");
+    }
     public override void Create_CommonFiles(Solution ss)
     {
         var project = ss.domain_project;
@@ -55,7 +72,7 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution solution)
     {
-        if (solution.mode != SolutionMode.Simple)
+        if (solution.mode == SolutionMode.Simple)
             return;
 
         var project = solution.domain_project;
@@ -78,7 +95,7 @@ internal class DomainTool : BaseProjectTool
 
     private static void AddEntityIRep(Solution ss)
     {
-        if (ss.mode == SolutionMode.Default)
+        if (ss.mode != SolutionMode.Default)
             return;
 
         FileHelper.CreateDirectory(Path.Combine(ss.domain_project.entity_dir,"IRep"));
@@ -89,7 +106,6 @@ internal class DomainTool : BaseProjectTool
         var iRepFilePath = Path.Combine(iRepDir, $"I{ss.entity_name}Rep.cs");
         FileHelper.CreateFileByTemplate(iRepFilePath, ss, "Domain/IRep/IEntityRep.txt");
     }
-
 
 
     #endregion
