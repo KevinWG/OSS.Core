@@ -24,14 +24,13 @@ internal class ServiceTool : BaseProjectTool
             "OSS.Core.Extension.PassToken"
         };
 
-        var projectRefs = new List<string>()
+        var projectRefs = new List<string>
         {
-            $"..\\Open\\{ss.service_open_project.name}\\{ss.service_open_project.name}.csproj"
+            ss.no_rep_injection
+                ? $"..\\{ss.rep_project.name}\\{ss.rep_project.name}.csproj"
+                : $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj"
         };
-        projectRefs.Add(ss.no_rep_injection
-            ? $"..\\{ss.rep_project.name}\\{ss.rep_project.name}.csproj"
-            : $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj");
-        
+
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
         CreateProjectFile(projectFilePath, packageRefs, projectRefs);
     }

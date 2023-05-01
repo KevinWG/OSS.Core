@@ -10,10 +10,9 @@ internal class SolutionTool : BaseProjectTool
     private static readonly WebApiTool  _webapiTool  = new();
     private static readonly ServiceTool _serviceTool = new();
     private static readonly RepTool     _repTool = new();
-    private static readonly DomainTool  _domainTool  = new();
 
-    private static readonly ServiceOpenedTool _serviceOpenedTool = new();
-    private static readonly DomainOpenTool  _domainOpenedTool  = new();
+    private static readonly DomainTool     _domainTool       = new();
+    private static readonly DomainOpenTool _domainOpenedTool = new();
 
     private static readonly ClientTool _clientTool = new();
     
@@ -22,7 +21,6 @@ internal class SolutionTool : BaseProjectTool
     public override void Create_Project(Solution ss)
     {
         _domainOpenedTool.Create(ss);
-        _serviceOpenedTool.Create(ss);
         _clientTool.Create(ss);
 
         _domainTool.Create(ss);
@@ -100,19 +98,14 @@ internal class SolutionTool : BaseProjectTool
     public override void AddEntity(Solution ss)
     {
         _domainOpenedTool.AddEntity(ss);
-        _serviceOpenedTool.AddEntity(ss);
         _clientTool.AddEntity(ss);
 
-
-        if (!ss.no_rep_injection)
-        {
-            _domainTool.AddEntity(ss);
-        }
+        _domainTool.AddEntity(ss);
 
         _repTool.AddEntity(ss);
         _serviceTool.AddEntity(ss);
         _webapiTool.AddEntity(ss);
-        
+
         Console.WriteLine("全部完成!");
     }
 

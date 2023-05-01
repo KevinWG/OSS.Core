@@ -15,21 +15,25 @@ internal class Solution
         entity_name    = entityName;
         entity_display = string.IsNullOrEmpty(entityDisplay) ? entityName : entityDisplay;
 
-        no_rep_injection = paras.solution_mode == SolutionMode.Simple;
-
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
             ? paras.name
             : string.Concat(paras.solution_pre, ".", paras.name);
 
-        domain_project      = new DomainProject(solution_name, module_name, basePath, entityName);
         domain_open_project = new DomainOpenProject(solution_name, module_name, basePath, entityName);
 
-        service_project      = new ServiceProject(solution_name, module_name, basePath, entityName);
-        service_open_project = new ServiceOpenedProject(solution_name, module_name, basePath, entityName);
+        domain_project  = new DomainProject(solution_name, module_name, basePath, entityName);
+        service_project = new ServiceProject(solution_name, module_name, basePath, entityName);
+        rep_project     = new RepProject(solution_name, module_name, basePath, entityName);
 
-        rep_project         = new RepProject(solution_name, module_name, basePath, entityName);
         webapi_project      = new WebApiProject(solution_name, module_name, basePath, entityName);
         http_client_project = new ClientProject(solution_name, module_name, basePath, entityName);
+
+        no_rep_injection = paras.solution_mode == SolutionMode.Simple;
+        if (no_rep_injection)
+        {
+            // 简单模式，Domain 对应文件放在仓储目录
+            domain_project.ResetFrom(rep_project);
+        }
     }
 
     public string base_path { get;  }
@@ -54,12 +58,9 @@ internal class Solution
 
     public ServiceProject service_project { get; }
 
-    public ServiceOpenedProject service_open_project { get; }
-
     public RepProject rep_project { get; }
 
     public WebApiProject webapi_project { get; }
-
 }
 
 
@@ -79,7 +80,6 @@ public class BaseProjectStructure
             entity_dir = Path.Combine(basePath, name, entityName);
         }
     }
-
 
     public string name { get; set; }
     
@@ -113,4 +113,16 @@ public class BaseProjectStructure
     ///  领域对象文件目录
     /// </summary>
     public string entity_dir { get; set; }
+
+    internal void ResetFrom(BaseProjectStructure source)
+    {
+        name = source.name;
+        project_dir =   source.project_dir;
+        common_dir = source.common_dir;
+
+        global_dir = source.global_dir;
+        entity_name = source.entity_name;
+        entity_dir = source.entity_dir;
+        project_file_path = source.project_file_path;
+    }
 }

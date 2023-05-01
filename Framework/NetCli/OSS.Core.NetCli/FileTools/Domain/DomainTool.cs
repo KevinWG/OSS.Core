@@ -10,22 +10,20 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create(Solution solution)
     {
-        if (solution.no_rep_injection)
-        {
-            Create_CommonFiles(solution);
-            return;
-        }
         base.Create(solution);
         Console.WriteLine($"领域层类库({solution.domain_project.name}) -- done");
     }
 
     public override void Create_Project(Solution ss)
     {
+        if (!ss.no_rep_injection)
+            return;
+
         var project = ss.domain_project;
         FileHelper.CreateDirectory(project.project_dir);
 
         var packageRefs = new List<string>()
-        { 
+        {
             "OSS.Tools.Log",
             "OSS.Core.Domain"
         };
@@ -44,13 +42,11 @@ internal class DomainTool : BaseProjectTool
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
 
-
-
     public override void Create_CommonFiles(Solution ss)
     {
         var project = ss.domain_project;
         
-        var constProjectDir = ss.no_rep_injection ? ss.rep_project.common_dir : project.common_dir;
+        var constProjectDir = project.common_dir;
         FileHelper.CreateDirectory(constProjectDir);
         
         var baeRepFilePath  = Path.Combine(constProjectDir, $"{project.const_file_name}.cs");
@@ -59,6 +55,9 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution solution)
     {
+        if (!solution.no_rep_injection)
+            return;
+
         var project = solution.domain_project;
         FileHelper.CreateDirectory(project.global_dir);
 
@@ -66,13 +65,17 @@ internal class DomainTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(starterFilePath, solution, "Domain/DomainAppStarter.txt");
     }
 
-
     #endregion
 
     #region 添加实体
 
     public override void AddEntity(Solution ss)
     {
+        if (ss.no_rep_injection)
+        {
+            return;
+        }
+
         FileHelper.CreateDirectory(ss.domain_project.entity_dir);
 
         AddEntityIRep(ss);

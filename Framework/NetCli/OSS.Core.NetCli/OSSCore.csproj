@@ -50,7 +50,7 @@
 	  <None Update="Templates\Repository\RepAppStarter.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Templates\Service\IEntityOpenService.txt">
+	  <None Update="Templates\Domain\IEntityOpenService.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\Service\ServiceAppStarter.txt">

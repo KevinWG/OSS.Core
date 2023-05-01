@@ -31,15 +31,24 @@ internal class DomainOpenTool : BaseProjectTool
 
     public override void AddEntity(Solution ss)
     {
-        FileHelper.CreateDirectory(ss.domain_open_project.entity_dir);
-
-        var entityFilePath = Path.Combine(ss.domain_open_project.entity_dir, $"{ss.entity_name}Mo.cs");
-        FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/EntityMo.txt");
-
+        AddEntity_Mo(ss);
         AddEntity_DTO(ss);
+
+        AddEntity_IOpenService(ss);
 
         Console.WriteLine("领域层实体（共享） -- done");
     }
+
+
+    private static void AddEntity_Mo(Solution ss)
+    {
+        var entityDir = Path.Combine(ss.domain_open_project.entity_dir, "Entity");
+        FileHelper.CreateDirectory(entityDir);
+
+        var entityFilePath = Path.Combine(entityDir, $"{ss.entity_name}Mo.cs");
+        FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/EntityMo.txt");
+    }
+
 
     private static void AddEntity_DTO(Solution ss)
     {
@@ -50,5 +59,14 @@ internal class DomainOpenTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(addEntFilePath, ss, "Domain/DTO/AddEntityReq.txt");
     }
 
+    private static void AddEntity_IOpenService(Solution ss)
+    {
+        var interfaceDir = Path.Combine(ss.domain_open_project.entity_dir, "Interface");
+        FileHelper.CreateDirectory(interfaceDir);
+
+        var oServiceFilePath = Path.Combine(interfaceDir, $"I{ss.entity_name}OpenService.cs");
+        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Domain/IEntityOpenService.txt");
+    }
+
     #endregion
-}
+    }
