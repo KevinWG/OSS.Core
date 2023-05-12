@@ -10,12 +10,7 @@ namespace OSS.Core.Context
         /// <summary>
         ///   应用服务端签名模式，对应的票据信息的请求头名称
         /// </summary>
-        public const string DefaultAppSignModeTicketHeaderName = "at-id";
-
-        /// <summary>
-        ///  用户 token 对应的cookie名称（在请求源在浏览器模式下尝试从cookie中获取用户token
-        /// </summary>
-        public const string DefaultBrowserModeUserCookieName = "u_cn";
+        public const string DefaultAppSignModeTicketHeaderName = "X-Core-Ticket";
 
         /// <summary>
         ///  上下文应用信息
@@ -45,8 +40,7 @@ namespace OSS.Core.Context
 
                 set => ContextHelper.SetAppIdentity(value);
             }
-
-
+            
             private static readonly AppInfo _defaultAppInfo = new() {AppWorkerId = 1, AppVersion = "1.0"};
 
             /// <summary>

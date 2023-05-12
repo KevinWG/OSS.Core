@@ -22,7 +22,7 @@ namespace OSS.Core.Context.Attributes
         {
             var appInfo = CoreContext.App.Identity;
             if (appInfo.app_type == AppType.SystemManager || _option.ModuleProvider==null)
-                return AttributeConst.TaskSuccessResp;
+                return Task.FromResult((IResp)Resp.Success());
 
             return _option.ModuleProvider.Authorize();
         }

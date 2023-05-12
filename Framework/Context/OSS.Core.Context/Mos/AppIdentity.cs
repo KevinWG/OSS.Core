@@ -17,10 +17,7 @@ namespace OSS.Core.Context
     /// </summary>
     public class AppIdentity : AppAuthReq
     {
-        /// <summary>
-        ///  请求模块名称
-        /// </summary>
-        public string module_name { get; set; } = string.Empty;
+        //  ==========  通过请求附带信息确定的属性
 
         /// <summary>
         ///  当前请求主机信息 
@@ -38,10 +35,25 @@ namespace OSS.Core.Context
         public AppType app_type { get; set; } = AppType.Single;
 
         /// <summary>
-        ///  当前请求要求的授权信息
+        /// 用户授权信息
+        /// </summary>
+        public string authorization { get; set; } = string.Empty;
+
+
+
+        //  ==========  通过系统AOP定义的属性
+
+        /// <summary>
+        ///  请求模块名称
+        ///     （系统定义
+        /// </summary>
+        public string module_name { get; set; } = string.Empty;
+
+        /// <summary>
+        ///  当前功能接口预定义的要求权限信息
+        ///     （系统定义
         /// </summary>
         public AskAuth ask_auth { get; set; } = new AskAuth();
-
     }
     
     /// <summary>
@@ -54,15 +66,10 @@ namespace OSS.Core.Context
         /// </summary>
         public string func_code { get; set; } = string.Empty;
 
-        ///// <summary>
-        /////  业务场景
-        ///// </summary>
-        //public string func_scene_code { get; set; } = string.Empty;
-
         /// <summary>
         ///  要求的登录类型限制
         /// </summary>
-        public PortalAuthorizeType portal_auth_type { get; set; } = PortalAuthorizeType.User;
+        public AuthorizeType portal_auth_type { get; set; } = AuthorizeType.User;
         
         /// <summary>
         /// 来源模式

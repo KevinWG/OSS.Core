@@ -41,12 +41,8 @@ public static class PassTokenHelper
     {
         if (string.IsNullOrEmpty(randomSeed))
             randomSeed = NumHelper.RandomNum(2);
-        
-        var token = Md5.HalfEncryptHexString(string.Concat(data, CoreContext.App.Identity.token, randomSeed));
+
+        var token = Md5.HalfEncryptHexString(string.Concat(data, CoreContext.App.Identity.authorization, randomSeed));
         return string.Concat(randomSeed, token, data);
     }
-
-
-
-
 }

@@ -8,7 +8,7 @@
         /// <summary>
         /// 授权类型
         /// </summary>
-        public PortalAuthorizeType auth_type { get; set; }
+        public AuthorizeType auth_type { get; set; }
 
         /// <summary>
         ///  授权编号
@@ -39,7 +39,7 @@
     /// <summary>
     ///     成员授权类型
     /// </summary>
-    public enum PortalAuthorizeType
+    public enum AuthorizeType
     {
         /// <summary>
         ///     超级管理员 - 管理端

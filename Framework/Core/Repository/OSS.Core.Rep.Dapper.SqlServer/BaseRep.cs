@@ -99,7 +99,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             if (row <= 0)
                 throw new Exception($" ({TableName}) 添加操作失败!");
 
-            return Resp.DefaultSuccess;
+            return Resp.Success();
         });
     }
 

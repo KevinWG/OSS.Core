@@ -36,11 +36,18 @@ public class BaseRemoteRequest : OssHttpRequest
     /// <inheritdoc />
     protected override Task OnSendingAsync(HttpRequestMessage r)
     {
-        var ticket = CoreContext.App.Identity.ToTicket(_access.access_key, _access.access_secret,
-            CoreContext.App.Self.AppVersion);
+        var appIdentity = CoreContext.App.Identity;
 
-        r.Headers.Add(CoreClientHelper.HeaderName, ticket);
+        var ticket = CoreContext.App.Identity.ToTicket(_access.access_key, _access.access_secret,
+            CoreContext.App.Self.AppVersion, appIdentity.authorization);
+
         r.Headers.Add("Accept", "application/json");
+        r.Headers.Add(CoreClientHelper.HeaderName, ticket);
+      
+        if (!string.IsNullOrEmpty(appIdentity.authorization))
+        {
+            r.Headers.Add("Authorization", appIdentity.authorization);
+        }
 
         if (r.Content != null)
         {
@@ -50,6 +57,4 @@ public class BaseRemoteRequest : OssHttpRequest
 
         return Task.CompletedTask;
     }
-
-    
 }

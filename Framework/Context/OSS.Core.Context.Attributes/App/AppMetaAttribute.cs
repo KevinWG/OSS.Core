@@ -39,6 +39,6 @@ public class AppMetaAttribute : BaseOrderAuthorizeAttribute
         sysInfo.ask_auth.app_type      = _type;
         sysInfo.ask_auth.app_auth_mode = _authMode;
 
-        return Task.FromResult(Resp.DefaultSuccess);
+        return Task.FromResult((IResp)Resp.Success());
     }
 }

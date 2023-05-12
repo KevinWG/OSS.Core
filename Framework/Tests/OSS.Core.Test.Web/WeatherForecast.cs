@@ -1,4 +1,4 @@
-namespace WeApi.Test
+namespace OSS.Core.Test.Web
 {
     public class WeatherForecast
     {

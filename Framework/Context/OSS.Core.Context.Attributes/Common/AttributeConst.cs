@@ -4,8 +4,6 @@ namespace OSS.Core.Context.Attributes.Common
 {
     internal static class AttributeConst
     {
-        internal static readonly Task<IResp> TaskSuccessResp = Task.FromResult(Resp.DefaultSuccess);
-
         internal const int Order_App_MetaAttribute = -1001;
         internal const int Order_App_AuthAttribute = -1000;
         

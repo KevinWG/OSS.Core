@@ -65,7 +65,7 @@ internal class CaptchaValidator : ICaptchaValidator
 
 
         return aliRes.code == "100"
-            ? Resp.DefaultSuccess
+            ? Resp.Success()
             : new Resp(RespCodes.OperateFailed, string.Concat(aliRes.msg, aliRes.Message));
     }
 

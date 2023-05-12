@@ -23,7 +23,7 @@ namespace OSS.Core.Context.Attributes
         {
             var modelState = actionContext.ModelState;
             if (modelState.IsValid) 
-                return Resp.DefaultSuccess;
+                return Resp.Success();
             
             var errStr = new StringBuilder();
 

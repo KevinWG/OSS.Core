@@ -27,10 +27,10 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
     public override async Task<IResp> Authorize(AuthorizationFilterContext context)
     {
         if (CoreContext.User.IsAuthenticated)
-            return Resp.DefaultSuccess;
+            return Resp.Success();
 
         if (context.ActionDescriptor.EndpointMetadata.Any(filter => filter is IAllowAnonymous))
-            return Resp.DefaultSuccess;
+            return Resp.Success();
 
         var appInfo = CoreContext.App.Identity;
 
@@ -54,9 +54,9 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         {
             switch (userIdentity.auth_type)
             {
-                case PortalAuthorizeType.SocialAppUser:
+                case AuthorizeType.SocialAppUser:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserFromSocial, "需要绑定系统账号");
-                case PortalAuthorizeType.UserWithEmpty:
+                case AuthorizeType.UserWithEmpty:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
             }
 
@@ -75,13 +75,13 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         {
             if (!string.IsNullOrEmpty(askFunc.func_code))
                 throw new NotImplementedException("当前方法设置了权限码，但系统未实现权限码的判断接口！");
-            return Resp.DefaultSuccess;
+            return Resp.Success();
         }
 
-        if (userIdentity.auth_type == PortalAuthorizeType.SuperAdmin)
+        if (userIdentity.auth_type == AuthorizeType.SuperAdmin)
         {
             userIdentity.data_level = FuncDataLevel.All;
-            return Resp.DefaultSuccess;
+            return Resp.Success();
         }
 
         var res = await opt.FuncProvider.Authorize(askFunc.func_code);

@@ -28,7 +28,7 @@ namespace OSS.Core.Context.Attributes
             sysInfo.app_type  = AppType.Single;
             sysInfo.UDID      = "WEB";
 
-            return Task.FromResult(Resp.DefaultSuccess);
+            return Task.FromResult((IResp)Resp.Success());
         }
     }
 }

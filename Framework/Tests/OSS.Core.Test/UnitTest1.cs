@@ -1,4 +1,3 @@
-using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Context;
 
@@ -10,18 +9,15 @@ namespace OSS.Core.Test
         [TestMethod]
         public void TestMethod1()
         {
-            var appIdentity = new AppIdentity()
-            {
-                app_type = AppType.Single, tenant_id = "1"
-            };
+            var secret = "0123456789012345";
 
-            var access = new AccessSecret("default_access", "60226eeaa3e949cfa84f2308e41e4775");
-            var ticket = appIdentity.ToTicket(access.access_key, access.access_secret, "1.0");
+            var oldIdentity = new AppIdentity() { };
+            var ticket = oldIdentity.ToTicket("AccessKey", secret, "1.0", "token");
 
-            appIdentity.FormatFromTicket(ticket);
+            var newIdentity= new AppIdentity();
+            newIdentity.FormatFromTicket(ticket);
 
-            var checkRes = appIdentity.CheckSign(access.access_secret, 3600);
-            Assert.IsTrue(checkRes.IsSuccess(), checkRes.msg);
+            Assert.IsTrue(newIdentity.CheckSign(secret,10, "token").IsSuccess(),"应用签名加密失败!");
         }
     }
 }
