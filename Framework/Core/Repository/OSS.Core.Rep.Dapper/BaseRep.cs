@@ -450,26 +450,42 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <returns></returns>
     private async Task<RType> ExecuteAsync<RType>(Func<IDbConnection, Task<RType>> func, bool isWrite)
     {
-        //RType t;
-        //try
-        //{
         using var con = GetDbConnection(isWrite);
         return await func(con);
-        //}
-        //catch (Exception e)
-        //{
-        //    LogHelper.Error(string.Concat("数据库操作错误,仓储表名：", TableName, "，详情：", e.Message, "\r\n", e.StackTrace),
-        //        "DataRepConnectionError",
-        //        "DapperRep_Mysql");
-        //    t = new RType
-        //    {
-        //        sys_ret =  (int) SysRespCodes.ApplicationError,
-        //        ret = (int) RespCodes.InnerError,
-        //        msg = isWrite ? "数据操作出错！" : "数据读取错误"
-        //    };
-        //}
+    }
 
-        //return t;
+    #endregion
+
+
+
+    #region 辅助方法
+
+    /// <summary>
+    /// 过滤 Sql 语句字符串中的注入脚本
+    /// </summary>
+    /// <param name="source">传入的字符串</param>
+    /// <returns>过滤后的字符串</returns>
+    protected static string SqlFilter(string source)
+    {
+        source = source.Replace("\"", "");
+        source = source.Replace("&", "&amp");
+        source = source.Replace("<", "&lt");
+        source = source.Replace(">", "&gt");
+        source = source.Replace("%", "");
+        source = source.Replace("drop ", "");
+        source = source.Replace("delete ", "");
+        source = source.Replace("update ", "");
+        source = source.Replace("insert ", "");
+        source = source.Replace("'", "''");
+        source = source.Replace(";", "；");
+        source = source.Replace("(", "（");
+        source = source.Replace(")", "）");
+        source = source.Replace("Exec ", "");
+        source = source.Replace("Execute ", "");
+        source = source.Replace("xp_", "x p_");
+        source = source.Replace("sp_", "s p_");
+        source = source.Replace("0x", "0 x");
+        return source;
     }
 
     #endregion
