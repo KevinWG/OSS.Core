@@ -29,7 +29,7 @@ public class AppMetaAttribute : BaseOrderAuthorizeAttribute
     private readonly AppType     _type;
 
     /// <inheritdoc />
-    public override Task<IResp> Authorize(AuthorizationFilterContext context)
+    public override Task<Resp> Authorize(AuthorizationFilterContext context)
     {
         if (!CoreContext.App.IsInitialized)
             CoreContext.App.Identity = new AppIdentity();
@@ -39,6 +39,6 @@ public class AppMetaAttribute : BaseOrderAuthorizeAttribute
         sysInfo.ask_auth.app_type      = _type;
         sysInfo.ask_auth.app_auth_mode = _authMode;
 
-        return Task.FromResult((IResp)Resp.Success());
+        return Task.FromResult(Resp.Success());
     }
 }

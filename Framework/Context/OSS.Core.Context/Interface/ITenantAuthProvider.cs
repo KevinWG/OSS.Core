@@ -11,6 +11,6 @@ namespace OSS.Core.Context.Attributes
         ///  中间件初始化对应租户信息
         /// </summary>
         /// <returns></returns>
-        Task<IResp<TenantIdentity>> GetIdentity();
+        Task<Resp<TenantIdentity>> GetIdentity();
     }
 }

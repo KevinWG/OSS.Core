@@ -24,7 +24,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<IResp> Authorize(AuthorizationFilterContext context)
+    public override async Task<Resp> Authorize(AuthorizationFilterContext context)
     {
         if (CoreContext.User.IsAuthenticated)
             return Resp.Success();
@@ -43,7 +43,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
     }
 
 
-    private async Task<IResp<UserIdentity>> UserAuthorize(AppIdentity appIdentity)
+    private async Task<Resp<UserIdentity>> UserAuthorize(AppIdentity appIdentity)
     {
         var identityRes = await _userOption.UserProvider.GetIdentity();
         if (!identityRes.IsSuccess())
@@ -68,7 +68,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
     }
 
 
-    private static async Task<IResp> FuncAuthorize(AppIdentity appInfo, UserIdentity userIdentity, UserAuthOption opt)
+    private static async Task<Resp> FuncAuthorize(AppIdentity appInfo, UserIdentity userIdentity, UserAuthOption opt)
     {
         var askFunc = appInfo.ask_auth;
         if (opt.FuncProvider == null)

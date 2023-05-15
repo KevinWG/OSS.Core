@@ -27,7 +27,7 @@ public class ModuleMetaAttribute : BaseOrderAuthorizeAttribute
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override Task<IResp> Authorize(AuthorizationFilterContext context)
+    public override Task<Resp> Authorize(AuthorizationFilterContext context)
     {
         if (string.IsNullOrEmpty(_moduleName))
             throw new NullReferenceException("请在当前Controller或父类中使用ModuleNameAttribute标注模块名称！");
@@ -41,6 +41,6 @@ public class ModuleMetaAttribute : BaseOrderAuthorizeAttribute
 
         appInfo.module_name = _moduleName;
 
-        return Task.FromResult((IResp)Resp.Success());
+        return Task.FromResult(Resp.Success());
     }
 }

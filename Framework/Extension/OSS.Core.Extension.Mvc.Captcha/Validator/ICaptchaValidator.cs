@@ -13,5 +13,5 @@ public interface ICaptchaValidator
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    Task<IResp> Validate(HttpContext context);
+    Task<Resp> Validate(HttpContext context);
 }

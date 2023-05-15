@@ -13,7 +13,7 @@ namespace OSS.Core.Context.Attributes
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Task<IResp<AppAccess>> GetByKey(string key);
+        public Task<Resp<AppAccess>> GetByKey(string key);
     }
 
     /// <summary>

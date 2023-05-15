@@ -17,7 +17,7 @@ namespace OSS.Core.Context.Attributes
             Order = AttributeConst.Order_App_MetaAttribute;
         }
 
-        public override Task<IResp> Authorize(AuthorizationFilterContext context)
+        public override Task<Resp> Authorize(AuthorizationFilterContext context)
         {
             if (!CoreContext.App.IsInitialized)
                 CoreContext.App.Identity = new AppIdentity();
@@ -28,7 +28,7 @@ namespace OSS.Core.Context.Attributes
             sysInfo.app_type  = AppType.Single;
             sysInfo.UDID      = "WEB";
 
-            return Task.FromResult((IResp)Resp.Success());
+            return Task.FromResult(Resp.Success());
         }
     }
 }

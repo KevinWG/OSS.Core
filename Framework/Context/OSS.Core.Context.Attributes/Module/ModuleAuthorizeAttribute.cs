@@ -18,11 +18,11 @@ namespace OSS.Core.Context.Attributes
             _option = option;
         }
 
-        public override  Task<IResp> Authorize(AuthorizationFilterContext context)
+        public override  Task<Resp> Authorize(AuthorizationFilterContext context)
         {
             var appInfo = CoreContext.App.Identity;
             if (appInfo.app_type == AppType.SystemManager || _option.ModuleProvider==null)
-                return Task.FromResult((IResp)Resp.Success());
+                return Task.FromResult(Resp.Success());
 
             return _option.ModuleProvider.Authorize();
         }

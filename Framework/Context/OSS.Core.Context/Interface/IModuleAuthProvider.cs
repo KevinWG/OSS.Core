@@ -11,6 +11,6 @@ namespace OSS.Core.Context.Attributes
         ///  校验模块权限
         /// </summary>
         /// <returns></returns>
-        Task<IResp> Authorize();
+        Task<Resp> Authorize();
     }
 }

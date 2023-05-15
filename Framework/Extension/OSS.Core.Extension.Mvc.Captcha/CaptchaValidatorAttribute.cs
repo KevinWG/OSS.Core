@@ -21,7 +21,7 @@ namespace OSS.Core.Extension.Mvc.Captcha
         /// </summary>
         /// <param name="context"></param>
         /// <returns></returns>
-        public override async Task<IResp> Authorize(AuthorizationFilterContext context)
+        public override async Task<Resp> Authorize(AuthorizationFilterContext context)
         {
             var validator   = GetValidator(context.HttpContext);
             var appIdentity = CoreContext.App.Identity;

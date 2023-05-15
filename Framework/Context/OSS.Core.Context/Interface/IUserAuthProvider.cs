@@ -24,7 +24,6 @@ namespace OSS.Core.Context
         ///  中间件初始化用户信息
         /// </summary>
         /// <returns></returns>
-        Task<IResp<UserIdentity>> GetIdentity();
-        
+        Task<Resp<UserIdentity>> GetIdentity();
     }
 }

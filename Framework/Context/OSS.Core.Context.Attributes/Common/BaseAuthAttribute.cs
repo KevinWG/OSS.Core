@@ -38,7 +38,12 @@ namespace OSS.Core.Context.Attributes
         }
 
 
-        public abstract Task<IResp> Authorize(AuthorizationFilterContext context);
+        /// <summary>
+        ///  授权验证具体实现
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public abstract Task<Resp> Authorize(AuthorizationFilterContext context);
 
         /// <summary>
         ///   异常结束响应
@@ -56,9 +61,7 @@ namespace OSS.Core.Context.Attributes
                 context.Result = res.ToJsonResult();
                 return;
             }
-
             context.Result = new RedirectResult(rUrl);
-            return;
         }
         
     }

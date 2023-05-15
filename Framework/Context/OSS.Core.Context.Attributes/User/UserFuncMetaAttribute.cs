@@ -54,7 +54,7 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
     }
 
     /// <inheritdoc />
-    public override Task<IResp> Authorize(AuthorizationFilterContext context)
+    public override Task<Resp> Authorize(AuthorizationFilterContext context)
     {
         var sceneCode = string.Empty;
         var appInfo = CoreContext.App.Identity;
@@ -65,7 +65,7 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
         appInfo.ask_auth.portal_auth_type = portal_auth_type;
         appInfo.ask_auth.func_code = string.Concat(_funcCode, sceneCode);
 
-        return Task.FromResult((IResp)Resp.Success());
+        return Task.FromResult(Resp.Success());
     }
 
 }

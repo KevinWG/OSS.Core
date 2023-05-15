@@ -9,8 +9,8 @@ namespace OSS.Core.Extension.Mvc.Captcha;
 internal class DefaultNoneCaptchaValidator: ICaptchaValidator
 {
     /// <inheritdoc />
-    public Task<IResp> Validate(HttpContext context)
+    public Task<Resp> Validate(HttpContext context)
     {
-        return Task.FromResult((IResp)Resp.Success());
+        return Task.FromResult(Resp.Success());
     }
 }

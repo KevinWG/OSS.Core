@@ -134,7 +134,7 @@ public static class AppAuthInfoExtension
     /// <param name="signExpiredSeconds"></param>
     /// <param name="extSignData">参与签名的扩展数据（ 原签名数据 + "&amp;" + extSignData ）</param>
     /// <returns></returns>
-    public static IResp CheckSign(this AppAuthReq appAuthInfo, string accessSecret, int signExpiredSeconds, string extSignData = null)
+    public static Resp CheckSign(this AppAuthReq appAuthInfo, string accessSecret, int signExpiredSeconds, string extSignData = null)
     {
         if (appAuthInfo.timestamp <= 0 || string.IsNullOrEmpty(appAuthInfo.access_key))
             return new Resp(RespCodes.ParaError, "应用签名相关参数错误！");

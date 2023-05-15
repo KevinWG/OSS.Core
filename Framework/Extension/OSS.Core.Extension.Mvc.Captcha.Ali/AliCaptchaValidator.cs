@@ -19,7 +19,7 @@ internal class CaptchaValidator : ICaptchaValidator
     ///  检查
     /// </summary>
     /// <returns></returns>
-    public async Task<IResp> Validate(HttpContext context)
+    public async Task<Resp> Validate(HttpContext context)
     {
         var viStr = context.Request.Query["v_i_c"].ToString();
 

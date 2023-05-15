@@ -25,7 +25,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
     /// <summary>
     ///  应用的授权判断处理
     /// </summary>
-    public override async Task<IResp> Authorize(AuthorizationFilterContext context)
+    public override async Task<Resp> Authorize(AuthorizationFilterContext context)
     {
         // 0.  获取初始化app信息
         if (!CoreContext.App.IsInitialized)
@@ -47,7 +47,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
     #region 应用验证
 
 
-    private async Task<IResp> AppAuthorize(AppIdentity appIdentity, HttpContext context)
+    private async Task<Resp> AppAuthorize(AppIdentity appIdentity, HttpContext context)
     {
         if (appIdentity.auth_mode != AppAuthMode.PartnerContract)
         {
@@ -85,7 +85,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
         return Resp.Success();
     }
 
-    private async Task<IResp> CheckAppSign(AppIdentity appIdentity, HttpContext context)
+    private async Task<Resp> CheckAppSign(AppIdentity appIdentity, HttpContext context)
     {
         var authTicketStr = context.Request.Headers[_appOption.SignModeTicketHeaderName];
         appIdentity.FormatFromTicket(authTicketStr);
@@ -126,7 +126,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
     #endregion
 
-    private static async Task<IResp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
+    private static async Task<Resp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
     {
         if (appOption?.TenantAuthProvider == null)
             return Resp.Success();
