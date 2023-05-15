@@ -1,7 +1,7 @@
-﻿using OSS.Core.Domain;
-using System.Data;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using OSS.Core.Domain;
 using OSS.Core.Rep.Dapper.SqlServer;
+using System.Data;
 
 namespace OSS.Core.Rep.Dapper
 {
@@ -29,6 +29,23 @@ namespace OSS.Core.Rep.Dapper
             return new SqlConnection(isWriteOperate ? _writeConnection : _readConnection);
         }
 
+
+
+        /// <summary>
+        ///  根据状态值处理状态的语句
+        ///     以 9 结尾，返回:t.`status`&gt;@status
+        ///     以 1 结尾，返回:t.`status`&lt;@status
+        ///     其他，    返回:t.`status`=@status
+        /// </summary>
+        /// <param name="statusVal"></param>
+        /// <returns></returns>
+        protected static string GenerateStatusSql(string statusVal)
+        {
+            if (statusVal.EndsWith("9"))
+                return "t.`status`>@status";
+
+            return statusVal.EndsWith("1") ? "t.`status`<@status" : "t.`status`=@status";
+        }
 
 
 

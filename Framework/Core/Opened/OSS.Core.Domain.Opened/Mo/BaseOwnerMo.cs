@@ -10,12 +10,10 @@ namespace OSS.Core.Domain
     /// <typeparam name="IdType"></typeparam>
     public class BaseOwnerAndStateMo<IdType> : BaseOwnerMo<IdType>, IDomainStatus
     {
-        /// <summary>
-        /// 状态信息
-        /// </summary>
+        /// <inheritdoc />
         public CommonStatus status { get; set; }
     }
-    
+
     /// <summary>
     ///  基础所有者实体
     /// </summary>
@@ -38,7 +36,7 @@ namespace OSS.Core.Domain
     ///  基础所有者实体（租户）
     /// </summary>
     /// <typeparam name="IdType"></typeparam>
-    public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>,IDomainTenantId<long>
+    public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>, IDomainTenantId<long>
     {
         /// <summary>
         ///  租户
@@ -90,7 +88,7 @@ namespace OSS.Core.Domain
         /// <param name="t"></param>
         public static void FormatBaseByContext(this BaseTenantOwnerMo<long> t)
         {
-            FormatBaseByContext((BaseOwnerMo<long>)t);
+            ((BaseOwnerMo<long>)t).FormatBaseByContext();
 
             if (t.tenant_id > 0) return;
 
