@@ -14,8 +14,6 @@ public class StatusSearchReq<SType> : SearchReq, IDomainStatus<SType>
 /// <summary>
 ///  含状态搜索实体
 /// </summary>
-public class StatusSearchReq : SearchReq, IDomainStatus<int>
+public class StatusSearchReq : StatusSearchReq<int>
 {
-    /// <inheritdoc />
-    public int status { get; set; }
 }
