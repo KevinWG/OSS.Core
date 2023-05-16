@@ -12,7 +12,7 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
      private const string apiEntityPath = "/{entity_name}";
 
     /// <inheritdoc />
-    public Task<TokenPageListResp<{entity_name}Mo>> MSearch(SearchReq req)
+    public Task<TokenPageListResp<{entity_name}Mo>> MSearch(Search{entity_name}Req req)
     {
           var apiPath =$"{apiEntityPath}/MSearch";
           return new {module_req}(apiPath)

@@ -17,7 +17,7 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<TokenPageListResp<{entity_name}Mo>> MSearch([FromBody] SearchReq req)
+    public Task<TokenPageListResp<{entity_name}Mo>> MSearch([FromBody] Search{entity_name}Req req)
     {
         return _service.MSearch(req);
     }

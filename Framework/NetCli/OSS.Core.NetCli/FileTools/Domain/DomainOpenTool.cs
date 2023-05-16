@@ -57,6 +57,9 @@ internal class DomainOpenTool : BaseProjectTool
 
         var addEntFilePath = Path.Combine(dtoDir, string.Concat("Add", ss.entity_name, "Req.cs"));
         FileHelper.CreateFileByTemplate(addEntFilePath, ss, "Domain/DTO/AddEntityReq.txt");
+
+        var searchEntFilePath = Path.Combine(dtoDir, string.Concat("Search", ss.entity_name, "Req.cs"));
+        FileHelper.CreateFileByTemplate(searchEntFilePath, ss, "Domain/DTO/SearchEntityReq.txt");
     }
 
     private static void AddEntity_IOpenService(Solution ss)

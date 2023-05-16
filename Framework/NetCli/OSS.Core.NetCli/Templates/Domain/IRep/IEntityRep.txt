@@ -14,7 +14,7 @@ public interface I{entity_name}Rep:IRepository<{entity_name}Mo,long>
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<PageList<{entity_name}Mo>> Search(SearchReq req);
+    Task<PageList<{entity_name}Mo>> Search(Search{entity_name}Req req);
 
     /// <summary>
     ///   修改状态

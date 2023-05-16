@@ -18,7 +18,7 @@ public class AppAccessProvider : IAppAccessProvider
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    public async Task<IResp<AppAccess>> GetByKey(string key)
+    public async Task<Resp<AppAccess>> GetByKey(string key)
     {
         if (_appAccessList == null)
         {
@@ -47,7 +47,7 @@ public class AppAccessProvider : IAppAccessProvider
 public class UserAuthProvider : IUserAuthProvider
 {
     /// <inheritdoc />
-    public Task<IResp<UserIdentity>> GetIdentity()
+    public Task<Resp<UserIdentity>> GetIdentity()
     {
         // 可自定义如下返回：
         //var identity = new UserIdentity()
@@ -74,7 +74,7 @@ public class UserAuthProvider : IUserAuthProvider
 public class FuncAuthProvider : IFuncAuthProvider
 {
     /// <inheritdoc />
-    public async Task<IResp<FuncDataLevel>> Authorize(string funcCode)
+    public async Task<Resp<FuncDataLevel>> Authorize(string funcCode)
     {
         // 可以自定义实现,如：
         //Resp<FuncDataLevel> res = new Resp<FuncDataLevel>(FuncDataLevel.All);
