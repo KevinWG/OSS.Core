@@ -1,9 +1,10 @@
-﻿using OSS.Core;
+﻿using System.Text.Json.Serialization;
+
+using OSS.Core;
 using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
 
 using {solution_name};
-using System.Text.Json.Serialization;
 
 
 // ========================================  容器依赖注入   ========================================
@@ -27,13 +28,8 @@ builder.Services.AddControllers(opt =>
     });
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(opt =>
-{
-    //var baseDir = AppContext.BaseDirectory;
 
-    //opt.IncludeXmlComments(Path.Combine(baseDir, "Docs\\WebApi.xml"));
-    //opt.IncludeXmlComments(Path.Combine(baseDir, "Docs\\Domain.Open.xml"));
-});
+SwaggerHelper.RegisterSwaggerService(builder.Services);
 
 
 
@@ -45,10 +41,7 @@ var isDev = app.Environment.IsDevelopment();
 if (isDev)
 {
     app.UseSwagger();
-    app.UseSwaggerUI(opt =>
-    {
-        opt.DefaultModelsExpandDepth(-1);
-    });
+    SwaggerHelper.AddSwaggerUI(app);
 }
 
 app.UseOssCore();

@@ -22,7 +22,7 @@ internal class DomainOpenTool : BaseProjectTool
             "OSS.Core.Domain.Opened"
         };
 
-        CreateProjectFile(project.project_file_path, packageRefs, null);
+        CreateProjectFile(project.project_file_path, packageRefs, null,false,project.name);
     }
 
 

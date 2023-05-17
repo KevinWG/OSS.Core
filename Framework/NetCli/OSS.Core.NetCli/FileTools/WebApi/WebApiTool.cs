@@ -37,7 +37,7 @@ internal  class WebApiTool: BaseProjectTool
         }
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
-        CreateProjectFile(projectFilePath, packageRefs, projectRefs, true);
+        CreateProjectFile(projectFilePath, packageRefs, projectRefs, true, project.name);
         
         CreateProgramFile(ss);
         Create_AppSettingFile(ss);
@@ -48,7 +48,10 @@ internal  class WebApiTool: BaseProjectTool
         FileHelper.CreateDirectory(ss.webapi_project.common_dir);
 
         var baseFilePath = Path.Combine(ss.webapi_project.common_dir, $"Base{ss.module_name}Controller.cs");
-        FileHelper.CreateFileByTemplate(baseFilePath, ss, "WebApi/BaseModuleController.txt");
+        FileHelper.CreateFileByTemplate(baseFilePath, ss, "WebApi/Common/BaseModuleController.txt");
+
+        var swaggerFilePath = Path.Combine(ss.webapi_project.common_dir, "SwaggerHelper.cs");
+        FileHelper.CreateFileByTemplate(swaggerFilePath, ss, "WebApi/Common/SwaggerHelper.txt");
     }
 
     public override void Create_GlobalFiles(Solution ss)
@@ -71,10 +74,10 @@ internal  class WebApiTool: BaseProjectTool
             { "{DomainStarterRegister}", domainRegisterStr } }; 
 
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
-        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/GlobalStarter.txt", extDic);
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/AppGlobal/GlobalStarter.txt", extDic);
 
         var authProPath = Path.Combine(project.global_dir, "AuthProvider.cs");
-        FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AuthProvider.txt");
+        FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AppGlobal/AuthProvider.txt");
     }
 
     private static void CreateProgramFile(Solution ss)

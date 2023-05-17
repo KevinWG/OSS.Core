@@ -6,7 +6,8 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>osscore</ToolCommandName>
 		<Description>OSSCore 模块解决方案 .Net 客户端工具</Description>
-		<Version>2.6.1</Version>
+		<Version>2.6.2</Version>
+		<PackageReleaseNotes>增加项目接口默认注释文档</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -62,13 +63,16 @@
 	  <None Update="Templates\Service\ServiceAppStarter.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
+	  <None Update="Templates\WebApi\Common\SwaggerHelper.txt">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Templates\WebApi\AppSetting.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Templates\WebApi\AuthProvider.txt">
+	  <None Update="Templates\WebApi\AppGlobal\AuthProvider.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Templates\WebApi\BaseModuleController.txt">
+	  <None Update="Templates\WebApi\Common\BaseModuleController.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Templates\WebApi\EntityController.txt">
@@ -77,7 +81,7 @@
 	  <None Update="Templates\WebApi\Program.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
-	  <None Update="Templates\WebApi\GlobalStarter.txt">
+	  <None Update="Templates\WebApi\AppGlobal\GlobalStarter.txt">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	</ItemGroup>

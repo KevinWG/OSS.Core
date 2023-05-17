@@ -38,19 +38,32 @@ namespace OSSCore
         #endregion
 
 
-        protected static void CreateProjectFile(string filePath, List<string> packageRefs, List<string> projectRefs, bool isWeb = false)
+        protected static void CreateProjectFile(string filePath, List<string> packageRefs, List<string> projectRefs, bool isWeb = false,string xmlDocName="")
         {
             var content = new StringBuilder();
 
             content.AppendLine(isWeb ? "<Project Sdk=\"Microsoft.NET.Sdk.Web\">" : "<Project Sdk=\"Microsoft.NET.Sdk\">");
 
-            content.AppendLine(@"
-     <PropertyGroup>
+            content.AppendLine(@"<PropertyGroup>
          <TargetFramework>net6.0</TargetFramework>
          <ImplicitUsings>enable</ImplicitUsings>
-         <Nullable>enable</Nullable>
-         <GenerateDocumentationFile>True</GenerateDocumentationFile>
-     </PropertyGroup>");
+         <Nullable>enable</Nullable>");
+
+            if (!string.IsNullOrEmpty(xmlDocName))
+            {
+                content.AppendLine("    <GenerateDocumentationFile>True</GenerateDocumentationFile>");
+                content.AppendLine($"   <DocumentationFile>AppGlobal\\Docs\\{xmlDocName}.xml</DocumentationFile>");
+            }
+            content.AppendLine("</PropertyGroup>");
+
+            if (!string.IsNullOrEmpty(xmlDocName))
+            {
+                content.AppendLine(@$"<ItemGroup>
+      <None Update=""AppGlobal\Docs\{xmlDocName}.xml"">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>");
+            }
 
             if (packageRefs != null && packageRefs.Count > 0)
             {
