@@ -15,9 +15,12 @@ internal static class SwaggerHelper
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "{module_display} WebApi", Version = "v1" });
 
-            var baseDir = AppContext.BaseDirectory;
-            c.IncludeXmlComments(Path.Combine(baseDir, "AppGlobal\\Docs\\{solution_name}.WebApi.xml"));
-            c.IncludeXmlComments(Path.Combine(baseDir, "AppGlobal\\Docs\\{solution_name}.Domain.Open.xml"));
+            var xmlFileDir = Path.Combine(AppContext.BaseDirectory, "AppGlobal\\XmlDocs");
+            var xmlFiles = Directory.GetFiles(xmlFileDir, "*.xml");
+            foreach (var xml in xmlFiles)
+            {
+                c.IncludeXmlComments(xml);
+            }
 
             // 添加 请求头 方案
             c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

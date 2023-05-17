@@ -52,14 +52,14 @@ namespace OSSCore
             if (!string.IsNullOrEmpty(xmlDocName))
             {
                 content.AppendLine("    <GenerateDocumentationFile>True</GenerateDocumentationFile>");
-                content.AppendLine($"   <DocumentationFile>AppGlobal\\Docs\\{xmlDocName}.xml</DocumentationFile>");
+                content.AppendLine($"   <DocumentationFile>AppGlobal\\XmlDocs\\{xmlDocName}.xml</DocumentationFile>");
             }
             content.AppendLine("</PropertyGroup>");
 
             if (!string.IsNullOrEmpty(xmlDocName))
             {
                 content.AppendLine(@$"<ItemGroup>
-      <None Update=""AppGlobal\Docs\{xmlDocName}.xml"">
+      <None Update=""AppGlobal\XmlDocs\{xmlDocName}.xml"">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>");
