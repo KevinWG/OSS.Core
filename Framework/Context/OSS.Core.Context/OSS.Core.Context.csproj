@@ -5,7 +5,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
     <Description>OSS.Core 全局上下文基础类库</Description>
-    <Version>2.12</Version>
+    <Version>2.12.1</Version>
     <PackageReleaseNotes></PackageReleaseNotes>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
@@ -26,7 +26,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="OSS.Common" Version="6.2.7" />
+    <PackageReference Include="OSS.Common" Version="6.3.2" />
   </ItemGroup>
 
 </Project>
