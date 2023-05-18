@@ -10,7 +10,7 @@ namespace OSS.Core.Context
         /// <summary>
         ///   应用服务端签名模式，对应的票据信息的请求头名称
         /// </summary>
-        public const string DefaultAppSignModeTicketHeaderName = "X-Core-Ticket";
+       [Obsolete] public const string DefaultAppSignModeTicketHeaderName = "X-Core-Ticket";
 
         /// <summary>
         ///  上下文应用信息

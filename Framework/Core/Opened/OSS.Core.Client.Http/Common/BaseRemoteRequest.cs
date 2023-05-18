@@ -9,7 +9,13 @@ namespace OSS.Core.Client.Http;
 /// </summary>
 public class BaseRemoteRequest : OssHttpRequest
 {
+    /// <summary>
+    /// 模块名称
+    /// </summary>
     protected internal string target_module { get; set; }
+    /// <summary>
+    ///  接口请求路径
+    /// </summary>
     protected string api_path { get; set; }
 
     /// <summary>
@@ -23,7 +29,7 @@ public class BaseRemoteRequest : OssHttpRequest
         api_path = apiPath;
     }
 
-    private CoreAccessSecret _access;
+    private CoreAccessSecret? _access;
 
 
     /// <inheritdoc />
@@ -42,7 +48,7 @@ public class BaseRemoteRequest : OssHttpRequest
             CoreContext.App.Self.AppVersion, appIdentity.authorization);
 
         r.Headers.Add("Accept", "application/json");
-        r.Headers.Add(CoreClientHelper.HeaderName, ticket);
+        r.Headers.Add(CoreClientHelper.SignTicketHeaderName, ticket);
       
         if (!string.IsNullOrEmpty(appIdentity.authorization))
         {

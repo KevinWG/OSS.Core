@@ -148,7 +148,7 @@ public class AppAuthOption
     /// <summary>
     ///   应用服务端签名模式，对应的票据信息的请求头名称
     /// </summary>
-    public string SignModeTicketHeaderName { get; set; } = CoreContext.DefaultAppSignModeTicketHeaderName;
+    public string SignModeTicketHeaderName { get; set; } = "X-Core-Ticket";
 
     /// <summary>
     ///  签名秘钥提供者
