@@ -37,6 +37,9 @@ public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
 
     #region 简单搜索封装
 
+
+
+
     ///// <summary>
     /////  通用搜索
     ///// </summary>

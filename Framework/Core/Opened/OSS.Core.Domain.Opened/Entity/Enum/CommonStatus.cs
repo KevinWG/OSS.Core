@@ -1,18 +1,21 @@
 ﻿namespace OSS.Core.Domain
 {
     /// <summary>
-    ///     通用状态码 （如果需要更多状态需要自定义枚举，此值不再新增）
-    ///     不同的领域对象可能会一到多个
+    /// 通用状态码 （领域对象可定义自有状态类型，此枚举适用简单状态管理）
+    /// <para>【-10000】：已删除 </para>
+    /// <para>  【-100】：未激活 </para>
+    /// <para>     【0】：正常   </para>
+    /// <para> 【10000】：已结束 </para>
     /// </summary>
     public enum CommonStatus
     {
         /// <summary>
-        ///    删除
+        ///    已删除
         /// </summary>
         Deleted = -10000,
 
         /// <summary>
-        /// 待激活
+        /// 未激活
         /// </summary>
         UnActive = -100,
 
@@ -22,7 +25,7 @@
         Original = 0,
 
         /// <summary>
-        ///  结束
+        ///  已结束
         /// </summary>
         Finished = 10000
     }

@@ -75,21 +75,21 @@
         /// <summary>
         ///  全部
         /// </summary>
-        All = 1,
+        All = 100,
 
         /// <summary>
         ///  组织树
         /// </summary>
-        GroupTree = 20,
+        GroupTree = 200,
 
         /// <summary>
         /// 当前组织
         /// </summary>
-        Group = 40,
+        Group = 300,
 
         /// <summary>
         ///  仅个人
         /// </summary>
-        OnlySelf = 60
+        OnlySelf = 1000
     }
 }
