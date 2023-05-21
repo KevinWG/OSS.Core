@@ -50,13 +50,13 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return identityRes;
 
         var userIdentity = identityRes.data;
-        if (userIdentity.auth_type > appIdentity.ask_auth.portal_auth_type)
+        if (userIdentity.id_type > appIdentity.ask_auth.id_type)
         {
-            switch (userIdentity.auth_type)
+            switch (userIdentity.id_type)
             {
-                case AuthorizeType.SocialAppUser:
+                case IdentityType.SocialAppUser:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserFromSocial, "需要绑定系统账号");
-                case AuthorizeType.UserWithEmpty:
+                case IdentityType.UserWithEmpty:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
             }
 
@@ -75,10 +75,11 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         {
             if (!string.IsNullOrEmpty(askFunc.func_code))
                 throw new NotImplementedException("当前方法设置了权限码，但系统未实现权限码的判断接口！");
+
             return Resp.Success();
         }
 
-        if (userIdentity.auth_type == AuthorizeType.SuperAdmin)
+        if (userIdentity.id_type == IdentityType.SuperAdmin)
         {
             userIdentity.data_level = FuncDataLevel.All;
             return Resp.Success();

@@ -69,7 +69,7 @@ namespace OSS.Core.Context
         /// <summary>
         ///  要求的登录类型限制
         /// </summary>
-        public AuthorizeType portal_auth_type { get; set; } = AuthorizeType.User;
+        public IdentityType id_type { get; set; } = IdentityType.User;
         
         /// <summary>
         /// 来源模式
@@ -84,7 +84,7 @@ namespace OSS.Core.Context
 
 
     /// <summary>
-    ///  应用授权模式（值越小安全层级越高
+    ///  应用授权执行模式（值越小安全层级越高
     /// </summary>
     public enum AppAuthMode
     {

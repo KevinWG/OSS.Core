@@ -8,7 +8,15 @@
         /// <summary>
         /// 授权类型
         /// </summary>
-        public AuthorizeType auth_type { get; set; }
+        [Obsolete("使用 id_type，此属性 3.0 版本后禁用")]
+        public AuthorizeType auth_type => (AuthorizeType)id_type;
+        
+
+        /// <summary>
+        /// 授权身份类
+        /// </summary>
+        public IdentityType id_type { get; set; }
+
 
         /// <summary>
         ///  授权编号
@@ -39,6 +47,7 @@
     /// <summary>
     ///     成员授权类型
     /// </summary>
+    [Obsolete]
     public enum AuthorizeType
     {
         /// <summary>
@@ -66,7 +75,39 @@
         /// </summary>
         SocialAppUser = 400
     }
-    
+
+
+    /// <summary>
+    ///    授权身份类型
+    /// </summary>
+    public enum IdentityType
+    {
+        /// <summary>
+        ///     超级管理员 - 管理端
+        /// </summary>
+        SuperAdmin = 100,
+
+        /// <summary>
+        ///     后台普通管理员- 管理端
+        /// </summary>
+        Admin = 200,
+
+        /// <summary>
+        ///    用户
+        /// </summary>
+        User = 300,
+
+        /// <summary>
+        ///   空白用户（关键信息缺失，如手机号）
+        /// </summary>
+        UserWithEmpty = 310,
+
+        /// <summary>
+        ///  临时授权的第三方用户
+        /// </summary>
+        SocialAppUser = 400
+    }
+
     /// <summary>
     /// 功能数据权限
     /// </summary>

@@ -21,13 +21,13 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
     /// <summary>
     ///   要求的授权类型，默认为管理员类型
     /// </summary>
-    public AuthorizeType portal_auth_type { get; set; }
+    public IdentityType id_type { get; set; }
 
     /// <summary>
     /// 功能权限验证
     /// </summary>
     /// <param name="authType"> 要求的授权类型</param>
-    public UserFuncMetaAttribute(AuthorizeType authType)
+    public UserFuncMetaAttribute(IdentityType authType)
         : this(string.Empty, authType)
     {
     }
@@ -36,7 +36,7 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
     /// 功能权限验证
     ///     默认验证是否管理员
     /// </summary>
-    public UserFuncMetaAttribute() : this(string.Empty, AuthorizeType.Admin)
+    public UserFuncMetaAttribute() : this(string.Empty, IdentityType.Admin)
     {
     }
 
@@ -44,13 +44,13 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
     /// 功能权限验证
     /// </summary>
     /// <param name="funcCode"></param>
-    /// <param name="authType">  要求的授权类型，默认为管理员类型 </param>
-    public UserFuncMetaAttribute(string funcCode, AuthorizeType authType = AuthorizeType.Admin)
+    /// <param name="idType">  要求的授权类型，默认为管理员类型 </param>
+    public UserFuncMetaAttribute(string funcCode, IdentityType idType = IdentityType.Admin)
     {
         Order = AttributeConst.Order_User_FuncMetaAttribute;
 
         _funcCode = funcCode;
-        portal_auth_type = authType;
+        id_type = idType;
     }
 
     /// <inheritdoc />
@@ -62,7 +62,7 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
         if (!string.IsNullOrEmpty(scene_query_name))
             sceneCode = context.HttpContext.Request.Query[scene_query_name].ToString();
 
-        appInfo.ask_auth.portal_auth_type = portal_auth_type;
+        appInfo.ask_auth.id_type = id_type;
         appInfo.ask_auth.func_code = string.Concat(_funcCode, sceneCode);
 
         return Task.FromResult(Resp.Success());
