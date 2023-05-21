@@ -17,13 +17,13 @@ namespace OSS.Core.Test
             var newIdentity= new AppIdentity();
             newIdentity.FormatFromTicket(ticket);
 
-            Assert.IsTrue(newIdentity.CheckSign(secret,10, "token").IsSuccess(),"应用签名加密失败!");
+            Assert.IsTrue(newIdentity.CheckSign(secret,10, "token").IsSuccess(),"?????????????!");
 
             var userIdentity = new UserIdentity
             {
-                id_type = IdentityType.Admin
+                type = UserIdentityType.Admin
             };
-            Assert.IsTrue(userIdentity.auth_type == AuthorizeType.Admin, "扩展 IdentityType 属性失败!");
+            Assert.IsTrue(userIdentity.auth_type == AuthorizeType.Admin, "??? IdentityType ???????!");
         }
     }
 }

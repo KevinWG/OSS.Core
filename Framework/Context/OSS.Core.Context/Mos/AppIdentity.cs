@@ -49,6 +49,8 @@ namespace OSS.Core.Context
         /// </summary>
         public string module_name { get; set; } = string.Empty;
 
+
+
         /// <summary>
         ///  当前功能接口预定义的要求权限信息
         ///     （系统定义
@@ -62,24 +64,24 @@ namespace OSS.Core.Context
     public class AskAuth
     {
         /// <summary>
-        ///  权限码
-        /// </summary>
-        public string func_code { get; set; } = string.Empty;
-
-        /// <summary>
-        ///  要求的登录类型限制
-        /// </summary>
-        public IdentityType id_type { get; set; } = IdentityType.User;
-        
-        /// <summary>
-        /// 来源模式
+        /// 要求授权模式
         /// </summary> 
         public AppAuthMode app_auth_mode { get; set; } = AppAuthMode.None;
 
         /// <summary>
-        ///   应用类型
+        ///  要求的应用类型
         /// </summary>
         public AppType app_type { get; set; } = AppType.Single;
+
+        /// <summary>
+        ///  要求的权限码
+        /// </summary>
+        public string func_code { get; set; } = string.Empty;
+
+        /// <summary>
+        ///  要求的用户身份类型 
+        /// </summary>
+        public UserIdentityType user_identity_type { get; set; } = UserIdentityType.NormalUser;
     }
 
 

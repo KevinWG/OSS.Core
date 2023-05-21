@@ -50,13 +50,13 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return identityRes;
 
         var userIdentity = identityRes.data;
-        if (userIdentity.id_type > appIdentity.ask_auth.id_type)
+        if (userIdentity.type > appIdentity.ask_auth.user_identity_type)
         {
-            switch (userIdentity.id_type)
+            switch (userIdentity.type)
             {
-                case IdentityType.SocialAppUser:
+                case UserIdentityType.SocialAppUser:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserFromSocial, "需要绑定系统账号");
-                case IdentityType.UserWithEmpty:
+                case UserIdentityType.NormalUserWithEmpty:
                     return new Resp<UserIdentity>().WithResp(RespCodes.UserIncomplete, "需要绑定手机号!");
             }
 
@@ -79,7 +79,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return Resp.Success();
         }
 
-        if (userIdentity.id_type == IdentityType.SuperAdmin)
+        if (userIdentity.type == UserIdentityType.SuperAdmin)
         {
             userIdentity.data_level = FuncDataLevel.All;
             return Resp.Success();
