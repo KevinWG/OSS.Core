@@ -6,6 +6,8 @@ namespace OSS.Core.Comp.DirConfig.Mysql;
 
 public static class MysqlDirConfigCompExtension
 {
+    private static DirConfigMysqlTool? _dirConfig;
+
     /// <summary>
     /// 使用字典组件（Mysql存储）
     /// </summary>
@@ -13,9 +15,13 @@ public static class MysqlDirConfigCompExtension
     /// <param name="opt"></param>
     public static void UserMysqlDirConfigTool(this IServiceCollection serviceCollection, ConnectionOption? opt = null)
     {
-        DirConfigHelper.DefaultDirTool = new DirConfigMysqlTool(opt ?? GetDefaultOption());
+        _dirConfig ??= new DirConfigMysqlTool(opt ?? GetDefaultOption());
+
+        DirConfigHelper.ToolProvider = (s) => _dirConfig;
     }
 
+
+    private static ListConfigMysqlTool? _listConfig = null;
     /// <summary>
     /// 使用列表配置项组件（Mysql存储）
     /// </summary>
@@ -23,7 +29,9 @@ public static class MysqlDirConfigCompExtension
     /// <param name="opt"></param>
     public static void UserMysqlListConfigTool(this IServiceCollection serviceCollection, ConnectionOption? opt = null)
     {
-        ListConfigHelper.DefaultDirTool = new ListConfigMysqlTool(opt ?? GetDefaultOption());
+        _listConfig ??= new ListConfigMysqlTool(opt ?? GetDefaultOption());
+
+        ListConfigHelper.ToolProvider = (s) => _listConfig;
     }
 
     private static ConnectionOption GetDefaultOption()
@@ -35,7 +43,6 @@ public static class MysqlDirConfigCompExtension
             WriteConnection = ConfigHelper.GetConnectionString("WriteConnection"),
         };
     }
-    private static readonly ConnectionOption _defaultOption = new();
 }
 
 public class ConnectionOption
