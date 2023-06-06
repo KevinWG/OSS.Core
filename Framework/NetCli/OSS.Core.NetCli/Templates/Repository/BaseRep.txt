@@ -2,6 +2,7 @@
 using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.Domain;
+using OSS.Common.Resp;
 using OSS.Core.Rep.Mysql;
 using OSS.Tools.Config;
 
@@ -32,7 +33,7 @@ public abstract class Base{module_name}Rep<MType,IdType> : BaseMysqlRep<MType, I
     /// <returns></returns>
     protected static StringBuilder BuildWhereSql_BasicFilter(StatusSearchReq sReq, IDictionary<string, object> sqlParas)
     {
-        if (searchReq.status <= (int)CommonStatus.Deleted)
+        if (sReq.status <= (int)CommonStatus.Deleted)
             throw new RespArgumentException("status", "status 值超过可查询的范围!");
 
         var whereBuilder = new StringBuilder("where");
