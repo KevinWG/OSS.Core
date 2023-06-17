@@ -6,7 +6,7 @@ using System.Text;
 namespace OSS.Core.Context;
 
 /// <summary>
-/// 应用信息
+///  来源(请求方)应用信息
 /// </summary>
 public class AppAuthReq
 {

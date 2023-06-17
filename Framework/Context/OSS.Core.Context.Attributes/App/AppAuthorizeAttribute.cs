@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Filters;
-
 using OSS.Common.Resp;
 using OSS.Core.Context.Attributes.Common;
 
@@ -41,7 +41,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
         CompleteAppIdentity(context.HttpContext, appIdentity);
 
         //2. Tenant 验证
-        return await TenantAuthorize(appIdentity, _appOption);
+        return await TenantAuthorize(_appOption);
     }
 
     #region 应用验证
@@ -58,7 +58,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
         if (context.Request.Headers.TryGetValue("Authorization", out var authValue))
         {
-            appIdentity.authorization = authValue;
+            appIdentity.authorization = authValue.ToString();
         }
 
         switch (appIdentity.auth_mode)
@@ -87,7 +87,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
     private async Task<Resp> CheckAppSign(AppIdentity appIdentity, HttpContext context)
     {
-        var authTicketStr = context.Request.Headers[_appOption.SignModeTicketHeaderName];
+        string? authTicketStr = context.Request.Headers[_appOption.SignModeTicketHeaderName];
         appIdentity.FormatFromTicket(authTicketStr);
 
         if (_appOption.SignAccessProvider == null)
@@ -97,10 +97,10 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
         if (!accessRes.IsSuccess())
             return accessRes;
 
-        var access = accessRes.data;
-
-        const int expireSecs = 60 * 60 * 2;
-        return appIdentity.CheckSign(access.access_secret, expireSecs,appIdentity.authorization);
+        var access = accessRes.data!;
+        appIdentity.app_type = access.app_type;
+        
+        return appIdentity.CheckSign(access.access_secret, access.sign_expire_time, appIdentity.authorization);
     }
 
     // 补充应用全局信息
@@ -120,13 +120,13 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
     // 获取IP地址
     private static string GetIpAddress(HttpContext context)
     {
-        string ipAddress = context.Request.Headers["X-Forwarded-For"];
+        string? ipAddress = context.Request.Headers["X-Forwarded-For"];
         return !string.IsNullOrEmpty(ipAddress) ? ipAddress : context.Connection.RemoteIpAddress.ToString();
     }
 
     #endregion
 
-    private static async Task<Resp> TenantAuthorize(AppIdentity appInfo, AppAuthOption? appOption)
+    private static async Task<Resp> TenantAuthorize(AppAuthOption? appOption)
     {
         if (appOption?.TenantAuthProvider == null)
             return Resp.Success();
@@ -135,7 +135,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
         if (!identityRes.IsSuccess())
             return identityRes;
 
-        CoreContext.Tenant.Identity = identityRes.data;
+        CoreContext.Tenant.Identity = identityRes.data!;
         return identityRes;
     }
 }

@@ -10,26 +10,34 @@ namespace OSS.Core.Context.Attributes
     [AttributeUsage(AttributeTargets.Class|AttributeTargets.Method)]
     public class ModuleAuthorizeAttribute : BaseOrderAuthorizeAttribute
     {
-        private ModuleAuthOption _option;
+        private readonly ModuleAuthOption _option;
 
+        /// <inheritdoc />
         public ModuleAuthorizeAttribute(ModuleAuthOption option)
         {
             Order   = AttributeConst.Order_Module_AuthAttributeOrder;
             _option = option;
         }
 
+        /// <inheritdoc />
         public override  Task<Resp> Authorize(AuthorizationFilterContext context)
         {
             var appInfo = CoreContext.App.Identity;
-            if (appInfo.app_type == AppType.SystemManager || _option.ModuleProvider==null)
+            if (appInfo.app_type == AppType.SystemManager || _option.Provider==null)
                 return Task.FromResult(Resp.Success());
 
-            return _option.ModuleProvider.Authorize();
+            return _option.Provider.Authorize();
         }
     }
 
+    /// <summary>
+    /// 模块验证的选项信息
+    /// </summary>
     public class ModuleAuthOption 
     {
-        public IModuleAuthProvider? ModuleProvider { get; set; }
+        /// <summary>
+        ///  模块验证的实现提供者
+        /// </summary>
+        public IModuleAuthProvider? Provider { get; set; }
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace OSS.Core.Domain;
 
 /// <summary>
-///  基础所有者实体（租户）
+///  所有者实体（租户+用户）基类
 /// </summary>
 /// <typeparam name="IdType"></typeparam>
 public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>, IDomainTenantId<long>
@@ -14,7 +14,7 @@ public class BaseTenantOwnerMo<IdType> : BaseOwnerMo<IdType>, IDomainTenantId<lo
 
 
 /// <summary>
-///  基础所有者实体（租户）
+///  所有者实体（租户+用户+状态）基类
 /// </summary>
 /// <typeparam name="IdType"></typeparam>
 public class BaseTenantOwnerAndStateMo<IdType> : BaseTenantOwnerMo<IdType>

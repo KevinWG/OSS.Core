@@ -32,7 +32,7 @@ namespace OSS.Core.Context
         /// <returns></returns>
         public static long GetUserLongId()
         {
-            return CoreContext.User.Identity.id.ToInt64();
+            return User.Identity.id.ToInt64();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace OSS.Core.Context
         /// <returns></returns>
         public static long GetTenantLongId()
         {
-            return CoreContext.Tenant.Identity.id.ToInt64();
+            return Tenant.Identity.id.ToInt64();
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace OSS.Core.Context
         /// <returns></returns>
         public static long GetUserLongIdSafely()
         {
-            return CoreContext.User.IsAuthenticated? CoreContext.User.Identity.id.ToInt64():0;
+            return User.IsAuthenticated? User.Identity.id.ToInt64():0;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace OSS.Core.Context
         /// <returns></returns>
         public static long GetTenantLongIdSafely()
         {
-            return CoreContext.Tenant.IsAuthenticated? CoreContext.Tenant.Identity.id.ToInt64():0;
+            return Tenant.IsAuthenticated? Tenant.Identity.id.ToInt64():0;
         }
     }
     

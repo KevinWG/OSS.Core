@@ -13,7 +13,7 @@
 namespace OSS.Core.Context
 {
     /// <summary>
-    ///   应用的授权认证信息
+    ///   来源（请求方）应用的授权认证信息
     /// </summary>
     public class AppIdentity : AppAuthReq
     {

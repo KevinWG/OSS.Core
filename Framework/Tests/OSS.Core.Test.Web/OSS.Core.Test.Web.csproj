@@ -10,4 +10,9 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Context\OSS.Core.Context.Attributes\OSS.Core.Context.Attributes.csproj" />
+    <ProjectReference Include="..\..\Extension\OSS.Core.Extension.Mvc.Captcha.Ali\OSS.Core.Extension.Mvc.Captcha.Ali.csproj" />
+  </ItemGroup>
+
 </Project>

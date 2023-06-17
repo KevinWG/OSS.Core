@@ -9,14 +9,17 @@ namespace OSS.Core.Context.Attributes;
 /// </summary>
 public class AppMetaAttribute : BaseOrderAuthorizeAttribute
 {
+    /// <inheritdoc />
     public AppMetaAttribute(AppType type) : this(AppAuthMode.None, type)
     {
     }
 
+    /// <inheritdoc />
     public AppMetaAttribute(AppAuthMode authMode) : this(authMode, AppType.Single)
     {
     }
 
+    /// <inheritdoc />
     public AppMetaAttribute(AppAuthMode authMode, AppType type)
     {
         Order = AttributeConst.Order_App_MetaAttribute;

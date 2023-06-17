@@ -5,7 +5,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <Description>OSS.Core 全局上下文扩展中间价类库</Description>
-	  <Version>2.13</Version>
+	  <Version>2.14</Version>
 	  <PackageIcon>logo.png</PackageIcon>
 	  <PackageIconUrl />
 	  <PackageReleaseNotes>优化授权加密算法等处理</PackageReleaseNotes>
@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="OSS.Tools.Config" Version="2.0.0" />
-    <PackageReference Include="OSS.Tools.Log" Version="2.0.0" />
+	  <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+	  <PackageReference Include="OSS.Tools.Config" Version="2.0.0" />
+    <PackageReference Include="OSS.Tools.Log" Version="2.1.0" />
   </ItemGroup>
 
   <ItemGroup>

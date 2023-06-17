@@ -17,6 +17,7 @@ namespace OSS.Core.Context.Attributes
             Order = AttributeConst.Order_App_MetaAttribute;
         }
 
+        /// <inheritdoc />
         public override Task<Resp> Authorize(AuthorizationFilterContext context)
         {
             if (!CoreContext.App.IsInitialized)

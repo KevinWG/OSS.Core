@@ -13,21 +13,26 @@ public static class BaseMoExtension
     ///  从上下文中初始化基础信息
     /// </summary>
     /// <param name="t"></param>
-    public static void FormatBaseByContext(this BaseOwnerMo<long> t)
+    public static void FormatBaseByContext(this BaseMo<long> t)
     {
+        t.add_time = DateTime.Now.ToUtcSeconds();
         if (t.id <= 0)
             t.id = NumHelper.SmallSnowNum();
+    }
 
-        if (t.owner_uid <= 0)
-        {
-            if (CoreContext.User.IsAuthenticated)
-            {
-                var userIdentity = CoreContext.User.Identity;
-                t.owner_uid = userIdentity.id.ToInt64();
-            }
-        }
-
-        t.add_time = DateTime.Now.ToUtcSeconds();
+    /// <summary>
+    ///  从上下文中初始化基础信息
+    /// </summary>
+    /// <param name="t"></param>
+    public static void FormatBaseByContext(this BaseOwnerMo<long> t)
+    {
+        ((BaseMo<long>)t).FormatBaseByContext();
+        
+        if (t.owner_uid > 0 || !CoreContext.User.IsAuthenticated)
+            return;
+ 
+        var userIdentity = CoreContext.User.Identity;
+        t.owner_uid = userIdentity.id.ToInt64();
     }
 
     /// <summary>
