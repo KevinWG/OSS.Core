@@ -12,6 +12,11 @@ public class {entity_name}Service : I{entity_name}OpenService
 {
     private static readonly {rep_define};
 
+    static {entity_name}Service() 
+    {
+        // 放置解决方案内其他公用服务的引用
+        // 如: _xxxService = InsContainer<IxxxCommonService>.Instance;
+    }
 
     /// <inheritdoc />
     public async Task<TokenPageListResp<{entity_name}Mo>> MSearch(Search{entity_name}Req req)
