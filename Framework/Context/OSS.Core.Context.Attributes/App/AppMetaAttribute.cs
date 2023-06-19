@@ -15,7 +15,7 @@ public class AppMetaAttribute : BaseOrderAuthorizeAttribute
     }
 
     /// <inheritdoc />
-    public AppMetaAttribute(AppAuthMode authMode) : this(authMode, AppType.Single)
+    public AppMetaAttribute(AppAuthMode authMode) : this(authMode, AppType.Normal)
     {
     }
 

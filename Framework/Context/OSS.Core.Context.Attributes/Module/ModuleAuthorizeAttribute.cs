@@ -23,7 +23,7 @@ namespace OSS.Core.Context.Attributes
         public override  Task<Resp> Authorize(AuthorizationFilterContext context)
         {
             var appInfo = CoreContext.App.Identity;
-            if (appInfo.app_type == AppType.SystemManager || _option.Provider==null)
+            if (appInfo.app_type == AppType.SystemPlatform || _option.Provider==null)
                 return Task.FromResult(Resp.Success());
 
             return _option.Provider.Authorize();

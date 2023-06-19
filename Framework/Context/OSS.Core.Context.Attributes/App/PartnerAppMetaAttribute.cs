@@ -26,7 +26,7 @@ namespace OSS.Core.Context.Attributes
             var sysInfo = CoreContext.App.Identity;
 
             sysInfo.auth_mode = AppAuthMode.PartnerContract;
-            sysInfo.app_type  = AppType.Single;
+            sysInfo.app_type  = AppType.Normal;
             sysInfo.UDID      = "WEB";
 
             return Task.FromResult(Resp.Success());

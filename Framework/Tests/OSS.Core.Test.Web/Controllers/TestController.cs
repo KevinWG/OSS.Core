@@ -7,12 +7,12 @@ namespace OSS.Core.Test.Web.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    [AppMeta(AppAuthMode.None, AppType.Single)]
+    [AppMeta(AppAuthMode.None, AppType.Normal)]
     [ModuleMeta("test")]
     public class TestController : BaseController
     {
         [HttpGet]
-        [AppMeta(AppAuthMode.AppSign, AppType.Single)]
+        [AppMeta(AppAuthMode.AppSign, AppType.Normal)]
         public IEnumerable<AppAccess> TestConfig()
         {
             List<AppAccess> _appAccessList =new List<AppAccess>();
@@ -20,7 +20,7 @@ namespace OSS.Core.Test.Web.Controllers
             return _appAccessList;
         }
     }
-    [AppMeta(AppAuthMode.AppSign,AppType.SystemManager)]
+    [AppMeta(AppAuthMode.AppSign,AppType.SystemPlatform)]
     public class BaseController : ControllerBase
     {
        

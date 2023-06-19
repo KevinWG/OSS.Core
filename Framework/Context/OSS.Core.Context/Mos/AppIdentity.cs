@@ -32,7 +32,7 @@ namespace OSS.Core.Context
         /// <summary>
         ///   应用类型
         /// </summary>
-        public AppType app_type { get; set; } = AppType.Single;
+        public AppType app_type { get; set; } = AppType.Normal;
 
         /// <summary>
         /// 用户授权信息
@@ -71,7 +71,7 @@ namespace OSS.Core.Context
         /// <summary>
         ///  要求的应用类型
         /// </summary>
-        public AppType app_type { get; set; } = AppType.Single;
+        public AppType app_type { get; set; } = AppType.Normal;
 
         /// <summary>
         ///  要求的权限码

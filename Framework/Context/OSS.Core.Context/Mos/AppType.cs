@@ -7,22 +7,12 @@
 public enum AppType
 {
     /// <summary>
-    ///  平台内部管理应用（多租户）
+    ///  系统平台级应用
     /// </summary>
-    SystemManager = 1,
-
-    /// <summary>
-    ///  平台内部应用（单租户）
-    /// </summary>
-    System = 30,
-
-    /// <summary>
-    ///  平台外部多租户代理应用 (多租户)
-    /// </summary>
-    Proxy = 60,
+    SystemPlatform = 1,
 
     /// <summary>
     ///  独立应用
     /// </summary>
-    Single = 80
+    Normal = 100
 }
