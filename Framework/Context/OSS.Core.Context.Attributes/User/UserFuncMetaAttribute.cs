@@ -62,8 +62,8 @@ public class UserFuncMetaAttribute : BaseOrderAuthorizeAttribute
         if (!string.IsNullOrEmpty(scene_query_name))
             sceneCode = context.HttpContext.Request.Query[scene_query_name].ToString();
 
-        appInfo.ask_auth.user_identity_type = user_identity_type;
-        appInfo.ask_auth.func_code = string.Concat(_funcCode, sceneCode);
+        appInfo.ask_meta.user_identity_type = user_identity_type;
+        appInfo.ask_meta.func_code = string.Concat(_funcCode, sceneCode);
 
         return Task.FromResult(Resp.Success());
     }

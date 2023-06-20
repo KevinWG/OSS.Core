@@ -47,7 +47,7 @@ namespace OSS.Core.Context.Attributes
                 error     = ex;
             }
 
-            LogHelper.Error(string.Concat("请求地址:", context.Request.Path, "错误信息：", error.Message, "详细信息：", error.StackTrace),
+            await LogHelper.Error(string.Concat("请求地址:", context.Request.Path, "错误信息：", error.Message, "详细信息：", error.StackTrace),
                 nameof(CoreExceptionMiddleware));
 
             #if DEBUG

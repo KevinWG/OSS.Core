@@ -39,8 +39,8 @@ public class ModuleMetaAttribute : BaseOrderAuthorizeAttribute
 
         var appInfo = CoreContext.App.Identity;
 
-        appInfo.module_name = _moduleName;
-
+        appInfo.ask_meta.module_name = _moduleName;
+        
         return Task.FromResult(Resp.Success());
     }
 }

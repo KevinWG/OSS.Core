@@ -12,7 +12,7 @@ namespace OSS.Core.Context
     internal static class ContextHelper
     {
         
-        private static readonly AsyncLocal<CoreIdentities> _items = new AsyncLocal<CoreIdentities>();
+        private static readonly AsyncLocal<CoreIdentities> _items = new();
 
         internal static void SetAppIdentity(AppIdentity identity)
         {

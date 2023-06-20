@@ -10,13 +10,15 @@ namespace OSS.Core.Context.Attributes;
 /// </summary>
 public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
 {
-    private readonly UserAuthOption _userOption;
+    private readonly IUserAuthProvider _userProvider;
+    private readonly UserAuthOption?   _userOption;
 
     /// <inheritdoc />
-    public UserAuthorizeAttribute(UserAuthOption userOption)
+    public UserAuthorizeAttribute(IUserAuthProvider userAuthProvider,UserAuthOption? userOption=null)
     {
-        Order       = AttributeConst.Order_User_AuthAttributeOrder;
-        _userOption = userOption;
+        Order         = AttributeConst.Order_User_AuthAttributeOrder;
+        _userOption   = userOption;
+        _userProvider = userAuthProvider ?? throw new ArgumentNullException(nameof(userAuthProvider),"用户验证实现(UserAuthProvider)没有提供！"); 
     }
 
     /// <summary>
@@ -38,19 +40,19 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
         if (!userRes.IsSuccess())
             return userRes;
 
-        var userIdentity = userRes.data;
+        var userIdentity = userRes.data!;
         return await FuncAuthorize(appInfo, userIdentity, _userOption);
     }
 
 
     private async Task<Resp<UserIdentity>> UserAuthorize(AppIdentity appIdentity)
     {
-        var identityRes = await _userOption.UserProvider.GetIdentity();
+        var identityRes = await _userProvider.GetIdentity();
         if (!identityRes.IsSuccess())
             return identityRes;
 
-        var userIdentity = identityRes.data;
-        if (userIdentity.type > appIdentity.ask_auth.user_identity_type)
+        var userIdentity = identityRes.data!;
+        if (userIdentity.type > appIdentity.ask_meta.user_identity_type)
         {
             switch (userIdentity.type)
             {
@@ -68,10 +70,10 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
     }
 
 
-    private static async Task<Resp> FuncAuthorize(AppIdentity appInfo, UserIdentity userIdentity, UserAuthOption opt)
+    private static async Task<Resp> FuncAuthorize(AppIdentity appInfo, UserIdentity userIdentity, UserAuthOption? opt)
     {
-        var askFunc = appInfo.ask_auth;
-        if (opt.FuncProvider == null)
+        var askFunc = appInfo.ask_meta;
+        if (opt?.FuncProvider == null)
         {
             if (!string.IsNullOrEmpty(askFunc.func_code))
                 throw new NotImplementedException("当前方法设置了权限码，但系统未实现权限码的判断接口！");
@@ -99,22 +101,7 @@ public class UserAuthorizeAttribute : BaseOrderAuthorizeAttribute
 public class UserAuthOption
 {
     /// <summary>
-    ///  用户授权选项
-    /// </summary>
-    /// <param name="userProvider"></param>
-    /// <exception cref="Exception"></exception>
-    public UserAuthOption(IUserAuthProvider userProvider)
-    {
-        UserProvider = userProvider ?? throw new Exception("UserAuthOption 中 UserProvider 接口对象必须提供！");
-    }
-
-    /// <summary>
     ///  功能方法权限判断接口
     /// </summary>
     public IFuncAuthProvider? FuncProvider { get; set; }
-
-    /// <summary>
-    ///  用户授权登录判断接口
-    /// </summary>
-    public IUserAuthProvider UserProvider { get; set; }
 }

@@ -24,7 +24,7 @@ public class AppAccess : AccessSecret
     /// <summary>
     ///  应用类型
     /// </summary>
-    public AppType app_type { get; set; } = AppType.Normal;
+    public AppType type { get; set; } = AppType.Normal;
 
     /// <summary>
     ///  签名时间戳有效时长(秒数,默认五分钟)

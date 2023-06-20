@@ -91,12 +91,12 @@
         Admin = 200,
 
         /// <summary>
-        ///   普通用户【客户】
+        ///   普通用户
         /// </summary>
         NormalUser = 300,
 
         /// <summary>
-        ///   空白普通用户【客户】
+        ///   空白普通用户
         /// （关键信息缺失，如手机号）
         /// </summary>
         NormalUserWithEmpty = 310,

@@ -12,18 +12,18 @@ namespace OSS.Core.Test.Web.Controllers
     public class TestController : BaseController
     {
         [HttpGet]
-        [AppMeta(AppAuthMode.AppSign, AppType.Normal)]
-        public IEnumerable<AppAccess> TestConfig()
+        public IEnumerable<AppAccess> Config()
         {
             List<AppAccess> _appAccessList =new List<AppAccess>();
             ConfigHelper.Configuration.GetSection("Access").Bind(_appAccessList);
             return _appAccessList;
         }
     }
+
+
     [AppMeta(AppAuthMode.AppSign,AppType.SystemPlatform)]
     public class BaseController : ControllerBase
     {
-       
     }
 
 }

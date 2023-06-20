@@ -40,8 +40,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
         CompleteAppIdentity(context.HttpContext, appIdentity);
 
-        //2. Tenant 验证
-        return await TenantAuthorize(_appOption);
+        return res;
     }
 
     #region 应用验证
@@ -76,8 +75,8 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
         }
 
         //  验证要求的类型
-        if (appIdentity.auth_mode > appIdentity.ask_auth.app_auth_mode ||
-            appIdentity.app_type > appIdentity.ask_auth.app_type)
+        if (appIdentity.auth_mode > appIdentity.ask_meta.app_auth_mode ||
+            appIdentity.type > appIdentity.ask_meta.app_type)
         {
             return new Resp(SysRespCodes.NotAllowed, "应用权限不足!");
         }
@@ -98,7 +97,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
             return accessRes;
 
         var access = accessRes.data!;
-        appIdentity.app_type = access.app_type;
+        appIdentity.type = access.type;
         
         return appIdentity.CheckSign(access.access_secret, access.sign_expire_time, appIdentity.authorization);
     }
@@ -126,18 +125,6 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
     #endregion
 
-    private static async Task<Resp> TenantAuthorize(AppAuthOption? appOption)
-    {
-        if (appOption?.TenantAuthProvider == null)
-            return Resp.Success();
-
-        var identityRes = await appOption.TenantAuthProvider.GetIdentity();
-        if (!identityRes.IsSuccess())
-            return identityRes;
-
-        CoreContext.Tenant.Identity = identityRes.data!;
-        return identityRes;
-    }
 }
 
 /// <summary>
@@ -154,9 +141,4 @@ public class AppAuthOption
     ///  签名秘钥提供者
     /// </summary>
     public IAppAccessProvider? SignAccessProvider { get; set; }
-
-    /// <summary>
-    ///  租户授权实现
-    /// </summary>
-    public ITenantAuthProvider? TenantAuthProvider { get; set; }
 }
