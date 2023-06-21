@@ -69,7 +69,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
                 break;
 
             default:
-                appIdentity.app_ver = CoreContext.App.Self.AppVersion;
+                appIdentity.app_ver = CoreContext.App.Self.version;
                 appIdentity.UDID = "WEB";
                 break;
         }

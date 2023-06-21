@@ -45,7 +45,7 @@ public class BaseRemoteRequest : OssHttpRequest
         var appIdentity = CoreContext.App.Identity;
 
         var ticket = CoreContext.App.Identity.ToTicket(_access.access_key, _access.access_secret,
-            CoreContext.App.Self.AppVersion, appIdentity.authorization);
+            CoreContext.App.Self.version, appIdentity.authorization);
 
         r.Headers.Add("Accept", "application/json");
         r.Headers.Add(CoreClientHelper.SignTicketHeaderName, ticket);

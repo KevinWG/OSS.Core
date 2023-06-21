@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-
 using OSS.Common.Extension;
 using OSS.Tools.Config;
 
@@ -21,7 +20,7 @@ namespace OSS.Core.Context.Attributes
         }
 
         /// <summary>
-        /// 初始化 Core 全局上下文初始化中间件
+        /// 初始化 Core 全局应用信息 和 中间件上下文容器
         /// </summary>
         /// <param name="app"></param>
         /// <param name="option"></param>
@@ -40,13 +39,10 @@ namespace OSS.Core.Context.Attributes
         {
             var appInfo = new AppInfo
             {
-                AppWorkerId = ConfigHelper.GetSection("AppConfig:AppWorkerId")?.Value.ToInt32() ?? 0,
-                AppVersion  = ConfigHelper.GetSection("AppConfig:AppVersion")?.Value ?? string.Empty,
-
-                //AccessKey    = ConfigHelper.GetSection("AppConfig:AccessKey")?.Value ?? string.Empty,
-                //AccessSecret = ConfigHelper.GetSection("AppConfig:AccessSecret")?.Value ?? string.Empty
+                worker_id = ConfigHelper.GetSection("AppConfig:WorkerId")?.Value.ToInt32() ?? 0,
+                version   = ConfigHelper.GetSection("AppConfig:Version")?.Value ?? "1.0",
+                base_url  = ConfigHelper.GetSection("AppConfig:BaseUrl")?.Value ?? string.Empty
             };
-
             return appInfo;
         }
     }
