@@ -24,6 +24,22 @@ public static class BaseMoExtension
     ///  从上下文中初始化基础信息
     /// </summary>
     /// <param name="t"></param>
+    public static void FormatBaseByContext(this BaseTenantMo<long> t)
+    {
+        ((BaseMo<long>)t).FormatBaseByContext();
+
+        if (t.tenant_id > 0) return;
+        if (CoreContext.Tenant.IsAuthenticated)
+        {
+            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+        }
+    }
+
+
+    /// <summary>
+    ///  从上下文中初始化基础信息
+    /// </summary>
+    /// <param name="t"></param>
     public static void FormatBaseByContext(this BaseOwnerMo<long> t)
     {
         ((BaseMo<long>)t).FormatBaseByContext();

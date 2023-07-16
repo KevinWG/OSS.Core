@@ -10,12 +10,6 @@ public class BaseOwnerMo<IdType> : BaseMo<IdType>
     ///  【创建/归属】用户Id
     /// </summary>
     public long owner_uid { get; set; }
-
-    /// <summary>
-    ///  创建时间
-    /// </summary>
-    public long add_time { get; set; }
-
 }
 
 /// <summary>
