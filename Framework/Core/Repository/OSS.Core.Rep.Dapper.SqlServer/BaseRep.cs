@@ -156,7 +156,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             if (string.IsNullOrEmpty(whereSql))
                 throw new RespException(SysRespCodes.AppError,"更新语句 where 条件不能为空！");
 
-            var sql = string.Concat("UPDATE ", TableName, " SET ", updateColNamesSql, " ", whereSql);
+            var sql = string.Concat("UPDATE ", TableName, " t SET ", updateColNamesSql, " ", whereSql);
             var row = await con.ExecuteAsync(sql, para);
 
             return row > 0 ? new Resp() : new Resp().WithResp(RespCodes.OperateFailed, "更新失败!");
@@ -180,9 +180,9 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             throw new Exception(" 删除 Id 不能为空 ！");
 
         if (!HaveTenantIdColumn)
-            return SoftDelete("id=@id", new { id });
+            return SoftDelete("t.id=@id", new { id });
 
-        const string whereSql = "id=@id and tenant_id=@tenant_id";
+        const string whereSql = "t.id=@id and t.tenant_id=@tenant_id";
         var tenantId = CoreContext.GetTenantLongId();
 
         return SoftDelete(whereSql, new { id, tenant_id = tenantId });
@@ -218,7 +218,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
         
         return ExecuteWriteAsync(async con =>
         {
-            var sql = $"UPDATE {TableName} SET status={(int) CommonStatus.Deleted} WHERE {whereSql}";
+            var sql = $"UPDATE {TableName} t SET t.status={(int) CommonStatus.Deleted} WHERE {whereSql}";
 
             var rows = await con.ExecuteAsync(sql, whereParas);
             return rows > 0
@@ -255,18 +255,18 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
         if (id == null)
             throw new Exception(" 查询Id不能为空 ！");
 
-        var sql= string.Concat("select * from ", TableName, " WHERE id=@id");
+        var sql= string.Concat("select * from ", TableName, " t WHERE t.id=@id");
         var dirPara = new Dictionary<string, object> {{"@id", id}};
 
         if (HaveStatusColumn)
         {
-            sql = string.Concat(sql, " and status>@status");
+            sql = string.Concat(sql, " and t.status>@status");
             dirPara.Add("@status", (int) CommonStatus.Deleted);
         }
 
         if (HaveTenantIdColumn)
         {
-            sql = string.Concat(sql, " and tenant_id=@tenant_id");
+            sql = string.Concat(sql, " and t.tenant_id=@tenant_id");
             dirPara.Add("@tenant_id", CoreContext.GetTenantLongId());
         }
 
