@@ -6,7 +6,7 @@ using System.Data;
 namespace OSS.Core.Rep.Dapper
 {
     public class BaseSqlServerRep<TType, IdType> : BaseRep<TType, IdType>
-        where TType : BaseMo<IdType>
+       // where TType : BaseMo<IdType>
     {
         private readonly string _writeConnection;
         private readonly string _readConnection;

@@ -1,6 +1,5 @@
 ﻿
 using MySql.Data.MySqlClient;
-using OSS.Core.Domain;
 using OSS.Core.Rep.Dapper;
 using System.Data;
 
@@ -12,7 +11,7 @@ namespace OSS.Core.Rep.Mysql;
 /// <typeparam name="TType"></typeparam>
 /// <typeparam name="IdType"></typeparam>
 public abstract class BaseMysqlRep<TType, IdType> : BaseRep<TType, IdType>
-    where TType : BaseMo<IdType>
+   // where TType : BaseMo<IdType>
 {
     private readonly string _writeConnection;
     private readonly string _readConnection;
