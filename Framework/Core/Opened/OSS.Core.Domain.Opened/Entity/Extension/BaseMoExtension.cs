@@ -9,6 +9,10 @@ namespace OSS.Core.Domain;
 /// </summary>
 public static class BaseMoExtension
 {
+
+    //   ========  数字类型  ========
+
+
     /// <summary>
     ///  从上下文中初始化基础信息
     /// </summary>
@@ -58,6 +62,55 @@ public static class BaseMoExtension
     public static void FormatBaseByContext(this BaseTenantOwnerMo<long> t)
     {
         ((BaseOwnerMo<long>)t).FormatBaseByContext();
+
+        if (t.tenant_id > 0) return;
+
+        if (CoreContext.Tenant.IsAuthenticated)
+        {
+            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+        }
+    }
+
+
+    //   ========  字符串类型  ========
+
+
+    /// <summary>
+    ///  从上下文中初始化基础信息
+    /// </summary>
+    /// <param name="t"></param>
+    public static void FormatBaseByContext(this BaseTenantMo<string> t)
+    {
+        t.add_time = DateTime.Now.ToUtcSeconds();
+        if (t.tenant_id > 0) return;
+        if (CoreContext.Tenant.IsAuthenticated)
+        {
+            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+        }
+    }
+
+
+    /// <summary>
+    ///  从上下文中初始化基础信息
+    /// </summary>
+    /// <param name="t"></param>
+    public static void FormatBaseByContext(this BaseOwnerMo<string> t)
+    {
+        t.add_time = DateTime.Now.ToUtcSeconds();
+        if (t.owner_uid > 0 || !CoreContext.User.IsAuthenticated)
+            return;
+
+        var userIdentity = CoreContext.User.Identity;
+        t.owner_uid = userIdentity.id.ToInt64();
+    }
+
+    /// <summary>
+    ///  从上下文中初始化基础信息
+    /// </summary>
+    /// <param name="t"></param>
+    public static void FormatBaseByContext(this BaseTenantOwnerMo<string> t)
+    {
+        ((BaseOwnerMo<string>)t).FormatBaseByContext();
 
         if (t.tenant_id > 0) return;
 
