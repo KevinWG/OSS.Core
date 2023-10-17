@@ -10,8 +10,87 @@ namespace OSS.Core.Domain;
 public static class BaseMoExtension
 {
 
-    //   ========  数字类型  ========
+    #region BaseMo 相互转化
 
+    /// <summary>
+    ///  复制BaseMo属性信息
+    /// </summary>
+    /// <typeparam name="TId"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="source"></param>
+    public static void CopyBaseFrom<TId>(this BaseMo<TId> target, BaseMo<TId> source)
+    {
+        target.id       = source.id;
+        target.add_time = source.add_time;
+    }
+
+    /// <summary>
+    ///  复制 BaseTenantMo 属性信息
+    /// </summary>
+    /// <typeparam name="TId"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="source"></param>
+    public static void CopyBaseFrom<TId>(this BaseTenantMo<TId> target, BaseTenantMo<TId> source)
+    {
+        target.id       = source.id;
+        target.add_time = source.add_time;
+        target.tenant_id = source.tenant_id;
+    }
+
+    /// <summary>
+    ///  复制 BaseOwnerMo 属性信息
+    /// </summary>
+    /// <typeparam name="TId"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="source"></param>
+    public static void CopyBaseFrom<TId>(this BaseOwnerMo<TId> target, BaseOwnerMo<TId> source)
+    {
+        target.id        = source.id;
+        target.add_time  = source.add_time;
+        target.owner_uid = source.owner_uid;
+    }
+
+
+    /// <summary>
+    ///  复制 BaseTenantOwnerMo 属性信息
+    /// </summary>
+    /// <typeparam name="TId"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="source"></param>
+    public static void CopyBaseFrom<TId>(this BaseTenantOwnerMo<TId> target, BaseTenantOwnerMo<TId> source)
+    {
+        target.id       = source.id;
+        target.add_time = source.add_time;
+
+        target.tenant_id = source.tenant_id;
+        target.owner_uid = source.owner_uid;
+    }
+
+
+
+    /// <summary>
+    ///  复制 BaseTenantOwnerAndStateMo 属性信息
+    /// </summary>
+    /// <typeparam name="TId"></typeparam>
+    /// <param name="target"></param>
+    /// <param name="source"></param>
+    public static void CopyBaseFrom<TId>(this BaseTenantOwnerAndStateMo<TId> target, BaseTenantOwnerAndStateMo<TId> source)
+    {
+        target.id       = source.id;
+        target.add_time = source.add_time;
+
+        target.tenant_id = source.tenant_id;
+        target.owner_uid = source.owner_uid;
+
+        target.status = source.status;
+    }
+
+
+
+    #endregion
+
+
+    #region 初始化赋值
 
     /// <summary>
     ///  从上下文中初始化基础信息
@@ -20,7 +99,7 @@ public static class BaseMoExtension
     public static void FormatBaseByContext(this BaseMo<long> t)
     {
         t.add_time = DateTime.Now.ToUtcSeconds();
-        if (t.id <= 0)
+        if (t.id == 0)
             t.id = NumHelper.SmallSnowNum();
     }
 
@@ -32,10 +111,9 @@ public static class BaseMoExtension
     {
         ((BaseMo<long>)t).FormatBaseByContext();
 
-        if (t.tenant_id > 0) return;
-        if (CoreContext.Tenant.IsAuthenticated)
+        if (t.tenant_id == 0)
         {
-            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+            t.tenant_id = CoreContext.GetTenantLongIdSafely();
         }
     }
 
@@ -47,12 +125,11 @@ public static class BaseMoExtension
     public static void FormatBaseByContext(this BaseOwnerMo<long> t)
     {
         ((BaseMo<long>)t).FormatBaseByContext();
-        
-        if (t.owner_uid > 0 || !CoreContext.User.IsAuthenticated)
-            return;
- 
-        var userIdentity = CoreContext.User.Identity;
-        t.owner_uid = userIdentity.id.ToInt64();
+
+        if (t.owner_uid == 0)
+        {
+            t.owner_uid = CoreContext.GetUserLongIdSafely();
+        }
     }
 
     /// <summary>
@@ -63,11 +140,9 @@ public static class BaseMoExtension
     {
         ((BaseOwnerMo<long>)t).FormatBaseByContext();
 
-        if (t.tenant_id > 0) return;
-
-        if (CoreContext.Tenant.IsAuthenticated)
+        if (t.tenant_id == 0)
         {
-            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+            t.tenant_id = CoreContext.GetTenantLongIdSafely();
         }
     }
 
@@ -82,10 +157,9 @@ public static class BaseMoExtension
     public static void FormatBaseByContext(this BaseTenantMo<string> t)
     {
         t.add_time = DateTime.Now.ToUtcSeconds();
-        if (t.tenant_id > 0) return;
-        if (CoreContext.Tenant.IsAuthenticated)
+        if (t.tenant_id==0)
         {
-            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+            t.tenant_id = CoreContext.GetTenantLongIdSafely();
         }
     }
 
@@ -97,11 +171,10 @@ public static class BaseMoExtension
     public static void FormatBaseByContext(this BaseOwnerMo<string> t)
     {
         t.add_time = DateTime.Now.ToUtcSeconds();
-        if (t.owner_uid > 0 || !CoreContext.User.IsAuthenticated)
-            return;
-
-        var userIdentity = CoreContext.User.Identity;
-        t.owner_uid = userIdentity.id.ToInt64();
+        if (t.owner_uid == 0)
+        {
+            t.owner_uid = CoreContext.GetUserLongIdSafely();
+        }
     }
 
     /// <summary>
@@ -112,11 +185,15 @@ public static class BaseMoExtension
     {
         ((BaseOwnerMo<string>)t).FormatBaseByContext();
 
-        if (t.tenant_id > 0) return;
-
-        if (CoreContext.Tenant.IsAuthenticated)
+        if (t.tenant_id == 0)
         {
-            t.tenant_id = CoreContext.Tenant.Identity.id.ToInt64();
+            t.tenant_id = CoreContext.GetTenantLongIdSafely();
         }
     }
+
+
+    #endregion
+
+
+
 }
