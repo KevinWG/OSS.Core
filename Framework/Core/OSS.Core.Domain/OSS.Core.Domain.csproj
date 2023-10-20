@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
-    <Version>2.5.1</Version>
+    <Version>2.5.2</Version>
     <PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Opened\OSS.Core.Domain.Opened\OSS.Core.Domain.Opened.csproj" />
+    <ProjectReference Include="..\Opened\OSS.Core.Domain.Opened\OSS.Core.Domain.Open.csproj" />
   </ItemGroup>
 
 </Project>

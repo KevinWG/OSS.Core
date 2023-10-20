@@ -237,7 +237,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<Resp<TType>> GetById(IdType id)
+    public virtual Task<TType> GetById(IdType id)
     {
         return GetById<TType>(id);
     }
@@ -247,7 +247,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<Resp<RType>> GetById<RType>(IdType id)
+    public virtual Task<RType> GetById<RType>(IdType id)
     {
         if (!HaveIdColumn)
             throw new RespNotImplementException($"当前仓储类型({typeof(TType).Name})未继承(IDomainId<>)，不能使用GetById方法！");
@@ -278,8 +278,8 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
     /// <returns></returns>
-    protected Task<Resp<TType>> Get(Expression<Func<TType, bool>> whereExp)
-        => ExecuteReadAsRespAsync(con => con.Get<TType, TType>(TableName, whereExp));
+    protected Task<TType> Get(Expression<Func<TType, bool>> whereExp)
+        => ExecuteReadAsync(con => con.Get<TType, TType>(TableName, whereExp));
 
 
     /// <summary>
@@ -287,8 +287,8 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
     /// <returns></returns>
-    protected Task<Resp<RType>> Get<RType>(Expression<Func<TType, bool>> whereExp)
-        => ExecuteReadAsRespAsync(con => con.Get<TType, RType>(TableName, whereExp));
+    protected Task<RType> Get<RType>(Expression<Func<TType, bool>> whereExp)
+        => ExecuteReadAsync(con => con.Get<TType, RType>(TableName, whereExp));
 
     /// <summary>
     /// 通过sql语句获取实体
@@ -296,10 +296,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <param name="getSql"> 查询sql语句</param>
     /// <param name="para"></param>
     /// <returns></returns>
-    protected virtual Task<Resp<RType>> Get<RType>(string getSql, object para)
-    {
-        return ExecuteReadAsRespAsync(con => con.QuerySingleOrDefaultAsync<RType>(getSql, para));
-    }
+    protected virtual Task<RType> Get<RType>(string getSql, object para) => ExecuteReadAsync(con => con.QuerySingleOrDefaultAsync<RType>(getSql, para));
 
     #endregion
 

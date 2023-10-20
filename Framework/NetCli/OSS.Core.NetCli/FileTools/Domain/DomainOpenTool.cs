@@ -19,7 +19,7 @@ internal class DomainOpenTool : BaseProjectTool
 
         var packageRefs = new List<string>()
         {
-            "OSS.Core.Domain.Opened"
+            "OSS.Core.Domain.Open"
         };
 
         CreateProjectFile(project.project_file_path, packageRefs, null,false,project.name);

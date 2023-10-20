@@ -29,7 +29,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Domain", "Core\OSS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Opened", "Opened", "{9BF1B103-9A9B-4DB1-8DFC-3D9452F11AB3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Domain.Opened", "Core\Opened\OSS.Core.Domain.Opened\OSS.Core.Domain.Opened.csproj", "{D66D02CB-11C5-491A-8174-4B543753368D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Domain.Open", "Core\Opened\OSS.Core.Domain.Opened\OSS.Core.Domain.Open.csproj", "{D66D02CB-11C5-491A-8174-4B543753368D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Client.Http", "Core\Opened\OSS.Core.Client.Http\OSS.Core.Client.Http.csproj", "{700B48D0-52B9-4174-AC6B-B9BEEB3446A3}"
 EndProject

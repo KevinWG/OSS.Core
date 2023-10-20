@@ -38,7 +38,7 @@ namespace OSS.Core.Comp.DirConfig.Mysql
                 return true;
 
             var getRes = await _configRep.GetByKey(listKey, itemKey);
-            if (!getRes.IsRespCode(RespCodes.OperateObjectNull))
+            if (getRes!=null)
                 return false;
 
             var mo = new ConfigMo
@@ -72,8 +72,8 @@ namespace OSS.Core.Comp.DirConfig.Mysql
 
         public async Task<ItemConfig<TConfig>?> GetItem<TConfig>(string listKey, string itemKey, string sourceName)
         {
-            var itemRes =await _configRep.GetByKey(listKey, itemKey);
-            return itemRes.IsSuccess() ? new ItemConfig<TConfig>(){key = itemKey,value = JsonConvert.DeserializeObject<TConfig>(itemRes.data.item_val) } : null;
+            var item =await _configRep.GetByKey(listKey, itemKey);
+            return item!=null ? new ItemConfig<TConfig>(){key = itemKey,value = JsonConvert.DeserializeObject<TConfig>(item.item_val) } : null;
         }
 
         public Task RemoveItem(string listKey, string itemKey, string sourceName)

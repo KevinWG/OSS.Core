@@ -70,7 +70,7 @@ internal  class ClientTool : BaseProjectTool
         var moduleClientPath = Path.Combine(project.project_dir, $"{project.module_client_name}.cs");
         var injectStr     = @$"
     /// <summary>
-    ///  {ss.entity_name} 接口
+    ///  {ss.entity_display} 接口
     /// </summary>
     public static I{ss.entity_name}OpenService {ss.entity_name} {{get; }} = SingleInstance<{ss.entity_name}HttpClient>.Instance;";
 

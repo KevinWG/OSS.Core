@@ -44,7 +44,7 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
 
     private const string System_ConfigItem_ByKey = "System_Config_{0}_{1}";
 
-    public Task<Resp<ConfigMo>> GetByKey(string listKey, string itemKey)
+    public Task<ConfigMo?> GetByKey(string listKey, string itemKey)
     {
         var haveTenantId = CoreContext.Tenant.IsAuthenticated;
 
@@ -63,9 +63,9 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
 
         var itemCacheKey = string.Format(System_ConfigItem_ByKey, listKey, itemKey);
 
-        var getfunc = () => Get<ConfigMo>(strGetSql, paras);
+        var getFunc = () => Get<ConfigMo?>(strGetSql, paras);
 
-        return getfunc.WithRespCacheAsync(itemCacheKey, TimeSpan.FromHours(1));
+        return getFunc.WithCacheAsync(itemCacheKey, TimeSpan.FromHours(1));
     }
 
 
@@ -104,6 +104,6 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
             paras.Add("@tenant_id", CoreContext.Tenant.Identity.id);
         }
 
-        return (await Get<int>(strGetSql, paras)).data;
+        return await Get<int>(strGetSql, paras);
     }
 }
