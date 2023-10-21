@@ -270,7 +270,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             dirPara.Add("@tenant_id", CoreContext.GetTenantLongId());
         }
 
-        return Get<RType?>(sql, dirPara);
+        return GetSingleOrDefault<RType?>(sql, dirPara);
     }
 
     /// <summary>
@@ -278,8 +278,8 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
     /// <returns></returns>
-    protected Task<TType> Get(Expression<Func<TType, bool>> whereExp)
-        => ExecuteReadAsync(con => con.Get<TType, TType>(TableName, whereExp));
+    protected Task<TType?> Get(Expression<Func<TType, bool>> whereExp)
+        => ExecuteReadAsync(con => con.Get<TType, TType?>(TableName, whereExp));
 
 
     /// <summary>
@@ -287,8 +287,8 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="whereExp">判断条件，如果为空默认根据Id判断</param>
     /// <returns></returns>
-    protected Task<RType> Get<RType>(Expression<Func<TType, bool>> whereExp)
-        => ExecuteReadAsync(con => con.Get<TType, RType>(TableName, whereExp));
+    protected Task<RType?> Get<RType>(Expression<Func<TType, bool>> whereExp)
+        => ExecuteReadAsync(con => con.Get<TType, RType?>(TableName, whereExp));
 
     /// <summary>
     /// 通过sql语句获取实体
@@ -296,7 +296,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// <param name="getSql"> 查询sql语句</param>
     /// <param name="para"></param>
     /// <returns></returns>
-    protected virtual Task<RType> Get<RType>(string getSql, object para) => ExecuteReadAsync(con => con.QuerySingleOrDefaultAsync<RType>(getSql, para));
+    protected virtual Task<RType> GetSingleOrDefault<RType>(string getSql, object para) => ExecuteReadAsync(con => con.QuerySingleOrDefaultAsync<RType>(getSql, para));
 
     #endregion
 

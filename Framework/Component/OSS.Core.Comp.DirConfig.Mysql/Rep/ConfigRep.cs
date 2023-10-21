@@ -63,7 +63,7 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
 
         var itemCacheKey = string.Format(System_ConfigItem_ByKey, listKey, itemKey);
 
-        var getFunc = () => Get<ConfigMo?>(strGetSql, paras);
+        var getFunc = () => GetSingleOrDefault<ConfigMo?>(strGetSql, paras);
 
         return getFunc.WithCacheAsync(itemCacheKey, TimeSpan.FromHours(1));
     }
@@ -104,6 +104,6 @@ internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
             paras.Add("@tenant_id", CoreContext.Tenant.Identity.id);
         }
 
-        return await Get<int>(strGetSql, paras);
+        return await GetSingleOrDefault<int>(strGetSql, paras);
     }
 }
