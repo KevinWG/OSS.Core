@@ -65,7 +65,7 @@ public static class AppAuthInfoExtension
     /// </summary>
     /// <param name="appAuthInfo"></param>
     /// <param name="ticket"></param>
-    public static void FormatFromTicket(this AppAuthReq appAuthInfo, string ticket)
+    public static void FormatFromTicket(this AppAuthReq appAuthInfo, string? ticket)
     {
         if (string.IsNullOrEmpty(ticket)) return;
 
@@ -134,7 +134,7 @@ public static class AppAuthInfoExtension
     /// <param name="signExpiredSeconds"></param>
     /// <param name="extSignData">参与签名的扩展数据（ 原签名数据 + "&amp;" + extSignData ）</param>
     /// <returns></returns>
-    public static Resp CheckSign(this AppAuthReq appAuthInfo, string accessSecret, int signExpiredSeconds, string extSignData = null)
+    public static Resp CheckSign(this AppAuthReq appAuthInfo, string accessSecret, int signExpiredSeconds, string? extSignData = null)
     {
         if (appAuthInfo.timestamp <= 0 || string.IsNullOrEmpty(appAuthInfo.access_key))
             return new Resp(RespCodes.ParaError, "应用签名相关参数错误！");
@@ -218,7 +218,7 @@ public static class AppAuthInfoExtension
         if (strTicketParas.Length > 0)
             strTicketParas.Append(_separateChar);
 
-        strTicketParas.Append(name).Append('=').Append(isForSign ? value : value.SafeEscapeUriDataString());
+        strTicketParas.Append(name).Append('=').Append(isForSign ? value : value.SafeEscapeDataString());
     }
 
     #endregion

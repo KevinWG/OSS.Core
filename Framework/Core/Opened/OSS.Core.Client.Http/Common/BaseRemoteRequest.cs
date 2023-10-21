@@ -29,7 +29,7 @@ public class BaseRemoteRequest : OssHttpRequest
         api_path = apiPath;
     }
 
-    private CoreAccessSecret? _access;
+    private CoreAccessSecret _access= default!;
 
 
     /// <inheritdoc />
@@ -43,7 +43,7 @@ public class BaseRemoteRequest : OssHttpRequest
     protected override Task OnSendingAsync(HttpRequestMessage r)
     {
         var appIdentity = CoreContext.App.Identity;
-
+        
         var ticket = CoreContext.App.Identity.ToTicket(_access.access_key, _access.access_secret,
             CoreContext.App.Self.version, appIdentity.authorization);
 

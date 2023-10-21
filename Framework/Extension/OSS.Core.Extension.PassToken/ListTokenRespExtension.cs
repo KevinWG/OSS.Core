@@ -2,6 +2,9 @@
 
 namespace OSS.Common.Resp;
 
+/// <summary>
+/// 
+/// </summary>
 public static class ListTokenRespExtension
 {
     /// <summary>添加列表通行token</summary>

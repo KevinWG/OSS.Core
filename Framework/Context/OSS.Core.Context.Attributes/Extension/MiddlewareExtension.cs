@@ -25,7 +25,7 @@ namespace OSS.Core.Context.Attributes
         /// <param name="app"></param>
         /// <param name="option"></param>
         /// <returns></returns>
-        public static IApplicationBuilder UseOssCore(this IApplicationBuilder app, CoreContextOption option = null)
+        public static IApplicationBuilder UseOssCore(this IApplicationBuilder app, CoreContextOption? option = null)
         {
             InterReqHelper.Option = option;
 

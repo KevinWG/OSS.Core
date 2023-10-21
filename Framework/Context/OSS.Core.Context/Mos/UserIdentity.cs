@@ -8,7 +8,7 @@
         /// <summary>
         /// 授权类型
         /// </summary>
-        [Obsolete("使用 id_type，此属性 3.0 版本后禁用")]
+        [Obsolete("使用 UserIdentityType，此属性 3.0 版本后禁用")]
         public AuthorizeType auth_type => (AuthorizeType)type;
         
         /// <summary>

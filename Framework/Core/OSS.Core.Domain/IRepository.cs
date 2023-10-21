@@ -36,14 +36,14 @@ namespace OSS.Core.Domain
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<MType> GetById(IdType id);
+        Task<MType?> GetById(IdType id);
 
         /// <summary>
         /// 通过id获取实体
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<RType> GetById<RType>(IdType id);
+        Task<RType?> GetById<RType>(IdType id);
     }
 
 }

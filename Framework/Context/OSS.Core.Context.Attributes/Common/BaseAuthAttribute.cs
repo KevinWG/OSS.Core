@@ -53,7 +53,7 @@ public abstract class BaseAuthorizeAttribute : Attribute, IAsyncAuthorizationFil
     private static void ResponseExceptionEnd(AuthorizationFilterContext context, IResp res)
     {
         var rUrl = res.IsRespCode(RespCodes.UserUnLogin)
-            ? InterReqHelper.GetUnloginPage(context.HttpContext)
+            ? InterReqHelper.GetUnLoginPage(context.HttpContext)
             : InterReqHelper.GetErrorPage(context.HttpContext, res);
 
         if (string.IsNullOrEmpty(rUrl))

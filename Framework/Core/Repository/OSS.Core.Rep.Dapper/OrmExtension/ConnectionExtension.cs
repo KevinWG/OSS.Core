@@ -92,7 +92,7 @@ namespace OSS.Core.Rep.Dapper
         #endregion
 
         public static async Task<Resp> UpdatePartial<TType>(this IDbConnection con, string tableName,
-            Expression<Func<TType, object>> update, Expression<Func<TType, bool>> where, object mo)
+            Expression<Func<TType, object>> update, Expression<Func<TType, bool>> where, object? mo)
         {
             if (string.IsNullOrEmpty(tableName))
                 tableName = typeof(TType).Name;
@@ -172,7 +172,7 @@ namespace OSS.Core.Rep.Dapper
             return sql;
         }
 
-        private static object GetExecuteParas(object? mo, SqlExpressionVisitor visitor)
+        private static object? GetExecuteParas(object? mo, SqlExpressionVisitor visitor)
         {
             if (!visitor.parameters.Any())
                 return mo;

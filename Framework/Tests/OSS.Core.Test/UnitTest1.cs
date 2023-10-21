@@ -23,7 +23,7 @@ namespace OSS.Core.Test
             {
                 type = UserIdentityType.Admin
             };
-            Assert.IsTrue(userIdentity.auth_type == AuthorizeType.Admin, "??? IdentityType ???????!");
+            Assert.IsTrue(userIdentity.type == UserIdentityType.Admin, "??? IdentityType ???????!");
         }
     }
 }

@@ -237,7 +237,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<TType> GetById(IdType id)
+    public virtual Task<TType?> GetById(IdType id)
     {
         return GetById<TType>(id);
     }
@@ -247,7 +247,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    public virtual Task<RType> GetById<RType>(IdType id)
+    public virtual Task<RType?> GetById<RType>(IdType id)
     {
         if (!HaveIdColumn)
             throw new RespNotImplementException($"当前仓储类型({typeof(TType).Name})未继承(IDomainId<>)，不能使用GetById方法！");
@@ -270,7 +270,7 @@ public abstract class BaseRep<TType, IdType> : IRepository<TType, IdType>
             dirPara.Add("@tenant_id", CoreContext.GetTenantLongId());
         }
 
-        return Get<RType>(sql, dirPara);
+        return Get<RType?>(sql, dirPara);
     }
 
     /// <summary>

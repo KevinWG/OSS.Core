@@ -1,5 +1,8 @@
 ﻿namespace OSS.Common.Resp;
 
+/// <summary>
+/// 
+/// </summary>
 public static class TokenPageListRespExtension
 {
     /// <summary>添加列表通行token</summary>

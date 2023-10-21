@@ -83,15 +83,15 @@ internal class CaptchaValidator : ICaptchaValidator
 
         urlStr.Append("&RemoteIp=").Append(ip);
         urlStr.Append("&Scene=").Append(scene);
-        urlStr.Append("&SessionId=").Append(sessionId.SafeEscapeUriDataString());
-        urlStr.Append("&Sig=").Append(sig.SafeEscapeUriDataString());
+        urlStr.Append("&SessionId=").Append(sessionId.SafeEscapeDataString());
+        urlStr.Append("&Sig=").Append(sig.SafeEscapeDataString());
 
         urlStr.Append("&SignatureMethod=HMAC-SHA1");
         urlStr.Append("&SignatureNonce=").Append(nonce);
         urlStr.Append("&SignatureVersion=1.0");
-        urlStr.Append("&Timestamp=").Append(timestamp.SafeEscapeUriDataString());
+        urlStr.Append("&Timestamp=").Append(timestamp.SafeEscapeDataString());
 
-        urlStr.Append("&Token=").Append(token.SafeEscapeUriDataString());
+        urlStr.Append("&Token=").Append(token.SafeEscapeDataString());
         urlStr.Append("&Version=2018-01-12");
 
         return urlStr.ToString();
@@ -99,9 +99,9 @@ internal class CaptchaValidator : ICaptchaValidator
 
     private static string GetSign(string accessSecret, string queryStr)
     {
-        string waitSignData = string.Concat("GET&%2F&", queryStr.SafeEscapeUriDataString());
+        var waitSignData = string.Concat("GET&%2F&", queryStr.SafeEscapeDataString());
         var    sign         = HMACSHA.EncryptBase64(waitSignData, string.Concat(accessSecret, "&"));
 
-        return sign.SafeEscapeUriDataString();
+        return sign.SafeEscapeDataString();
     }
 }

@@ -4,6 +4,9 @@ using OSS.Tools.Http;
 
 namespace OSS.Core.Client.Http;
 
+/// <summary>
+/// 请求扩展
+/// </summary>
 public static class CoreRequestExtension
 {
     /// <summary>
@@ -46,11 +49,12 @@ public static class CoreRequestExtension
         var response = await req.SendAsync(req.target_module);
         var strRes   = await response.ReadContentAsStringAsync();
 
-        if (!response.IsSuccessStatusCode){
+        if (!response.IsSuccessStatusCode || string.IsNullOrEmpty(strRes)){
             throw new RespNetworkException(
-                $"接口请求失败，模块{req.target_module}，地址：{req.address_url},消息：{response.ReasonPhrase}\r\n {strRes}");
+                $"接口请求失败，模块{req.target_module}，地址：{req.address_url},消息：{response.ReasonPhrase}\r\n  详情： {strRes}");
         }
 
-        return string.IsNullOrEmpty(strRes) ? default: JsonSerializer.Deserialize<TRes>(strRes);
+        var result = JsonSerializer.Deserialize<TRes>(strRes);
+        return result ?? throw new RespNetworkException($"接口请求失败，模块{req.target_module}，地址：{req.address_url}, 响应结果未能转化到类型 {typeof(TRes)}， 响应内容:{strRes}");
     }
 }

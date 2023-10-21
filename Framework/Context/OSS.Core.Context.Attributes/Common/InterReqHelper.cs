@@ -19,10 +19,10 @@ namespace OSS.Core.Context.Attributes
             var errUrl = Option?.ErrorPage;
             return string.IsNullOrEmpty(errUrl)
                 ? string.Empty
-                : string.Concat(errUrl, "?code=", res.code, "&msg=", errUrl.SafeEscapeUriDataString());
+                : string.Concat(errUrl, "?code=", res.code, "&msg=", errUrl.SafeEscapeDataString());
         }
 
-        internal static string GetUnloginPage(HttpContext context)
+        internal static string GetUnLoginPage(HttpContext context)
         {
             if ((CoreContext.App.IsInitialized && CoreContext.App.Identity.auth_mode != AppAuthMode.None) || context.Request.IsFetchReq())
                 return string.Empty;
@@ -34,7 +34,7 @@ namespace OSS.Core.Context.Attributes
             var req = context.Request;
             var rUrl = string.Concat(req.Path, req.QueryString);
 
-            return string.Concat(loginUrl, "?rurl=", rUrl.SafeEscapeUriDataString());
+            return string.Concat(loginUrl, "?rurl=", rUrl.SafeEscapeDataString());
         }
 
         /// <summary>

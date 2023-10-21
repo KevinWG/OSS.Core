@@ -4,8 +4,17 @@ using System.Text;
 
 namespace OSS.Core.Context.Attributes
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class ModelValidationAttribute:  Attribute,IAsyncActionFilter
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="next"></param>
+        /// <returns></returns>
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             var checkRes = CheckIsValid(context);

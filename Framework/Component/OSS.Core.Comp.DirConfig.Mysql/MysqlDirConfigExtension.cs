@@ -2,8 +2,13 @@
 using OSS.Tools.Config;
 using OSS.Tools.DirConfig;
 
+#pragma warning disable IDE0060
+
 namespace OSS.Core.Comp.DirConfig.Mysql;
 
+/// <summary>
+///  字典配置扩展
+/// </summary>
 public static class MysqlDirConfigCompExtension
 {
     private static DirConfigMysqlTool? _dirConfig;
@@ -45,6 +50,10 @@ public static class MysqlDirConfigCompExtension
     }
 }
 
+
+/// <summary>
+///  数据库连接可选项
+/// </summary>
 public class ConnectionOption
 {
     /// <summary>

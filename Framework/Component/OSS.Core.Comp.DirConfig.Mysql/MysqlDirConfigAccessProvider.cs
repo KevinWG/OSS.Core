@@ -4,6 +4,10 @@ using System.Data;
 
 namespace OSS.Core.Comp.DirConfig;
 
+/// <summary>
+/// 键值配置的访问信息配置提供者（Mysql
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public class MysqlDirConfigAccessProvider<T> : IAccessProvider<T>
     where T : IAccess
 {

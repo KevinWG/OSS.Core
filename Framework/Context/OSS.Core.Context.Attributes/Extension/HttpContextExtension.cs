@@ -18,6 +18,11 @@ namespace OSS.Core.Context.Attributes
         //    return !string.IsNullOrEmpty(headerName) && req.Headers.ContainsKey(headerName);
         //}
 
+        /// <summary>
+        ///   是否是浏览器端 Fetch 请求
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public static bool IsFetchReq(this HttpRequest req)
         {
             return false;// todo  判断是否ajax

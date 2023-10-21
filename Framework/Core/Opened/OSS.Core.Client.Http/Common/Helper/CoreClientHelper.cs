@@ -2,6 +2,9 @@
 
 namespace OSS.Core.Client.Http;
 
+/// <summary>
+/// 
+/// </summary>
 public static class CoreClientHelper
 {
     /// <summary>

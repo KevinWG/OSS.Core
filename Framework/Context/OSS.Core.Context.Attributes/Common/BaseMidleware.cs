@@ -10,6 +10,9 @@ namespace OSS.Core.Context.Attributes
     /// </summary>
     public abstract class BaseMiddleware
     {
+        /// <summary>
+        /// 中间件的下级执行句柄
+        /// </summary>
         protected readonly RequestDelegate _next;
 
         /// <summary>

@@ -2,6 +2,9 @@
 
 namespace OSS.Common.Resp;
 
+/// <summary>
+/// 
+/// </summary>
 public static class PageListExtension
 {
     /// <summary>

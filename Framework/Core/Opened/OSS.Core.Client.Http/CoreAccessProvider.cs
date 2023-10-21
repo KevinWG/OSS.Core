@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using OSS.Tools.Config;
 using System.Data;
+using OSS.Common.Resp;
 
 namespace OSS.Core.Client.Http;
 
@@ -11,6 +12,11 @@ internal class CoreAccessProvider : ICoreAccessProvider
 {
     public Task<CoreAccessSecret> Get(string moduleName)
     {
+        if (ConfigHelper.Configuration == null)
+        {
+            throw new RespNotImplementException("请注册 ConfigHelper.Configuration 配置信息");
+        }
+
         var secret = new CoreAccessSecret();
         ConfigHelper.Configuration.GetSection(string.Concat("Client:", moduleName)).Bind(secret);
 

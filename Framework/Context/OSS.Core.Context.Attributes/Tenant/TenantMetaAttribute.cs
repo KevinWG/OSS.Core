@@ -33,7 +33,7 @@ public class TenantMetaAttribute : BaseOrderAuthorizeAttribute
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    public override async Task<Resp> Authorize(AuthorizationFilterContext context)
+    public override Task<Resp> Authorize(AuthorizationFilterContext context)
     {
         if (!CoreContext.App.IsInitialized)
         {
@@ -43,6 +43,6 @@ public class TenantMetaAttribute : BaseOrderAuthorizeAttribute
         CoreContext.App.Identity.ask_meta.tenant_type = _tenantType;
 
         // 不要使用否则上下文缺失， Task.FromResult(Resp.Success());
-        return Resp.Success();
+        return Task.FromResult(Resp.Success());
     }
 }
