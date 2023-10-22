@@ -6,10 +6,18 @@
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>osscore</ToolCommandName>
 		<Description>OSSCore 模块解决方案 .Net 客户端工具</Description>
-		<Version>2.6.8</Version>
+		<Version>2.6.10</Version>
 		<PackageReleaseNotes>增加项目接口默认注释文档</PackageReleaseNotes>
 		<PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
+		<PackageIcon>logo.png</PackageIcon>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\logo.png">
+	    <Pack>True</Pack>
+	    <PackagePath>\</PackagePath>
+	  </None>
+	</ItemGroup>
 
 	<ItemGroup>
 	  <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
