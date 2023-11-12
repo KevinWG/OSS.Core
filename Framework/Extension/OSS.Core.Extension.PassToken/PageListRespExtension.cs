@@ -29,9 +29,6 @@ public static class PageListRespExtension
     private static string GetId(BaseMo<long> mo) => mo.id.ToString();
 
 
-
-
-
     /// <summary>
     /// 转化为通行token分页列表
     /// 并附带默认以Id为列的token处理
@@ -45,7 +42,6 @@ public static class PageListRespExtension
         return ToTokenPageResp(pageList, "id", GetId);
     }
 
-
     /// <summary>
     /// 转化为通行token分页列表
     /// 并附带默认以Id为列的token处理
@@ -58,4 +54,19 @@ public static class PageListRespExtension
         var pageList = await taskPageList;
         return ToTokenPageRespWithIdToken(pageList);
     }
+
+
+    /// <summary>
+    /// 转化为通行token分页列表
+    /// 并附带默认以Id为列的token处理
+    /// </summary>
+    /// <typeparam name="TData"></typeparam>
+    /// <param name="pageList"></param>
+    /// <returns></returns>
+    public static TokenPageListResp<TData> ToTokenPageRespWithStrIdToken<TData>(this PageListResp<TData> pageList)
+        where TData : BaseMo<string>
+    {
+        return ToTokenPageResp(pageList, "id", d=>d.id);
+    }
+
 }
