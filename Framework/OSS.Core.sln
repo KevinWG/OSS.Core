@@ -49,6 +49,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Test.Web", "Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSS.Core.Test", "Tests\OSS.Core.Test\OSS.Core.Test.csproj", "{2DFD9552-3A74-4FA2-8596-EAEB9A8500D0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSS.Core.Comp.SequenceNum.Mysql", "Component\OSS.Core.Comp.SequenceNum.Mysql\OSS.Core.Comp.SequenceNum.Mysql.csproj", "{7C8A7128-C898-4D6B-BFED-837B3CAA8D69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{2DFD9552-3A74-4FA2-8596-EAEB9A8500D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2DFD9552-3A74-4FA2-8596-EAEB9A8500D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2DFD9552-3A74-4FA2-8596-EAEB9A8500D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C8A7128-C898-4D6B-BFED-837B3CAA8D69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C8A7128-C898-4D6B-BFED-837B3CAA8D69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C8A7128-C898-4D6B-BFED-837B3CAA8D69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C8A7128-C898-4D6B-BFED-837B3CAA8D69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -138,6 +144,7 @@ Global
 		{AA5437C8-79D4-4376-9BC1-C5C27486F877} = {A29DAE78-7D61-43ED-A16C-77E79F28E42B}
 		{B4AF1A72-0BAC-461A-9D91-79AB70E5E0FA} = {70FEEF86-83D1-4672-BA3B-39EEAF11FD1C}
 		{2DFD9552-3A74-4FA2-8596-EAEB9A8500D0} = {70FEEF86-83D1-4672-BA3B-39EEAF11FD1C}
+		{7C8A7128-C898-4D6B-BFED-837B3CAA8D69} = {25B61455-3B41-4810-8055-622B2138B06F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {AE4FC7B8-EF73-4AA1-8840-22B7310CE868}
