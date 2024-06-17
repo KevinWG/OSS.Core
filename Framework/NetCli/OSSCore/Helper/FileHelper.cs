@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 
 namespace OSSCore;
 
@@ -21,8 +17,7 @@ internal static class FileHelper
         if (File.Exists(filePath))
             File.Delete(filePath);
 
-        using var sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write),
-            Encoding.UTF8);
+        using var sw = new StreamWriter(new FileStream(filePath, FileMode.Append, FileAccess.Write),Encoding.UTF8);
         sw.WriteLine(fileContent);
     }
 
