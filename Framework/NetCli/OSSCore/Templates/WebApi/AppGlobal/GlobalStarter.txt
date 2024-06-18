@@ -1,0 +1,21 @@
+﻿using OSS.Core.Comp.DirConfig.Mysql;
+using OSS.Common;
+using OSS.Core;
+
+namespace {solution_name};
+
+/// <summary>
+///   全局注入
+/// </summary>
+public class {module_name}GlobalStarter : AppStarter
+{
+    /// <inheritdoc />
+    public override void Start(IServiceCollection services)
+    {
+         services.UserMysqlDirConfigTool();
+
+         {DomainStarterRegister}
+         {RepStarterRegister}
+         {ServiceStarterRegister}
+    }
+}

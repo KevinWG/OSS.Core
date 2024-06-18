@@ -1,0 +1,78 @@
+﻿using System.Text;
+using OSS.Common;
+using OSS.Common.Extension;
+using OSS.Common.Resp;
+using OSS.Core.Domain;
+
+namespace {solution_name};
+
+/// <summary>
+///  {entity_display} 对象仓储
+/// </summary>
+public class {entity_name}Rep : Base{module_name}Rep<{entity_name}Mo,long> {rep_interface}
+{
+    /// <inheritdoc />
+    public {entity_name}Rep() : base("{entity_name}")
+    {
+    }
+
+    /// <summary>
+    ///  查询{entity_display}列表
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
+    public Task<PageList<{entity_name}Mo>> Search(Search{entity_name}Req req)
+    {
+        return SimpleSearch<{entity_name}Mo>(req);
+    }
+
+    /// <summary>
+    ///   修改{entity_display}状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="status"></param>
+    /// <returns></returns>
+    public Task<Resp> UpdateStatus(long id, CommonStatus status)
+    {
+        return Update(u => new {u.status}, w => w.id == id, new {status});
+    }
+
+
+    #region 搜索辅助方法
+
+    /// <summary>
+    ///  搜索{entity_display}
+    /// </summary>
+    /// <returns></returns>
+    private Task<PageList<RType>> SimpleSearch<RType>(Search{entity_name}Req sReq)
+    {
+        var sqlParas = new Dictionary<string, object>();
+
+        var whereSql = BuildWhereSql(sReq, sqlParas);
+        var offCount = sReq.GetStartRow();
+
+        var totalSql = sReq.req_count ? $"select count(1) from {TableName} t {whereSql}" : string.Empty;
+        var selectSql = $"select t.* from {TableName} t {whereSql}  Order BY t.`id` DESC limit {sReq.size} offset {offCount}";
+
+        return GetPageList<RType>(selectSql, sqlParas, totalSql);
+    }
+
+	// 拼接搜索使用 where sql 语句
+    private static StringBuilder BuildWhereSql(Search{entity_name}Req sReq, IDictionary<string, object> sqlParas)
+    {
+        var whereBuilder = BuildWhereSql_BasicFilter(sReq, sqlParas);
+
+        // todo 完善更多搜索条件
+        //if (!string.IsNullOrEmpty(sReq.name))
+        //{
+        //    sqlParas.Add("@name", sReq.name);
+        //    whereBuilder.Append(" and t.`name`=@name");
+        //}
+
+        return whereBuilder;
+    }
+
+
+    #endregion
+
+}

@@ -1,0 +1,20 @@
+﻿
+using OSS.Core.Client.Http;
+
+namespace {solution_name}.Client;
+
+/// <summary>
+///  {module_display} 模块客户端请求
+/// </summary>
+internal class {module_req}: BaseRemoteRequest
+{
+    public {module_req}(string apiPath) : base("{module_name}", apiPath)
+    {
+    }
+
+    protected override Task PrepareSendAsync()
+    {
+        api_path = string.Concat("/",target_module, api_path);
+        return base.PrepareSendAsync();
+    }
+}
