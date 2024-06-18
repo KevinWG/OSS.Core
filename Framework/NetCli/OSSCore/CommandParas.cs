@@ -16,11 +16,11 @@ internal class ModulePara: ParaItem
 
 public enum SolutionMode
 {
-    Full   = 0,
+    Full   = 1000,
 
-    Normal = 1,
+    Normal = 100,
 
-    Simple = 2,
+    Simple = 10,
 }
 
 public enum DBType
@@ -43,3 +43,13 @@ public class ParaItem
     /// </summary>
     public string display { get; set; } = string.Empty;
 }
+
+
+
+//public static class SolutionExtension
+//{
+//    public static bool IsIndependent(this SolutionMode mode)
+//    {
+//        return mode == SolutionMode.Full;
+//    }
+//}

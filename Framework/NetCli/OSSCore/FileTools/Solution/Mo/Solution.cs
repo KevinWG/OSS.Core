@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Data;
+using System.IO;
 
 namespace OSSCore;
 
@@ -9,6 +10,7 @@ internal class Solution
     {
         base_path = basePath;
 
+        db_type        = paras.db_type;
         module_name    = paras.name;
         module_display = string.IsNullOrEmpty(paras.display) ? module_name : paras.display;
 
@@ -33,7 +35,7 @@ internal class Solution
         switch (mode)
         {
             case SolutionMode.Normal:
-                // 简单模式，仓储文件直接放在 Domain 目录
+                // 一般模式，仓储文件直接放在 Domain 目录
                 rep_project.ResetFrom(domain_project);
                 break;
             case SolutionMode.Simple:
@@ -54,6 +56,9 @@ internal class Solution
     public string entity_display { get; set; }
 
     public string solution_name { get;  }
+
+    public DBType db_type { get; set; } 
+
 
 
     public SolutionMode mode { get; set; }

@@ -1,7 +1,7 @@
 ﻿
 using OSS.Core.Client.Http;
 
-namespace {solution_name}.Client;
+namespace {{solution_name}}.Client;
 
 /// <summary>
 ///  {{module_display}} 模块客户端请求

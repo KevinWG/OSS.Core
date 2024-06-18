@@ -5,12 +5,13 @@ internal class RepTool : BaseProjectTool
     public override void Create(Solution solution)
     {
         base.Create(solution);
+
         Console.WriteLine($"仓储层类库 ({solution.rep_project.name}) -- done");
     }
 
     public override void Create_Project(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple)
+        if (ss.mode != SolutionMode.Full)
             return;
 
         var project = ss.rep_project;
@@ -52,7 +53,6 @@ internal class RepTool : BaseProjectTool
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
     }
 
-
     #region 添加实体
 
     public override void AddEntity(Solution ss)
@@ -65,7 +65,7 @@ internal class RepTool : BaseProjectTool
     private static void AddEntity_Rep(Solution ss)
     {
         var repDir = Path.Combine(ss.rep_project.project_dir, ss.entity_name);
-        if (ss.mode == SolutionMode.Simple)
+        if (ss.mode != SolutionMode.Full)
         {
             repDir = Path.Combine(repDir, "Rep");
         }

@@ -15,29 +15,38 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_Project(Solution ss)
     {
-        if (ss.mode == SolutionMode.Normal)
-            return;
-
         var project = ss.domain_project;
         FileHelper.CreateDirectory(project.project_dir);
 
         var packageRefs = new List<string>()
         {
-            "OSS.Tools.Log",
             "OSS.Core.Domain"
         };
 
-        if (ss.mode == SolutionMode.Simple)
+        if (ss.mode <= SolutionMode.Normal)
         {
-            // 极简模式下 服务，仓储，实体放置在一起
-            packageRefs.AddRange(new[]
+            if (ss.mode <= SolutionMode.Simple)
             {
-                "OSS.DataFlow",
-                "OSS.Tools.Config",
-                "OSS.Core.Rep.Dapper.Mysql",
-                "OSS.Core.Extension.Cache",
-                "OSS.Core.Extension.PassToken"
-            });
+                // 极简模式下 服务放置
+                packageRefs.AddRange(new[]
+                {
+                    "OSS.DataFlow",
+                    "OSS.Core.Extension.Cache",
+                    "OSS.Core.Extension.PassToken"
+                });
+            }
+
+            packageRefs.Add("OSS.Tools.Log");
+            packageRefs.Add("OSS.Tools.Config");
+            switch (ss.db_type)
+            {
+                case DBType.SqlServer:
+                    packageRefs.Add("OSS.Core.Rep.Dapper.SqlServer");
+                    break;
+                default:
+                    packageRefs.Add("OSS.Core.Rep.Dapper.Mysql");
+                    break;
+            }
         }
 
         var projectRefs = new List<string>()

@@ -89,7 +89,6 @@ static ModulePara GetParasFromFile(string basePath)
     FileHelper.CreateFile(moduleJsonPath, JsonSerializer.Serialize(paras));
 }
 
-
 #endregion
 
  static void ConsoleTips()
@@ -97,7 +96,6 @@ static ModulePara GetParasFromFile(string basePath)
     var commandStr =
         @"
 可执行指令：
-
 osscore new moduleA （创建名称为 moduleA 的模块解决方案）
 
     可选参数提示：
@@ -117,17 +115,18 @@ osscore add entityName (创建领域对象名为entityName的各模块文件)
 static ParaItem GetAddEntityParas(string[] args)
 {
     var paras = new ParaItem();
+    var paraDics = GetArgParaDictionary(args);
 
-    for (var i = 1; i < args.Length; i++)
+    foreach (var paraDic in paraDics)
     {
-        var p = args[i];
-        if (p.StartsWith("--display="))
+        switch (paraDic.Key)
         {
-            paras.display = p.Replace("--display=", "").TrimEnd();
-        }
-        else
-        {
-            paras.name = p;
+            case "display":
+                paras.display = paraDic.Value;
+                break;
+            default:
+                paras.name = paraDic.Value;
+                break;
         }
     }
     return paras;
@@ -149,7 +148,7 @@ static ModulePara GetCreateParas(string[] args)
                 paras.display = paraDic.Value;
                 break;
             case "mode":
-                paras.solution_mode = paraDic.Value switch
+                paras.solution_mode = paraDic.Value.ToLower() switch
                 {
                     "simple"      => SolutionMode.Normal,
                     "simple_plus" => SolutionMode.Simple,
@@ -157,7 +156,11 @@ static ModulePara GetCreateParas(string[] args)
                 };
                 break;
             case "dbtype":
-
+                paras.db_type = paraDic.Value.ToLower() switch
+                {
+                    "sqlserver" => DBType.SqlServer,
+                    _           => DBType.SqlServer
+                };
                 break;
             default:
                 paras.name = paraDic.Value;
@@ -169,20 +172,24 @@ static ModulePara GetCreateParas(string[] args)
 
 static Dictionary<string, string> GetArgParaDictionary(string[] args)
 {
+    //var name  = string.Empty;
     var paras = new Dictionary<string, string>();
 
     for (var i = 1; i < args.Length; i++)
     {
-        var pStr      = args[i].Trim('-').Trim(' ');
+        var pStr = args[i].Trim('-').Trim(' ');
+
         var pStrSplit = pStr.Split('=', StringSplitOptions.RemoveEmptyEntries);
-        if (pStrSplit.Length < 2)
+        if (pStrSplit.Length == 1)
         {
+            paras[""] = pStrSplit[0];
             continue;
         }
 
         paras.Add(pStrSplit[0], pStrSplit[1]);
     }
 
+    //paras.Add("", name);
     return paras;
 }
 
