@@ -61,14 +61,9 @@ internal class ServiceTool : BaseProjectTool
         }
 
         FileHelper.CreateDirectory(path);
-        
-        var repDefine = ss.mode == SolutionMode.Default
-                ? $"I{ss.entity_name}Rep _{ss.entity_name}Rep = InsContainer<I{ss.entity_name}Rep>.Instance" :
-                $"{ss.entity_name}Rep _{ss.entity_name}Rep = new()";
 
         var oServiceFilePath = Path.Combine(path, $"{ss.entity_name}Service.cs");
-        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt",
-            new Dictionary<string, string>() { { "{rep_define}", repDefine } });
+        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt");
         
         Console.WriteLine("服务层实体 -- done");
     }

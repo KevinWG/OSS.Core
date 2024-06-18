@@ -10,7 +10,12 @@ namespace {{solution_name}};
 /// </summary>
 public class {{entity_name}}Service : I{{entity_name}}OpenService
 {
-    private static readonly {rep_define};
+
+{% if mode == 0 %}  
+     private static readonly I{{entity_name}}Rep _rep = InsContainer<I{{entity_name}}Rep>.Instance;
+{% else %}  
+     private static readonly {{entity_name}}Rep _rep = new();
+{% endif %}
 
     static {{entity_name}}Service() 
     {
@@ -21,14 +26,14 @@ public class {{entity_name}}Service : I{{entity_name}}OpenService
     /// <inheritdoc />
     public async Task<TokenPageListResp<{{entity_name}}Mo>> MSearch(Search{{entity_name}}Req req)
     {
-        var pageList = await _{{entity_name}}Rep.Search(req);
+        var pageList = await _rep.Search(req);
          return pageList.ToTokenPageRespWithIdToken();
     }
 
     /// <inheritdoc />
     public Task<Resp<{{entity_name}}Mo>> Get(long id)
     {
-        var  taskEnt = _{{entity_name}}Rep.GetById(id);
+        var  taskEnt = _rep.GetById(id);
         return new Resp<{{entity_name}}Mo>().WithTaskData(taskEnt, "未能找到{{entity_display}}对象");
     }
 
@@ -49,7 +54,7 @@ public class {{entity_name}}Service : I{{entity_name}}OpenService
     {
         var id = PassTokenHelper.GetData(pass_token).ToInt64();
 
-        return _{{entity_name}}Rep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
+        return _rep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
     }
 
     /// <inheritdoc />
@@ -57,7 +62,7 @@ public class {{entity_name}}Service : I{{entity_name}}OpenService
     {
         var mo = req.ToMo();
 
-        await _{{entity_name}}Rep.Add(mo);
+        await _rep.Add(mo);
         return new LongResp(mo.id);
     }
 }

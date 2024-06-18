@@ -77,12 +77,7 @@ internal class RepTool : BaseProjectTool
         FileHelper.CreateDirectory(repDir);
 
         var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
-        FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt", new Dictionary<string, string>()
-        {
-            {
-                "{rep_interface}", ss.mode == SolutionMode.Default ? $",I{ss.entity_name}Rep" : string.Empty
-            }
-        });
+        FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt");
     }
 
     // 修改仓储启动注册文件,注入仓储接口实现
