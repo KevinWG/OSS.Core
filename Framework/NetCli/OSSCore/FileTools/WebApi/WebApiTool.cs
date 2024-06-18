@@ -27,7 +27,7 @@ internal  class WebApiTool: BaseProjectTool
             $"..\\{ss.service_project.name}\\{ss.service_project.name}.csproj",
         };
 
-        if (ss.mode == SolutionMode.Default)
+        if (ss.mode == SolutionMode.Full)
         {
             projectRefs.Add($"..\\{ss.rep_project.name}\\{ss.rep_project.name}.csproj");
         }
@@ -55,14 +55,14 @@ internal  class WebApiTool: BaseProjectTool
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var repRegisterStr = ss.mode != SolutionMode.Simple_Plus
+        var repRegisterStr = ss.mode != SolutionMode.Simple
             ? $"services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入"
             : string.Empty;
-        var serviceRegisterStr = ss.mode != SolutionMode.Simple_Plus
+        var serviceRegisterStr = ss.mode != SolutionMode.Simple
             ? $"services.Register<{ss.service_project.starter_class_name}>();       // 逻辑服务层启动注入 "
             : string.Empty;
 
-        var domainRegisterStr = ss.mode == SolutionMode.Simple
+        var domainRegisterStr = ss.mode == SolutionMode.Normal
             ? string.Empty
             : $"services.Register<{ss.domain_project.starter_class_name}>();       // 领域实体层启动注入";
 

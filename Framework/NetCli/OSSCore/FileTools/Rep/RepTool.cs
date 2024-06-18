@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace OSSCore;
+﻿namespace OSSCore;
 
 internal class RepTool : BaseProjectTool
 {
@@ -14,7 +10,7 @@ internal class RepTool : BaseProjectTool
 
     public override void Create_Project(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
             return;
 
         var project = ss.rep_project;
@@ -25,10 +21,10 @@ internal class RepTool : BaseProjectTool
             "OSS.Core.Rep.Dapper.Mysql", "OSS.Core.Extension.Cache", "OSS.Tools.Config"
         };
 
-        var domainProject = ss.mode == SolutionMode.Simple ? ss.domain_open_project.name : ss.domain_project.name;
+        var domainProject = ss.mode == SolutionMode.Normal ? ss.domain_open_project.name : ss.domain_project.name;
         var projectRefs = new List<string>()
         {
-            $"..{(ss.mode == SolutionMode.Simple ? "\\Open" : string.Empty)}\\{domainProject}\\{domainProject}.csproj"
+            $"..{(ss.mode == SolutionMode.Normal ? "\\Open" : string.Empty)}\\{domainProject}\\{domainProject}.csproj"
         };
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
@@ -46,7 +42,7 @@ internal class RepTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
             return;
 
         var project = ss.rep_project;
@@ -69,7 +65,7 @@ internal class RepTool : BaseProjectTool
     private static void AddEntity_Rep(Solution ss)
     {
         var repDir = Path.Combine(ss.rep_project.project_dir, ss.entity_name);
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
         {
             repDir = Path.Combine(repDir, "Rep");
         }
@@ -83,7 +79,7 @@ internal class RepTool : BaseProjectTool
     // 修改仓储启动注册文件,注入仓储接口实现
     private static void AddEntity_ChangeStarter(Solution ss)
     {
-        if (ss.mode != SolutionMode.Default) //    仅全模式下才会有数据层接口注入
+        if (ss.mode != SolutionMode.Full) //    仅全模式下才会有数据层接口注入
             return;
 
         var project         = ss.rep_project;

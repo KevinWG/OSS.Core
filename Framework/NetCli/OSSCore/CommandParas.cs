@@ -1,25 +1,45 @@
-﻿
-namespace OSSCore;
+﻿namespace OSSCore;
 
 internal class ModulePara: ParaItem
 {
-    public string solution_pre { get; set; }
+    /// <summary>
+    ///  解决方案前缀
+    /// </summary>
+    public string solution_pre { get; set; } = string.Empty;
 
-    public SolutionMode solution_mode { get; set; } = SolutionMode.Default;
+    public SolutionMode solution_mode { get; set; } = SolutionMode.Normal;
+
+    public DBType db_type { get; set; } = DBType.MySql;
 }
+
+
 
 public enum SolutionMode
 {
-    Default=0,
-    Simple =1,
+    Full   = 0,
 
-    Simple_Plus =2,
+    Normal = 1,
+
+    Simple = 2,
+}
+
+public enum DBType
+{
+    MySql = 0,
+
+    SqlServer = 1
 }
 
 
 public class ParaItem
 {
-    public string name { get; set; }
+    /// <summary>
+    ///  名称
+    /// </summary>
+    public string name { get; set; } = string.Empty;
 
-    public string display { get; set; }
+    /// <summary>
+    ///  显示
+    /// </summary>
+    public string display { get; set; } = string.Empty;
 }

@@ -14,7 +14,7 @@ internal class ServiceTool : BaseProjectTool
 
     public override void Create_Project(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
             return;
 
         var project = ss.service_project;
@@ -29,7 +29,7 @@ internal class ServiceTool : BaseProjectTool
 
         var projectRefs = new List<string>
         {
-            ss.mode == SolutionMode.Simple
+            ss.mode == SolutionMode.Normal
                 ? $"..\\{ss.rep_project.name}\\{ss.rep_project.name}.csproj"
                 : $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj"
         };
@@ -40,7 +40,7 @@ internal class ServiceTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
             return;
 
         var project = ss.service_project;
@@ -55,7 +55,7 @@ internal class ServiceTool : BaseProjectTool
     public override void AddEntity(Solution ss)
     {
         var path = ss.service_project.entity_dir;
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
         {
             path = Path.Combine(path, "Service");
         }

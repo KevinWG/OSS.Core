@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace OSSCore;
+﻿namespace OSSCore;
 
 internal class DomainTool : BaseProjectTool
 {
@@ -19,7 +15,7 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_Project(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple)
+        if (ss.mode == SolutionMode.Normal)
             return;
 
         var project = ss.domain_project;
@@ -31,7 +27,7 @@ internal class DomainTool : BaseProjectTool
             "OSS.Core.Domain"
         };
 
-        if (ss.mode == SolutionMode.Simple_Plus)
+        if (ss.mode == SolutionMode.Simple)
         {
             // 极简模式下 服务，仓储，实体放置在一起
             packageRefs.AddRange(new[]
@@ -72,7 +68,7 @@ internal class DomainTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution solution)
     {
-        if (solution.mode == SolutionMode.Simple)
+        if (solution.mode == SolutionMode.Normal)
             return;
 
         var project = solution.domain_project;
@@ -95,7 +91,7 @@ internal class DomainTool : BaseProjectTool
 
     private static void AddEntityIRep(Solution ss)
     {
-        if (ss.mode != SolutionMode.Default)
+        if (ss.mode != SolutionMode.Full)
             return;
 
         FileHelper.CreateDirectory(Path.Combine(ss.domain_project.entity_dir,"IRep"));

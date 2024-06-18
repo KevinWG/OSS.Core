@@ -5,8 +5,7 @@ using OSSCore;
 
 TemplateOptions.Default.MemberAccessStrategy = new UnsafeMemberAccessStrategy();
 
-
-if (args == null || args.Length < 1)
+if (args.Length < 1)
 {
     ConsoleTips();
     return;
@@ -51,24 +50,7 @@ DispatchCommand(args);
 }
 
 
- static ParaItem GetAddEntityParas(string[] args)
-{
-    var paras = new ParaItem();
 
-    for (var i = 1; i < args.Length; i++)
-    {
-        var p = args[i];
-        if (p.StartsWith("--display="))
-        {
-            paras.display = p.Replace("--display=", "").TrimEnd();
-        }
-        else
-        {
-            paras.name = p;
-        }
-    }
-    return paras;
-}
 
 
 
@@ -107,47 +89,6 @@ static ModulePara GetParasFromFile(string basePath)
     FileHelper.CreateFile(moduleJsonPath, JsonSerializer.Serialize(paras));
 }
 
- static ModulePara GetCreateParas(string[] args)
-{
-    var paras = new ModulePara();
-
-    for (var i = 1; i < args.Length; i++)
-    {
-        var p = args[i];
-
-        if (p.StartsWith("--pre="))
-        {
-            paras.solution_pre = p.Replace("--pre=", "").Trim();
-        }
-        else if (p.StartsWith("--mode="))
-        {
-            var mode = p.Replace("--mode=", "").Trim().ToLower();
-            if (mode == "simple")
-            {
-                paras.solution_mode = SolutionMode.Simple;
-            }
-            else if (mode == "simple_plus")
-            {
-                paras.solution_mode = SolutionMode.Simple_Plus;
-            }
-            else
-            {
-                paras.solution_mode = SolutionMode.Default;
-            }
-        }
-        else if (p.StartsWith("--display="))
-        {
-            paras.display = p.Replace("--display=", "").Trim();
-        }
-        else
-        {
-            paras.name = p;
-        }
-    }
-
-    return paras;
-}
-
 
 #endregion
 
@@ -170,3 +111,81 @@ osscore add entityName (创建领域对象名为entityName的各模块文件)
 
     Console.WriteLine(commandStr);
 }
+
+#region 参数处理
+
+static ParaItem GetAddEntityParas(string[] args)
+{
+    var paras = new ParaItem();
+
+    for (var i = 1; i < args.Length; i++)
+    {
+        var p = args[i];
+        if (p.StartsWith("--display="))
+        {
+            paras.display = p.Replace("--display=", "").TrimEnd();
+        }
+        else
+        {
+            paras.name = p;
+        }
+    }
+    return paras;
+}
+
+static ModulePara GetCreateParas(string[] args)
+{
+    var paras    = new ModulePara();
+    var paraDics = GetArgParaDictionary(args);
+
+    foreach (var paraDic in paraDics)
+    {
+        switch (paraDic.Key)
+        {
+            case "pre":
+                paras.solution_pre = paraDic.Value;
+                break;
+            case "display":
+                paras.display = paraDic.Value;
+                break;
+            case "mode":
+                paras.solution_mode = paraDic.Value switch
+                {
+                    "simple"      => SolutionMode.Normal,
+                    "simple_plus" => SolutionMode.Simple,
+                    _             => SolutionMode.Full
+                };
+                break;
+            case "dbtype":
+
+                break;
+            default:
+                paras.name = paraDic.Value;
+                break;
+        }
+    }
+    return paras;
+}
+
+static Dictionary<string, string> GetArgParaDictionary(string[] args)
+{
+    var paras = new Dictionary<string, string>();
+
+    for (var i = 1; i < args.Length; i++)
+    {
+        var pStr      = args[i].Trim('-').Trim(' ');
+        var pStrSplit = pStr.Split('=', StringSplitOptions.RemoveEmptyEntries);
+        if (pStrSplit.Length < 2)
+        {
+            continue;
+        }
+
+        paras.Add(pStrSplit[0], pStrSplit[1]);
+    }
+
+    return paras;
+}
+
+
+
+#endregion
