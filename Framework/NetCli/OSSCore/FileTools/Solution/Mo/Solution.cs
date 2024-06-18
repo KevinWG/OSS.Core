@@ -53,8 +53,6 @@ internal class Solution
 
     public string solution_name { get;  }
 
-    //public bool no_rep_injection { get; set; }
-
 
     public SolutionMode mode { get; set; }
 

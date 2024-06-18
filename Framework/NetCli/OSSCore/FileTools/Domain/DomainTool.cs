@@ -57,7 +57,7 @@ internal class DomainTool : BaseProjectTool
         FileHelper.CreateDirectory(projectDir);
 
         var readMeFilePath = Path.Combine(projectDir, $"ReadMe.txt");
-        FileHelper.CreateFileByTemplate(readMeFilePath, ss, "Domain/ReadMe.txt");
+        FileHelper.CreateFileByReplaceTemplate(readMeFilePath, ss, "Domain/ReadMe.txt");
     }
     public override void Create_CommonFiles(Solution ss)
     {
@@ -67,7 +67,7 @@ internal class DomainTool : BaseProjectTool
         FileHelper.CreateDirectory(constProjectDir);
         
         var baeRepFilePath  = Path.Combine(constProjectDir, $"{project.const_file_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
+        FileHelper.CreateFileByReplaceTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
     }
 
     public override void Create_GlobalFiles(Solution solution)
@@ -79,7 +79,7 @@ internal class DomainTool : BaseProjectTool
         FileHelper.CreateDirectory(project.global_dir);
 
         var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
-        FileHelper.CreateFileByTemplate(starterFilePath, solution, "Domain/DomainAppStarter.txt");
+        FileHelper.CreateFileByReplaceTemplate(starterFilePath, solution, "Domain/DomainAppStarter.txt");
     }
 
     #endregion
@@ -104,7 +104,7 @@ internal class DomainTool : BaseProjectTool
         FileHelper.CreateDirectory(iRepDir);
 
         var iRepFilePath = Path.Combine(iRepDir, $"I{ss.entity_name}Rep.cs");
-        FileHelper.CreateFileByTemplate(iRepFilePath, ss, "Domain/IRep/IEntityRep.txt");
+        FileHelper.CreateFileByReplaceTemplate(iRepFilePath, ss, "Domain/IRep/IEntityRep.txt");
     }
 
 

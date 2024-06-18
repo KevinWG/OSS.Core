@@ -6,18 +6,18 @@ using OSS.Common.Resp;
 using OSS.Core.Rep.Mysql;
 using OSS.Tools.Config;
 
-namespace {solution_name};
+namespace {{solution_name}};
 
 /// <summary>
 ///  {module_display} 模块仓储基类
 /// </summary>
-public abstract class Base{module_name}Rep<MType,IdType> : BaseMysqlRep<MType, IdType>
+public abstract class Base{{module_name}}Rep<MType,IdType> : BaseMysqlRep<MType, IdType>
     where MType : BaseMo<IdType>
 {
     private static readonly string _writeConnection = ConfigHelper.GetConnectionString("WriteConnection");
     private static readonly string _readConnection  = ConfigHelper.GetConnectionString("ReadConnection");
 
-    protected Base{module_name}Rep(string tableName) : base(_writeConnection , _readConnection , tableName)
+    protected Base{{module_name}}Rep(string tableName) : base(_writeConnection , _readConnection , tableName)
     {
     }
 

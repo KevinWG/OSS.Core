@@ -4,7 +4,7 @@ using OSS.Core.Context;
 using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
 
-namespace {solution_name};
+namespace {{solution_name}};
 
 /// <summary>
 ///  应用访问秘钥信息提供者

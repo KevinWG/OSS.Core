@@ -13,12 +13,12 @@
 
 using OSS.Core.Domain;
 
-namespace {solution_name};
+namespace {{ solution_name }};
 
 /// <summary>
 ///  {entity_display} 对象实体 
 /// </summary>
-public class {entity_name}Mo : BaseOwnerAndStateMo<long>
+public class {{entity_name}}Mo : BaseOwnerAndStateMo<long>
 {
      // /// <summary>
      // /// 名称

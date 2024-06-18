@@ -3,39 +3,39 @@ using OSS.Common;
 using OSS.Common.Resp;
 using OSS.Core.Context.Attributes;
 
-namespace {solution_name};
+namespace {{solution_name}};
 
 /// <summary>
 ///  {entity_display} 开放 WebApi 
 /// </summary>
-public class {entity_name}Controller : Base{module_name}Controller, I{entity_name}OpenService
+public class {{entity_name}}Controller : Base{{module_name}}Controller, I{{entity_name}}OpenService
 {
-    private static readonly I{entity_name}OpenService _service = new {entity_name}Service();
+    private static readonly I{{entity_name}}OpenService _service = new {{entity_name}}Service();
 
     /// <summary>
-    ///  查询{entity_display}列表
+    ///  查询{{entity_display}}列表
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<TokenPageListResp<{entity_name}Mo>> MSearch([FromBody] Search{entity_name}Req req)
+    public Task<TokenPageListResp<{{entity_name}}Mo>> MSearch([FromBody] Search{{entity_name}}Req req)
     {
         return _service.MSearch(req);
     }
 
     /// <summary>
-    ///  通过id获取{entity_display}详情
+    ///  通过id获取{{entity_display}}详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<Resp<{entity_name}Mo>> Get(long id)
+    public Task<Resp<{{entity_name}}Mo>> Get(long id)
     {
         return _service.Get(id);
     }
 
     
     /// <summary>
-    ///  设置{entity_display}可用状态
+    ///  设置{{entity_display}}可用状态
     /// </summary>
     /// <param name="pass_token">id对应的通行码</param>
     /// <param name="flag">可用标识 1-可用 ， 0-不可用</param>
@@ -49,12 +49,12 @@ public class {entity_name}Controller : Base{module_name}Controller, I{entity_nam
 
 
     /// <summary>
-    ///  添加{entity_display}对象
+    ///  添加{{entity_display}}对象
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<LongResp> Add([FromBody] Add{entity_name}Req req)
+    public Task<LongResp> Add([FromBody] Add{{entity_name}}Req req)
     {
         return _service.Add(req);
     }

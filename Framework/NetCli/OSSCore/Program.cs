@@ -1,6 +1,9 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using System.Text.Json;
+using Fluid;
 using OSSCore;
+
+TemplateOptions.Default.MemberAccessStrategy = new UnsafeMemberAccessStrategy();
 
 
 if (args == null || args.Length < 1)

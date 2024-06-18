@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "OSSCore": {
+      "commandName": "Project",
+      "commandLineArgs": "add Order"
+    }
+  }
+}

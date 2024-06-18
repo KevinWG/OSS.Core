@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace OSSCore;
+﻿namespace OSSCore;
 internal  class ClientTool : BaseProjectTool
 {
     #region 创建
@@ -40,8 +36,7 @@ internal  class ClientTool : BaseProjectTool
         FileHelper.CreateDirectory(project.common_dir);
 
         var moduleReqPath = Path.Combine(project.common_dir, $"{project.module_req_name}.cs");
-        FileHelper.CreateFileByTemplate(moduleReqPath, ss, "Client/Http/ModuleRequest.txt"
-            , new Dictionary<string, string>() { { "{module_req}", project.module_req_name }});
+        FileHelper.CreateFileByTemplate(moduleReqPath, ss, "Client/Http/ModuleRequest.txt");
     }
 
 
@@ -57,8 +52,7 @@ internal  class ClientTool : BaseProjectTool
 
         var entityClientPath = Path.Combine(project.entity_dir, $"{ss.entity_name}HttpClient.cs");
 
-        FileHelper.CreateFileByTemplate(entityClientPath,ss, "Client/Http/EntityClient.txt",
-            new Dictionary<string, string>(){{ "{module_req}",project.module_req_name } });
+        FileHelper.CreateFileByTemplate(entityClientPath,ss, "Client/Http/EntityClient.txt");
 
         AddEntity_ChangeModuleClient(ss);
     }

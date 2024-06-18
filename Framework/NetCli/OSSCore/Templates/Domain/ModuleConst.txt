@@ -1,19 +1,19 @@
-﻿namespace {solution_name};
+﻿namespace {{solution_name}};
 
 /// <summary>
 ///  {module_display} 模块静态声明
 /// </summary>
-public static class {module_name}Const
+public static class {{module_name}}Const
 {
     /// <summary>
-    ///  {module_display} 
+    ///  {{module_display}}
     /// </summary>
-    public const string ModuleName = "{module_name}";
+    public const string ModuleName = "{{module_name}}";
 
     public static class CacheKeys
     {
         // 放置相关缓存Key
-        // 涉及相关动态参数，建议以 ByPara 结尾，例如： {module_name}DetailById = "{module_name}Detail_"
+        // 涉及相关动态参数，建议以 ByPara 结尾，例如： {module_name}DetailById = "{{module_name}}Detail_"
     }
 
     public static class DataMsgKeys

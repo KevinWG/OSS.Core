@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using Fluid;
 
 namespace OSSCore;
 
@@ -48,12 +49,46 @@ internal static class FileHelper
     }
 
 
-    public static void CreateFileByTemplate(string filePath, Solution ss, string templateRelativePath, Dictionary<string, string> extParas = null)
+
+    private static readonly FluidParser _fluidParser = new();
+
+    /// <summary>
+    ///  通过模版生成文件
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="ss"></param>
+    /// <param name="templateRelativePath"></param>
+    public static void CreateFileByTemplate(string filePath, Solution ss, string templateRelativePath)
+    {
+        var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
+        var content      = LoadFile(templatePath);
+
+        if (!_fluidParser.TryParse(content, out var template, out var error))
+        {
+            Console.WriteLine($"({filePath})文件处理异常： {error}");
+        }
+
+        var context = new TemplateContext(ss);
+        content = template.Render(context);
+
+        CreateFile(filePath, content);
+    }
+
+
+
+
+
+
+
+    #region 通过替换处理模版
+
+    [Obsolete]
+    public static void CreateFileByReplaceTemplate(string filePath, Solution ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {
         var content = LoadTemplateContent(ss,templateRelativePath, extParas);
         CreateFile(filePath, content);
     }
-
+    [Obsolete]
     private static string LoadTemplateContent(Solution ss, string templateRelativePath, Dictionary<string, string> extParas = null)
     {
         var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
@@ -85,4 +120,6 @@ internal static class FileHelper
         return  extParas.Aggregate(newContent,
                 (eNew, kPair) => eNew.Replace( kPair.Key, kPair.Value));
     }
+
+    #endregion
 }

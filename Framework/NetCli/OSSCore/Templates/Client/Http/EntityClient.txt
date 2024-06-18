@@ -2,28 +2,27 @@
 using OSS.Common.Resp;
 using OSS.Core.Client.Http;
 
-namespace {solution_name}.Client;
+namespace {{solution_name}}.Client;
 
 /// <summary>
-///  {entity_display} 接口客户端
+///  {{entity_display}} 接口客户端
 /// </summary>
-internal class {entity_name}HttpClient : I{entity_name}OpenService
+internal class {{entity_name}}HttpClient : I{{entity_name}}OpenService
 {
-     private const string apiEntityPath = "/{entity_name}";
+     private const string apiEntityPath = "/{{entity_name}}";
 
     /// <inheritdoc />
-    public Task<TokenPageListResp<{entity_name}Mo>> MSearch(Search{entity_name}Req req)
+    public Task<TokenPageListResp<{{entity_name}}Mo>> MSearch(Search{{entity_name}}Req req)
     {
           var apiPath =$"{apiEntityPath}/{nameof(MSearch)}";
-          return new {module_req}(apiPath)
-            .PostAsync<TokenPageListResp<{entity_name}Mo>>(req);
+          return new {{ http_client_project.module_req_name }}(apiPath).PostAsync<TokenPageListResp<{{entity_name}}Mo>>(req);
     }
 
     /// <inheritdoc />
-    public Task<Resp<{entity_name}Mo>> Get(long id)
+    public Task<Resp<{{entity_name}}Mo>> Get(long id)
     {
           var apiPath =$"{apiEntityPath}/{nameof(Get)}?id={id}";
-          return new {module_req}(apiPath).GetAsync<Resp<{entity_name}Mo>>();
+          return new {{http_client_project.module_req_name}}(apiPath).GetAsync<Resp<{{entity_name}}Mo>>();
     }
     
     /// <inheritdoc />
@@ -31,13 +30,13 @@ internal class {entity_name}HttpClient : I{entity_name}OpenService
     {
           var apiPath =$"{apiEntityPath}/{nameof(SetUseable)}?pass_token={pass_token}&flag={flag}";
 
-          return new {module_req}(apiPath).PostAsync<Resp>();
+          return new {{http_client_project.module_req_name}}(apiPath).PostAsync<Resp>();
     }
 
     /// <inheritdoc />
-    public Task<LongResp> Add(Add{entity_name}Req req)
+    public Task<LongResp> Add(Add{{entity_name}}Req req)
     {
           var apiPath =$"{apiEntityPath}/{nameof(Add)}";
-          return new {module_req}(apiPath).PostAsync<LongResp>(req);
+          return new {{http_client_project.module_req_name}}(apiPath).PostAsync<LongResp>(req);
     }
 }

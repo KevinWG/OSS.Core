@@ -47,7 +47,7 @@ internal class ServiceTool : BaseProjectTool
         FileHelper.CreateDirectory(project.global_dir);
 
         var baeStarterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
-        FileHelper.CreateFileByTemplate(baeStarterFilePath, ss, "Service/ServiceAppStarter.txt");
+        FileHelper.CreateFileByReplaceTemplate(baeStarterFilePath, ss, "Service/ServiceAppStarter.txt");
     }
     
     #region 添加实体
@@ -67,7 +67,7 @@ internal class ServiceTool : BaseProjectTool
                 $"{ss.entity_name}Rep _{ss.entity_name}Rep = new()";
 
         var oServiceFilePath = Path.Combine(path, $"{ss.entity_name}Service.cs");
-        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt",
+        FileHelper.CreateFileByReplaceTemplate(oServiceFilePath, ss, "Service/EntityService.txt",
             new Dictionary<string, string>() { { "{rep_define}", repDefine } });
         
         Console.WriteLine("服务层实体 -- done");

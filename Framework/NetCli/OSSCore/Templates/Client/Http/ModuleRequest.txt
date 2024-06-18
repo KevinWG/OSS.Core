@@ -4,11 +4,11 @@ using OSS.Core.Client.Http;
 namespace {solution_name}.Client;
 
 /// <summary>
-///  {module_display} 模块客户端请求
+///  {{module_display}} 模块客户端请求
 /// </summary>
-internal class {module_req}: BaseRemoteRequest
+internal class {{ http_client_project.module_req_name }}: BaseRemoteRequest
 {
-    public {module_req}(string apiPath) : base("{module_name}", apiPath)
+    public {{ http_client_project.module_req_name }}(string apiPath) : base("{{module_name}}", apiPath)
     {
     }
 

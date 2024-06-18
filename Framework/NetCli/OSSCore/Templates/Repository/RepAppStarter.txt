@@ -2,13 +2,13 @@
 using OSS.Common;
 using OSS.Core;
 
-namespace {solution_name};
+namespace {{solution_name}};
 
 /// <summary>
 ///  仓储层启动注入
 ///       启动注入（内部）相关，注入外部引用项请在全局注入
 /// </summary>
-public class {module_name}RepStarter : AppStarter
+public class {{module_name}}RepStarter : AppStarter
 {
     public override void Start(IServiceCollection serviceCollection)
     {

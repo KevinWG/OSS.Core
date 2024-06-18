@@ -4,7 +4,7 @@ using OSS.Core;
 using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
 
-using {solution_name};
+using {{solution_name}};
 
 
 // ========================================  容器依赖注入   ========================================
