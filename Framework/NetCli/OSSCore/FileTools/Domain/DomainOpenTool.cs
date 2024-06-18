@@ -55,10 +55,10 @@ internal class DomainOpenTool : BaseProjectTool
         FileHelper.CreateDirectory(dtoDir);
 
         var addEntFilePath = Path.Combine(dtoDir, string.Concat("Add", ss.entity_name, "Req.cs"));
-        FileHelper.CreateFileByReplaceTemplate(addEntFilePath, ss, "Domain/DTO/AddEntityReq.txt");
+        FileHelper.CreateFileByTemplate(addEntFilePath, ss, "Domain/DTO/AddEntityReq.txt");
 
         var searchEntFilePath = Path.Combine(dtoDir, string.Concat("Search", ss.entity_name, "Req.cs"));
-        FileHelper.CreateFileByReplaceTemplate(searchEntFilePath, ss, "Domain/DTO/SearchEntityReq.txt");
+        FileHelper.CreateFileByTemplate(searchEntFilePath, ss, "Domain/DTO/SearchEntityReq.txt");
     }
 
     private static void AddEntity_IOpenService(Solution ss)
@@ -67,7 +67,7 @@ internal class DomainOpenTool : BaseProjectTool
         FileHelper.CreateDirectory(interfaceDir);
 
         var oServiceFilePath = Path.Combine(interfaceDir, $"I{ss.entity_name}OpenService.cs");
-        FileHelper.CreateFileByReplaceTemplate(oServiceFilePath, ss, "Domain/IEntityOpenService.txt");
+        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Domain/IEntityOpenService.txt");
     }
 
     #endregion

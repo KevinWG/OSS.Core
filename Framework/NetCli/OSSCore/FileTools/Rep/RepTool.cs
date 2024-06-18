@@ -41,7 +41,7 @@ internal class RepTool : BaseProjectTool
         FileHelper.CreateDirectory(baseRepDir);
 
         var baeRepFilePath = Path.Combine(baseRepDir, $"{project.base_class_name}.cs");
-        FileHelper.CreateFileByReplaceTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
+        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
     }
 
     public override void Create_GlobalFiles(Solution ss)
@@ -53,7 +53,7 @@ internal class RepTool : BaseProjectTool
         FileHelper.CreateDirectory(project.global_dir);
 
         var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
-        FileHelper.CreateFileByReplaceTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "Repository/RepAppStarter.txt");
     }
 
 
@@ -77,7 +77,7 @@ internal class RepTool : BaseProjectTool
         FileHelper.CreateDirectory(repDir);
 
         var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
-        FileHelper.CreateFileByReplaceTemplate(repFilePath, ss, "Repository/EntityRep.txt", new Dictionary<string, string>()
+        FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt", new Dictionary<string, string>()
         {
             {
                 "{rep_interface}", ss.mode == SolutionMode.Default ? $",I{ss.entity_name}Rep" : string.Empty

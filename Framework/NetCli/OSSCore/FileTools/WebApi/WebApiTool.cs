@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace OSSCore;
+﻿namespace OSSCore;
 
 internal  class WebApiTool: BaseProjectTool
 {
@@ -48,10 +44,10 @@ internal  class WebApiTool: BaseProjectTool
         FileHelper.CreateDirectory(ss.webapi_project.common_dir);
 
         var baseFilePath = Path.Combine(ss.webapi_project.common_dir, $"Base{ss.module_name}Controller.cs");
-        FileHelper.CreateFileByReplaceTemplate(baseFilePath, ss, "WebApi/Common/BaseModuleController.txt");
+        FileHelper.CreateFileByTemplate(baseFilePath, ss, "WebApi/Common/BaseModuleController.txt");
 
         var swaggerFilePath = Path.Combine(ss.webapi_project.common_dir, "SwaggerHelper.cs");
-        FileHelper.CreateFileByReplaceTemplate(swaggerFilePath, ss, "WebApi/Common/SwaggerHelper.txt");
+        FileHelper.CreateFileByTemplate(swaggerFilePath, ss, "WebApi/Common/SwaggerHelper.txt");
     }
 
     public override void Create_GlobalFiles(Solution ss)
@@ -74,10 +70,10 @@ internal  class WebApiTool: BaseProjectTool
             { "{DomainStarterRegister}", domainRegisterStr } }; 
 
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
-        FileHelper.CreateFileByReplaceTemplate(starterFilePath, ss, "WebApi/AppGlobal/GlobalStarter.txt", extDic);
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/AppGlobal/GlobalStarter.txt", extDic);
 
         var authProPath = Path.Combine(project.global_dir, "AuthProvider.cs");
-        FileHelper.CreateFileByReplaceTemplate(authProPath, ss, "WebApi/AppGlobal/AuthProvider.txt");
+        FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AppGlobal/AuthProvider.txt");
     }
 
     private static void CreateProgramFile(Solution ss)
@@ -85,7 +81,7 @@ internal  class WebApiTool: BaseProjectTool
         var project = ss.webapi_project;
         
         var programFilePath = Path.Combine(project.project_dir, "Program.cs");
-        FileHelper.CreateFileByReplaceTemplate(programFilePath, ss, "WebApi/Program.txt");
+        FileHelper.CreateFileByTemplate(programFilePath, ss, "WebApi/Program.txt");
     }
 
 
@@ -96,7 +92,7 @@ internal  class WebApiTool: BaseProjectTool
         var secret = Guid.NewGuid().ToString().Replace("-","");
 
         var appSettingPath = Path.Combine(project.project_dir, "appsettings.json");
-        FileHelper.CreateFileByReplaceTemplate(appSettingPath, ss, "WebApi/AppSetting.txt",
+        FileHelper.CreateFileByTemplate(appSettingPath, ss, "WebApi/AppSetting.txt",
             new Dictionary<string, string>(){{ "{nonce_secret}", secret } });
     }
 
@@ -111,7 +107,7 @@ internal  class WebApiTool: BaseProjectTool
         FileHelper.CreateDirectory(controllerDir);
 
         var entityControllerFilePath = Path.Combine(controllerDir, $"{ss.entity_name}Controller.cs");
-        FileHelper.CreateFileByReplaceTemplate(entityControllerFilePath, ss,"WebApi/EntityController.txt");
+        FileHelper.CreateFileByTemplate(entityControllerFilePath, ss,"WebApi/EntityController.txt");
 
         Console.WriteLine("应用接口层实体 -- done");
     }
