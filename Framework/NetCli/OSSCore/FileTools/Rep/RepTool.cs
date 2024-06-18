@@ -37,8 +37,10 @@ internal class RepTool : BaseProjectTool
 
         FileHelper.CreateDirectory(baseRepDir);
 
-        var baeRepFilePath = Path.Combine(baseRepDir, $"{project.base_class_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Repository/BaseRep.txt");
+        var dbRepTemplateDir = GetRepDBTypeTemplateDir(ss);
+        var baeRepFilePath   = Path.Combine(baseRepDir, $"{project.base_class_name}.cs");
+
+        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, $"Repository/{dbRepTemplateDir}/BaseRep.txt");
     }
 
     public override void Create_GlobalFiles(Solution ss)
@@ -72,8 +74,16 @@ internal class RepTool : BaseProjectTool
 
         FileHelper.CreateDirectory(repDir);
 
+        var dbRepTemplateDir   = GetRepDBTypeTemplateDir(ss);
         var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
-        FileHelper.CreateFileByTemplate(repFilePath, ss, "Repository/EntityRep.txt");
+
+        FileHelper.CreateFileByTemplate(repFilePath, ss, $"Repository/{dbRepTemplateDir}/EntityRep.txt");
+    }
+
+    private static string GetRepDBTypeTemplateDir(Solution ss)
+    {
+        var repTxtDir = ss.db_type == DBType.SqlServer ? "SqlServer" : "MySql";
+        return repTxtDir;
     }
 
     // 修改仓储启动注册文件,注入仓储接口实现

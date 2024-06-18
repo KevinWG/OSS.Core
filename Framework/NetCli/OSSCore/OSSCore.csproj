@@ -59,13 +59,19 @@
     <None Update="Templates\Domain\ReadMe.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Templates\Repository\BaseRep.txt">
+    <None Update="Templates\Repository\MySql\BaseRep.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Templates\Repository\EntityRep.txt">
+    <None Update="Templates\Repository\MySql\EntityRep.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\Repository\RepAppStarter.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Repository\SqlServer\BaseRep.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Repository\SqlServer\EntityRep.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\Service\EntityService.txt">

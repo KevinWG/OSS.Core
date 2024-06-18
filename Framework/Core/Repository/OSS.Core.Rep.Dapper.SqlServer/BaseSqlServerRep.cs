@@ -1,10 +1,13 @@
 ﻿using Microsoft.Data.SqlClient;
-using OSS.Core.Domain;
-using OSS.Core.Rep.Dapper.SqlServer;
 using System.Data;
 
 namespace OSS.Core.Rep.Dapper
 {
+    /// <summary>
+    ///  sqlserver基础仓储类
+    /// </summary>
+    /// <typeparam name="TType"></typeparam>
+    /// <typeparam name="IdType"></typeparam>
     public class BaseSqlServerRep<TType, IdType> : BaseRep<TType, IdType>
        // where TType : BaseMo<IdType>
     {
@@ -49,36 +52,5 @@ namespace OSS.Core.Rep.Dapper
 
 
 
-        #region 辅助方法
-
-        /// <summary>
-        /// 过滤 Sql 语句字符串中的注入脚本
-        /// </summary>
-        /// <param name="source">传入的字符串</param>
-        /// <returns>过滤后的字符串</returns>
-        protected static string SqlFilter(string source)
-        {
-            source = source.Replace("\"", "");
-            source = source.Replace("&", "&amp");
-            source = source.Replace("<", "&lt");
-            source = source.Replace(">", "&gt");
-            source = source.Replace("%", "");
-            source = source.Replace("drop ", "");
-            source = source.Replace("delete ", "");
-            source = source.Replace("update ", "");
-            source = source.Replace("insert ", "");
-            source = source.Replace("'", "''");
-            source = source.Replace(";", "；");
-            source = source.Replace("(", "（");
-            source = source.Replace(")", "）");
-            source = source.Replace("Exec ", "");
-            source = source.Replace("Execute ", "");
-            source = source.Replace("xp_", "x p_");
-            source = source.Replace("sp_", "s p_");
-            source = source.Replace("0x", "0 x");
-            return source;
-        }
-
-        #endregion
     }
 }

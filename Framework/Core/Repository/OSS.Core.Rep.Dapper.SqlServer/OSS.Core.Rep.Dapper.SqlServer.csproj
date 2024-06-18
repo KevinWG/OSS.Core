@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\OSS.Core.Domain\OSS.Core.Domain.csproj" />
+    <ProjectReference Include="..\OSS.Core.Rep.Dapper\OSS.Core.Rep.Dapper.csproj" />
   </ItemGroup>
 
 </Project>

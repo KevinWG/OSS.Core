@@ -1,0 +1,62 @@
+﻿using System.Text;
+using OSS.Common.Extension;
+using OSS.Core.Context;
+using OSS.Core.Domain;
+using OSS.Common.Resp;
+using OSS.Core.Rep.SqlServer;
+using OSS.Tools.Config;
+
+namespace {{solution_name}};
+
+/// <summary>
+///  {module_display} 模块仓储基类
+/// </summary>
+public abstract class Base{{module_name}}Rep<MType,IdType> : BaseSqlServerRep<MType, IdType>
+    where MType : BaseMo<IdType>
+{
+    private static readonly string _writeConnection = ConfigHelper.GetConnectionString("WriteConnection");
+    private static readonly string _readConnection  = ConfigHelper.GetConnectionString("ReadConnection");
+
+    protected Base{{module_name}}Rep(string tableName) : base(_writeConnection , _readConnection , tableName)
+    {
+    }
+
+
+    /// <summary>
+    /// 生成基础过滤条件语句：
+    /// <para>     状态: 添加状态（字段：status）判断条件</para>
+    /// <para>归属所有者: 判断 sReq 参数中的扩展项是否存在 owner_uid 项，存在则添加所有者（字段：owner_uid） 过滤条件</para>
+    /// <para>     租户: 判断数据库实体是否含有 租户字段，同时完成租户中间件授权，则添加 租户（字段：tenant_id） 过滤条件 </para>
+    /// </summary>
+    /// <param name="sReq">搜索请求（含状态值，和扩展属性）</param>
+    /// <param name="sqlParas">执行语句的Sql参数</param>
+    /// <returns></returns>
+    protected static StringBuilder BuildWhereSql_BasicFilter(StatusSearchReq sReq, IDictionary<string, object> sqlParas)
+    {
+        if (sReq.status <= (int)CommonStatus.Deleted)
+            throw new RespArgumentException("status", "status 值超过可查询的范围!");
+
+        var whereBuilder = new StringBuilder("where");
+
+        // 处理状态
+        sqlParas.Add("@status", sReq.status);
+        whereBuilder.Append(' ').Append(GenerateStatusSql(sReq.status.ToString()));
+
+        // 处理归属所有者
+        var ownerUId = sReq.GetItemValue("owner_uid");
+        if (!string.IsNullOrEmpty(ownerUId))
+        {
+            sqlParas.Add("@owner_uid", ownerUId.ToInt64());
+            whereBuilder.Append(" and t.`owner_uid`=@owner_uid");
+        }
+
+        // 处理租户
+        if (HaveTenantIdColumn && CoreContext.Tenant.IsAuthenticated)
+        {
+            sqlParas.Add("@tenant_id", CoreContext.GetTenantLongId());
+            whereBuilder.Append(" and t.`tenant_id`=@tenant_id");
+        }
+
+        return whereBuilder;
+    }
+}
