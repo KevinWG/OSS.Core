@@ -3,7 +3,7 @@ using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.Domain;
 using OSS.Common.Resp;
-using OSS.Core.Rep.SqlServer;
+using OSS.Core.Rep.Dapper;
 using OSS.Tools.Config;
 
 namespace {{solution_name}};
@@ -47,14 +47,14 @@ public abstract class Base{{module_name}}Rep<MType,IdType> : BaseSqlServerRep<MT
         if (!string.IsNullOrEmpty(ownerUId))
         {
             sqlParas.Add("@owner_uid", ownerUId.ToInt64());
-            whereBuilder.Append(" and t.`owner_uid`=@owner_uid");
+            whereBuilder.Append(" and t.[owner_uid]=@owner_uid");
         }
 
         // 处理租户
         if (HaveTenantIdColumn && CoreContext.Tenant.IsAuthenticated)
         {
             sqlParas.Add("@tenant_id", CoreContext.GetTenantLongId());
-            whereBuilder.Append(" and t.`tenant_id`=@tenant_id");
+            whereBuilder.Append(" and t.[tenant_id]=@tenant_id");
         }
 
         return whereBuilder;

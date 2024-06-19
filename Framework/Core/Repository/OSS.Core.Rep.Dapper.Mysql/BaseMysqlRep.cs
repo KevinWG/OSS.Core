@@ -1,9 +1,8 @@
 ﻿
 using MySql.Data.MySqlClient;
-using OSS.Core.Rep.Dapper;
 using System.Data;
 
-namespace OSS.Core.Rep.Mysql;
+namespace OSS.Core.Rep.Dapper;
 
 /// <summary>
 ///   mysql仓储基类

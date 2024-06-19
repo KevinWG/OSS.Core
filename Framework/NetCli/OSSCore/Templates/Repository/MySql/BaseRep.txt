@@ -3,7 +3,7 @@ using OSS.Common.Extension;
 using OSS.Core.Context;
 using OSS.Core.Domain;
 using OSS.Common.Resp;
-using OSS.Core.Rep.Mysql;
+using OSS.Core.Rep.Dapper;
 using OSS.Tools.Config;
 
 namespace {{solution_name}};

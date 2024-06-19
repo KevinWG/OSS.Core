@@ -6,7 +6,7 @@ using OSS.Core.Context.Attributes;
 namespace {{solution_name}};
 
 /// <summary>
-///  {entity_display} 开放 WebApi 
+///  {{entity_display}} 开放 WebApi 
 /// </summary>
 public class {{entity_name}}Controller : Base{{module_name}}Controller, I{{entity_name}}OpenService
 {

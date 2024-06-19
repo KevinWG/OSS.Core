@@ -32,8 +32,6 @@ namespace OSS.Core.Rep.Dapper
             return new SqlConnection(isWriteOperate ? _writeConnection : _readConnection);
         }
 
-
-
         /// <summary>
         ///  根据状态值处理状态的语句
         ///     以 9 结尾，返回:t.`status`&gt;@status
@@ -49,8 +47,5 @@ namespace OSS.Core.Rep.Dapper
 
             return statusVal.EndsWith("1") ? "t.`status`<@status" : "t.`status`=@status";
         }
-
-
-
     }
 }
