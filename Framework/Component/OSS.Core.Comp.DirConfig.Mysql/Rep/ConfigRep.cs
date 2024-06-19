@@ -7,11 +7,8 @@ namespace OSS.Core.Comp.DirConfig.Mysql;
 
 internal class ConfigRep : BaseMysqlRep<ConfigMo, long>
 {
-    private readonly ConnectionOption _conOpt;
-
     public ConfigRep(ConnectionOption option) : base(option.WriteConnection, option.ReadConnection, option.TableName)
     {
-        _conOpt = option;
     }
 
 
