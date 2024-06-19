@@ -9,14 +9,10 @@ namespace {{solution_name}};
 ///  {{entity_display}} 服务
 /// </summary>
 public class {{entity_code}}Service : I{{entity_code}}OpenService
-{
-    {% assign entity_name_lower = entity_name|downcase %}
-
-{% if mode == 1000 %}  
-     private static readonly I{{entity_code}}Rep _rep = InsContainer<I{{entity_code}}Rep>.Instance;
-{% else %}  
-     private static readonly {{entity_code}}Rep _{{entity_name_lower}}Rep = new();
-{% endif %}
+{   
+    {% assign entity_code_lower = entity_code|downcase %}
+    {% if mode == 1000 %}private static readonly I{{entity_code}}Rep _{{entity_code_lower}}Rep = InsContainer<I{{entity_code}}Rep>.Instance;
+    {% else %}private static readonly {{entity_code}}Rep _{{entity_code_lower}}Rep = new();{% endif %}
 
     static {{entity_code}}Service() 
     {
@@ -27,14 +23,14 @@ public class {{entity_code}}Service : I{{entity_code}}OpenService
     /// <inheritdoc />
     public async Task<TokenPageListResp<{{entity_code}}Mo>> MSearch(Search{{entity_code}}Req req)
     {
-        var pageList = await _{{entity_name_lower}}Rep.Search(req);
+        var pageList = await _{{entity_code_lower}}Rep.Search(req);
          return pageList.ToTokenPageRespWithIdToken();
     }
 
     /// <inheritdoc />
     public Task<Resp<{{entity_code}}Mo>> Get(long id)
     {
-        var  taskEnt = _{{entity_name_lower}}Rep.GetById(id);
+        var  taskEnt = _{{entity_code_lower}}Rep.GetById(id);
         return new Resp<{{entity_code}}Mo>().WithTaskData(taskEnt, "未能找到{{entity_display}}对象");
     }
 
@@ -55,7 +51,7 @@ public class {{entity_code}}Service : I{{entity_code}}OpenService
     {
         var id = PassTokenHelper.GetData(pass_token).ToInt64();
 
-        return _{{entity_name_lower}}Rep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
+        return _{{entity_code_lower}}Rep.UpdateStatus(id, flag == 1 ? CommonStatus.Original : CommonStatus.UnActive);
     }
 
     /// <inheritdoc />
@@ -63,7 +59,7 @@ public class {{entity_code}}Service : I{{entity_code}}OpenService
     {
         var mo = req.ToMo();
 
-        await _{{entity_name_lower}}Rep.Add(mo);
+        await _{{entity_code_lower}}Rep.Add(mo);
         return new LongResp(mo.id);
     }
 }

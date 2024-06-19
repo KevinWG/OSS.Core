@@ -4,7 +4,7 @@ using OSS.Common.Resp;
 namespace {{solution_name}};
 
 /// <summary>
-///  {entity_display} 领域对象开放接口
+///  {{entity_display}} 领域对象开放接口
 /// </summary>
 public interface I{{entity_code}}OpenService
 {

@@ -5,12 +5,20 @@ using OSSCore;
 
 TemplateOptions.Default.MemberAccessStrategy = new UnsafeMemberAccessStrategy();
 
-if (args.Length < 1)
+try
 {
-    ConsoleTips();
-    return;
+    if (args.Length < 1)
+    {
+        ConsoleTips();
+        return;
+    }
+    DispatchCommand(args);
 }
-DispatchCommand(args);
+catch (Exception ex)
+{
+    Console.WriteLine(ex);
+}
+
 
  static void DispatchCommand(string[] args)
 {
@@ -80,12 +88,16 @@ static ModulePara GetParasFromFile(string basePath)
         return;
     }
 
-    var basePath = Directory.GetCurrentDirectory();
-    var ss = new Solution(paras, basePath);
-
-    new SolutionTool().Create(ss);
-
+    var basePath = Directory.GetCurrentDirectory(); 
     var moduleJsonPath = Path.Combine(basePath, "module.core.json");
+    if(File.Exists(moduleJsonPath))
+    {
+        throw new Exception("存在模块配置文件module.core.json，请确保是否已经存在模块代码，依然希望新建模块请删除文件后执行!");
+    }
+
+
+    new SolutionTool().Create(new Solution(paras, basePath));
+
     FileHelper.CreateFile(moduleJsonPath, JsonSerializer.Serialize(paras));
 }
 
@@ -104,9 +116,9 @@ osscore new moduleA （创建名称为 moduleA 的模块解决方案）
         --dbtype=SqlServer|MySql, 指定数据库类型，默认MySql
 
         --mode=normal|simple|full, 指定解决方案结构模型
-              full： 接口层  服务层 领域层 仓储层 完全独立
-            normal： 接口层  服务层 领域层（包含 仓储、领域）
-            simple： 接口层  领域层      （包含 仓储、服务、领域）
+              full： 接口层  服务层   领域层   仓储层
+            normal： 接口层  服务层   领域层(包含：仓储、领域)
+            simple： 接口层  领域层(包含：仓储、服务、领域)
 
 osscore add entityName (创建领域对象名为entityName的各模块文件)
 

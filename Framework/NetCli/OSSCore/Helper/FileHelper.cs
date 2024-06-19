@@ -22,6 +22,11 @@ internal static class FileHelper
         sw.WriteLine(fileContent);
     }
 
+    /// <summary>
+    ///  加载文件内容
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <returns></returns>
     public static string LoadFile(string filePath)
     {
         string    content;
@@ -32,7 +37,13 @@ internal static class FileHelper
         return content;
     }
 
-    public static void InsertFileFuncContent(string filePath, string insertContent, string flag)
+    /// <summary>
+    ///  给指定文件插入内容
+    /// </summary>
+    /// <param name="filePath"></param>
+    /// <param name="insertContent"></param>
+    /// <param name="positionFlag"></param>
+    public static void InsertFileFuncContent(string filePath, string insertContent, string positionFlag)
     {
         if (!File.Exists(filePath))
         {
@@ -41,7 +52,7 @@ internal static class FileHelper
 
         var content = FileHelper.LoadFile(filePath);
 
-        var index = content.IndexOf('{', content.IndexOf(flag))+1;
+        var index = content.IndexOf('{', content.IndexOf(positionFlag))+1;
 
         var newContent = content.Contains(insertContent) ? content : content.Insert(index, insertContent);
 

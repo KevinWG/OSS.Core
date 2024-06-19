@@ -54,11 +54,9 @@ internal  class WebApiTool: BaseProjectTool
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-
-
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
         FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/AppGlobal/GlobalStarter.txt");
-
+        // == 全局授权类
         var authProPath = Path.Combine(project.global_dir, "AuthProvider.cs");
         FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AppGlobal/AuthProvider.txt");
     }

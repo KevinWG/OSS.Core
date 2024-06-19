@@ -4,7 +4,7 @@ using OSS.Core.Domain;
 namespace {{solution_name}};
 
 /// <summary>
-///   添加{entity_display}请求
+///   添加{{entity_display}}请求
 /// </summary>
 public class Add{{entity_code}}Req
 {
@@ -13,7 +13,7 @@ public class Add{{entity_code}}Req
 }
 
 /// <summary>
-///  {entity_display}转化映射
+///  {{entity_display}}转化映射
 /// </summary>
 public static class Add{{entity_code}}ReqMap
 {

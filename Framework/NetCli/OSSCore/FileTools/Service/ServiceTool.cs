@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace OSSCore;
+﻿namespace OSSCore;
 
 internal class ServiceTool : BaseProjectTool
 {
@@ -29,9 +25,7 @@ internal class ServiceTool : BaseProjectTool
 
         var projectRefs = new List<string>
         {
-            ss.mode == SolutionMode.Normal
-                ? $"..\\{ss.rep_project.name}\\{ss.rep_project.name}.csproj"
-                : $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj"
+            $"..\\{ss.domain_project.name}\\{ss.domain_project.name}.csproj"
         };
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");

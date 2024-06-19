@@ -12,11 +12,7 @@ public class {{module_code}}GlobalStarter : AppStarter
     public override void Start(IServiceCollection services)
     {
          services.Register<{{domain_project.starter_class_name}}>();       // 领域实体层启动注入
-         {% if mode == 1000 %}
-         services.Register<{{rep_project.starter_class_name}}>();       // 仓储层启动注入
-         {% endif %}
-         {% if mode >= 100 %}
-         services.Register<{{service_project.starter_class_name}}>();       // 逻辑服务层启动注入
-         {% endif %}
+         {% if mode == 1000 %}services.Register<{{rep_project.starter_class_name}}>();       // 仓储层启动注入 {% endif %}
+         {% if mode >= 100 %}services.Register<{{service_project.starter_class_name}}>();       // 逻辑服务层启动注入 {% endif %}
     }
 }

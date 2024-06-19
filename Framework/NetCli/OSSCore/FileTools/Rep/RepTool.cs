@@ -96,7 +96,10 @@ internal class RepTool : BaseProjectTool
         var project         = ss.rep_project;
         var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
 
-        var injectRepStr = $"\r\n        InsContainer<I{ss.entity_code}Rep>.Set<{ss.entity_code}Rep>();";
+        var injectRepStr = @$"
+        // {ss.entity_display} 仓储接口注入
+        InsContainer<I{ss.entity_code}Rep>.Set<{ss.entity_code}Rep>();
+";
 
         FileHelper.InsertFileFuncContent(starterFilePath, injectRepStr, "Start(IServiceCollection");
     }
