@@ -6,27 +6,27 @@ namespace {{solution_name}};
 /// <summary>
 ///  {entity_display} 领域对象开放接口
 /// </summary>
-public interface I{{entity_name}}OpenService
+public interface I{{entity_code}}OpenService
 {
     /// <summary>
     ///  {{entity_display}}管理搜索列表（附带通过Id生成的PassToken）
     /// </summary>
     /// <returns></returns>
-    Task<TokenPageListResp<{{entity_name}}Mo>> MSearch(Search{{entity_name}}Req req);
+    Task<TokenPageListResp<{{entity_code}}Mo>> MSearch(Search{{entity_code}}Req req);
 
     /// <summary>
     ///  通过id获取{entity_display}详情
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    Task<Resp<{{entity_name}}Mo>> Get(long id);
+    Task<Resp<{{entity_code}}Mo>> Get(long id);
 
     ///// <summary>
     /////  通过id获取有效可用状态的{{entity_display}}详情
     ///// </summary>
     ///// <param name="id"></param>
     ///// <returns></returns>
-    //Task<Resp<{{entity_name}}Mo>> GetUseable(long id);
+    //Task<Resp<{{entity_code}}Mo>> GetUseable(long id);
 
     /// <summary>
     ///  设置{{entity_display}}可用状态
@@ -41,5 +41,5 @@ public interface I{{entity_name}}OpenService
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    Task<LongResp> Add(Add{{entity_name}}Req req);
+    Task<LongResp> Add(Add{{entity_code}}Req req);
 }

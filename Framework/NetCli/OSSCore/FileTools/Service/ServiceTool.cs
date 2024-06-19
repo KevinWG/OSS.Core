@@ -62,7 +62,7 @@ internal class ServiceTool : BaseProjectTool
 
         FileHelper.CreateDirectory(path);
 
-        var oServiceFilePath = Path.Combine(path, $"{ss.entity_name}Service.cs");
+        var oServiceFilePath = Path.Combine(path, $"{ss.entity_code}Service.cs");
         FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Service/EntityService.txt");
         
         Console.WriteLine("服务层实体 -- done");

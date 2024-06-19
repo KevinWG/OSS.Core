@@ -47,7 +47,10 @@
     <None Update="Templates\Domain\EntityMo.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Templates\Domain\IEntityOpenService.txt">
+    <None Update="Templates\Domain\Open\ModuleConst.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Templates\Domain\Open\IEntityOpenService.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Templates\Domain\IRep\IEntityRep.txt">

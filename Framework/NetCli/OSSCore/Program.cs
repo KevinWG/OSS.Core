@@ -35,7 +35,7 @@ DispatchCommand(args);
 {
     var entityPara = GetAddEntityParas(args);
 
-    if (string.IsNullOrEmpty(entityPara.name))
+    if (string.IsNullOrEmpty(entityPara.code))
     {
         ConsoleTips();
         return;
@@ -44,7 +44,7 @@ DispatchCommand(args);
     var basePath = Directory.GetCurrentDirectory();
 
     var paras = GetParasFromFile(basePath);
-    var ss = new Solution(paras, basePath, entityPara.name, entityPara.display);
+    var ss = new Solution(paras, basePath, entityPara.code, entityPara.display);
 
     new SolutionTool().AddEntity(ss);
 }
@@ -74,7 +74,7 @@ static ModulePara GetParasFromFile(string basePath)
 {
     var paras = GetCreateParas(args);
 
-    if (string.IsNullOrEmpty(paras.name))
+    if (string.IsNullOrEmpty(paras.code))
     {
         ConsoleTips();
         return;
@@ -133,7 +133,7 @@ static ParaItem GetAddEntityParas(string[] args)
                 break;
             case "name":
             case "":
-                paras.name = paraDic.Value;
+                paras.code = paraDic.Value;
                 break;
         }
     }
@@ -170,9 +170,9 @@ static ModulePara GetCreateParas(string[] args)
                     _           => DBType.SqlServer
                 };
                 break;
-            case "name":
+            case "code":
             case "":
-                paras.name = paraDic.Value;
+                paras.code = paraDic.Value;
                 break;
         }
     }
@@ -191,7 +191,7 @@ static Dictionary<string, string> GetArgParaDictionary(string[] args)
 
         if (i==1 && !arg.StartsWith('-'))
         {
-            curKey        = "name";
+            curKey        = "code";
             paras[curKey] = arg;
             continue;
         }

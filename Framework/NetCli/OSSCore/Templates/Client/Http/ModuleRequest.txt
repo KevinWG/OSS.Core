@@ -8,7 +8,7 @@ namespace {{solution_name}}.Client;
 /// </summary>
 internal class {{ http_client_project.module_req_name }}: BaseRemoteRequest
 {
-    public {{ http_client_project.module_req_name }}(string apiPath) : base("{{module_name}}", apiPath)
+    public {{ http_client_project.module_req_name }}(string apiPath) : base("{{module_code}}", apiPath)
     {
     }
 

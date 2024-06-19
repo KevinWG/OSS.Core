@@ -44,7 +44,7 @@ internal class DomainOpenTool : BaseProjectTool
         var entityDir = Path.Combine(ss.domain_open_project.entity_dir, "Entity");
         FileHelper.CreateDirectory(entityDir);
 
-        var entityFilePath = Path.Combine(entityDir, $"{ss.entity_name}Mo.cs");
+        var entityFilePath = Path.Combine(entityDir, $"{ss.entity_code}Mo.cs");
         FileHelper.CreateFileByTemplate(entityFilePath, ss, "Domain/EntityMo.txt");
     }
 
@@ -54,10 +54,10 @@ internal class DomainOpenTool : BaseProjectTool
         var dtoDir = Path.Combine(ss.domain_open_project.entity_dir, "DTO");
         FileHelper.CreateDirectory(dtoDir);
 
-        var addEntFilePath = Path.Combine(dtoDir, string.Concat("Add", ss.entity_name, "Req.cs"));
+        var addEntFilePath = Path.Combine(dtoDir, string.Concat("Add", ss.entity_code, "Req.cs"));
         FileHelper.CreateFileByTemplate(addEntFilePath, ss, "Domain/DTO/AddEntityReq.txt");
 
-        var searchEntFilePath = Path.Combine(dtoDir, string.Concat("Search", ss.entity_name, "Req.cs"));
+        var searchEntFilePath = Path.Combine(dtoDir, string.Concat("Search", ss.entity_code, "Req.cs"));
         FileHelper.CreateFileByTemplate(searchEntFilePath, ss, "Domain/DTO/SearchEntityReq.txt");
     }
 
@@ -66,8 +66,8 @@ internal class DomainOpenTool : BaseProjectTool
         var interfaceDir = Path.Combine(ss.domain_open_project.entity_dir, "IService");
         FileHelper.CreateDirectory(interfaceDir);
 
-        var oServiceFilePath = Path.Combine(interfaceDir, $"I{ss.entity_name}OpenService.cs");
-        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Domain/IEntityOpenService.txt");
+        var oServiceFilePath = Path.Combine(interfaceDir, $"I{ss.entity_code}OpenService.cs");
+        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Domain/Open/IEntityOpenService.txt");
     }
 
     #endregion

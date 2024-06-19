@@ -1,0 +1,15 @@
+﻿using OSS.Common;
+using OSS.Common.Resp;
+
+namespace {{solution_name}};
+
+/// <summary>
+///  {{module_display}} 模块静态声明
+/// </summary>
+public static class {{module_code}}Module
+{
+    /// <summary>
+    ///   {{module_display}} 编码
+    /// </summary>
+    public const string Code = {{module_code}};
+}

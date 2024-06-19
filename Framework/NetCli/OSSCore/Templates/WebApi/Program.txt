@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigHelper.Configuration = builder.Configuration;  // 全局配置工具处理
 
-builder.Services.Register<{{module_name}}GlobalStarter>();    // 应用层全局注入 
+builder.Services.Register<{{module_code}}GlobalStarter>();    // 应用层全局注入 
 
 builder.Services.AddControllers(opt =>
     {

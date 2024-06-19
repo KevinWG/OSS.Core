@@ -5,6 +5,6 @@ namespace {{solution_name}}.Client;
 /// <summary>
 /// {{module_display}} 模块接口客户端
 /// </summary>
-public static class {{module_name}}RemoteClient //: I{{module_name}}Client
+public static class {{module_code}}RemoteClient //: I{{module_code}}Client
 {
 }

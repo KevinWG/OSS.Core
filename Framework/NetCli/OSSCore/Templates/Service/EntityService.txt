@@ -8,39 +8,39 @@ namespace {{solution_name}};
 /// <summary>
 ///  {{entity_display}} 服务
 /// </summary>
-public class {{entity_name}}Service : I{{entity_name}}OpenService
+public class {{entity_code}}Service : I{{entity_code}}OpenService
 {
 
 {% assign entity_name_lower = entity_name|downcase %}
 
 {% if mode == 0 %}  
-     private static readonly I{{entity_name}}Rep _rep = InsContainer<I{{entity_name}}Rep>.Instance;
+     private static readonly I{{entity_code}}Rep _rep = InsContainer<I{{entity_code}}Rep>.Instance;
 {% else %}  
-     private static readonly {{entity_name}}Rep _{{entity_name_lower}}Rep = new();
+     private static readonly {{entity_code}}Rep _{{entity_name_lower}}Rep = new();
 {% endif %}
 
-    static {{entity_name}}Service() 
+    static {{entity_code}}Service() 
     {
         // 放置解决方案内其他公用服务的引用
         // 如: _xxxService = InsContainer<IxxxCommonService>.Instance;
     }
 
     /// <inheritdoc />
-    public async Task<TokenPageListResp<{{entity_name}}Mo>> MSearch(Search{{entity_name}}Req req)
+    public async Task<TokenPageListResp<{{entity_code}}Mo>> MSearch(Search{{entity_code}}Req req)
     {
         var pageList = await _{{entity_name_lower}}Rep.Search(req);
          return pageList.ToTokenPageRespWithIdToken();
     }
 
     /// <inheritdoc />
-    public Task<Resp<{{entity_name}}Mo>> Get(long id)
+    public Task<Resp<{{entity_code}}Mo>> Get(long id)
     {
         var  taskEnt = _{{entity_name_lower}}Rep.GetById(id);
-        return new Resp<{{entity_name}}Mo>().WithTaskData(taskEnt, "未能找到{{entity_display}}对象");
+        return new Resp<{{entity_code}}Mo>().WithTaskData(taskEnt, "未能找到{{entity_display}}对象");
     }
 
     ///// <inheritdoc />
-    //public async Task<Resp<{{entity_name}}Mo>> GetUseable(long id)
+    //public async Task<Resp<{{entity_code}}Mo>> GetUseable(long id)
     //{
     //    var getRes = await Get(id);
     //    if (!getRes.IsSuccess())
@@ -48,7 +48,7 @@ public class {{entity_name}}Service : I{{entity_name}}OpenService
     //    
     //    return getRes.data.status >= 0 
     //        ? getRes
-    //        : new Resp<{{entity_name}}Mo>().WithResp(RespCodes.OperateObjectNull,"未能找到有效可用的{{entity_display}}信息");
+    //        : new Resp<{{entity_code}}Mo>().WithResp(RespCodes.OperateObjectNull,"未能找到有效可用的{{entity_display}}信息");
     //}
 
     /// <inheritdoc />
@@ -60,7 +60,7 @@ public class {{entity_name}}Service : I{{entity_name}}OpenService
     }
 
     /// <inheritdoc />
-    public async Task<LongResp> Add(Add{{entity_name}}Req req)
+    public async Task<LongResp> Add(Add{{entity_code}}Req req)
     {
         var mo = req.ToMo();
 

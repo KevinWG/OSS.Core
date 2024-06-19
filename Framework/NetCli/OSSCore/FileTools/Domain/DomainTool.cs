@@ -56,6 +56,8 @@ internal class DomainTool : BaseProjectTool
 
         CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
     }
+
+
     public  void Create_ReadMeFile(Solution ss)
     {
         var projectDir = ss.domain_project.project_dir;
@@ -64,17 +66,13 @@ internal class DomainTool : BaseProjectTool
         var readMeFilePath = Path.Combine(projectDir, $"ReadMe.txt");
         FileHelper.CreateFileByTemplate(readMeFilePath, ss, "Domain/ReadMe.txt");
     }
+
+    /// <inheritdoc />
     public override void Create_CommonFiles(Solution ss)
     {
-        var project = ss.domain_project;
-        
-        var constProjectDir = project.common_dir;
-        FileHelper.CreateDirectory(constProjectDir);
-        
-        var baeRepFilePath  = Path.Combine(constProjectDir, $"{project.const_file_name}.cs");
-        FileHelper.CreateFileByTemplate(baeRepFilePath, ss, "Domain/ModuleConst.txt");
     }
 
+    /// <inheritdoc />
     public override void Create_GlobalFiles(Solution solution)
     {
         if (solution.mode == SolutionMode.Normal)
@@ -85,6 +83,9 @@ internal class DomainTool : BaseProjectTool
 
         var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
         FileHelper.CreateFileByTemplate(starterFilePath, solution, "Domain/DomainAppStarter.txt");
+
+        var baeRepFilePath = Path.Combine(project.global_dir, $"{project.const_file_name}.cs");
+        FileHelper.CreateFileByTemplate(baeRepFilePath, solution, "Domain/ModuleConst.txt");
     }
 
     #endregion
@@ -108,7 +109,7 @@ internal class DomainTool : BaseProjectTool
         var iRepDir = Path.Combine(ss.domain_project.entity_dir, "IRep");
         FileHelper.CreateDirectory(iRepDir);
 
-        var iRepFilePath = Path.Combine(iRepDir, $"I{ss.entity_name}Rep.cs");
+        var iRepFilePath = Path.Combine(iRepDir, $"I{ss.entity_code}Rep.cs");
         FileHelper.CreateFileByTemplate(iRepFilePath, ss, "Domain/IRep/IEntityRep.txt");
     }
 

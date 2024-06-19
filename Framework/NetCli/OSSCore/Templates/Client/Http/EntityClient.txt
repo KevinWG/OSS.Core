@@ -7,22 +7,22 @@ namespace {{solution_name}}.Client;
 /// <summary>
 ///  {{entity_display}} 接口客户端
 /// </summary>
-internal class {{entity_name}}HttpClient : I{{entity_name}}OpenService
+internal class {{entity_code}}HttpClient : I{{entity_code}}OpenService
 {
-     private const string apiEntityPath = "/{{entity_name}}";
+     private const string apiEntityPath = "/{{entity_code}}";
 
     /// <inheritdoc />
-    public Task<TokenPageListResp<{{entity_name}}Mo>> MSearch(Search{{entity_name}}Req req)
+    public Task<TokenPageListResp<{{entity_code}}Mo>> MSearch(Search{{entity_code}}Req req)
     {
           var apiPath =$"{apiEntityPath}/{nameof(MSearch)}";
-          return new {{ http_client_project.module_req_name }}(apiPath).PostAsync<TokenPageListResp<{{entity_name}}Mo>>(req);
+          return new {{ http_client_project.module_req_name }}(apiPath).PostAsync<TokenPageListResp<{{entity_code}}Mo>>(req);
     }
 
     /// <inheritdoc />
-    public Task<Resp<{{entity_name}}Mo>> Get(long id)
+    public Task<Resp<{{entity_code}}Mo>> Get(long id)
     {
           var apiPath =$"{apiEntityPath}/{nameof(Get)}?id={id}";
-          return new {{http_client_project.module_req_name}}(apiPath).GetAsync<Resp<{{entity_name}}Mo>>();
+          return new {{http_client_project.module_req_name}}(apiPath).GetAsync<Resp<{{entity_code}}Mo>>();
     }
     
     /// <inheritdoc />
@@ -34,7 +34,7 @@ internal class {{entity_name}}HttpClient : I{{entity_name}}OpenService
     }
 
     /// <inheritdoc />
-    public Task<LongResp> Add(Add{{entity_name}}Req req)
+    public Task<LongResp> Add(Add{{entity_code}}Req req)
     {
           var apiPath =$"{apiEntityPath}/{nameof(Add)}";
           return new {{http_client_project.module_req_name}}(apiPath).PostAsync<LongResp>(req);

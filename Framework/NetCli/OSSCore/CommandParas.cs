@@ -34,9 +34,9 @@ public enum DBType
 public class ParaItem
 {
     /// <summary>
-    ///  名称
+    ///  编码
     /// </summary>
-    public string name { get; set; } = string.Empty;
+    public string code { get; set; } = string.Empty;
 
     /// <summary>
     ///  显示

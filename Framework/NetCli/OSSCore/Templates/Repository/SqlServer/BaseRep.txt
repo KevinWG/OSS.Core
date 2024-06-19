@@ -11,13 +11,13 @@ namespace {{solution_name}};
 /// <summary>
 ///  {module_display} 模块仓储基类
 /// </summary>
-public abstract class Base{{module_name}}Rep<MType,IdType> : BaseSqlServerRep<MType, IdType>
+public abstract class Base{{module_code}}Rep<MType,IdType> : BaseSqlServerRep<MType, IdType>
     where MType : BaseMo<IdType>
 {
     private static readonly string _writeConnection = ConfigHelper.GetConnectionString("WriteConnection");
     private static readonly string _readConnection  = ConfigHelper.GetConnectionString("ReadConnection");
 
-    protected Base{{module_name}}Rep(string tableName) : base(_writeConnection , _readConnection , tableName)
+    protected Base{{module_code}}Rep(string tableName) : base(_writeConnection , _readConnection , tableName)
     {
     }
 

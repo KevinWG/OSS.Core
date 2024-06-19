@@ -7,7 +7,7 @@ namespace {{solution_name}};
 /// <summary>
 ///   全局注入
 /// </summary>
-public class {{module_name}}GlobalStarter : AppStarter
+public class {{module_code}}GlobalStarter : AppStarter
 {
     /// <inheritdoc />
     public override void Start(IServiceCollection services)

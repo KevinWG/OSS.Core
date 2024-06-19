@@ -6,6 +6,6 @@ namespace {{solution_name}};
 /// <summary>
 ///  搜索 {{entity_display}} 请求
 /// </summary>
-public class Search{{entity_name}}Req:StatusSearchReq
+public class Search{{entity_code}}Req:StatusSearchReq
 {
 }

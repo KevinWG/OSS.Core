@@ -50,7 +50,7 @@ internal  class ClientTool : BaseProjectTool
         var project = ss.http_client_project;
         FileHelper.CreateDirectory(project.entity_dir);
 
-        var entityClientPath = Path.Combine(project.entity_dir, $"{ss.entity_name}HttpClient.cs");
+        var entityClientPath = Path.Combine(project.entity_dir, $"{ss.entity_code}HttpClient.cs");
 
         FileHelper.CreateFileByTemplate(entityClientPath,ss, "Client/Http/EntityClient.txt");
 
@@ -66,7 +66,7 @@ internal  class ClientTool : BaseProjectTool
     /// <summary>
     ///  {ss.entity_display} 接口
     /// </summary>
-    public static I{ss.entity_name}OpenService {ss.entity_name} {{get; }} = SingleInstance<{ss.entity_name}HttpClient>.Instance;";
+    public static I{ss.entity_code}OpenService {ss.entity_code} {{get; }} = SingleInstance<{ss.entity_code}HttpClient>.Instance;";
 
         FileHelper.InsertFileFuncContent(moduleClientPath, injectStr, project.module_client_name);
     }

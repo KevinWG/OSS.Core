@@ -66,7 +66,7 @@ internal class RepTool : BaseProjectTool
 
     private static void AddEntity_Rep(Solution ss)
     {
-        var repDir = Path.Combine(ss.rep_project.project_dir, ss.entity_name);
+        var repDir = Path.Combine(ss.rep_project.project_dir, ss.entity_code);
         if (ss.mode != SolutionMode.Full)
         {
             repDir = Path.Combine(repDir, "Rep");
@@ -75,7 +75,7 @@ internal class RepTool : BaseProjectTool
         FileHelper.CreateDirectory(repDir);
 
         var dbRepTemplateDir   = GetRepDBTypeTemplateDir(ss);
-        var repFilePath = Path.Combine(repDir, $"{ss.entity_name}Rep.cs");
+        var repFilePath = Path.Combine(repDir, $"{ss.entity_code}Rep.cs");
 
         FileHelper.CreateFileByTemplate(repFilePath, ss, $"Repository/{dbRepTemplateDir}/EntityRep.txt");
     }
@@ -95,7 +95,7 @@ internal class RepTool : BaseProjectTool
         var project         = ss.rep_project;
         var starterFilePath = Path.Combine(project.global_dir, $"{project.starter_class_name}.cs");
 
-        var injectRepStr = $"\r\n        InsContainer<I{ss.entity_name}Rep>.Set<{ss.entity_name}Rep>();";
+        var injectRepStr = $"\r\n        InsContainer<I{ss.entity_code}Rep>.Set<{ss.entity_code}Rep>();";
 
         FileHelper.InsertFileFuncContent(starterFilePath, injectRepStr, "Start(IServiceCollection");
     }

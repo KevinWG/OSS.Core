@@ -43,7 +43,7 @@ internal  class WebApiTool: BaseProjectTool
     {
         FileHelper.CreateDirectory(ss.webapi_project.common_dir);
 
-        var baseFilePath = Path.Combine(ss.webapi_project.common_dir, $"Base{ss.module_name}Controller.cs");
+        var baseFilePath = Path.Combine(ss.webapi_project.common_dir, $"Base{ss.module_code}Controller.cs");
         FileHelper.CreateFileByTemplate(baseFilePath, ss, "WebApi/Common/BaseModuleController.txt");
 
         var swaggerFilePath = Path.Combine(ss.webapi_project.common_dir, "SwaggerHelper.cs");
@@ -106,7 +106,7 @@ internal  class WebApiTool: BaseProjectTool
        var controllerDir =  Path.Combine(ss.webapi_project.project_dir, "Controller");
         FileHelper.CreateDirectory(controllerDir);
 
-        var entityControllerFilePath = Path.Combine(controllerDir, $"{ss.entity_name}Controller.cs");
+        var entityControllerFilePath = Path.Combine(controllerDir, $"{ss.entity_code}Controller.cs");
         FileHelper.CreateFileByTemplate(entityControllerFilePath, ss,"WebApi/EntityController.txt");
 
         Console.WriteLine("应用接口层实体 -- done");

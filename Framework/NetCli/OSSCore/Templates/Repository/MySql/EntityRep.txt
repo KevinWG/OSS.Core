@@ -12,10 +12,10 @@ namespace {{solution_name}};
 /// <summary>
 ///  {entity_display} 对象仓储
 /// </summary>
-public class {{entity_name}}Rep : Base{{module_name}}Rep<{{entity_name}}Mo,long> {% if mode == 0 %},I{{entity_name}}Rep{% endif %}
+public class {{entity_code}}Rep : Base{{module_code}}Rep<{{entity_code}}Mo,long> {% if mode == 0 %},I{{entity_code}}Rep{% endif %}
 {
     /// <inheritdoc />
-    public {{entity_name}}Rep() : base("{{entity_name}}")
+    public {{entity_code}}Rep() : base("{{entity_code}}")
     {
     }
 
@@ -24,9 +24,9 @@ public class {{entity_name}}Rep : Base{{module_name}}Rep<{{entity_name}}Mo,long>
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public Task<PageList<{{entity_name}}Mo>> Search(Search{{entity_name}}Req req)
+    public Task<PageList<{{entity_code}}Mo>> Search(Search{{entity_code}}Req req)
     {
-        return SimpleSearch<{{entity_name}}Mo>(req);
+        return SimpleSearch<{{entity_code}}Mo>(req);
     }
 
     /// <summary>
@@ -47,7 +47,7 @@ public class {{entity_name}}Rep : Base{{module_name}}Rep<{{entity_name}}Mo,long>
     ///  搜索{{entity_display}}
     /// </summary>
     /// <returns></returns>
-    private Task<PageList<RType>> SimpleSearch<RType>(Search{{entity_name}}Req sReq)
+    private Task<PageList<RType>> SimpleSearch<RType>(Search{{entity_code}}Req sReq)
     {
         var sqlParas = new Dictionary<string, object>();
 
@@ -61,7 +61,7 @@ public class {{entity_name}}Rep : Base{{module_name}}Rep<{{entity_name}}Mo,long>
     }
 
 	// 拼接搜索使用 where sql 语句
-    private static StringBuilder BuildWhereSql(Search{{entity_name}}Req sReq, IDictionary<string, object> sqlParas)
+    private static StringBuilder BuildWhereSql(Search{{entity_code}}Req sReq, IDictionary<string, object> sqlParas)
     {
         var whereBuilder = BuildWhereSql_BasicFilter(sReq, sqlParas);
 

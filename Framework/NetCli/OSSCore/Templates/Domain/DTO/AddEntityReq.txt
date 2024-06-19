@@ -6,7 +6,7 @@ namespace {{solution_name}};
 /// <summary>
 ///   添加{entity_display}请求
 /// </summary>
-public class Add{{entity_name}}Req
+public class Add{{entity_code}}Req
 {
     // [Required]
     // public string name { get; set; }
@@ -15,16 +15,16 @@ public class Add{{entity_name}}Req
 /// <summary>
 ///  {entity_display}转化映射
 /// </summary>
-public static class Add{{entity_name}}ReqMap
+public static class Add{{entity_code}}ReqMap
 {
     /// <summary>
     ///  转化为{entity_display}对象实体
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
-    public static {{entity_name}}Mo ToMo(this Add{{entity_name}}Req req)
+    public static {{entity_code}}Mo ToMo(this Add{{entity_code}}Req req)
     {
-        var mo = new {{entity_name}}Mo
+        var mo = new {{entity_code}}Mo
         {
             // todo 添加实体映射
         };

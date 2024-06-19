@@ -11,24 +11,24 @@ internal class Solution
         base_path = basePath;
 
         db_type        = paras.db_type;
-        module_name    = paras.name;
-        module_display = string.IsNullOrEmpty(paras.display) ? module_name : paras.display;
+        module_code    = paras.code;
+        module_display = string.IsNullOrEmpty(paras.display) ? module_code : paras.display;
 
-        entity_name    = entityName;
+        entity_code    = entityName;
         entity_display = string.IsNullOrEmpty(entityDisplay) ? entityName : entityDisplay;
 
         solution_name = string.IsNullOrEmpty(paras.solution_pre)
-            ? paras.name
-            : string.Concat(paras.solution_pre, ".", paras.name);
+            ? paras.code
+            : string.Concat(paras.solution_pre, ".", paras.code);
 
-        domain_open_project = new DomainOpenProject(solution_name, module_name, basePath, entityName);
+        domain_open_project = new DomainOpenProject(solution_name, module_code, basePath, entityName);
 
-        domain_project  = new DomainProject(solution_name, module_name, basePath, entityName);
-        service_project = new ServiceProject(solution_name, module_name, basePath, entityName);
-        rep_project     = new RepProject(solution_name, module_name, basePath, entityName);
+        domain_project  = new DomainProject(solution_name, module_code, basePath, entityName);
+        service_project = new ServiceProject(solution_name, module_code, basePath, entityName);
+        rep_project     = new RepProject(solution_name, module_code, basePath, entityName);
 
-        webapi_project      = new WebApiProject(solution_name, module_name, basePath, entityName);
-        http_client_project = new ClientProject(solution_name, module_name, basePath, entityName);
+        webapi_project      = new WebApiProject(solution_name, module_code, basePath, entityName);
+        http_client_project = new ClientProject(solution_name, module_code, basePath, entityName);
 
         mode = paras.solution_mode;
 
@@ -46,16 +46,16 @@ internal class Solution
         }
     }
 
-    public string base_path { get;  }
+    public string base_path { get;  } = string.Empty;
 
-    public string module_name { get; }
+    public string module_code { get; } = string.Empty;
 
-    public string module_display { get; }
+    public string module_display { get; } = string.Empty;
 
-    public string entity_name { get; set; }
-    public string entity_display { get; set; }
+    public string entity_code    { get; set; } = string.Empty;
+    public string entity_display { get; set; } = string.Empty;
 
-    public string solution_name { get;  }
+    public string solution_name { get;  } = string.Empty;
 
     public DBType db_type { get; set; } 
 

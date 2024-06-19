@@ -8,16 +8,16 @@ namespace {{solution_name}};
 /// <summary>
 ///  {{entity_display}} 开放 WebApi 
 /// </summary>
-public class {{entity_name}}Controller : Base{{module_name}}Controller, I{{entity_name}}OpenService
+public class {{entity_code}}Controller : Base{{module_code}}Controller, I{{entity_code}}OpenService
 {
-    private static readonly I{{entity_name}}OpenService _service = new {{entity_name}}Service();
+    private static readonly I{{entity_code}}OpenService _service = new {{entity_code}}Service();
 
     /// <summary>
     ///  查询{{entity_display}}列表
     /// </summary>
     /// <returns></returns>
     [HttpPost]
-    public Task<TokenPageListResp<{{entity_name}}Mo>> MSearch([FromBody] Search{{entity_name}}Req req)
+    public Task<TokenPageListResp<{{entity_code}}Mo>> MSearch([FromBody] Search{{entity_code}}Req req)
     {
         return _service.MSearch(req);
     }
@@ -28,7 +28,7 @@ public class {{entity_name}}Controller : Base{{module_name}}Controller, I{{entit
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet]
-    public Task<Resp<{{entity_name}}Mo>> Get(long id)
+    public Task<Resp<{{entity_code}}Mo>> Get(long id)
     {
         return _service.Get(id);
     }
@@ -54,7 +54,7 @@ public class {{entity_name}}Controller : Base{{module_name}}Controller, I{{entit
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public Task<LongResp> Add([FromBody] Add{{entity_name}}Req req)
+    public Task<LongResp> Add([FromBody] Add{{entity_code}}Req req)
     {
         return _service.Add(req);
     }
