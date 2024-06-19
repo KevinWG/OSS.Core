@@ -1,8 +1,7 @@
 {
   "profiles": {
     "OSSCore": {
-      "commandName": "Project",
-      "commandLineArgs": "new ModuleA"
+      "commandName": "Project"
     }
   }
 }

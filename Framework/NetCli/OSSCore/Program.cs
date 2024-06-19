@@ -100,11 +100,18 @@ osscore new moduleA （创建名称为 moduleA 的模块解决方案）
 
     可选参数提示：
         --pre=xxx, 指定解决方案前缀
-        --mode=simple|default, 指定解决方案结构
-            simple： 没有独立的仓储类库（和领域对象类库合并）
-            default：独立仓储层
+        --display=xxx, 指定模块名称
+        --dbtype=SqlServer|MySql, 指定数据库类型，默认MySql
+
+        --mode=normal|simple|full, 指定解决方案结构模型
+              full： 接口层  服务层 领域层 仓储层 完全独立
+            normal： 接口层  服务层 领域层（包含 仓储、领域）
+            simple： 接口层  领域层      （包含 仓储、服务、领域）
 
 osscore add entityName (创建领域对象名为entityName的各模块文件)
+
+    可选参数：
+        --display=xxx, 指定领域对象名称
 ";
 
     Console.WriteLine(commandStr);
@@ -124,7 +131,8 @@ static ParaItem GetAddEntityParas(string[] args)
             case "display":
                 paras.display = paraDic.Value;
                 break;
-            default:
+            case "name":
+            case "":
                 paras.name = paraDic.Value;
                 break;
         }
@@ -150,9 +158,9 @@ static ModulePara GetCreateParas(string[] args)
             case "mode":
                 paras.solution_mode = paraDic.Value.ToLower() switch
                 {
-                    "simple"      => SolutionMode.Normal,
-                    "simple_plus" => SolutionMode.Simple,
-                    _             => SolutionMode.Full
+                    "full"   => SolutionMode.Full,
+                    "simple" => SolutionMode.Simple,
+                    _        => SolutionMode.Normal
                 };
                 break;
             case "dbtype":
@@ -162,7 +170,8 @@ static ModulePara GetCreateParas(string[] args)
                     _           => DBType.SqlServer
                 };
                 break;
-            default:
+            case "name":
+            case "":
                 paras.name = paraDic.Value;
                 break;
         }
@@ -172,24 +181,42 @@ static ModulePara GetCreateParas(string[] args)
 
 static Dictionary<string, string> GetArgParaDictionary(string[] args)
 {
-    //var name  = string.Empty;
     var paras = new Dictionary<string, string>();
+
+    var curKey = string.Empty;
 
     for (var i = 1; i < args.Length; i++)
     {
-        var pStr = args[i].Trim('-').Trim(' ');
+        var arg = args[i].Trim();
 
-        var pStrSplit = pStr.Split('=', StringSplitOptions.RemoveEmptyEntries);
-        if (pStrSplit.Length == 1)
+        if (i==1 && !arg.StartsWith('-'))
         {
-            paras[""] = pStrSplit[0];
+            curKey        = "name";
+            paras[curKey] = arg;
             continue;
         }
 
-        paras.Add(pStrSplit[0], pStrSplit[1]);
-    }
+        if (arg.StartsWith('-'))
+        {
+            var argStr      = args[i].Trim('-');
+            var argStrSplit = argStr.Split('=', StringSplitOptions.RemoveEmptyEntries);
 
-    //paras.Add("", name);
+            curKey        = argStrSplit[0];
+
+            if (argStrSplit.Length>1)
+            {
+                paras[curKey] = argStrSplit[1];
+            }
+            for (var j = 2; j < argStrSplit.Length; j++)
+            {
+                paras[curKey] += argStrSplit[1];
+            }
+        }
+        else
+        {
+            paras[curKey] += arg;
+        }
+    }
     return paras;
 }
 

@@ -68,15 +68,21 @@
 	工具安装命令: dotnet tool intall -g OSSCore
 
 	完成本地工具安装之后，可在项目所在文件夹执行以下命令：
-	  
+	
 	osscore new moduleA （创建名称为 moduleA 的模块解决方案）
     	可选参数提示：
         --pre=xxx, 指定解决方案前缀
-        --mode=simple|default, 指定解决方案结构
-            simple： 没有独立的仓储类库（和领域对象类库合并）
-            default：独立仓储层
+        --display=xxx, 指定模块名称
+        --dbtype=SqlServer|MySql, 指定数据库类型，默认MySql
+
+        --mode=normal|simple|full, 指定解决方案结构模型
+              full： 接口层  服务层 领域层 仓储层 完全独立
+            normal： 接口层  服务层 领域层（包含 仓储、领域）
+            simple： 接口层  领域层      （包含 仓储、服务、领域）
 
 	osscore add entityName (创建领域对象名为entityName的各模块文件)
+    	可选参数：
+        --display=xxx, 指定领域对象名称
 
 ### 其他相关独立开源组件
 
