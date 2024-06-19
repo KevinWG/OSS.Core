@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace OSSCore;
+﻿namespace OSSCore;
 
 internal class DomainOpenTool : BaseProjectTool
 {
@@ -11,6 +7,8 @@ internal class DomainOpenTool : BaseProjectTool
         base.Create(solution);
         Console.WriteLine($"领域层类库（共享）({solution.domain_open_project.name}) -- done");
     }
+
+    #region 创建模块
 
     public override void Create_Project(Solution ss)
     {
@@ -22,8 +20,23 @@ internal class DomainOpenTool : BaseProjectTool
             "OSS.Core.Domain.Open"
         };
 
-        CreateProjectFile(project.project_file_path, packageRefs, null,false,project.name);
+        CreateProjectFile(project.project_file_path, packageRefs, null, false, project.name);
     }
+
+    public override void Create_GlobalFiles(Solution ss)
+    {
+        var globalDir = ss.domain_open_project.global_dir;
+        FileHelper.CreateDirectory(globalDir);
+
+        var oServiceFilePath = Path.Combine(globalDir, $"{ss.module_code}Module.cs");
+        FileHelper.CreateFileByTemplate(oServiceFilePath, ss, "Domain/Open/ModuleConst.txt");
+    }
+
+    #endregion
+
+
+
+
 
 
 

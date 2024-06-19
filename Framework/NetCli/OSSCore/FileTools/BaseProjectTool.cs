@@ -6,6 +6,10 @@ namespace OSSCore
     {
         #region 创建方法
         
+        /// <summary>
+        ///  创建模块调用方法
+        /// </summary>
+        /// <param name="ss"></param>
         public virtual void Create(Solution ss)
         {
             Create_Project(ss);
@@ -16,9 +20,18 @@ namespace OSSCore
 
         public abstract void Create_Project(Solution ss);
         
+        /// <summary>
+        ///  创建内部共用文件方法
+        /// </summary>
+        /// <param name="ss"></param>
         public virtual void Create_CommonFiles(Solution ss)
         {
         }
+
+        /// <summary>
+        ///  创建全局文件方法
+        /// </summary>
+        /// <param name="ss"></param>
         public virtual void Create_GlobalFiles(Solution ss)
         {
         }
@@ -28,9 +41,12 @@ namespace OSSCore
 
         #region 添加方法
 
+        /// <summary>
+        ///  添加实体调用方法
+        /// </summary>
+        /// <param name="ss"></param>
         public virtual void AddEntity(Solution ss)
         {
-
         }
 
         #endregion

@@ -10,9 +10,9 @@ namespace {{solution_name}};
 
 
 /// <summary>
-///  {entity_display} 对象仓储
+///  {{entity_display}} 对象仓储
 /// </summary>
-public class {{entity_code}}Rep : Base{{module_code}}Rep<{{entity_code}}Mo,long> {% if mode == 0 %},I{{entity_code}}Rep{% endif %}
+public class {{entity_code}}Rep : Base{{module_code}}Rep<{{entity_code}}Mo,long> {% if mode == 1000 %},I{{entity_code}}Rep{% endif %}
 {
     /// <inheritdoc />
     public {{entity_code}}Rep() : base("{{entity_code}}")

@@ -8,7 +8,7 @@ public static class {{module_code}}Const
     /// <summary>
     ///  {{module_display}}
     /// </summary>
-    public const string ModuleName = "{{module_code}}";
+    public const string Code = {{module_code}}Module.Code;
 
     public static class CacheKeys
     {

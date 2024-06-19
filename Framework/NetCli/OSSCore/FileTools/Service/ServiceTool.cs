@@ -35,7 +35,7 @@ internal class ServiceTool : BaseProjectTool
         };
 
         var projectFilePath = Path.Combine(project.project_dir, project.name + ".csproj");
-        CreateProjectFile(projectFilePath, packageRefs, projectRefs);
+        CreateProjectFile(projectFilePath, packageRefs, projectRefs, false, project.name);
     }
 
     public override void Create_GlobalFiles(Solution ss)

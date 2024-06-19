@@ -9,7 +9,7 @@ internal static class SwaggerHelper
     /// 注入Swagger服务
     /// </summary>
     /// <param name="Services"></param>
-    internal static void RegisterSwaggerService(IServiceCollection Services)
+    internal static void RegisterSwaggerService(this IServiceCollection Services)
     {
         Services.AddSwaggerGen(c =>
         {

@@ -54,7 +54,7 @@ internal class DomainTool : BaseProjectTool
             $"..\\Open\\{ss.domain_open_project.name}\\{ss.domain_open_project.name}.csproj"
         };
 
-        CreateProjectFile(project.project_file_path, packageRefs, projectRefs);
+        CreateProjectFile(project.project_file_path, packageRefs, projectRefs,false, project.name);
     }
 
 
@@ -75,9 +75,6 @@ internal class DomainTool : BaseProjectTool
     /// <inheritdoc />
     public override void Create_GlobalFiles(Solution solution)
     {
-        if (solution.mode == SolutionMode.Normal)
-            return;
-
         var project = solution.domain_project;
         FileHelper.CreateDirectory(project.global_dir);
 

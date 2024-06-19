@@ -5,8 +5,12 @@ internal class WebApiProject: BaseProjectStructure
         string.Concat(solutionName, ".WebApi"), basePath,entityName)
     {
         starter_class_name = string.Concat(moduleName, "GlobalStarter");
+        nonce_secret = Guid.NewGuid().ToString().Replace("-", "");
     }
 
 
     public string starter_class_name { get; }
+
+
+    public string nonce_secret { get;  }
 }

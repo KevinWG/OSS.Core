@@ -1,5 +1,4 @@
 ﻿using System.Text.Json.Serialization;
-
 using OSS.Core;
 using OSS.Tools.Config;
 using OSS.Core.Context.Attributes;
@@ -13,8 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 ConfigHelper.Configuration = builder.Configuration;  // 全局配置工具处理
 
-builder.Services.Register<{{module_code}}GlobalStarter>();    // 应用层全局注入 
-
 builder.Services.AddControllers(opt =>
     {
         opt.AddCoreModelValidation();
@@ -26,26 +23,26 @@ builder.Services.AddControllers(opt =>
         jsonOpt.JsonSerializerOptions.DefaultIgnoreCondition  = JsonIgnoreCondition.WhenWritingNull;
         jsonOpt.JsonSerializerOptions.PropertyNamingPolicy    = null;
     });
-
+    
+builder.Services.Register<{{module_code}}GlobalStarter>();    // 应用层全局注入 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.RegisterSwaggerService();
 
-SwaggerHelper.RegisterSwaggerService(builder.Services);
 
 
 
 // ========================================  中间件部分处理   ========================================
 
 var app   = builder.Build();
-var isDev = app.Environment.IsDevelopment();
+app.UseOssCore();
 
+var isDev = app.Environment.IsDevelopment();
 if (isDev)
 {
     app.UseSwagger();
     SwaggerHelper.AddSwaggerUI(app);
 }
-
-app.UseOssCore();
-if (!isDev)
+else
 {
     app.UseOssCoreException();
 }

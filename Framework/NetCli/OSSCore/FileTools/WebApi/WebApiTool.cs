@@ -19,7 +19,6 @@ internal  class WebApiTool: BaseProjectTool
         {
             "Swashbuckle.AspNetCore",
             "OSS.Core.Context.Attributes",
-            "OSS.Core.Comp.DirConfig.Mysql"
         };
 
         var projectRefs = new List<string>()
@@ -55,22 +54,10 @@ internal  class WebApiTool: BaseProjectTool
         var project = ss.webapi_project;
         FileHelper.CreateDirectory(project.global_dir);
 
-        var repRegisterStr = ss.mode != SolutionMode.Simple
-            ? $"services.Register<{ss.rep_project.starter_class_name}>();       // 仓储层启动注入"
-            : string.Empty;
-        var serviceRegisterStr = ss.mode != SolutionMode.Simple
-            ? $"services.Register<{ss.service_project.starter_class_name}>();       // 逻辑服务层启动注入 "
-            : string.Empty;
 
-        var domainRegisterStr = ss.mode == SolutionMode.Normal
-            ? string.Empty
-            : $"services.Register<{ss.domain_project.starter_class_name}>();       // 领域实体层启动注入";
-
-        var extDic = new Dictionary<string, string> {{"{RepStarterRegister}", repRegisterStr}, {"{ServiceStarterRegister}", serviceRegisterStr},
-            { "{DomainStarterRegister}", domainRegisterStr } }; 
 
         var starterFilePath = Path.Combine(project.global_dir, project.starter_class_name + ".cs");
-        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/AppGlobal/GlobalStarter.txt", extDic);
+        FileHelper.CreateFileByTemplate(starterFilePath, ss, "WebApi/AppGlobal/GlobalStarter.txt");
 
         var authProPath = Path.Combine(project.global_dir, "AuthProvider.cs");
         FileHelper.CreateFileByTemplate(authProPath, ss, "WebApi/AppGlobal/AuthProvider.txt");
@@ -89,11 +76,8 @@ internal  class WebApiTool: BaseProjectTool
     {
         var project = ss.webapi_project;
 
-        var secret = Guid.NewGuid().ToString().Replace("-","");
-
         var appSettingPath = Path.Combine(project.project_dir, "appsettings.json");
-        FileHelper.CreateFileByTemplate(appSettingPath, ss, "WebApi/AppSetting.txt",
-            new Dictionary<string, string>(){{ "{nonce_secret}", secret } });
+        FileHelper.CreateFileByTemplate(appSettingPath, ss, "WebApi/AppSetting.txt");
     }
 
     #endregion

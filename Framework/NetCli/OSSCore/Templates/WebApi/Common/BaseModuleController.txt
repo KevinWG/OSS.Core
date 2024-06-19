@@ -6,8 +6,8 @@ namespace {{solution_name}};
 /// <summary>
 ///  {{module_display}} WebApi基类
 /// </summary>
-[ModuleMeta({{{module_code}}Const.ModuleName})]
-[Route($"{{module_code}}Const.ModuleName/[controller]/[action]")]
+[ModuleMeta({{module_code}}Module.Code)]
+[Route({{module_code}}Module.Code+"/[controller]/[action]")]
 public class Base{{module_code}}Controller : ControllerBase
 {
 }

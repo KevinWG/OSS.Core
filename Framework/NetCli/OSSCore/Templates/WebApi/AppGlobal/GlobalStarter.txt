@@ -1,5 +1,4 @@
-﻿using OSS.Core.Comp.DirConfig.Mysql;
-using OSS.Common;
+﻿using OSS.Common;
 using OSS.Core;
 
 namespace {{solution_name}};
@@ -12,10 +11,12 @@ public class {{module_code}}GlobalStarter : AppStarter
     /// <inheritdoc />
     public override void Start(IServiceCollection services)
     {
-         services.UserMysqlDirConfigTool();
-
-         {{DomainStarterRegister}}
-         {{RepStarterRegister}}
-         {{ServiceStarterRegister}}
+         services.Register<{{domain_project.starter_class_name}}>();       // 领域实体层启动注入
+         {% if mode == 1000 %}
+         services.Register<{{rep_project.starter_class_name}}>();       // 仓储层启动注入
+         {% endif %}
+         {% if mode >= 100 %}
+         services.Register<{{service_project.starter_class_name}}>();       // 逻辑服务层启动注入
+         {% endif %}
     }
 }

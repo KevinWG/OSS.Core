@@ -11,5 +11,5 @@ public static class {{module_code}}Module
     /// <summary>
     ///   {{module_display}} 编码
     /// </summary>
-    public const string Code = {{module_code}};
+    public const string Code = "{{module_code}}";
 }

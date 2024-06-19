@@ -131,7 +131,7 @@ static ParaItem GetAddEntityParas(string[] args)
             case "display":
                 paras.display = paraDic.Value;
                 break;
-            case "name":
+            case "code":
             case "":
                 paras.code = paraDic.Value;
                 break;

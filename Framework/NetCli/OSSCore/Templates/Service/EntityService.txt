@@ -10,10 +10,9 @@ namespace {{solution_name}};
 /// </summary>
 public class {{entity_code}}Service : I{{entity_code}}OpenService
 {
+    {% assign entity_name_lower = entity_name|downcase %}
 
-{% assign entity_name_lower = entity_name|downcase %}
-
-{% if mode == 0 %}  
+{% if mode == 1000 %}  
      private static readonly I{{entity_code}}Rep _rep = InsContainer<I{{entity_code}}Rep>.Instance;
 {% else %}  
      private static readonly {{entity_code}}Rep _{{entity_name_lower}}Rep = new();

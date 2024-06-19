@@ -45,7 +45,7 @@ internal class RepTool : BaseProjectTool
 
     public override void Create_GlobalFiles(Solution ss)
     {
-        if (ss.mode == SolutionMode.Simple)
+        if (ss.mode <= SolutionMode.Normal)
             return;
 
         var project = ss.rep_project;
@@ -61,6 +61,7 @@ internal class RepTool : BaseProjectTool
     {
         AddEntity_Rep(ss);
         AddEntity_ChangeStarter(ss);
+
         Console.WriteLine("仓储层实体 -- done");
     }
 

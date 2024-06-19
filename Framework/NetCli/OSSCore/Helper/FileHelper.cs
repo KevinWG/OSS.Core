@@ -58,7 +58,7 @@ internal static class FileHelper
     /// <param name="filePath"></param>
     /// <param name="ss"></param>
     /// <param name="templateRelativePath"></param>
-    public static void CreateFileByTemplate(string filePath, Solution ss, string templateRelativePath, Dictionary<string, string>? extParas = null)
+    public static void CreateFileByTemplate(string filePath, Solution ss, string templateRelativePath)
     {
         var templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateRelativePath);
         var content      = LoadFile(templatePath);
@@ -69,13 +69,6 @@ internal static class FileHelper
         }
 
         var templateContext = new TemplateContext(ss);
-        if (extParas != null && extParas.Any())
-        {
-            foreach (var keyValuePair in extParas)
-            {
-                templateContext.SetValue(keyValuePair.Key, keyValuePair.Value);
-            }
-        }
         content = template.Render(templateContext);
 
         CreateFile(filePath, content);

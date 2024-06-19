@@ -1,7 +1,8 @@
 {
   "profiles": {
     "OSSCore": {
-      "commandName": "Project"
+      "commandName": "Project",
+      "commandLineArgs": "new ModuleA --display=测试模块"
     }
   }
 }
