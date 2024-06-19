@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSSCore.Old", "OSS.Core.NetCli\OSSCore.Old.csproj", "{7B087498-D943-42CE-AAB2-1CDE789CC2AD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OSSCore", "OSSCore\OSSCore.csproj", "{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OSSCore", "OSSCore\OSSCore.csproj", "{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,12 +11,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7B087498-D943-42CE-AAB2-1CDE789CC2AD}.Debug|Any CPU.ActiveCfg = Release|Any CPU
-		{7B087498-D943-42CE-AAB2-1CDE789CC2AD}.Debug|Any CPU.Build.0 = Release|Any CPU
-		{7B087498-D943-42CE-AAB2-1CDE789CC2AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B087498-D943-42CE-AAB2-1CDE789CC2AD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}.Debug|Any CPU.ActiveCfg = Release|Any CPU
+		{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}.Debug|Any CPU.Build.0 = Release|Any CPU
 		{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF74CB96-C6C4-4181-A2C4-0F83C6F227DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection

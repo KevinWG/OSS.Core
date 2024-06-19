@@ -6,9 +6,6 @@ using OSS.Core.Domain;
 
 namespace {{solution_name}};
 
-
-
-
 /// <summary>
 ///  {entity_display} 对象仓储
 /// </summary>
@@ -55,7 +52,7 @@ public class {{entity_name}}Rep : Base{{module_name}}Rep<{{entity_name}}Mo,long>
         var offCount = sReq.GetStartRow();
 
         var totalSql = sReq.req_count ? $"select count(1) from {TableName} t {whereSql}" : string.Empty;
-        var selectSql = $"select t.* from {TableName} t {whereSql}  Order BY t.`id` DESC limit {sReq.size} offset {offCount}";
+        var selectSql = $"select t.* from {TableName} t {whereSql}  Order BY t.[id] DESC OFFSET {offCount} ROWS  FETCH NEXT {sReq.size} ROWS ONLY";
 
         return GetPageList<RType>(selectSql, sqlParas, totalSql);
     }
@@ -69,7 +66,7 @@ public class {{entity_name}}Rep : Base{{module_name}}Rep<{{entity_name}}Mo,long>
         //if (!string.IsNullOrEmpty(sReq.name))
         //{
         //    sqlParas.Add("@name", sReq.name);
-        //    whereBuilder.Append(" and t.`name`=@name");
+        //    whereBuilder.Append(" and t.[name]=@name");
         //}
 
         return whereBuilder;
