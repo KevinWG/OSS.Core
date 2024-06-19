@@ -1,6 +1,6 @@
 ﻿using OSS.Common.Resp;
 using OSS.Core.Context;
-using OSS.Core.Rep.Mysql;
+using OSS.Core.Rep.Dapper;
 using OSS.Tools.Cache;
 
 namespace OSS.Core.Comp.DirConfig.Mysql;
