@@ -2,7 +2,7 @@
   "profiles": {
     "OSSCore": {
       "commandName": "Project",
-      "commandLineArgs": "add Order --display=订单实体"
+      "commandLineArgs": "add Bundle --display=扎单"
     }
   }
 }
