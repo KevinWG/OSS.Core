@@ -49,6 +49,11 @@ catch (Exception ex)
         return;
     }
 
+    if (string.IsNullOrEmpty(entityPara.display))
+    {
+        entityPara.display = entityPara.code;
+    }
+
     var basePath = Directory.GetCurrentDirectory();
 
     var paras = GetParasFromFile(basePath);
@@ -87,6 +92,9 @@ static ModulePara GetParasFromFile(string basePath)
         ConsoleTips();
         return;
     }
+
+    if (string.IsNullOrEmpty(paras.display))
+        paras.display = paras.code;
 
     var basePath = Directory.GetCurrentDirectory(); 
     var moduleJsonPath = Path.Combine(basePath, "module.core.json");

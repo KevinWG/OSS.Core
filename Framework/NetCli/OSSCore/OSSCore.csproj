@@ -8,7 +8,7 @@
 	<PackAsTool>true</PackAsTool>
 	<ToolCommandName>osscore</ToolCommandName>
 	<Description>OSSCore 模块解决方案 .Net 客户端工具</Description>
-	<Version>3.1.3</Version>
+	<Version>3.1.4</Version>
 	<PackageReleaseNotes>增加项目接口默认注释文档</PackageReleaseNotes>
 	<PackageIconUrl>http://img1.osscore.cn/static/oss_net.png</PackageIconUrl>
 	<PackageIcon>logo.png</PackageIcon>
