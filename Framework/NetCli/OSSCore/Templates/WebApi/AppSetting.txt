@@ -22,7 +22,7 @@
   "Access": [
     {
       "access_key": "default_access",
-      "access_secret": "{{nonce_secret}}"
+      "access_secret": "{{webapi_project.nonce_secret}}"
     }
   ],
   //  请求模块外部接口秘钥信息
@@ -30,7 +30,7 @@
     "Default": {
       "api_domain": "http://localhost:9100",
       "access_key": "default_access",
-      "access_secret": "{{nonce_secret}}"
+      "access_secret": "{{webapi_project.nonce_secret}}"
     }
   }
 

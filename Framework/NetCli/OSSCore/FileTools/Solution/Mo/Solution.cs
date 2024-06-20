@@ -1,11 +1,9 @@
-﻿using System.Data;
-using System.IO;
-
-namespace OSSCore;
-
+﻿namespace OSSCore;
 
 internal class Solution
 {
+    #region 初始化
+    
     public Solution(ModulePara paras, string basePath, string entityName = "", string entityDisplay = "")
     {
         base_path = basePath;
@@ -46,24 +44,50 @@ internal class Solution
         }
     }
 
-    public string base_path { get;  } = string.Empty;
+    #endregion
 
-    public string module_code { get; } = string.Empty;
+    /// <summary>
+    ///  基础路径
+    /// </summary>
+    public string base_path { get;  }
 
-    public string module_display { get; } = string.Empty;
+    /// <summary>
+    ///  模块编码
+    /// </summary>
+    public string module_code { get; } 
 
-    public string entity_code    { get; set; } = string.Empty;
-    public string entity_display { get; set; } = string.Empty;
+    /// <summary>
+    ///  模块显示名称
+    /// </summary>
+    public string module_display { get; }
 
-    public string solution_name { get;  } = string.Empty;
+    /// <summary>
+    ///  实体领域编码
+    /// </summary>
+    public string entity_code    { get; set; } 
 
+    /// <summary>
+    ///  实体领域展示名称
+    /// </summary>
+    public string entity_display { get; set; } 
+
+    /// <summary>
+    ///  解决方案名称
+    /// </summary>
+    public string solution_name { get;  } 
+
+    /// <summary>
+    ///  数据库类型
+    /// </summary>
     public DBType db_type { get; set; } 
 
 
-
+    /// <summary>
+    ///  解决方案模式
+    /// </summary>
     public SolutionMode mode { get; set; }
 
-
+    #region 子项目
 
     public ClientProject http_client_project { get; }
 
@@ -76,12 +100,20 @@ internal class Solution
     public RepProject rep_project { get; }
 
     public WebApiProject webapi_project { get; }
+
+    #endregion
 }
 
 
 public class BaseProjectStructure
 {
-    public BaseProjectStructure(string projectName, string basePath,string entityName )
+    /// <summary>
+    ///  初始化
+    /// </summary>
+    /// <param name="projectName"></param>
+    /// <param name="basePath"></param>
+    /// <param name="entityCode"></param>
+    public BaseProjectStructure(string projectName, string basePath,string entityCode )
     {
         name = projectName;
 
@@ -90,9 +122,11 @@ public class BaseProjectStructure
         global_dir        = Path.Combine(basePath, name, "AppGlobal");
         project_file_path = Path.Combine(basePath, name, name + ".csproj");
 
-        if (!string.IsNullOrEmpty(entityName))
+        entity_code=entityCode;
+
+        if (!string.IsNullOrEmpty(entityCode))
         {
-            entity_dir = Path.Combine(basePath, name, entityName);
+            entity_dir = Path.Combine(basePath, name, entityCode);
         }
     }
 
@@ -118,16 +152,16 @@ public class BaseProjectStructure
     ///  全局文件夹
     /// </summary>
     public string global_dir { get; set; }
-    
+
     /// <summary>
     ///  领域对象名称
     /// </summary>
-    public string entity_name { get; set; }
+    public string entity_code { get; set; }
 
     /// <summary>
     ///  领域对象文件目录
     /// </summary>
-    public string entity_dir { get; set; }
+    public string entity_dir { get; set; } = string.Empty;
 
     internal void ResetFrom(BaseProjectStructure source)
     {
@@ -136,7 +170,7 @@ public class BaseProjectStructure
         common_dir = source.common_dir;
 
         global_dir = source.global_dir;
-        entity_name = source.entity_name;
+        entity_code = source.entity_code;
         entity_dir = source.entity_dir;
         project_file_path = source.project_file_path;
     }
