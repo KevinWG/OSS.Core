@@ -52,7 +52,8 @@ public class BaseRemoteRequest : OssHttpRequest
       
         if (!string.IsNullOrEmpty(appIdentity.authorization))
         {
-            r.Headers.Add("Authorization", appIdentity.authorization);
+            r.Headers.Remove("Authorization");
+            r.Headers.TryAddWithoutValidation("Authorization", appIdentity.authorization);
         }
 
         if (r.Content != null)

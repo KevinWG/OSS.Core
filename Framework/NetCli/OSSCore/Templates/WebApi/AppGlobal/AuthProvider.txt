@@ -26,12 +26,12 @@ public class AppAccessProvider : IAppAccessProvider
             ConfigHelper.Configuration?.GetSection("Access").Bind(_appAccessList);
         }
 
-        foreach (var access in _appAccessList.Where(access => access.access_key == key))
-        {
-            return Task.FromResult(new Resp<AppAccess>(access));
-        }
+        var access = _appAccessList.FirstOrDefault(access => access.access_key == key);
+        var res = access != null
+            ? new Resp<AppAccess>(access)
+            : new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求");
 
-        return Task.FromResult(new Resp<AppAccess>().WithResp(SysRespCodes.NotAllowed, "非法的请求"));
+        return Task.FromResult(res);
     }
 }
 
