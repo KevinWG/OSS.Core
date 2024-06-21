@@ -65,7 +65,7 @@
 
 ### 新增模块
 	为了减少创建新项目的复杂度，同步提供了 dotnet tool 本地工具（osscore），一键创建项目并建立相关引用
-	工具安装命令: dotnet tool intall -g OSSCore
+	工具安装命令: dotnet tool install -g OSSCore
 
 	完成本地工具安装之后，可在项目所在文件夹执行以下命令：
 	
