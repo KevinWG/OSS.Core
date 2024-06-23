@@ -10,7 +10,7 @@ public static class CoreClientHelper
     /// <summary>
     ///   应用服务端签名模式，对应的票据信息的请求头名称
     /// </summary>
-    public static string SignTicketHeaderName { get; set; } = "X-Core-Ticket";
+    public static string SignTicketHeaderName { get; set; } = "APP-OSSCore-Ticket";
 
     /// <summary>
     ///  客户端接口请求访问秘钥

@@ -50,7 +50,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
     {
         if (appIdentity.auth_mode != AppAuthMode.PartnerContract)
         {
-            appIdentity.auth_mode = context.Request.Headers.ContainsKey(_appOption.SignModeTicketHeaderName)
+            appIdentity.auth_mode = context.Request.Headers.ContainsKey(_appOption.SignTicketHeaderName)
                 ? AppAuthMode.AppSign
                 : AppAuthMode.None;
         }
@@ -86,7 +86,7 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
 
     private async Task<Resp> CheckAppSign(AppIdentity appIdentity, HttpContext context)
     {
-        string? authTicketStr = context.Request.Headers[_appOption.SignModeTicketHeaderName];
+        string? authTicketStr = context.Request.Headers[_appOption.SignTicketHeaderName];
         appIdentity.FormatFromTicket(authTicketStr);
 
         if (_appOption.SignAccessProvider == null)
@@ -124,7 +124,6 @@ public class AppAuthorizeAttribute : BaseOrderAuthorizeAttribute
     }
 
     #endregion
-
 }
 
 /// <summary>
@@ -135,7 +134,7 @@ public class AppAuthOption
     /// <summary>
     ///   应用服务端签名模式，对应的票据信息的请求头名称
     /// </summary>
-    public string SignModeTicketHeaderName { get; set; } = "X-Core-Ticket";
+    public string SignTicketHeaderName { get; set; } = "APP-OSSCore-Ticket";
 
     /// <summary>
     ///  签名秘钥提供者
